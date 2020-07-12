@@ -1,0 +1,73 @@
+<div mat-dialog-title>
+  <h2 class="search-dialog-title">Product Search
+    <span fxFlex></span>
+    <span class="close-btn" align="end" (click)="dialogRef.close()">
+      <mat-icon>close</mat-icon>
+    </span>
+  </h2>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div fxLayout="row" fxLayoutGap="4%">
+      <mat-form-field class="example-full-width" fxFlex="48">
+        <mat-select placeholder="Category" formControlName="category" [disableOptionCentering]="true">
+          <mat-option *ngFor="let type of categoryList" [value]="type.type_id"
+            (onSelectionChange)="selectedType(type.type_id,$event)">
+            {{type.type_name}}
+          </mat-option>
+        </mat-select>
+
+      </mat-form-field>
+      <mat-form-field class="example-full-width" fxFlex="48">
+        <mat-select placeholder="Subcategory" formControlName="subcategory" [disableOptionCentering]="true">
+          <mat-option *ngFor="let subcategory of subCategoryList.product_categories" [value]="subcategory.category_id">
+            {{subcategory.category_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutGap="4%">
+      <mat-form-field class="example-full-width" fxFlex="100">
+        <input matInput placeholder="Name/Barcode/GTIN" formControlName="keyword" autocomplete="off">
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutGap="4%">
+      <button type="submit" class="search-btn" mat-raised-button color="primary">SEARCH</button>
+    </div>
+  </form>
+</div>
+
+<mat-dialog-content class="mat-typography default-product-dialog">
+
+  <div fxLayout="row" fxLayoutGap="4%">
+    <h2>Result</h2>
+  </div>
+
+  <div fxLayout="row wrap">
+    <div fxFlex.gt-md="100" fxFlex.gt-sm="50" fxFlex.gt-xs="50" fxFlex="100" *ngFor="let product of products" >
+      <mat-card class="pa-0 search-result-card pointer" (click)="productSelect(product)">
+        <div fxLayout="row">
+          <div class="media-grid compact bg-cover"
+            [ngStyle]="{'background-image': 'url(https://primer.nyasha.me/assets/images/unsplash/13.jpg)'}" fxFlex="30">
+          </div>
+          <div class="pa-1" fxFlex>
+            <div fxLayout="column">
+              <span fxLayout="row">
+              </span>
+              <div>
+                <p class="ma-0">{{ product.name }}</p>
+                <p class="ma-0 pa-0 text-md">{{ product.description }}</p>
+              </div>
+              <div class="mat-text-primary text-xl">
+                <span> $ {{ product.price }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</mat-dialog-content>
+<!-- 
+  <mat-dialog-actions class="mat-dialog-footer-custom">
+    <button type="submit" class="ok-button" mat-raised-button color="primary">ADD</button>
+    <button mat-button color="primary" class="cancel-button" [mat-dialog-close]="">CANCEL</button>
+  </mat-dialog-actions> -->

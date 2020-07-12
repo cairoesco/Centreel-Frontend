@@ -1,0 +1,46 @@
+<div class="dialog-pop-up">
+    
+    <form  [formGroup]="form">
+      <div fxLayout="row wrap">
+          
+        <div class="main-content" fxLayout="row wrap" >
+            <h1 class="header-text" mat-dialog-title>Filters</h1><span fxFlex></span><span class="close-btn" align="end" (click)="close()">X</span>
+            <mat-card class="margin-zero main-content" fxFlex="100%">
+                <div mat-dialog-content>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                    <div class="mb-1" fxFlex="30%">
+                        <div class="names">City</div>
+                        <div *ngFor="let category of city; let i = index">
+                            <label><mat-checkbox>{{ city[i].name }}</mat-checkbox></label>
+                            
+                        </div>
+                    </div>
+                    <div class="mb-1" fxFlex="30%">
+                            <div class="names">Province</div>
+                        <div *ngFor="let category of province; let i = index">
+                            <label><mat-checkbox>{{ province[i].name }}</mat-checkbox></label>
+                        </div>
+                    </div>
+                    <div class="mb-1" fxFlex="30%">
+                            <div class="names">Tags</div>
+                        <div *ngFor="let category of tag; let i = index">
+                            <label><mat-checkbox>{{ tag[i].name }}</mat-checkbox></label>
+                        </div>
+                    </div>
+                </div>
+                <!-- {{data.name}} -->
+                </div>
+            </mat-card>
+        </div>
+        
+        <mat-card fxLayout="row wrap" class="footer-modal-pop-up margin-zero" fxFlex="100%">
+            <div mat-dialog-actions class="center" >
+              <button (click)="onNoClick()" class="mat-primary-btn" mat-raised-button color="primary">APPLY FILTERS</button>
+              <button mat-button mat-stroked-button color="primary" [mat-dialog-close]="" class="mat-cancel-btn">CLEAR FILTERS</button>
+            </div>
+        </mat-card>
+      </div>
+      
+      
+    </form>  
+</div>

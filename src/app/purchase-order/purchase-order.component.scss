@@ -1,0 +1,40 @@
+.po-search-input {
+  box-shadow: 1px 0 13px 0 rgba(0, 0, 0, 0.04) !important;
+  border-right:1px solid#e6e6e6; 
+  border-radius: 50px 50px 50px 50px; 
+  background: white; 
+  padding:  10px 10px 10px 10px;
+}
+.red{
+  color: #f44336;
+}
+.green{
+  color: #28b127;
+}
+.cursor-auto .datatable-body-row{
+  cursor: auto !important;
+}
+
+.custom-search-button{
+  line-height: 4;
+  text-align: right;
+}
+
+.searchbar-div{
+  margin-bottom: 15px;
+}
+
+.mat-filter-margin{
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.mat-badge-content{
+  background : #D03772;
+  color: #ffffff;
+}
+
+.no_result_div{
+  margin-top: 60px; 
+  height: 200px;
+}

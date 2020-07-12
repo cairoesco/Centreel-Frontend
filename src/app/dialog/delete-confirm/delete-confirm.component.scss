@@ -1,0 +1,35 @@
+.dialog-pop-up .mat-checkbox{
+    font-family: "Roboto";
+    font-size: 14px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.4px;
+    color: #272727;
+  }
+  .names{
+    font-family: "Roboto";
+    font-size: 15px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.87;
+    letter-spacing: 0.4px;
+    color: #272727;
+  }
+
+  .warn_text{
+      font-size: 20px;
+  }
+  .confirm-delete-dialog{
+      padding-bottom: 0px !important;
+      .mat-dialog-content{
+        max-height: 164px;
+        min-height: 164px;
+        padding: 0px 10px;
+        .content{
+          padding: 10px 14px;
+        }
+      }
+  }

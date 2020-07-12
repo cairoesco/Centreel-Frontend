@@ -1,0 +1,80 @@
+<h2 mat-dialog-title>Reconcile Stock  {{data.storage_name}}
+  <span fxFlex></span>
+  <span class="close-btn" align="end" (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </span>
+</h2>
+<form [formGroup]="productVariantsForm" (submit)="onSubmit(productVariantsForm)" class="add-stock-dialog">
+  <mat-dialog-content class="mat-typography">
+    <div class="">
+      <mat-card-title class="marginTop">
+        <h3 class="productTitle">{{data.product_name}} - {{data.data?.variant_name}}</h3>
+      </mat-card-title>
+      <mat-card-content>
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap >
+            <div fxFlex="100" fxLayoutGap="10px">
+              <mat-form-field >
+                <mat-label>Adjustment Stock*</mat-label>
+                <input matInput autocomplete="off" type="number" 
+                  (keypress)="utility.reconcile_stockValidation($event, productVariantsForm.controls['stock'].value,data.product_unit);"
+                  step="{{step}}"  min={{-productVariantsForm.value.current_stock}} formControlName="stock">
+                <mat-error *ngIf="productVariantsForm.controls['stock'].hasError('required')">
+                  Please enter stock to reconcile</mat-error>
+                <mat-error *ngIf="productVariantsForm.controls['stock'].hasError('min') && data.product_type_slug !='cannabis'">
+                  You can not reconcile stock more than current stock</mat-error>
+                <!-- <mat-error *ngIf="productVariantsForm.controls['stock'].hasError('max')">
+                  Please enter negative value</mat-error> -->
+                <mat-error *ngIf="productVariantsForm.controls['stock'].hasError('min') && data.product_type_slug =='cannabis'">
+                  You can not reconcile stock more than current batch stock</mat-error>
+              </mat-form-field>
+            
+              <mat-form-field *ngIf="data.product_type_slug == 'cannabis'">
+                <mat-label>Batch<span>*</span></mat-label>
+                <mat-select formControlName="batch_no" [disableOptionCentering]="true">
+                  <mat-option *ngFor="let batch of batchList" (onSelectionChange)="onBatchChange(batch.available_stock,$event)"
+                    [value]="batch.batch_no">
+                    {{batch.batch_no}}
+                  </mat-option>
+                </mat-select>
+                <mat-error>Please select batch</mat-error> 
+              </mat-form-field>
+            
+              <mat-form-field >
+                <mat-label>Reason<span *ngIf="data.product_type_slug == 'cannabis'">*</span></mat-label>
+                <mat-select formControlName="reason" [disableOptionCentering]="true">
+                  <mat-option *ngFor="let reason of reasonList" [value]="reason">
+                    {{reason}}
+                  </mat-option>
+                </mat-select>
+                <mat-error>Please select Reason</mat-error>
+              </mat-form-field>
+            </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap >
+          <div fxFlex="100" fxLayoutGap="10px">
+            <mat-form-field class="remove-underline" *ngIf="data.product_type_slug=='cannabis'">
+              <mat-label>Batch Stock({{data.product_unit}})</mat-label>
+              <input matInput autocomplete="off" disabled readonly type="text" value="{{available_stock}}">
+            </mat-form-field>
+          
+            <mat-form-field class="remove-underline">
+              <mat-label>Current Stock({{data.product_unit}})</mat-label>
+              <input matInput autocomplete="off" disabled readonly type="text" value="{{productVariantsForm.value.current_stock}}">
+            </mat-form-field>
+          
+            <mat-form-field class="remove-underline">
+              <mat-label>Updated Stock({{data.product_unit}})</mat-label>
+              <input matInput autocomplete="off" disabled readonly value="{{data.product_unit=='pcs'?((+productVariantsForm.value.current_stock + +(productVariantsForm.value.stock=='-'?0:productVariantsForm.value.stock)) | number:'1.0'):(+productVariantsForm.value.current_stock + +(productVariantsForm.value.stock=='-'?0:productVariantsForm.value.stock) | number:'1.2-2')}}"
+                type="text">
+            </mat-form-field>
+          </div>
+        </div>   
+      </mat-card-content>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="start" class="mat-dialog-footer-custom">
+    <button type="submit" class="ok-button" mat-raised-button color="primary">RECONCILE</button>
+    <button mat-button color="primary" class="cancel-button" [mat-dialog-close]="">CANCEL</button>
+  </mat-dialog-actions>
+</form>

@@ -1,0 +1,98 @@
+<h1 mat-dialog-title> {{ (!(report_id) ? 'Create' : 'Edit') }} Sales Report
+  <span fxFlex></span>
+  <span class="close-btn" align="end" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </span>
+</h1>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="mat-typography">
+    <div fxLayout="row">
+      <div fxFlex="100%">
+        <mat-form-field fxFlex="100%">
+          <input matInput placeholder="Title" [formControl]="form.controls['title']">
+          <mat-error *ngIf="form.controls['title'].hasError('required') && form.controls['title'].touched && submit"
+            class="mat-text-warn">You
+            must include Title.</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+      <div class="mb-1" fxFlex="47%">
+        <mat-form-field fxFlex="100%">
+          <mat-select placeholder="Warehouse" [formControl]="form.controls['storage_id']" multiple [disableOptionCentering]="true">
+            <mat-option *ngFor="let wh of warehouse" [value]="wh.storage_id">{{ wh.name }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.controls['storage_id'].hasError('required')" class="mat-text-warn">You must select
+            Warehouse.</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mb-1" fxFlex="47%">
+        <mat-form-field fxFlex="100%">
+          <mat-select placeholder="Employee" [formControl]="form.controls['user_id']" multiple [disableOptionCentering]="true">
+            <mat-option *ngFor="let employee of employees" [value]="employee.user_id">{{ employee.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+      <div class="mb-1" fxFlex="47.5%">
+        <mat-form-field fxFlex="100%">
+          <mat-select placeholder="Product Category" [formControl]="form.controls['product_type']" multiple [disableOptionCentering]="true">
+            <mat-option *ngFor="let type of product_types" (onSelectionChange)="change($event)" [value]="type.type_id">{{
+              type.type_name }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.controls['product_type'].hasError('required')" class="mat-text-warn">You must select
+            Product Category.</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mb-1" fxFlex="47.5%">
+        <mat-form-field fxFlex="100%">
+          <mat-select placeholder="Product Sub Category" [formControl]="form.controls['product_categories_id']"
+            multiple [disableOptionCentering]="true">
+            <mat-option *ngFor="let category of productSubCategory" [value]="category.product_category_id">{{
+              category.product_category_name }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.controls['product_categories_id'].hasError('required')" class="mat-text-warn">You must
+            select Product SubCategory.</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div fxLayout="row">
+      <div fxFlex="100%" class="mb-1">
+        <label>View By: </label>
+        <mat-radio-group class="custom-radio-group" [formControl]="form.controls['group_by']">
+          <mat-radio-button color="primary" class="custom-radio-button" *ngFor="let group of group_by" [value]="group.field">
+            {{group.column_name}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+
+    <div fxLayout="row">
+      <div class="mb-1" fxFlex="100%">
+        <h4 class="title">Column(s)</h4>
+        <div fxLayout="row wrap" fxLayoutGap="10px grid" >
+          <div fxFlex="25%" *ngFor="let column of columns">
+            <label>
+              <mat-checkbox [checked]="column.checked" [formControl]="form.controls['fields']" color="primary" class="filter-checkbox"
+                (change)="onChange(column, $event.checked)">{{column.column_name}}
+              </mat-checkbox>
+            </label>
+          </div>
+        </div>
+        <mat-error *ngIf="columnsFormArray.length == 0 && submit" class="mat-text-warn">You
+          must select atleast one Column(s)</mat-error>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="mat-dialog-footer-custom">
+    <button type="submit" class="ok-button" mat-raised-button color="primary" *ngIf="this.report_id">UPDATE</button>
+    <button type="submit" class="ok-button" mat-raised-button color="primary" *ngIf="!(this.report_id)">CREATE</button>
+    <button mat-button color="primary" [mat-dialog-close]="" class="cancel-button">CLOSE</button>
+  </mat-dialog-actions>
+</form>

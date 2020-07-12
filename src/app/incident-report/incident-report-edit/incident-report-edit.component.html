@@ -1,0 +1,197 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-card class="header-main-content">
+    <div fxLayout="row">
+      <div fxFlex="25%" class="breadcrumb-content">
+        <mat-icon [routerLink]="['/incident-report']" class="material-icons">
+          keyboard_arrow_left
+        </mat-icon>
+        <label class="lable">
+          <a class="label" [routerLink]="['/incident-report']">Incident Report</a>
+        </label>
+      </div>
+      <div fxFlex="50%" class="breadcrumb-header-content">
+        View Incident Report
+      </div>
+      <div fxFlex="25%" class="breadcrumb-btn-content">
+      </div>
+    </div>
+  </mat-card>
+  <mat-tab-group [selectedIndex]="indexofTab" (selectedIndexChange)="onClick($event)">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        GENERAL
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>EMPLOYEES</ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>WITNESS</ng-template>
+    </mat-tab>
+  </mat-tab-group>
+
+  <div class="main-div-container" [style.height.px]="innerHeight">
+    <perfect-scrollbar *ngIf="type === 'component'" class="scroll-container" id="parentDiv" fxFlex="auto" [config]="config"
+      [scrollIndicators]="true" (psScrollY)="onScrollEvent($event)">
+      <div fxLayout="row">
+        <div fxFlex="16.45%" fxFlex.md="10%" fxFlex.sm="10%" fxFlex.xs="0%" id="left-content">
+        </div>
+        <div fxFlex="83.55%" fxFlex.md="90%" fxFlex.sm="90%" fxFlex.xs="100%">
+          <!-- First Section -->
+          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center"
+            #1>
+            <!--middle content -->
+            <div fxFlex="54%" id="middle-content">
+              <!-- main content -->
+              <div class="">
+                <h2 layout-margin>INCIDENT INFORMATION</h2>
+                <mat-card class="mat-content-padding">
+                  <mat-card-content>
+                    <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput [matDatepicker]="picker" [readonly]="true" (click)="picker.open()" (focus)="picker.open()"
+                            placeholder="Incident Event" [formControl]="form.controls['event_date']">
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                          <mat-error *ngIf="form.controls['event_date'].hasError('required')">Please select
+                            Incident Event</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="mb-1" fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Parties Involved" [formControl]="form.controls['parties_involved']">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row">
+                      <div fxFlex="100%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Action Taken" [formControl]="form.controls['actions_taken']">
+                          <mat-error *ngIf="form.controls['actions_taken'].hasError('required') && form.controls['actions_taken'].touched"
+                            class="mat-text-warn">Please enter Action Taken</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row">
+                      <div fxFlex="100%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Sales Records" [formControl]="form.controls['sales_record']">
+                          <mat-error *ngIf="form.controls['sales_record'].hasError('required') && form.controls['sales_record'].touched"
+                            class="mat-text-warn">Please enter Sales Records</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <!-- main content -->
+            </div>
+            <!--middle content -->
+
+            <!--right content -->
+            <div fxFlex="46%" id="right-content">
+
+            </div>
+            <!--right content -->
+          </div>
+          <!-- First Section -->
+
+          <!-- second Section -->
+          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center"
+            #2>
+            <!--middle content -->
+            <div fxFlex="54%" id="middle-content">
+              <!-- main content -->
+              <div class="">
+                <h2 layout-margin>EMPLOYEES ON SHIFT</h2>
+                <mat-card class="mat-content-padding">
+                  <mat-card-content>
+                    <div fxLayout="row wrap" fxLayoutAlign="start center">
+                      <div *ngFor="let username of empData" fxFlex="100%">
+                        <div fxFlex="100%">
+                          <mat-form-field fxFlex="100%">
+                            <input matInput placeholder="Employee" [formControl]="form.controls['user_fname']" value="{{username.user_fname}}"
+                              disabled>
+                          </mat-form-field>
+
+                        </div>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <!-- main content -->
+            </div>
+            <!--middle content -->
+
+            <!--right content -->
+            <div fxFlex="46%" id="right-content">
+            </div>
+            <!--right content -->
+          </div>
+          <!-- second Section -->
+
+          <!-- third section -->
+          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center"
+            #3>
+            <!-- middle content -->
+            <div fxFlex="54%" id="middle-content">
+              <div class="">
+                <h2 layout-margin>Witness Information</h2>
+                <mat-card class="mat-lisance-padding" *ngFor="let witness of witnessData">
+                  <mat-card-content>
+                    <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="First Name" [formControl]="form.controls['name']" value="{{witness.name}}">
+                        </mat-form-field>
+                      </div>
+                      <div class="mb-1" fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Date of Birth" [formControl]="form.controls['dob']" value="{{witness.dob | date: 'dd/MM/yyyy'}}">
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div fxLayout="row">
+                      <div fxFlex="100%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Full Address" [formControl]="form.controls['address']" value="{{witness.address}}">
+                          <mat-error *ngIf="form.controls['address'].hasError('required') && form.controls['address'].touched"
+                            class="mat-text-warn">Please enter Full Address</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="City" [formControl]="form.controls['city']" value="{{witness.city}}">
+                          <mat-error *ngIf="form.controls['city'].hasError('required')">Please select City</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="mb-1" fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Home Phone" [formControl]="form.controls['contact_no']" value="{{witness.contact_no }}">
+                          <mat-error *ngIf="form.controls['contact_no'].hasError('required')">Please Enter Phone</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+            <!-- middle content -->
+            <!-- right content -->
+            <div fxFlex="46%" id="center-content">
+            </div>
+            <!-- right content -->
+          </div>
+          <!-- third section -->
+        </div>
+
+      </div>
+    </perfect-scrollbar>
+  </div>
+</form>

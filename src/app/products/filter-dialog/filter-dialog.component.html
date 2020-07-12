@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>Filters
+  <span fxFlex></span>
+  <span class="close-btn" align="end" (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </span>
+</h2>
+
+<form [formGroup]="filterForm" (ngSubmit)="applyFilter()">
+  <mat-dialog-content class="mat-typography">
+    <div fxLayout="row wrap" fxLayoutGap="20px">
+
+      <mat-form-field>
+        <mat-label>Select Category</mat-label>
+        <mat-select formControlName="product_type_id" multiple [disableOptionCentering]="true">
+          <mat-option *ngFor="let type of product_types" [value]="type.type_id" (onSelectionChange)="change($event)">
+            {{type.type_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Select Subcategory</mat-label>
+        <mat-select formControlName="product_category_id" multiple [disableOptionCentering]="true">
+            <mat-option *ngFor="let category of productSubCategory" [value]="category.product_category_id">{{
+              category.product_category_name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Select Tags</mat-label>
+        <mat-select formControlName="tags" multiple [disableOptionCentering]="true">
+          <mat-option *ngFor="let tag of alltags" [value]="tag">
+            {{tag}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="start" class="mat-dialog-footer-custom">
+    <button type="submit" class="ok-button" mat-raised-button color="primary">APPLY FILTER</button>
+    <button (click)="close()" mat-button color="primary" class="cancel-button">CLEAR FILTER</button>
+  </mat-dialog-actions>
+</form>

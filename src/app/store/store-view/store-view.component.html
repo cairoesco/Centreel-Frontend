@@ -1,0 +1,760 @@
+<mat-card class="header-main-content">
+  <div fxLayout="row">
+    <div fxFlex="25%" class="breadcrumb-content">
+      <mat-icon class="material-icons">
+        keyboard_arrow_left
+      </mat-icon>
+      <label class="lable"><a [routerLink]="['/stores']">Stores</a></label>
+    </div>
+    <div fxFlex="50%" class="center" class="breadcrumb-header-content">
+      View Store
+    </div>
+  </div>
+</mat-card>
+<mat-tab-group [selectedIndex]="utility.indexofTab" class="custom-tab">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <p (click)="utility.scrollTo('section1')">STORE</p>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <p (click)="utility.scrollTo('section2')">TAGS</p>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <p (click)="utility.scrollTo('section3')">HOURS</p>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <p (click)="utility.scrollTo('section4')">WAREHOUSES</p>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <p (click)="utility.scrollTo('section5')">LICENSE</p>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <p (click)="utility.scrollTo('section6')">TILLS</p>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+<div class="main-div-container view-module">
+  <div fxLayout="row">
+    <div fxFlex="100" class="scroll-container fancyscroll" id="parentDiv" scrollSpy [spiedTags]="['DIV']"
+      (sectionChange)="utility.onScrollContent($event)" [style.height.px]="innerHeight">
+      <!-- First Section *1*-->
+      <div id="section1">
+        <form [formGroup]="storeForm" (ngSubmit)="onSubmit('storeInfo')">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+              <h2 layout-margin>Store Information
+                <span fxFlex></span>
+                <span *ngIf="!storeInfo" (click)="isEditable(1)">
+                  <mat-icon class="material-icons pointer">edit</mat-icon>
+                </span>
+                <span *ngIf="storeInfo" (click)="viewOnly()">
+                  <mat-icon class="material-icons pointer">visibility</mat-icon>
+                </span>
+              </h2>
+              <mat-card class="mat-content-padding body-card-block">
+                <mat-card-title>
+                  <h3>Contact Information</h3>
+                </mat-card-title>
+                <mat-card-content>
+                  <div fxLayout="row">
+                    <mat-form-field fxFlex="100%">
+                      <input matInput placeholder="Store Name*" formControlName="name">
+                      <mat-error *ngIf="storeForm.controls['name'].hasError('required')" class="mat-text-warn">
+                        Please enter store name</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div fxLayout="row">
+                    <mat-form-field fxFlex="100%">
+                      <input matInput placeholder="Address Line*" formControlName="address">
+                      <mat-error *ngIf="storeForm.controls['address'].hasError('required')" class="mat-text-warn">
+                        Please enter store address</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div fxLayout="row">
+                    <mat-form-field fxFlex="100%">
+                      <input matInput placeholder="Apartment, Suit, Unit, Building, Floor etc.*"
+                        formControlName="address_unit">
+                      <mat-error *ngIf="storeForm.controls['address_unit'].hasError('required')">
+                        Please enter Apartment, Suit, Unit, Building, Floor etc
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                    <div fxFlex="50%">
+                      <mat-form-field fxFlex="100%">
+                        <mat-select placeholder="Country*" formControlName="country"
+                          (selectionChange)="getLocationList('state',$event.value)" [disableOptionCentering]="true">
+                          <mat-option>Select Country</mat-option>
+                          <mat-option *ngFor="let country of countryList" [value]="country.location_id">
+                            {{country.location_name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="storeForm.controls['country'].hasError('required')">Please select
+                          country</mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="50%">
+                      <mat-form-field fxFlex="100%">
+                        <mat-select placeholder="Province/State*" formControlName="state"
+                          (selectionChange)="getLocationList('city',$event.value)" [disableOptionCentering]="true">
+                          <mat-option>Select Province</mat-option>
+                          <mat-option *ngFor="let state of provinceList" [value]="state.location_id">
+                            {{state.location_name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="storeForm.controls['state'].hasError('required')">Please select
+                          province</mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                    <div fxFlex="50%">
+                      <mat-form-field fxFlex="100%">
+                        <mat-select placeholder="City*" formControlName="city" [disableOptionCentering]="true">
+                          <mat-option>Select City</mat-option>
+                          <mat-option *ngFor="let city of cityList" [value]="city.location_id">
+                            {{city.location_name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="storeForm.controls['city'].hasError('required')">Please select city
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="50%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Postal Code*" formControlName="zipcode" autocomplete="off">
+                        <mat-error *ngIf="storeForm.controls['zipcode'].hasError('required')">
+                          Please enter your postal code
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxLayout="row">
+                    <div fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Description*" formControlName="description">
+                        <mat-error *ngIf="storeForm.controls['description'].hasError('required')">
+                          Please enter description
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxLayout="row">
+                    <mat-form-field fxFlex="100%">
+                      <input matInput placeholder="Tax No" formControlName="tax_no">
+                    </mat-form-field>
+                  </div>
+                  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                    <div class="mb-1" fxFlex="50%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Phone Number*" formControlName="contact_no"
+                          (keypress)="utility.numberOnly($event)" maxlength="11" autocomplete="off">
+                        <mat-error *ngIf="storeForm.controls['contact_no'].hasError('required')">Please enter
+                          phone number </mat-error>
+                        <mat-error *ngIf="storeForm.controls['contact_no'].hasError('minlength')">Please enter
+                          valid phone number </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="mb-1" fxFlex="50%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Email Address*" formControlName="contact_email" type="email">
+                        <mat-error *ngIf="storeForm.controls['contact_email'].hasError('required')"
+                          class="mat-text-warn">Please
+                          enter email address</mat-error>
+                        <mat-error *ngIf="storeForm.controls['contact_email'].hasError('email')" class="mat-text-warn">
+                          Please
+                          enter valid email address</mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxLayout="row">
+                    <div fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Website URL" formControlName="website">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <h3>Store Images*</h3>
+                  <mat-card *ngIf="storeInfo" class="file-drop-box" (click)="storeImageUpload.click()" ng2FileDrop
+                    style="margin-bottom: 20px !important" [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+                    (fileOver)="ImageFileDragged($event)" [uploader]="uploader">
+                    <div class="mb-1 drag_upload">Browse or drag file(s) to upload*</div>
+                  </mat-card>
+                  <input hidden #storeImageUpload type="file" multiple ng2FileDrop
+                    [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (change)="ImageFileDragged($event)" ng2FileSelect
+                    [uploader]="uploader" />
+                  <div fxLayout="row wrap">
+                    <div *ngFor="let image of arrayOfImages ; let i = index">
+                      <div class="hover-div">
+                        <div class="image-div" [style.background]="'url(' + image.image_url + ')'"></div>
+                        <div id="{{storeInfo?'hover_img':''}}" *ngIf="arrayOfImages.length>1">
+                          <mat-icon *ngIf="storeInfo" (click)="DeleteImage(i,image.image_id)" class="padding-icon"
+                            svgIcon="trash-svg">
+                          </mat-icon>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+              <mat-card class="footer-content" *ngIf="storeInfo">
+                <mat-bar-button type="submit" [options]="barButtonOptions"></mat-bar-button>
+              </mat-card>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- Tag section *2*-->
+      <div id="section2">
+        <form [formGroup]="tagsForm" (ngSubmit)="onSubmit('tagsInfo')">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+              <h2 layout-margin>Tags
+                <span fxFlex></span>
+                <span *ngIf="!tags" (click)="isEditable(2)">
+                  <mat-icon class="material-icons pointer">edit</mat-icon>
+                </span>
+                <span *ngIf="tags" (click)="viewOnly()">
+                  <mat-icon class="material-icons pointer">visibility</mat-icon>
+                </span>
+              </h2>
+              <mat-card class="mat-content-tag-padding body-card-block">
+                <mat-card-content>
+                  <mat-chip-list>
+                    <mat-chip *ngFor="let item of tagsForm.get('tags')['controls']; let i=index"
+                      [selectable]="selectable" [removable]="removable">
+                      <div class="tag-text">{{item.value.tag_name}}</div>
+                      <span *ngIf="tags" (click)="removeTag(i,item)" matChipRemove>X</span>
+                    </mat-chip>
+                  </mat-chip-list>
+                  <mat-chip-list>
+                    <button type="button" *ngIf="tags" class="ADD-TAG" color="primary" (click)="AddNewTag()">
+                      <img src="assets/icon/plus-math.svg" alt="Add New" class="plus-math add-tag-icon">
+                      ADD TAG</button>
+                  </mat-chip-list>
+                  <div *ngIf="tagsForm.controls.tags.value.length == 0 && !tags"> No tags available!</div>
+                </mat-card-content>
+              </mat-card>
+              <mat-card class="footer-content" *ngIf="tags">
+                <mat-bar-button type="submit" [options]="barButtonOptions"></mat-bar-button>
+              </mat-card>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- Tag section -->
+
+      <div id="section3">
+        <form [formGroup]="hoursForm" (ngSubmit)="onSubmit('storeTimingInfo')">
+          <div class="view-section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0"></div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+              <div>
+                <h2 class="top-margin-40" layout-margin>Store Hours Information
+                  <span fxFlex></span>
+                  <span *ngIf="!hours" (click)="isEditable(3)">
+                    <mat-icon class="material-icons pointer">edit</mat-icon>
+                  </span>
+                  <span *ngIf="hours" (click)="viewOnly()">
+                    <mat-icon class="material-icons pointer">visibility</mat-icon>
+                  </span>
+                </h2>
+                <mat-card class="mat-content-padding body-card-block" *ngIf="hours">
+                  <mat-card-title>
+                    <!-- <h3>Store Hours </h3> -->
+                  </mat-card-title>
+                  <mat-card-content>
+                    <div class="bottomMargin" fxLayout="column">
+                      <div fxLayout="row wrap" fxLayout.xs="row wrap" fxLayoutWrap fxLayoutAlign="Start">
+                        <div fxFlex="33%" formArrayName="store_timings"
+                          *ngFor="let item of hoursForm.get('store_timings')['controls']; let z=index">
+                          <div [formGroupName]="z">
+                            <mat-checkbox formControlName="isSelected" color="primary">
+                              <span class="store-days"> {{item.value.name}} </span>
+                            </mat-checkbox>
+                          </div>
+                        </div>
+                      </div>
+                      <mat-error *ngIf="is_selected && shiftFormsubmit"
+                        class="doc-upload-error"><small>Please select Days</small></mat-error>
+                      <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1%" fxLayoutAlign="Start">
+                        <div class="" fxFlex="25%">
+                          <mat-form-field fxFlex="100%">
+                            <mat-select placeholder="From" formControlName="opens" [disableOptionCentering]="true">
+                              <mat-option *ngFor="let from of from_time; let i=index" [value]="from">
+                                {{from}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="" fxFlex="25%">
+                          <mat-form-field fxFlex="100%">
+                            <mat-select placeholder="To" formControlName="closes" [disableOptionCentering]="true">
+                              <mat-option *ngFor="let to of to_time; let i=index" [value]="to">
+                                {{to}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="store-time-button" fxFlex="50%">
+                          <button mat-button color="primary" class="btn-rectangle" (click)="AddStoreTime()"
+                            type="button">ADD TIME</button>
+                        </div>
+                      </div>
+
+                      <div fxLayout="row">
+                        <div fxFlex="25%">
+                            <mat-error *ngIf="time_required && shiftFormsubmit"
+                            class="doc-upload-error"><small>Must select From and To</small></mat-error>
+                        </div>
+                        <div fxFlex="25%">
+                            <mat-error *ngIf="!time_required && greater && shiftFormsubmit"
+                            class="doc-upload-error"><small>To must be greater than from</small></mat-error>
+                        </div>
+                        <div fxFlex="50%">
+                        </div>
+                      </div>
+
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+                <div>
+                  <h2 layout-margin></h2>
+                  <mat-card class="body-card-block shift-list" >
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap class="section-description">
+                      <span>Add store open and close timings.
+                      </span>
+                    </div>
+                      <div class="bottomMargin">
+                        <div *ngIf="storeTimes.length > 0">
+                          <!-- table -->
+                          <ngx-datatable #myDatatable class="material" [headerHeight]="50"
+                          [ngStyle]="{'height':timedynamicHeight}" [limit]="10" [columnMode]="'flex'" [footerHeight]="0"
+                          [rowHeight]="48" [scrollbarV]="true" [rows]="storeTimes">
+
+                          <ngx-datatable-column [resizeable]="false" prop="name" name="Name" [flexGrow]="1">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                              let-row="row">
+                              <span title="{{value}}"> {{value}}</span>
+                            </ng-template>
+                          </ngx-datatable-column>
+
+                          <ngx-datatable-column [resizeable]="false" prop="opens" name="Opening Time" [flexGrow]="1">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                <span title="{{value}}"> {{value}}</span>
+                            </ng-template>
+                          </ngx-datatable-column>
+      
+                          <ngx-datatable-column [resizeable]="false" prop="closes" name="Closing Time" [flexGrow]="1">
+                              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                  <span title="{{value}}"> {{value}}</span>
+                              </ng-template>
+                          </ngx-datatable-column>
+
+                          <ngx-datatable-column [resizeable]="false" prop="store_closed" name="Status" [flexGrow]="1">
+                            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                                <span title="{{value}}"> {{value == 0? 'Open' : 'Close'}}</span>
+                            </ng-template>
+                          </ngx-datatable-column>
+
+                          <ngx-datatable-column name="View" [sortable]="false" width="70" headerClass="display-none"
+                            [resizeable]="false" [flexGrow]="0.5">
+                            <ng-template ngx-datatable-header-template>
+                                <span class="align-end" mat-icon-button>
+                                </span>
+                            </ng-template>
+                            <ng-template let-row="row" let-rowIndex="rowIndex" let-value="value" ngx-datatable-cell-template>
+                                <span class="align-end action-hover pointer" (click)="$event.stopPropagation();" mat-icon-button
+                                    [matMenuTriggerFor]="menu">
+                                    <mat-icon>more_vert</mat-icon>
+                                </span>
+                                <mat-menu #menu="matMenu">
+                                  <button [disabled]="!hours" mat-menu-item (click)="MarkAsClosed(rowIndex,row.id,row.store_closed)">
+                                    <span>{{row.store_closed == 0? 'Mark as Closed' : 'Mark as Open'}}</span>
+                                  </button>
+                                  <button [disabled]="!hours" mat-menu-item (click)="DeleteStoreTime(rowIndex,row.id)">
+                                    <span>Delete</span>
+                                  </button>
+                                </mat-menu>
+                            </ng-template>
+                        </ngx-datatable-column>
+                          
+
+                          </ngx-datatable>
+                          <!-- table -->
+                        </div>
+                      </div>
+                    
+                  </mat-card>
+                  <mat-card class="footer-content" *ngIf="hours">
+                    <mat-bar-button type="submit" [options]="barButtonOptions"></mat-bar-button>
+                  </mat-card>
+                </div>
+              </div>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- Store hours Section -->
+      <!-- store warehouse Section *4*-->
+      <div id="section4">
+        <form [formGroup]="warehouseForm" (ngSubmit)="onSubmit('storeWarehouseInfo')">
+          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+              <!-- main content -->
+              <div>
+                <div fxFlex="50">
+                  <h2 layout-margin>Store Warehouses</h2>
+                </div>
+                <div fxFlex="50">
+                  <button mat-button *ngIf="warehouseInfo" class="btn-add-new" type="button"
+                    (click)="AddEditWarehouse()">
+                    <a class="add-new-label">ASSIGN/CREATE WAREHOUSE</a>
+                  </button>
+                  <span fxFlex></span>
+                  <span *ngIf="!warehouseInfo" (click)="isEditable(4)">
+                    <mat-icon class="material-icons pointer">edit</mat-icon>
+                  </span>
+                  <span *ngIf="warehouseInfo" (click)="viewOnly()">
+                    <mat-icon class="material-icons pointer">visibility</mat-icon>
+                  </span>
+                </div>
+              </div>
+              <mat-card class="body-card-block">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap class="section-description">
+                  <span>Add warehouse if this store have multiple warehouse, like different store front or store back.
+                  </span>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center"
+                  *ngIf="warehouseForm.get('warehouses')['controls'].length > 0">
+                  <table class="hoverTable" fxFlex="100%">
+                    <tr>
+                      <th class="left">Name</th>
+                      <th class="left">Address</th>
+                      <th class="left" style="width:100px;">Type</th>
+                      <th>&nbsp;</th>
+                    </tr>
+                    <tr *ngFor="let item of warehouseForm.get('warehouses')['controls']; let m=index">
+                      <td>{{item.value.name}}</td>
+                      <td>{{item.value.address}}</td>
+                      <td>{{item.value.subtype}}</td>
+                      <td>
+                        <span class="pointer" [matMenuTriggerFor]="menu" style="float: right;"
+                          (click)="$event.stopPropagation()">
+                          <mat-icon>more_vert</mat-icon>
+                        </span>
+                        <mat-menu #menu="matMenu">
+                          <button [disabled]="!warehouseInfo" mat-menu-item class="pointer"
+                            (click)="AddEditWarehouse(m,item)">
+                            <span>Edit</span>
+                          </button>
+                          <button [disabled]="!warehouseInfo" mat-menu-item class="pointer"
+                            (click)="DeleteWarehouse(m,item.value.storage_id)">
+                            <span>Delete</span>
+                          </button>
+                        </mat-menu>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </mat-card>
+              <mat-card class="footer-content" *ngIf="warehouseInfo">
+                <mat-bar-button type="submit" [options]="barButtonOptions"></mat-bar-button>
+              </mat-card>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- License Section  *5*-->
+      <div id="section5">
+        <form [formGroup]="licenseForm" (ngSubmit)="onSubmit('licenceInfo')">
+          <div class="container view-section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap
+            fxLayoutGap="0.5%" fxLayoutAlign="center">
+            <!--middle content -->
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+              <!-- main content -->
+              <div>
+                <div fxFlex="50">
+                  <h2 layout-margin>License & Documentation</h2>
+                </div>
+                <div fxFlex="50">
+                  <button mat-button *ngIf="licenseInfo" class="btn-add-new" type="button" (click)="AddNewLicense()">
+                    <a class="add-new-label">+ ADD License</a>
+                  </button>
+                  <span fxFlex></span>
+                  <span *ngIf="!licenseInfo" (click)="isEditable(5)">
+                    <mat-icon class="material-icons pointer">edit</mat-icon>
+                  </span>
+                  <span *ngIf="licenseInfo" (click)="viewOnly()">
+                    <mat-icon class="material-icons pointer">visibility</mat-icon>
+                  </span>
+                </div>
+              </div>
+              <mat-card class="body-card-block">
+                <mat-card-title>
+                  <h3>Licensing Information</h3>
+                </mat-card-title>
+                <mat-card-content>
+                  <div formArrayName="licenses"
+                    *ngFor="let item of licenseForm.get('licenses')['controls']; let p=index">
+                    <div [formGroupName]="p">
+                      <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                        <div class="mb-1" fxFlex="50">
+                          <mat-form-field fxFlex="100%">
+                            <input matInput placeholder="License Name*" formControlName="license_name">
+                            <mat-error *ngIf="item.controls['license_name'].hasError('required')" class="mat-text-warn">
+                              Please
+                              enter license name</mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="mb-1" fxFlex="50">
+                          <mat-form-field fxFlex="100%">
+                            <input matInput placeholder="License Number*" formControlName="license_number">
+                            <mat-error *ngIf="item.controls['license_number'].hasError('required')"
+                              class="mat-text-warn">Please
+                              enter license number</mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="mb-1" fxFlex="4"
+                          *ngIf="licenseInfo && licenseForm.get('licenses')['controls'].length>1">
+                          <span class="pointer" [matMenuTriggerFor]="menu" style="float: right;"
+                            (click)="$event.stopPropagation()">
+                            <mat-icon>more_vert</mat-icon>
+                          </span>
+                          <mat-menu #menu="matMenu">
+                            <span mat-menu-item class="pointer" (click)="DeleteLicense(p,item.value.id)">
+                              <span>Delete License</span>
+                            </span>
+                          </mat-menu>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <h3 *ngIf="arrayOfFiles.length > 0 || storeDocumentArray.length > 0">Store Documents</h3>
+                  <div fxLayout="row" fxLayout.xs="column" class="file-upload-list" fxLayoutWrap fxLayoutAlign="center"
+                    *ngIf="arrayOfFiles.length > 0 || storeDocumentArray.length > 0">
+                    <table class="upload-document-table" fxFlex="100%">
+                      <tr>
+                        <th class="left">Name</th>
+                        <th class="left">Document Type</th>
+                        <th class="left" style="width:100px;"></th>
+                      </tr>
+                      <tr *ngFor="let item of arrayOfFiles; let n=index">
+                        <td>{{item.document_title}}</td>
+                        <td>{{item.document_type_data?.id_card_type}}</td>
+                        <td class="document-upload-icon-color">
+                          <mat-icon (click)="$event.stopPropagation();deleteFile(n)" class="material-icons pointer">
+                            delete</mat-icon>
+                        </td>
+                      </tr>
+                      <tr *ngFor="let item of storeDocumentArray; let n=index">
+                        <td>{{item.document_title}}</td>
+                        <td>{{item.id_card_type}}</td>
+                        <td class="document-upload-icon-color">
+                          <a href='{{API_URL+"documents/" + item?.id + "/download"}}'
+                            (click)="$event.stopPropagation();" *ngIf="item?.id">
+                            <mat-icon class="material-icons">
+                              vertical_align_bottom
+                            </mat-icon>
+                          </a>
+                          <mat-icon (click)="$event.stopPropagation();deleteFile(item.id,n)" *ngIf="licenseInfo"
+                            class="material-icons pointer">
+                            delete</mat-icon>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <h3> Upload Document</h3>
+                  <div [formGroup]="uploadDocForm">
+                    <div fxLayout="row">
+                      <div fxFlex="100%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Title*" formControlName="document_title" autocomplete="off">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <mat-error *ngIf="!uploadDocForm.get('document_title').valid && isFormSubmitted"
+                      class="doc-upload-error"><small>Please enter document name</small></mat-error>
+                    <div fxLayout="row" fxLayoutGap="5%">
+                      <div fxFlex="47.5%">
+                        <mat-form-field fxFlex="100%">
+                          <mat-select placeholder="Document Type*" formControlName="document_type_data"
+                            [disableOptionCentering]="true">
+                            <mat-option *ngFor="let type of rawData?.id_card_types" [value]="type">
+                              {{type.id_card_type}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="47.5%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput [matDatepicker]="doc_expiry_date_picker"
+                            (focus)="doc_expiry_date_picker.open()" [readonly]="true"
+                            (click)="doc_expiry_date_picker.open()" [min]="documentExpiryMinDate"
+                            placeholder="Document expiry date*" formControlName="document_expiry_date"
+                            autocomplete="off">
+                          <mat-datepicker-toggle matSuffix [for]="doc_expiry_date_picker"></mat-datepicker-toggle>
+                          <mat-datepicker #doc_expiry_date_picker></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="5%">
+                      <div fxFlex="47.5%">
+                        <mat-error *ngIf="!uploadDocForm.get('document_type_data').valid && isFormSubmitted"
+                          class="doc-upload-error"><small>Please select document type</small></mat-error>
+                      </div>
+                      <div fxFlex="47.5%">
+                        <mat-error *ngIf="!uploadDocForm.get('document_expiry_date').valid && isFormSubmitted"
+                          class="doc-upload-error"><small>Please select document expiry date</small></mat-error>
+                      </div>
+                    </div>
+                    <div fxLayout="row">
+                      <div fxFlex="100%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput class="pointer" formControlName="document" [value]="uploadedDocName" placeholder="Select file to upload*"
+                            autocomplete="off" (click)="documentInput.click()" readonly>
+                          <button matSuffix type="button" (click)="documentInput.click()"
+                            class="upload-btn pointer">CHOOSE
+                            FILE...</button>
+                          <input type="file" #documentInput hidden formControlName="document"
+                            (change)="onDocumentChange($event)">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <mat-error *ngIf="!uploadDocForm.get('document').valid && isFormSubmitted" class="doc-upload-error">
+                      <small>Please upload document</small></mat-error>
+                    <button type="button" *ngIf="licenseInfo" class="upload-doc-btn" (click)="uploadFile()"> UPLOAD
+                      DOCUMENT</button>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+              <mat-card class="footer-content" *ngIf="licenseInfo">
+                <mat-bar-button type="submit" [options]="barButtonOptions"></mat-bar-button>
+              </mat-card>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div id="section6">
+        <form [formGroup]="tillForm" (ngSubmit)="onSubmit('tillInfo')">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+              <div>
+                <div fxFlex="50" fxLayout="row" fxFlexAlign="center">
+                  <h2 layout-margin>Store Tills</h2>
+                </div>
+                <div fxFlex="50" fxLayout="row" fxFlexAlign="center">
+                  <button mat-button *ngIf="tillInfo" class="btn-add-new" type="button" (click)="AddEditTill()">
+                    <a class="add-new-label">+ ADD TILL</a>
+                  </button>
+                  <span fxFlex></span>
+                  <span *ngIf="!tillInfo" (click)="isEditable(6)">
+                    <mat-icon class="material-icons pointer">edit</mat-icon>
+                  </span>
+                  <span *ngIf="tillInfo" (click)="viewOnly()">
+                    <mat-icon class="material-icons pointer">visibility</mat-icon>
+                  </span>
+                </div>
+              </div>
+              <mat-card class="body-card-block audit-trail-padding">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap class="section-description">
+                  <span>Add Till(s) to manage cash flow for your store!</span>
+                </div>
+                <mat-card-content *ngIf="tillForm.controls.tills.value.length>0">
+                  <ngx-datatable #myDatatable class="material" [ngStyle]="{'height':dynamicHeight}" [headerHeight]="50"
+                    [limit]="10" [columnMode]="'flex'" [footerHeight]="0" [rowHeight]="48" [scrollbarV]="true"
+                    [rows]="tillForm.controls.tills.value">
+                    <ngx-datatable-column [resizeable]="false" prop="name" name="Name" [flexGrow]="2">
+                      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                        <span title="{{value}}"> {{value}}</span>
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column [resizeable]="false" prop="subtype" name="Type" [flexGrow]="2">
+                      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                        <span title="{{value}}"> {{value}}</span>
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column [resizeable]="false" prop="status" name="Status" [flexGrow]="2">
+                      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                        <mat-slide-toggle [disabled]="!tillInfo" color="primary" [checked]="value == 1"
+                          (click)="$event.stopPropagation();" (change)="changeTillStatus(row,value,rowIndex)">
+                        </mat-slide-toggle>
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="View" [sortable]="false" width="70" headerClass="display-none"
+                      [resizeable]="false" [flexGrow]="0.5">
+                      <ng-template ngx-datatable-header-template>
+                        <span class="align-end" mat-icon-button>
+                          Action
+                        </span>
+                      </ng-template>
+                      <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <span class="align-end action-hover pointer" (click)="$event.stopPropagation();" mat-icon-button
+                          [matMenuTriggerFor]="menu">
+                          <mat-icon>more_vert</mat-icon>
+                        </span>
+                        <mat-menu #menu="matMenu">
+                          <button [disabled]="!tillInfo" mat-menu-item class="pointer"
+                            (click)="AddEditTill(rowIndex,row)">
+                            <span>Edit</span>
+                          </button>
+                          <button [disabled]="!tillInfo" mat-menu-item class="pointer"
+                            (click)="DeleteTill(rowIndex,row.storage_id)">
+                            <span>Delete</span>
+                          </button>
+                        </mat-menu>
+                      </ng-template>
+                    </ngx-datatable-column>
+                  </ngx-datatable>
+                </mat-card-content>
+              </mat-card>
+              <mat-card class="footer-content"
+                *ngIf="tillInfo && (tillForm.get('tills')['controls'].length > 0 || remove_till.length>0)">
+                <mat-bar-button type="submit" [options]="barButtonOptions"></mat-bar-button>
+              </mat-card>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

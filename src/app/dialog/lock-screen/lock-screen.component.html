@@ -1,0 +1,31 @@
+<mat-dialog-content class="mat-typography lock-dialog-content">
+  <form [formGroup]="form" (submit)="onSubmit()">
+    <div class="content">
+      <img [src]="currentUser?.user_image" onError="this.src='../../assets/images/avatar-m.png';" class="radius-round"
+        alt="User" title="User" />
+      <h3 class="title">Your Session is Locked</h3>
+      <div class="message">
+        Hey {{currentUser?.name}}, due to inactivity, your session has been locked. Please enter your credentials to
+        continue.
+      </div>
+      <div class="form">
+        <div fxLayout="column" fxLayoutAlign="space-around">
+          <div class="pb-1">
+            <mat-form-field style="width: 100%">
+              <input matInput placeholder="Password/PIN" type="password" [formControl]="form.controls['key']">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="signin-link">
+        Not {{currentUser?.name}}? <a (click)="goToSignIn()">Sign in to another account</a>
+      </div>
+    </div>
+    <div class="unlock-button">
+      <button class="" mat-raised-button color="primary" type="submit">
+        <mat-icon svgIcon="padlock-svg"></mat-icon>
+        <span> UNLOCK</span>
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>

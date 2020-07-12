@@ -1,0 +1,189 @@
+<mat-card class="header-main-content stock-header-main-content">
+  <div fxLayout="row">
+    <div fxFlex="30%">
+    </div>
+    <div fxFlex="40%" class="breadcrumb-header-content">
+      Stock
+    </div>
+    <div fxFlex="30%" class="breadcrumb-btn-content">
+      <mat-form-field class="header-chain-select-block">
+        <mat-select [(ngModel)]="selectedFilter.chain_id" (ngModelChange)="ChangeChain()"
+          [disableOptionCentering]="true">
+          <mat-option *ngFor="let chain of filterList?.chains" [value]="chain.chain_id">
+            {{chain.chain_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</mat-card>
+<mat-progress-bar mode="indeterminate" *ngIf="inProgress"></mat-progress-bar>
+<div class="stock-list-content">
+  <div fxLayout="column" fxFlex="96%" fxFlexOffset="2%">
+    <div fxLayout="column" fxLayoutGap="20px">
+      <div class="" fxLayout="row" fxLayoutWrap fxLayoutAlign="center">
+        <div class="search-input" fxFlex="90%" fxFlex.md="80%" fxFlex.lg="80%" fxFlex.sm="65%" fxFlex.xs="65%">
+          <img alt="Serach" class="Search-icon" src="../../assets/icon/search.png">
+          <!-- <input class="Search" (keyup)="ApplyFilter($event.target.value)" placeholder="Search"> -->
+          <input class="Search" placeholder="Search..." [formControl]="search">
+          <!-- <span class="result-count">{{newrows.length}} Results</span> -->
+          <span class="result-count">{{total_count}} Results</span>
+        </div>
+        <div class="search-button pointer" (click)="ApplyMultipleFilter()" fxFlex="10%" fxFlex.md="20%" fxFlex.lg="20%"
+          fxFlex.sm="35%" fxFlex.xs="35%">
+          <div fxFlex="70%" class="text"> Filter by
+          </div>
+          <div fxFlex="30%" class="icon">
+            <mat-icon>keyboard_arrow_down</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="table-container inventory-parent-table fancyscroll stock-overflow" *ngIf="newrows.length > 0 && !isLoading"
+      [style.height]="innerHeight+'px'">
+      
+      <ngx-datatable #myTable class='material server-scrolling-demo'
+                    [ngStyle]="{'height':dynamicHeight}" 
+                    [headerHeight]="50" 
+                    [externalPaging]="false" 
+                    [footerHeight]="0"
+                    [columnMode]="'flex'" 
+                    [rowHeight]="48" 
+                    [scrollbarV]="true" 
+                    [rows]='newrows' 
+                    [limit]="10"
+                    [selected]="selected" 
+                    [selectionType]="'checkbox'" 
+                    (activate)="onActivate($event)"
+                    (select)='onSelect($event)'
+                    (scroll)="onScroll($event.offsetY)" 
+                    >
+                    <!-- inner row detail -->
+                    <ngx-datatable-row-detail [rowHeight]="180"  #myDetailRow>
+                      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                        <div class="sub-table" *ngIf="dataSource.length>0">
+                          <!-- sub table -->
+                          <content-loader *ngIf="showExpandLoading">
+                            <svg:rect x="10" y="0" rx="2" ry="2" width="250" height="3" />
+                            <svg:rect x="30" y="5" rx="2" ry="2" width="220" height="3" />
+                            <svg:rect x="30" y="10" rx="2" ry="2" width="170" height="3" />
+                            <svg:rect x="10" y="15" rx="2" ry="2" width="250" height="3" />
+                            <svg:rect x="30" y="20" rx="2" ry="2" width="200" height="3" />
+                          </content-loader>
+                          <ngx-datatable class="material orders-table" *ngIf="!showExpandLoading" [rowHeight]="64"
+                          [ngStyle]="{'height':getHeight(dataSource.length)}"
+                                [headerHeight]="50" [limit]="10" [columnMode]="'force'" [footerHeight]="0"
+                                [scrollbarV]="true" [scrollbarH]="true" [rows]="dataSource">
+                                <ngx-datatable-column [resizeable]="false" prop="variant_name" name="variant name"
+                                    [flexGrow]="0.5">
+                                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                        let-row="row">
+                                        <span title="{{value}}"> {{value}}</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [resizeable]="false" prop="total_stock" name="Total"
+                                    [flexGrow]="0.5">
+                                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                        let-row="row">
+                                        <span title="{{value}}"> {{value}}</span>
+                                        <a (click)="StockHistory(row,this.columns,i,row_index)"  title="Stock History" style="margin-left: 10px;">
+                                          <mat-icon class="stock-icon" svgIcon="summary-list-svg"></mat-icon>
+                                        </a>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                                <ngx-datatable-column [resizeable]="false" prop="storage_stock" name="{{key.storage_name}}"
+                                    [flexGrow]="1"  *ngFor="let key of dataHeaderChild;let i = index;">
+                                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                        let-row="row">
+                                        <div class="icon-spacing" title="{{value[i]}}">{{formatNumber(value[i],expandedRow.product_unit)}}
+                                            <span style="padding-right: 10px;"  *ngIf="expandedRow.product_unit=='pcs'">{{expandedRow.product_unit}}</span>
+                                            <span style="padding-right: 10px;"  *ngIf="expandedRow.product_unit!=='pcs'">{{expandedRow.product_unit}}</span>
+                                        </div>
+                                        <div>
+                                            <!-- transfer stock -->
+                                            <a (click)="TransferStock(row,this.columns[i+2],i+2,rowIndex)" title="Transfer Stock" *ngIf="i+2 >= 2 && value[i]>0 && !(expandedRow.product_type_slug=='cannabis' && columns[i+2].location_short == 'CA')"> 
+                                              <mat-icon class="stock-icon" svgIcon="move-stock-svg"></mat-icon>  
+                                            </a>
+                                            <!-- transfer stock -->
+                                            <!-- add stock -->
+                                            <a (click)="AddStock(row,this.columns[i+2],i+2,rowIndex)" *ngIf="i+2 >= 2" title="Add stock" style="margin-left: 10px;">
+                                              <mat-icon class="stock-icon" svgIcon="add-stock-svg"></mat-icon>  
+                                            </a>
+                                            <!-- add stock -->
+                                            <!-- reconcile stock -->
+                                            <a (click)="ReconcileStock(row,this.columns[i+2],i+2,i)" *ngIf="i+2 >= 2 && value[i]>0 > 0"
+                                              title="Reconcile Stock" style="margin-left: 10px;">
+                                              <mat-icon class="stock-icon" svgIcon="new-product-svg"></mat-icon>
+                                            </a>
+                                            <!-- reconcile stock -->
+                                        </div>
+                                        
+                                    </ng-template>
+                                </ngx-datatable-column>
+                          </ngx-datatable>
+                          <!-- sub table -->
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-row-detail>
+                    <!-- inner row detail -->
+                  <ngx-datatable-column name="" [sortable]="false" [draggable]="false" [resizeable]="false"
+                        [flexGrow]="1" [maxWidth]="60" [minWidth]="50">
+                        
+                        <ng-template ngx-datatable-cell-template ngx-datatable-cell-template let-row="row"
+                            let-expanded="expanded" let-value="value" >
+                            <div class="checkbox-column">
+                                <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded"
+                                    [class.datatable-icon-down]="expanded" title="Expand/Collapse Row"
+                                    class="ngx-expand-arrow"></a>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <!-- outer rows -->
+                    <ngx-datatable-column name="PRODUCT NAME" width="100" prop="product_name" [resizeable]="false"
+                        [flexGrow]="4">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <div title='{{row["product_name"]}}'>{{row["product_name"]}}</div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Total" width="100" prop="total_stock" [resizeable]="false"
+                        [flexGrow]="2">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <div title='{{row["total_stock"]}}'>{{formatNumber(row["total_stock"],row["product_unit"])}}
+                              <span style="padding-right: 10px;"  *ngIf="row['product_unit']=='pcs'">{{row["product_unit"]}}</span>
+                              <span style="padding-right: 10px;"  *ngIf="row['product_unit']!=='pcs'">{{row["product_unit"]}}</span>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <!-- <ngx-datatable-column [resizeable]="false" width="100" prop="store_stock" name="{{key.store_name}}"
+                        [flexGrow]="2"  *ngFor="let key of dataHeader;let i = index;">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                            <div title="{{value[i]}}"> {{formatNumber(value[i],row["product_unit"])}}
+                                <span style="padding-right: 10px;"  *ngIf="row['product_unit']=='pcs'">{{row["product_unit"]}}</span>
+                                <span style="padding-right: 10px;"  *ngIf="row['product_unit']!=='pcs'">{{row["product_unit"]}}</span>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column> -->
+
+                    <ngx-datatable-column [resizeable]="false" width="100" prop="{{key}}" *ngFor="let key of storeColumnArr;let i = index;" name="{{storeColumnArr[i]}}" [flexGrow]="2">
+                      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                          <div title="{{value}}"> {{formatNumber(value,row["product_unit"])}}
+                            <span style="padding-right: 10px;"  *ngIf="row['product_unit']=='pcs'">{{row["product_unit"]}}</span>
+                            <span style="padding-right: 10px;"  *ngIf="row['product_unit']!=='pcs'">{{row["product_unit"]}}</span>
+                          </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <!-- outer rows -->
+      </ngx-datatable>
+    </div>
+    <div class="center" *ngIf="(!newrows || newrows.length == 0) && !inProgress" style="margin-top: 20px;">
+      <div>
+        <img alt="No results found" src="../../assets/images/sad.svg" class="sad">
+      </div>
+      <div>
+        <span class="Sorry-no-results-fo">Sorry, no results found</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,224 @@
+
+<form [formGroup]="provinceTaxForm" (ngSubmit)="onSubmit(provinceTaxForm)">
+
+  <!-- <mat-card class="header-main-content">
+    <div fxLayout="row">
+      <div fxFlex="25%" class="breadcrumb-content">
+        <i class="material-icons">
+          keyboard_arrow_left
+        </i><label class="lable"><a [routerLink]="['../']">Settings</a></label>
+      </div>
+      <div fxFlex="50%" class="breadcrumb-header-content">
+        Taxes
+      </div>
+      <div fxFlex="25%" class="breadcrumb-btn-content">
+        <button mat-button matSuffix mat-stroked-button color="primary" type="submit">SAVE ALL</button>
+      </div>
+    </div>
+  </mat-card> -->
+
+  <mat-card class="header-main-content">
+    <div fxLayout="row">
+      <div fxFlex="25%" class="breadcrumb-content">
+        <mat-icon [routerLink]="['/settings']" class="material-icons">
+          keyboard_arrow_left
+        </mat-icon>
+        <label class="lable">
+          <a class="label" [routerLink]="['/settings']">Settings</a>
+        </label>
+      </div>
+      <div fxFlex="50%" class="breadcrumb-header-content">
+        Taxes
+      </div>
+      <div fxFlex="25%" class="breadcrumb-btn-content">
+        <mat-bar-button [options]="barButtonOptions">
+          <button mat-button matSuffix mat-stroked-button class="add-new-btn" type="submit">
+            <a class="add-new-label">SAVE ALL</a>
+          </button>
+        </mat-bar-button>
+      </div>
+    </div>
+
+  </mat-card>
+
+  <div class="main-div-container">
+    <div fxLayout="row">
+      <div fxFlex="16.45%" fxFlex.md="10%" fxFlex.sm="10%" fxFlex.xs="0%" id="left-content">
+      </div>
+
+      <div fxFlex="83.55%" fxFlex.md="90%" fxFlex.sm="90%" fxFlex.xs="100%">
+        <!-- First Section -->
+        <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center"
+          #1>
+          <!--middle content -->
+          <div fxFlex="54%" id="middle-content">
+            <!-- main content -->
+            <div class="">
+              <h2 layout-margin>Taxes</h2>
+              <mat-card class="mat-content-padding">
+
+                <mat-card-title>
+                  <h3>COUNTRY TAX</h3>
+                </mat-card-title>
+
+                <mat-card-content>
+                  <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                    <div class="mb-1" fxFlex="30%">
+                      <mat-form-field appearance="outline" fxFlex="100%">
+                        <mat-label>Country Tax</mat-label>
+                        <input formControlName="countryTax" type="number" matInput placeholder="Enter Tax"><label
+                          matSuffix>%</label>
+                      </mat-form-field>
+                    </div>
+                    <div class="mb-1" fxFlex="30%">
+
+                    </div>
+                    <div class="mb-1" fxFlex="30%">
+
+
+                    </div>
+                  </div>
+                </mat-card-content>
+
+                <hr />
+
+                <mat-card-title>
+                  <h3>REGIONS</h3>
+                </mat-card-title>
+
+                <div formArrayName="regionsTaxes">
+
+                  <div *ngFor="let regionsTax of provinceTaxForm.get('regionsTaxes')['controls']; let i=index">
+
+                    <div [formGroupName]="i">
+
+                      <mat-card-title class="marginTop">
+                        <h3>{{regionsTax.value.regionValue}}</h3>
+                      </mat-card-title>
+                      <mat-card-content>
+                        <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                          <div class="mb-1" fxFlex="30%">
+                            <mat-form-field appearance="outline" fxFlex="100%">
+                              <mat-label>Tax</mat-label>
+                              <input type="number" matInput placeholder="Enter Tax" formControlName="taxValue"><label
+                                matSuffix>%</label>
+                            </mat-form-field>
+                          </div>
+                          <div class="mb-1" fxFlex="30%">
+                            <mat-form-field appearance="outline" class="marginLeft" fxFlex="100%">
+                              <mat-label>Tax Type</mat-label>
+                              <input matInput placeholder="Enter Tax Type" formControlName="typeValue">
+                            </mat-form-field>
+                          </div>
+                          <div class="mb-1" fxFlex="30%">
+                            <mat-form-field appearance="outline" class="selectionBox" fxFlex="100%">
+                              <mat-label>Tax Option</mat-label>
+                              <mat-select placeholder="Select one option" formControlName="options" [disableOptionCentering]="true">
+                                <mat-option value="1">added to 5% federal tax</mat-option>
+                                <mat-option value="2">instead to 5% federal tax</mat-option>
+                                <mat-option value="3">Compounded on top of 5% federal tax</mat-option>
+                                <mat-option value="4">instead to 10% federal tax</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+
+                          </div>
+                        </div>
+                      </mat-card-content>
+
+                    </div>
+                  </div>
+                </div>
+
+              </mat-card>
+            </div>
+            <!-- main content -->
+          </div>
+          <!--middle content -->
+
+          <!--right content -->
+          <div fxFlex="46%" id="right-content">
+
+          </div>
+          <!--right content -->
+        </div>
+        <!-- First Section -->
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- <div fxFlex="10%">
+
+</div>
+<div fxFlex="60%">
+  
+  <div>
+    <form [formGroup]="provinceTaxForm" (ngSubmit)="onSubmit(provinceTaxForm)">
+      <h2 layout-margin>General Information</h2>
+
+      <mat-card>
+        <mat-card-content>
+          <mat-form-field appearance="outline">
+            <mat-label>Country Tax</mat-label>
+            <input formControlName="countryTax" type="number" matInput placeholder="Enter Tax">
+            
+            <label matSuffix>%</label>
+          </mat-form-field>
+        </mat-card-content>
+
+        <mat-divider></mat-divider>
+
+        <mat-card-title class="marginTop">
+          <h3>REGIONS</h3> 
+         
+        </mat-card-title>
+        <div>
+
+          <div formArrayName="regionsTaxes">
+
+            <div *ngFor="let regionsTax of provinceTaxForm.get('regionsTaxes')['controls']; let i=index">
+
+              <div [formGroupName]="i">
+
+                <mat-card-title class="marginTop">
+                  <h3>{{regionsTax.value.regionValue}}</h3>
+                </mat-card-title>
+                <mat-card-content>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Tax</mat-label>
+                    <input type="number" matInput placeholder="Enter Tax" formControlName="taxValue"><label matSuffix>%</label>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="marginLeft">
+                    <mat-label>Tax Type test</mat-label>
+                    <input matInput placeholder="Enter Tax Type" formControlName="typeValue">
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="selectionBox">
+                    <mat-label>Tax Option</mat-label>
+                    <mat-select placeholder="Select one option" formControlName="options" >
+                      <mat-option value="1">added to 5% federal tax</mat-option>
+                      <mat-option value="2">instead to 5% federal tax</mat-option>
+                      <mat-option value="3">Compounded on top of 5% federal tax</mat-option>
+                      <mat-option value="4">instead to 10% federal tax</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                </mat-card-content>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+      </mat-card>
+
+    </form>
+  </div>
+  
+</div>
+
+<div fxFlex="30%">
+
+</div> -->

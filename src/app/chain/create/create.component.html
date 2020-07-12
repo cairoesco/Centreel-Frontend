@@ -1,0 +1,403 @@
+<mat-card class="header-main-content">
+  <div fxLayout="row">
+    <div fxFlex="25%" class="breadcrumb-content">
+      <i class="material-icons">
+        keyboard_arrow_left
+      </i><label class="lable"> Chain</label>
+    </div>
+    <div fxFlex="50%" class="breadcrumb-header-content">
+      Add Chain
+    </div>
+    <div fxFlex="25%" class="breadcrumb-btn-content">
+      <button mat-button matSuffix mat-stroked-button color="primary" type="submit">SAVE ALL</button>
+    </div>
+  </div>
+</mat-card>
+<mat-tab-group [selectedIndex]="indexofTab" (selectedIndexChange)="onClick($event)">
+  <mat-tab>
+    <ng-template mat-tab-label>GENERAL</ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>LEGAL</ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>BILLING</ng-template>
+  </mat-tab>
+
+
+</mat-tab-group>
+
+<div class="main-div-container" [style.height.px]="innerHeight">
+  <perfect-scrollbar class="scroll-container" fxFlex="auto" [config]="config" [scrollIndicators]="true" (psScrollY)="onScrollEvent($event)"
+    (psYReachEnd)="scrollToBottom()">
+    <div fxLayout="row">
+      <div fxFlex="16.45%" fxFlex.md="10%" fxFlex.sm="10%" fxFlex.xs="0%" id="left-content">
+      </div>
+
+      <div fxFlex="83.55%" fxFlex.md="90%" fxFlex.sm="90%" fxFlex.xs="100%">
+        <!-- First Section -->
+        <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center"
+          #1>
+          <!--middle content -->
+          <div fxFlex="54%" id="middle-content">
+            <!-- main content -->
+            <div class="">
+              <h2 layout-margin>General Information</h2>
+
+              <mat-card class="mat-content-padding">
+                <mat-card-title>
+                  <img fxFlex="0 0 100%" src="../../assets/images/logo-dark.png" />
+                </mat-card-title>
+                <mat-card-content>
+                  <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                    <div class="mb-1" fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Chain Name">
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+                  <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+
+                    <div class="mb-1" fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="ChaIN Legal Name">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxLayout="row">
+                    <div fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Registered Legal Address Line 1">
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div fxLayout="row">
+                    <div fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Apartment, Suit, Unit, Building, Floor etc.">
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                    <div class="mb-1" fxFlex="30%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="City">
+                      </mat-form-field>
+                    </div>
+                    <div class="mb-1" fxFlex="30%">
+                      <mat-form-field fxFlex="100%">
+                        <mat-select placeholder="Province/State" [disableOptionCentering]="true">
+                          <mat-option>--</mat-option>
+                          <mat-option *ngFor="let State of States" [value]="State.name">
+                            {{State.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="mb-1" fxFlex="30%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Postal Code">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxLayout="row">
+                    <div fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Website URL">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxLayout="row">
+                    <div fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Description">
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                </mat-card-content>
+              </mat-card>
+              <mat-card class="mat-content-padding button-block-card">
+                <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                  <div class="mb-1" fxFlex="30%">
+                    <button mat-button matSuffix mat-stroked-button class="save-button" type="button" >Save
+                      Changes</button>
+                  </div>
+                  <div class="mb-1" fxFlex="70%">
+                    <button mat-button matSuffix mat-stroked-button color="primary" type="button" >Reveret
+                      Changes</button>
+                  </div>
+                </div>
+              </mat-card>
+
+            </div>
+            <!-- main content -->
+          </div>
+          <!--middle content -->
+
+          <!--right content -->
+          <div fxFlex="46%" id="right-content">
+
+          </div>
+          <!--right content -->
+        </div>
+        <!-- First Section -->
+
+        <!-- Second Section -->
+        <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center"
+          #2>
+          <!--middle content -->
+          <div fxFlex="54%" id="middle-content">
+            <!-- main content -->
+            <div class="">
+              <h2 layout-margin>Legal Information</h2>
+              <mat-card class="mat-content-padding">
+
+                <mat-card-content>
+                  <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                    <div class="mb-1" fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Company Legal Name">
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+                  <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+
+                    <div class="mb-1" fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="ChaIN Legal Name">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxLayout="row">
+                    <div fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Registered Legal Address Line 1">
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div fxLayout="row">
+                    <div fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Apartment, Suit, Unit, Building, Floor etc.">
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                    <div class="mb-1" fxFlex="30%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="City">
+                      </mat-form-field>
+                    </div>
+                    <div class="mb-1" fxFlex="30%">
+                      <mat-form-field fxFlex="100%">
+                        <mat-select placeholder="Province/State" [disableOptionCentering]="true">
+                          <mat-option>--</mat-option>
+                          <mat-option *ngFor="let State of States" [value]="State.name">
+                            {{State.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="mb-1" fxFlex="30%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Postal Code">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxLayout="row">
+                    <div fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Company Incorporation Number">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxLayout="row" class="sub-heading">
+                    <h3>Cannabis License Information</h3>
+                  </div>
+                  <div fxLayout="row">
+                    <div fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="License Number">
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                </mat-card-content>
+              </mat-card>
+              <mat-card class="mat-content-padding button-block-card">
+                <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                  <div class="mb-1" fxFlex="30%">
+                    <button mat-button matSuffix mat-stroked-button class="save-button" type="button" >Save
+                      Changes</button>
+                  </div>
+                  <div class="mb-1" fxFlex="70%">
+                    <button mat-button matSuffix mat-stroked-button color="primary" type="button" >Reveret
+                      Changes</button>
+                  </div>
+                </div>
+              </mat-card>
+
+            </div>
+            <!-- main content -->
+          </div>
+          <!--middle content -->
+
+          <!--right content -->
+          <div fxFlex="46%" id="right-content">
+
+          </div>
+          <!--right content -->
+        </div>
+        <!-- Second Section -->
+
+        <!-- Third Section -->
+        <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center"
+          #3>
+          <!--middle content -->
+          <div fxFlex="54%" id="middle-content">
+            <!-- main content -->
+            <div class="">
+              <h2 layout-margin>General Information</h2>
+              <mat-card class="mat-content-padding">
+                <mat-card-title>
+                  <h3>Contact Information</h3>
+                </mat-card-title>
+                <mat-card-content>
+                  <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                    <div class="mb-1" fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Chain Name">
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+                  <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+
+                    <div class="mb-1" fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="ChaIN Legal Name">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxLayout="row">
+                    <div fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Registered Legal Address Line 1">
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div fxLayout="row">
+                    <div fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Apartment, Suit, Unit, Building, Floor etc.">
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                    <div class="mb-1" fxFlex="30%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="City">
+                      </mat-form-field>
+                    </div>
+                    <div class="mb-1" fxFlex="30%">
+                      <mat-form-field fxFlex="100%">
+                        <mat-select placeholder="Province/State" [disableOptionCentering]="true">
+                          <mat-option>--</mat-option>
+                          <mat-option *ngFor="let State of States" [value]="State.name">
+                            {{State.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="mb-1" fxFlex="30%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Postal Code">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxLayout="row">
+                    <div fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Website URL">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxLayout="row">
+                    <div fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Description">
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                </mat-card-content>
+              </mat-card>
+              <mat-card class="mat-content-padding button-block-card">
+                <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                  <div class="mb-1" fxFlex="30%">
+                    <button mat-button matSuffix mat-stroked-button class="save-button" type="button" >Save
+                      Changes</button>
+                  </div>
+                  <div class="mb-1" fxFlex="70%">
+                    <button mat-button matSuffix mat-stroked-button color="primary" type="button">Reveret
+                      Changes</button>
+                  </div>
+                </div>
+              </mat-card>
+
+            </div>
+            <!-- main content -->
+          </div>
+          <!--middle content -->
+
+          <!--right content -->
+          <div fxFlex="46%" id="right-content">
+
+          </div>
+          <!--right content -->
+        </div>
+        <!-- Third Section -->
+
+      </div>
+    </div>
+  </perfect-scrollbar>
+</div>
+
+
+<!-- <form [formGroup]="addChain" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+      <div fxLayout="row wrap">
+        <div class="mb-1">
+          <mat-form-field style="width: 100%">
+            <input matInput placeholder="Chain Name" [formControl]="addChain.controls['chain_name']">
+          </mat-form-field>
+          <small *ngIf="addChain.controls['chain_name'].errors?.required && addChain.controls['chain_name'].touched"
+            class="mat-text-warn">You must include a Chain name.</small>
+        </div>
+      </div>
+      <div fxLayout="row wrap">
+        <div class="mb-1">
+          <mat-form-field style="width: 100%">
+            <textarea matInput placeholder="Chain Description" [formControl]="addChain.controls['chain_desc']"></textarea>
+          </mat-form-field>
+          <small *ngIf="addChain.controls['chain_desc'].errors?.required && addChain.controls['chain_desc'].touched"
+            class="mat-text-warn">You must Enter Chain Description.</small>
+        </div>
+      </div>
+      <div fxLayout="row wrap">
+        <div class="mb-1">
+         
+        </div>
+      </div>
+    </mat-card-content>
+
+  </form> -->

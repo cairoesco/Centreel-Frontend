@@ -1,0 +1,229 @@
+<h2 mat-dialog-title>Add Product
+    <span fxFlex></span>
+    <span class="close-btn" align="end" (click)="dialogRef.close()">
+      <mat-icon>close</mat-icon>
+    </span>
+  </h2>
+  <form [formGroup]="addProductForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content class="mat-typography add-tag-dialog inventory-dialog">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+          <!-- <div fxFlex="50%">
+            <mat-form-field class="example-full-width" fxFlex="100">
+              <input matInput placeholder="SKU*" formControlName="product_sku" autocomplete="off" (input)="setVariantSKU(addProductForm.controls['product_sku'].value)">
+              <mat-error *ngIf="addProductForm.controls['product_sku'].hasError('required') ">
+                Please enter SKU</mat-error>
+            </mat-form-field>
+          </div> -->
+          <div fxFlex="50%">
+            <mat-form-field class="example-full-width" fxFlex="100">
+                <input matInput placeholder="Product Name*" formControlName="product_name" autocomplete="off" (input)="setVariantName(addProductForm.controls['product_name'].value)">
+                <mat-error *ngIf="addProductForm.controls['product_name'].hasError('required')">
+                Please enter product name</mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="50%">
+            <mat-form-field class="example-full-width" fxFlex="100">
+                <input matInput placeholder="Brand" formControlName="brand" autocomplete="off">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+            <div fxFlex="33%">
+            <mat-form-field fxFlex="100%">
+                <mat-select placeholder="Category*" formControlName="type_id" [disableOptionCentering]="true">
+                <mat-option (onSelectionChange)="subCategory(category.type_id,$event)"
+                    *ngFor="let category of rawDetail?.product_types " [value]="category.type_id">
+                    {{category.type_name}}
+                </mat-option>
+                </mat-select>
+                <mat-error *ngIf="addProductForm.controls['type_id'].hasError('required')">Please select
+                category</mat-error>
+            </mat-form-field>
+            </div>
+            <div fxFlex="33%">
+            <mat-form-field fxFlex="100%">
+                <mat-select placeholder="Subcategory*" formControlName="product_category"
+                [disableOptionCentering]="true">
+                <mat-option *ngFor="let subCategory of categoryList?.product_categories"
+                    [value]="subCategory.category_id">
+                    {{subCategory.category_name}}
+                </mat-option>
+                </mat-select>
+                <mat-error *ngIf="addProductForm.controls['product_category'].hasError('required')">
+                Please select Sub-Category</mat-error>
+            </mat-form-field>
+            </div>
+            <div fxFlex="33%">
+              <mat-form-field fxFlex="100%">
+                <mat-select placeholder="Unit of Measurement*" formControlName="product_unit"
+                    [disableOptionCentering]="true">
+                    <!-- <mat-option>Select Unit</mat-option> -->
+                    <mat-option *ngFor="let unit of unitMeasurement" [value]="unit.slug">
+                    {{unit.unit_name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="addProductForm.controls['product_unit'].hasError('required')">
+                    Please select unit</mat-error>
+              </mat-form-field>
+            </div>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="2%">
+            <!-- <div fxFlex="90%">
+              <mat-form-field class="example-full-width" fxFlex="100">
+                
+                <mat-chip-list #barcodeList>
+                    <mat-chip *ngFor="let item of addProductForm?.controls?.barcode?.value"
+                      [selectable]="selectable" [removable]="removable" (removed)="removeBarcode(item)">
+                      {{item}}
+                      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                    </mat-chip>
+                    <input placeholder="Enter Barcodes" class="margin-zero" [matChipInputFor]="barcodeList"
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                      (matChipInputTokenEnd)="addBarcode($event)" formControlName="barcodes"
+                      autocomplete="off">
+                  </mat-chip-list>
+                  
+              </mat-form-field>
+            </div>
+            <div fxFlex="10%">
+              <button type="button" mat-button color="primary" class="cancel-button" (click)="auto_generate_barcode()">Auto</button>
+            </div> -->
+          </div>
+
+          <!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+            <div class="mb-1" fxFlex="70%">
+              <label>Is this product has variants?</label>
+            </div>
+            <div class="mb-1" fxFlex="30%">
+              <mat-radio-group formControlName="is_product_variant" style="width:30%">
+                <mat-radio-button color="primary" value="1" (change)="isThisProductHasVariants($event)"
+                  style="margin-right:10%;">Yes</mat-radio-button>
+                <mat-radio-button color="primary" value="0" (change)="isThisProductHasVariants($event)">No
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div> -->
+
+          <h3 style="font-weight: bold;">Variants</h3>
+
+
+          <!-- new code -->
+          <mat-card-content *ngIf="addProductForm.controls['is_product_variant'].value == 1">
+            <div #scrollMe [scrollTop]="scrollMe.scrollHeight" formArrayName="variants" class="bottomMargin fancyscroll" style="overflow-x: hidden; overflow-y: auto; height:120px;">
+              <div *ngFor="let unitproductVariants of addProductForm.controls.variants.controls; let i=index">
+                <div [formGroupName]="i">
+                  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1%" fxLayoutAlign="center" id="{{i}}">
+                    <div fxFlex="20">
+                      <mat-form-field fxFlex="100%">
+                        <mat-label>Variant SKU<span *ngIf="i == 0">*</span></mat-label>
+                        <input matInput placeholder="Variant SKU" formControlName="variant_sku" autocomplete="off">
+                        <mat-error *ngIf="unitproductVariants.controls['variant_sku'].hasError('required')">
+                          Please enter sku</mat-error>
+                          <mat-error *ngIf="unitproductVariants.controls['variant_sku'].errors?.asyncValidation">
+                            The sku has already been taken</mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="25">
+                      <mat-form-field fxFlex="100%">
+                        <mat-label>Variant Name<span *ngIf="i == 0">*</span></mat-label>
+                        <input matInput placeholder="Variant Name" formControlName="variant_name" autocomplete="off">
+                        <mat-error *ngIf="unitproductVariants.controls['variant_name'].hasError('required')">
+                          Please enter name</mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="55">
+                      <mat-form-field class="example-full-width" fxFlex="100%">
+                        <mat-chip-list #barcodeList>
+                            <mat-chip *ngFor="let item of unitproductVariants?.controls?.barcode?.value"
+                              [selectable]="selectable" [removable]="removable" (removed)="removeBarcode(item,i)">
+                              {{item}}
+                              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                            </mat-chip>
+                            <input placeholder="Enter Barcodes" class="margin-zero" [matChipInputFor]="barcodeList"
+                              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                              (matChipInputTokenEnd)="addBarcode($event,i)" formControlName="barcodes"
+                              autocomplete="off">
+                              <mat-icon matSuffix class="auto_icon" (click)="auto_generate_barcode(i)">text_format</mat-icon>
+                          </mat-chip-list>
+                      </mat-form-field>
+                    </div>
+                    <!-- <div fxFlex="5">
+                      <button type="button" mat-button color="primary" class="cancel-button" (click)="auto_generate_barcode(i)">Auto</button>
+                    </div> -->
+                    <!-- delete button -->
+                    <div fxFlex="5" fxLayoutAlign="center">
+                      <button class="marginTop"
+                        *ngIf="addProductForm.controls.variants.controls.length > 1 && i!=0" mat-icon-button
+                        (click)="removeUnit(i)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                    <!-- delete button -->
+                  </div>
+
+                  <!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3.5%" fxLayoutAlign="center">
+                    <div fxFlex="90%">
+                      <mat-form-field class="example-full-width" fxFlex="100">
+                        <mat-chip-list #barcodeList>
+                            <mat-chip *ngFor="let item of unitproductVariants?.controls?.barcode?.value"
+                              [selectable]="selectable" [removable]="removable" (removed)="removeBarcode(item,i)">
+                              {{item}}
+                              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                            </mat-chip>
+                            <input placeholder="Enter Barcodes" class="margin-zero" [matChipInputFor]="barcodeList"
+                              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                              (matChipInputTokenEnd)="addBarcode($event,i)" formControlName="barcodes"
+                              autocomplete="off">
+                          </mat-chip-list>
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="10%">
+                      <button type="button" mat-button color="primary" class="cancel-button" (click)="auto_generate_barcode(i)">Auto</button>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions *ngIf="addProductForm.controls['is_product_variant'].value == 1 && addProductForm.get('variants')['controls'].length < 5">
+            <button type="button" class="marginLeft" mat-raised-button (click)="addvariant_propertiesOption()">
+              <mat-icon>add box</mat-icon>
+              Add Variants
+            </button>
+          </mat-card-actions>
+          <!-- new code -->
+
+          <!-- <div>
+            <mat-card-content>
+                <div formArrayName="variant_price" class="bottomMargin">
+                  <div *ngFor="let store of addProductForm.get('variant_price')['controls']; let z=index">
+                    <div [formGroupName]="z">
+                      <div fxLayout="row" fxLayoutGap="5%">
+                        <mat-label class="selling-price-inventory" fxFlex="50%">{{store.value.name}}
+                        </mat-label>
+                        <mat-form-field class="example-full-width" fxFlex="50%">
+                          <mat-label>Selling Price($)<span *ngIf="!isAuthorized">*</span></mat-label>
+                          <input class="store_input" matInput (focus)="isOnSellingPrice=true" (focusout)="isOnSellingPrice=false"
+                             currencyMask [options]="priceOptions"
+                            maxlength='15' formControlName="selling_price" autocomplete="off">
+                          <mat-error *ngIf="store.controls['selling_price'].hasError('required')">
+                            Please enter selling price
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+          </div> -->
+      
+      
+    </mat-dialog-content>
+  
+    <mat-dialog-actions align="start" class="mat-dialog-footer-custom">
+      <button type="submit" class="ok-button" mat-raised-button color="primary">ADD</button>
+      <button mat-button color="primary" class="cancel-button" [mat-dialog-close]="">CANCEL</button>
+    </mat-dialog-actions>
+  </form>

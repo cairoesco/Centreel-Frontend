@@ -1,0 +1,23 @@
+
+.full-width {
+display: flex;
+flex-direction: column;
+}
+.full-width > * {
+width: 100%;
+}
+.margin-mat-card{
+    margin: 0.33333rem
+}
+    
+table {
+    width: 100%;
+    }
+    .mat-elevation-z8 {
+    font-size: 14px;
+    width: 100%;
+    }
+    td, th {
+    width: 25%;
+    }
+    

@@ -1,0 +1,40 @@
+::ng-deep .setting-inputs .mat-form-field-appearance-legacy .mat-form-field-infix {
+    padding: 0;
+}
+::ng-deep .setting-inputs .mat-form-field-infix{
+    border-top: 0;
+}
+.store-label{
+    line-height: 1rem;
+}
+.setting-align-right {
+    text-align: right;
+}
+
+.header-chain-select-block{
+    height: 43px;
+    ::ng-deep .mat-form-field-underline{
+     height: 0;
+     .mat-form-field-ripple{
+       opacity: 0;
+     }
+   }
+   ::ng-deep .mat-form-field-wrapper{   
+     .mat-form-field-infix{
+       background: #FFF;
+       border-radius: 25px;
+       border: solid 1px #dedede;
+       padding: 12px 20px;
+     }
+   }
+ }
+
+ .cannabis_checkbox{
+   font-size: 14px;
+   font-weight: normal;
+   font-family: Roboto, "Helvetica Neue", sans-serif;
+ }
+
+ .storesetting-header-main-content {
+  padding: 18px 2% !important;
+ }
