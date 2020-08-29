@@ -54,7 +54,7 @@ export function createTranslateLoader(http: HttpClient) {
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(AppRoutes),
-    UserIdleModule.forRoot({ idle: 300, timeout: 300, ping: 120 }),
+    UserIdleModule.forRoot({ idle: 4000, timeout: 4000, ping: 120 }),
 
     HttpClientModule,
     TranslateModule.forRoot({
