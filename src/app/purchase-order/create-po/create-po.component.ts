@@ -132,7 +132,7 @@ export class CreatePoComponent implements OnInit {
   purchaseInfoForm() {
     this.purchaseForm = this.fb.group({
       purchase_order_no: ['', [Validators.required],[this.customAsyncValidator()]],
-      address: ['', Validators.required],
+      address: [''],
       contact: [''],
       phone: [''],
       invoice_date: ['', Validators.required],
