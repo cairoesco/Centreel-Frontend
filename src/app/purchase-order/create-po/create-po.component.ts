@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ChangeDetectorRef, ViewChild, AfterViewInit, Input } from '@angular/core';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarDirective, PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
-import { FormBuilder, FormGroup, Validators, FormArray,AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FileUploader } from 'ng2-file-upload';
@@ -131,7 +131,7 @@ export class CreatePoComponent implements OnInit {
   //#region**************** FormGroup ***************/
   purchaseInfoForm() {
     this.purchaseForm = this.fb.group({
-      purchase_order_no: ['', [Validators.required],[this.customAsyncValidator()]],
+      purchase_order_no: ['', [Validators.required], [this.customAsyncValidator()]],
       address: [''],
       contact: [''],
       phone: [''],
@@ -168,7 +168,7 @@ export class CreatePoComponent implements OnInit {
 
 
   fillProductProperties(data) {
-    let barcodeVal = data.barcodes ? data['barcodes'].split(',').length ?  data['barcodes'].split(',')[data['barcodes'].split(',').length - 1] : '' : '';
+    let barcodeVal = data.barcodes ? data['barcodes'].split(',').length ? data['barcodes'].split(',')[data['barcodes'].split(',').length - 1] : '' : '';
     return this.fb.group({
       product_name: [data.product_name],
       product_id: [data.product_id],
@@ -218,7 +218,7 @@ export class CreatePoComponent implements OnInit {
   /* SAVE DRAFT */
   draft_po_number: boolean = false;
   saveDraft() {
-    
+
     /* save draft data */
     if (this.purchaseForm.value.purchase_order_no != "") {
       this.draft_po_number = true;
@@ -267,25 +267,25 @@ export class CreatePoComponent implements OnInit {
           }
         }
       });
-      
+
       if (this.purchaseForm.controls.purchase_order_no.status == 'VALID') {
-      this.api.createDraft(formData).subscribe((response: any) => {
-        if (response.success) {
-          let po_id = response.data.id;
-          this.utility.showSnackBar(response.message);
-          this.router.navigateByUrl('purchaseorder/po-list');
-          // this.barButtonOptions.active = false;
-          // this.barButtonOptions.text = 'SAVE ALL';
-        }
-        else {
-          // this.barButtonOptions.active = false;
-          // this.barButtonOptions.text = 'SAVE ALL';
-        }
-      },
-        err => {
-          // this.barButtonOptions.active = false;
-          // this.barButtonOptions.text = 'SAVE ALL';
-        });
+        this.api.createDraft(formData).subscribe((response: any) => {
+          if (response.success) {
+            let po_id = response.data.id;
+            this.utility.showSnackBar(response.message);
+            this.router.navigateByUrl('purchaseorder/po-list');
+            // this.barButtonOptions.active = false;
+            // this.barButtonOptions.text = 'SAVE ALL';
+          }
+          else {
+            // this.barButtonOptions.active = false;
+            // this.barButtonOptions.text = 'SAVE ALL';
+          }
+        },
+          err => {
+            // this.barButtonOptions.active = false;
+            // this.barButtonOptions.text = 'SAVE ALL';
+          });
       }
       /* save draft data */
     } else {
@@ -348,7 +348,7 @@ export class CreatePoComponent implements OnInit {
                 }
               }
             });
-            
+
             if (this.purchaseForm.valid) {
               this.api.createPo(formData).subscribe((response: any) => {
                 if (response.success) {
@@ -396,7 +396,7 @@ export class CreatePoComponent implements OnInit {
           this.warehouse = _.filter(response.data, function (o) { return o.subtype == 'Store Front'; });
           this.purchaseForm.controls.storage_id.setValue(this.warehouse[0].storage_id)
           this.cID = this.warehouse[0].chain_id;
-          
+
         }
       });
   }
@@ -426,7 +426,7 @@ export class CreatePoComponent implements OnInit {
       // console.log('mk',this.tax_rate);
     }
   }
-  
+
   public taxrateValue: any;
   current_taxrate(val, event) {
     if (event.isUserInput) {
@@ -448,27 +448,27 @@ export class CreatePoComponent implements OnInit {
 
     }
   }
-  
+
   /* clone function */
   current_taxrate1(val) {
-      this.taxrateValue = val;
-      this.gst_val = +val.country_rate;
-      this.pst_val = +val.provincial_rate;
-      let sumofpurchase = this.purchaseForm.get('total').value;
+    this.taxrateValue = val;
+    this.gst_val = +val.country_rate;
+    this.pst_val = +val.provincial_rate;
+    let sumofpurchase = this.purchaseForm.get('total').value;
 
-      // if(sumofpurchase){
-      let GST = (sumofpurchase * this.gst_val) / 100;
-      let PST = (sumofpurchase * this.pst_val) / 100;
+    // if(sumofpurchase){
+    let GST = (sumofpurchase * this.gst_val) / 100;
+    let PST = (sumofpurchase * this.pst_val) / 100;
 
-      
-      this.purchaseForm.controls['country_tax_amount'].setValue(GST);
-      this.purchaseForm.controls['provincial_tax_amount'].setValue(PST);
-      this.total_value();
-      // }
+
+    this.purchaseForm.controls['country_tax_amount'].setValue(GST);
+    this.purchaseForm.controls['provincial_tax_amount'].setValue(PST);
+    this.total_value();
+    // }
   }
   /* clone function */
 
-  tax_rate_none(){
+  tax_rate_none() {
     this.purchaseForm.controls['country_tax_amount'].setValue(0);
     this.purchaseForm.controls['provincial_tax_amount'].setValue(0);
     this.total_value();
@@ -483,7 +483,7 @@ export class CreatePoComponent implements OnInit {
 
     let final_sum = gst + pst + freight + total;
     // if (final_sum > 0) {
-      this.purchaseForm.controls['final_total'].setValue(final_sum);
+    this.purchaseForm.controls['final_total'].setValue(final_sum);
     // }
   }
   /* fintal total with gst pst frieght rate */
@@ -521,7 +521,7 @@ export class CreatePoComponent implements OnInit {
     var mainControl: any = <FormArray>this.purchaseForm.controls[control];
     var pprice = mainControl.at(index).get('stock_price').value;
     let total = this.purchaseForm.get('total').value;
-    if(pprice > 0){
+    if (pprice > 0) {
       let newTotal = total - pprice;
       this.purchaseForm.controls['total'].setValue(newTotal);
     }
@@ -533,7 +533,7 @@ export class CreatePoComponent implements OnInit {
     return product ? product.product_name : undefined;
   }
 
-  public isPOnumber: boolean= false;
+  public isPOnumber: boolean = false;
   onChanges(): void {
     this.purchaseForm.get('search').valueChanges.
       pipe(
@@ -558,11 +558,11 @@ export class CreatePoComponent implements OnInit {
     this.purchaseForm.get('total').valueChanges.subscribe(val => {
       let total = this.purchaseForm.get('total').value;
       let tax_rate = this.purchaseForm.get('taxrate_id').value;
-      if(tax_rate){
+      if (tax_rate) {
         console.log(this.taxrateValue);
         this.current_taxrate1(this.taxrateValue)
       }
-      
+
       this.total_value();
     }
     );
@@ -573,7 +573,7 @@ export class CreatePoComponent implements OnInit {
     );
   }
   //************************ add product *******************//
-  add_product(value,flag) {
+  add_product(value, flag) {
     var cannabisControl: any = <FormArray>this.purchaseForm.controls['cannabisProducts'];
     var nonCannabisControl: any = <FormArray>this.purchaseForm.controls['noncannabisProducts'];
     var accessoriesControl: any = <FormArray>this.purchaseForm.controls['cannabisProductsAccessories'];
@@ -618,7 +618,7 @@ export class CreatePoComponent implements OnInit {
           }
           this.cannabis_accessories_dynamicHeight = this.purchaseForm.controls.cannabisProductsAccessories.value.length < 12 ? ((this.purchaseForm.controls.cannabisProductsAccessories.value.length + 2) * 48 + 10) + "px" : '';
 
-          if(flag == 'by_search'){
+          if (flag == 'by_search') {
             this.isEditable[accessoriesControl.value.length - 1] = true
             this.edit_row(accessoriesControl.value.length - 1);
             var i;
@@ -631,7 +631,7 @@ export class CreatePoComponent implements OnInit {
                 this.isEditable[i] = false;
               }
             }
-          }else{
+          } else {
             this.isEditable[accessoriesControl.value.length - 1] = true
             this.edit_row(accessoriesControl.value.length - 1);
           }
@@ -651,7 +651,7 @@ export class CreatePoComponent implements OnInit {
 
           this.non_cannabis_dynamicHeight = this.purchaseForm.controls.noncannabisProducts.value.length < 12 ? ((this.purchaseForm.controls.noncannabisProducts.value.length + 2) * 48 + 10) + "px" : '';
 
-          if(flag == 'by_search'){
+          if (flag == 'by_search') {
             this.isEditable[nonCannabisControl.value.length - 1] = true
             this.edit_row(nonCannabisControl.value.length - 1);
             var i;
@@ -664,7 +664,7 @@ export class CreatePoComponent implements OnInit {
                 this.isEditable[i] = false;
               }
             }
-          }else{
+          } else {
             this.isEditable[nonCannabisControl.value.length - 1] = true
             this.edit_row(nonCannabisControl.value.length - 1);
           }
@@ -739,7 +739,7 @@ export class CreatePoComponent implements OnInit {
           let pst_tax_index = element.indexOf('PST:');
           let invoice_total_index = element.indexOf('Invoice Total:');
           let vendor_index = element.indexOf('vendor:'); // vendor name field
-          
+
           if (name_index != -1)
             detailObj['customer_name'] = element[name_index + 1];
 
@@ -792,7 +792,7 @@ export class CreatePoComponent implements OnInit {
 
           if (vendor_index != -1)
             detailObj['vendor_id'] = element[vendor_index + 1];
-  
+
           detailObj['action'] = 'import';
           // detailObj['vendor_id'] = 'BC Cannabis Wholesale';
           if (sku_index != -1) {
@@ -876,7 +876,7 @@ export class CreatePoComponent implements OnInit {
     let sheet_price = (data.stock_price.toFixed(2));
     let new_price = (+response_data.purchase_price).toFixed(2);
     // console.log(sheet_price,'--',new_price);
-    
+
     return this.fb.group({
       variant_sku: [data.SKU],
       variant_size: [data.variant_size],
@@ -901,12 +901,12 @@ export class CreatePoComponent implements OnInit {
       margin: [response_data.selling_price && response_data.selling_price != null && response_data.selling_price != 0.00 && sheet_price == new_price ? ((response_data.selling_price - data.stock_price) / response_data.selling_price * 100).toFixed(2) : ''],
       barcode_number: [response_data.barcode, Validators.required], //barcode number
       barcode: [''], //barcode number
-      batch_no: [data.batch_no, [Validators.required,spaceValidator]], //batch number
+      batch_no: [data.batch_no, [Validators.required, spaceValidator]], //batch number
       source_page: ['add_po'],
       thc: [''],
       cbd: [''],
       variant_id: [response_data.variant_id],
-      expiry_date:[''],
+      expiry_date: [''],
     });
   }
 
@@ -931,7 +931,7 @@ export class CreatePoComponent implements OnInit {
     // value = +value;
     // control2.setValue(value.toFixed(2))
 
-    if(control1.value > 0 && control1.value <= 100){
+    if (control1.value > 0 && control1.value <= 100) {
       let margin_value: any = control1.value / 100;
       margin_value = 1 - margin_value;
       let value: any
@@ -942,7 +942,7 @@ export class CreatePoComponent implements OnInit {
         value = control.value / 0.00001;
       }
       control2.setValue(value.toFixed(2)); // set selling price according to profit margin
-    }else if(control1.value == ''){
+    } else if (control1.value == '') {
       let value: any = '';
       control2.setValue(value);
     }
@@ -977,9 +977,9 @@ export class CreatePoComponent implements OnInit {
       rControl.setValue(false);
       let margin_value: any;
       control1.setValue(margin_value);
-      if(stockprice > 0){
+      if (stockprice > 0) {
         rControl.setValue(true);
-      }else{
+      } else {
         rControl.setValue(false);
       }
     }
@@ -1023,15 +1023,15 @@ export class CreatePoComponent implements OnInit {
       }
 
       barcodeControl.setValue(barcode);
-      if(formname == 'poProducts'){
+      if (formname == 'poProducts') {
         batchControl.setValue(batch_num);
       }
 
       /* pass expiry date only for po import and GS1 barcode */
-      if(formname == 'poProducts'){
-        if(exp_date && exp_date != ''){
+      if (formname == 'poProducts') {
+        if (exp_date && exp_date != '') {
           mainControl.at(index).get('expiry_date').setValue(exp_date)
-        } 
+        }
       }
       /* pass expiry date only for po import and GS1 barcode */
     }
@@ -1083,24 +1083,24 @@ export class CreatePoComponent implements OnInit {
       }
       batchControl.setValue(batch_num);
 
-      if(batch_num && batch_num != ''){
+      if (batch_num && batch_num != '') {
         this.variantObj['batch_no'] = batch_num;
         let variant_id = variantControl.value;
-        
-        if(this.variantObj['batch_no'] != ''){
+
+        if (this.variantObj['batch_no'] != '') {
           this.api.getBatchDetails(variant_id, this.variantObj)
-          .subscribe((response: any) => {
-            if (response.success) {
-              thc.setValue(response.data.thc);
-              cbd.setValue(response.data.cbd);
-            }
-          });
-        }else{
+            .subscribe((response: any) => {
+              if (response.success) {
+                thc.setValue(response.data.thc);
+                cbd.setValue(response.data.cbd);
+              }
+            });
+        } else {
           thc.setValue('');
           cbd.setValue('');
         }
       }
-      
+
     }
     else {
       // rControl.setValue(false);
@@ -1122,7 +1122,7 @@ export class CreatePoComponent implements OnInit {
       rControl.setValue(true);
       let newActulqty = valueaddedControl.value * packagesizeControl.value;
       actualqtyControl.setValue(newActulqty)
-    }else{
+    } else {
       rControl.setValue(false);
     }
     this.findTotal();
@@ -1198,19 +1198,19 @@ export class CreatePoComponent implements OnInit {
   /* canDeactivate code */
 
   /* check po number exists */
-  check_po_number(val){
+  check_po_number(val) {
     console.log(val);
-    
+
   }
   /* check po number exists */
 
   /* search selected */
   public selectedResult: boolean = false;
-  selected_result(val){
-    if(val != ''){
-      if(typeof val === 'object'){
+  selected_result(val) {
+    if (val != '') {
+      if (typeof val === 'object') {
         this.selectedResult = true;
-      }else{
+      } else {
         this.selectedResult = false;
       }
     }
@@ -1283,7 +1283,7 @@ export class CreatePoComponent implements OnInit {
                         .subscribe((response: any) => {
                           if (response.success) {
                             this.productData = response.data;
-                            this.add_product(this.productData[0],'by_new');
+                            this.add_product(this.productData[0], 'by_new');
                           }
                         });
                     }
@@ -1303,7 +1303,7 @@ export class CreatePoComponent implements OnInit {
                               let searchSku = result.value.variants[i].variant_sku;
                               this.productData = response.data;
                               this.productData = _.filter(response.data, function (o) { return o.variant_sku == searchSku; });
-                              this.add_product(this.productData[0],'by_new');
+                              this.add_product(this.productData[0], 'by_new');
                             }
                           });
                       }
@@ -1334,14 +1334,14 @@ export class CreatePoComponent implements OnInit {
     return (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
       this.formobj.po_no = control.value;
       this.formobj.chain_id = this.cID;
-      
-      if(control.value != ''){
+
+      if (control.value != '') {
         return timer(1000).pipe(
           switchMap(() => {
             return this.api.isExist(this.formobj).pipe(
               map(res => {
-                if((res.data).length>0){
-                  return {'asyncValidation':'failed'};
+                if ((res.data).length > 0) {
+                  return { 'asyncValidation': 'failed' };
                 }
                 return null;
               })
@@ -1358,12 +1358,12 @@ export class CreatePoComponent implements OnInit {
 /* space validator for batch number field */
 export function spaceValidator(control: AbstractControl) {
   if (control && control.value && !control.value.replace(/\s/g, '').length) {
-      control.setValue('');
-      // console.log(control.value);
-      return { required: true }
+    control.setValue('');
+    // console.log(control.value);
+    return { required: true }
   }
   else {
-      return null;
+    return null;
   }
 }
 /* space validator for batch number field */
