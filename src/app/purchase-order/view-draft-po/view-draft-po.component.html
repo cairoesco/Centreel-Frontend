@@ -428,7 +428,8 @@
                               <input autocomplete="off" autofocus
                                 (keypress)="utility.numberAndDotOnly($event,this.purchaseForm.controls['poProducts'].controls[rowIndex].controls['selling_price'].value)"
                                 class="min-width" [value]="value" (input)="stockprice(rowIndex,'poProducts')"
-                                formControlName="selling_price" />
+                                formControlName="selling_price"
+                                onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}" />
                             </div>
                           </div>
                           <span class="mat-text-warn" *ngIf="!purchaseForm.controls.poProducts.at(rowIndex).controls.selling_price.value && isSubmitted">Required</span>
@@ -645,7 +646,8 @@
                             <input autocomplete="off" autofocus *ngIf="editing[rowIndex+ '-stock_price']" type="number"
                               (keypress)="utility.numberAndDotOnly($event,this.purchaseForm.controls['cannabisProducts'].controls[rowIndex].controls['stock_price'].value)"
                               class="min-width" [value]="value" (input)="stockprice(rowIndex,'cannabisProducts')"
-                              formControlName="stock_price" />
+                              formControlName="stock_price"
+                              onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}" />
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
@@ -672,7 +674,8 @@
                               type="number"
                               (keypress)="utility.numberAndDotOnly($event,this.purchaseForm.controls['cannabisProducts'].controls[rowIndex].controls['selling_price'].value)"
                               (input)="stockprice(rowIndex,'cannabisProducts')" class="min-width" [value]="value"
-                              formControlName="selling_price" />
+                              formControlName="selling_price"
+                              onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}" />
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
@@ -830,7 +833,8 @@
                             <input autocomplete="off" autofocus *ngIf="editing[rowIndex+ '-stock_price']" type="text" min="0"
                             appTwoDigitDecimaNumber
                               (input)="stockprice(rowIndex,'cannabisProductsAccessories')" class="min-width"
-                              [value]="value" formControlName="stock_price" />
+                              [value]="value" formControlName="stock_price"
+                              onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}" />
                             <!-- </div> -->
                             <span class="mat-text-warn" *ngIf="!purchaseForm.controls.cannabisProductsAccessories.at(rowIndex).controls.stock_price.value && isSubmitted">Required</span>
                           </div>
@@ -863,7 +867,8 @@
                               (input)="stockprice(rowIndex,'cannabisProductsAccessories')" type="text" min="0"
                               appTwoDigitDecimaNumber
                               *ngIf="editing[rowIndex+ '-total_selling_price']" class="min-width" [value]="value"
-                              formControlName="selling_price" />
+                              formControlName="selling_price"
+                              onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}" />
                             <!-- </div> -->
                             <span class="mat-text-warn" *ngIf="!purchaseForm.controls.cannabisProductsAccessories.at(rowIndex).controls.selling_price.value && isSubmitted">Required</span>
                           </div>
@@ -1056,7 +1061,8 @@
                               type="text" min="0"
                               appTwoDigitDecimaNumber
                               *ngIf="editing[rowIndex+ '-stock_price']" class="min-width" [value]="value"
-                              formControlName="stock_price" />
+                              formControlName="stock_price"
+                              onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}" />
                             <!-- </div> -->
                             <span class="mat-text-warn" *ngIf="!purchaseForm.controls.noncannabisProducts.at(rowIndex).controls.stock_price.value && isSubmitted">Required</span>  
                           </div>
@@ -1089,7 +1095,8 @@
                               type="text" min="0"
                               appTwoDigitDecimaNumber
                               *ngIf="editing[rowIndex+ '-total_selling_price']" class="min-width" [value]="value"
-                              formControlName="selling_price" />
+                              formControlName="selling_price"
+                              onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}" />
                             <!-- </div> -->
                             <span class="mat-text-warn" *ngIf="!purchaseForm.controls.noncannabisProducts.at(rowIndex).controls.selling_price.value && isSubmitted">Required</span>
                           </div>
