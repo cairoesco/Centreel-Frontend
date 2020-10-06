@@ -59,6 +59,7 @@ import { ScrollSpyDirective } from './directive/scroll-spy.directive';
 import { NgxCurrencyModule } from "ngx-currency";
 import { CategoryFilterPipe } from './pipe/category-filter.pipe';
 import { TwoDigitDecimaNumberDirective } from './directive/two-digit-decima-number.directive';
+import { RemoveSpaceDirective } from './directive/remove-space.directive';
 
 @NgModule({
   imports: [
@@ -115,7 +116,7 @@ import { TwoDigitDecimaNumberDirective } from './directive/two-digit-decima-numb
     MatProgressButtonsModule,
     NgxCurrencyModule
   ],
-  declarations: [MatWidthDirective,ScrollSpyDirective, CategoryFilterPipe,TwoDigitDecimaNumberDirective],
+  declarations: [MatWidthDirective, ScrollSpyDirective, CategoryFilterPipe, TwoDigitDecimaNumberDirective, RemoveSpaceDirective],
   exports: [
     CommonModule,
     MatSidenavModule,
