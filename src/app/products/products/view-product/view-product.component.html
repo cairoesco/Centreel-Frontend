@@ -443,7 +443,9 @@
                                 </mat-chip>
                                 <input [matChipInputFor]="chipList"
                                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  minlength="8"
                                   [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event,rowIndex)" />
+                                  <mat-icon matSuffix class="auto_icon" (click)="auto_generate_barcode_variant(rowIndex)">text_format</mat-icon>
                               </mat-chip-list>
                             </mat-form-field>
                           </div>

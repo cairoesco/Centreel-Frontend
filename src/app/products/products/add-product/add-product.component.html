@@ -411,6 +411,7 @@
                                       [matChipInputAddOnBlur]="addOnBlur"
                                       (matChipInputTokenEnd)="addBarcodeVariant($event,i)" formControlName="barcodes"
                                       autocomplete="off">
+                                      <mat-icon matSuffix class="auto_icon" (click)="auto_generate_barcode_variant(i)">text_format</mat-icon>
                                   </mat-chip-list>
                                   <mat-error *ngIf="unitVariants.controls['barcode'].hasError('required')"
                                     class="mat-text-warn">
@@ -659,6 +660,7 @@
                                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
                                 (matChipInputTokenEnd)="addBarcode($event)" formControlName="barcodes"
                                 autocomplete="off">
+                                <mat-icon matSuffix class="auto_icon" (click)="auto_generate_barcode(0)">text_format</mat-icon>
                             </mat-chip-list>
                             <mat-error *ngIf="addProductForm.controls['barcode'].hasError('required')"
                               class="mat-text-warn">
