@@ -403,7 +403,7 @@
                             </span>
                             <input (input)="getGTIN(rowIndex,'poProducts')" *ngIf="!skuData[rowIndex]?.barcode" autocomplete="off"
                               autofocus class="max-width" maxlength="50" [value]="value"
-                              formControlName="barcode_number" />
+                              formControlName="barcode_number" appRemoveSpace />
                             <span class="mat-text-warn" *ngIf="!purchaseForm.controls.poProducts.at(rowIndex).controls.barcode_number.value && isSubmitted">Barcode is required</span>
                           </div>
                         </ng-template>
@@ -414,7 +414,7 @@
                           let-row="row">
                           <div [formGroupName]="rowIndex">
                             <input (input)="getBatch(rowIndex)" autocomplete="off" autofocus class="batch-width" [value]="value" 
-                              formControlName="batch_no" />
+                              formControlName="batch_no" appRemoveSpace />
                             <span class="mat-text-warn" *ngIf="!purchaseForm.controls.poProducts.at(rowIndex).controls.batch_no.value && isSubmitted">Batch is required</span>
                           </div>
                         </ng-template>
@@ -654,7 +654,7 @@
                               {{value}}
                             </span>
                             <input class="min-width" autocomplete="off" autofocus *ngIf="editing[rowIndex+ '-batch']"
-                              type="text" [value]="value" formControlName="batch" />
+                              type="text" [value]="value" formControlName="batch" appRemoveSpace />
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
@@ -933,7 +933,7 @@
                               {{row.barcodes ? row['barcodes'].split(',').length ?  row['barcodes'].split(',')[row['barcodes'].split(',').length - 1] : 'n' : ''}}
                             </span>
                             <input *ngIf="editing[rowIndex + '-barcode_number']" (input)="getGTIN(rowIndex,'cannabisProductsAccessories')"  autocomplete="off" [matAutocomplete]="poAuto" class="max-width" maxlength="50" 
-                              formControlName="barcode_number" />
+                              formControlName="barcode_number" appRemoveSpace />
                             <mat-autocomplete #poAuto="matAutocomplete">
                               <mat-option *ngFor="let option of (row['barcodes'] && row['barcodes'].split(',') != ',' ? row['barcodes'].split(',') : [])" [value]="option" (onSelectionChange)="changeBarcode(rowIndex,'cannabisProductsAccessories')" >
                                 {{option}}
@@ -1163,7 +1163,7 @@
                               {{row.barcodes ? row['barcodes'].split(',').length ?  row['barcodes'].split(',')[row['barcodes'].split(',').length - 1] : 'n' : ''}}
                             </span>
                             <input *ngIf="editing[rowIndex + '-barcode_number']" (input)="getGTIN(rowIndex,'noncannabisProducts')"  autocomplete="off" [matAutocomplete]="poAuto" class="max-width" maxlength="50" 
-                              formControlName="barcode_number" />
+                              formControlName="barcode_number" appRemoveSpace />
                             <mat-autocomplete #poAuto="matAutocomplete">
                               <mat-option *ngFor="let option of (row['barcodes'] && row['barcodes'].split(',') != ',' ? row['barcodes'].split(',') : [])" [value]="option" (onSelectionChange)="changeBarcode(rowIndex,'noncannabisProducts')">
                                 {{option}}

@@ -168,7 +168,8 @@ import { RemoveSpaceDirective } from './directive/remove-space.directive';
     ScrollSpyDirective,
     NgxCurrencyModule,
     CategoryFilterPipe,
-    TwoDigitDecimaNumberDirective
+    TwoDigitDecimaNumberDirective,
+    RemoveSpaceDirective
   ],
   providers: [
     {
