@@ -128,7 +128,7 @@ export class ViewProductComponent implements OnInit {
     let timestamp = +(new Date());
     let username = variant_name + timestamp + uname;
     control_val.push(username)
-    
+
     control.setValue(control_val);
   }
   /* auto generate barcode */
@@ -288,7 +288,7 @@ export class ViewProductComponent implements OnInit {
     if (evt == "thc") {
       var thc1 = this.generalForm.get('thc1').value;
       var thc2 = this.generalForm.get('thc2').value;
-      
+
       if (thc1 <= thc2) {
         this.isTHCGreater = false;
       }
@@ -335,7 +335,7 @@ export class ViewProductComponent implements OnInit {
         // this.generalForm.get('thc2').clearValidators();
         // this.generalForm.get('cbd1').clearValidators();
         // this.generalForm.get('cbd2').clearValidators();
-        
+
         // this.generalForm.get('thc1').setValue(0);
         // this.generalForm.get('thc2').setValue(0);
         // this.generalForm.get('cbd1').setValue(0);
@@ -477,17 +477,17 @@ export class ViewProductComponent implements OnInit {
   //#region ______________________ Tax Section ______________________/
 
   taxInfoForm(product) {
-    
-    if(this.isAdminRole && product.tax.length > 0){
+
+    if (this.isAdminRole && product.tax.length > 0) {
       this.taxForm.patchValue({
         is_taxable: product.is_taxable,
         store_id: product.tax[0].store_id,
         taxrate_id: product.tax[0].taxrate_id,
       });
-    }else{
+    } else {
       this.taxForm.patchValue({
         is_taxable: product.is_taxable,
-        
+
       });
     }
   }
@@ -547,10 +547,10 @@ export class ViewProductComponent implements OnInit {
       variant_sku: [data.variant_sku],
       purchase_price: [data.purchase_price, Validators.required],
       store_id: [data.store_id],
-      batch_no: [data.variant_batches.length>0 ? data.variant_batches[0].batch_no:''],
+      batch_no: [data.variant_batches.length > 0 ? data.variant_batches[0].batch_no : ''],
       batch_detail: [data.variant_batches],
-      thc: [data.variant_batches.length>0 ? data.variant_batches[0].thc:''],
-      cbd: [data.variant_batches.length>0 ? data.variant_batches[0].cbd:'']
+      thc: [data.variant_batches.length > 0 ? data.variant_batches[0].thc : ''],
+      cbd: [data.variant_batches.length > 0 ? data.variant_batches[0].cbd : '']
     });
   }
   //#endregion
@@ -558,7 +558,7 @@ export class ViewProductComponent implements OnInit {
   public batch_no: any;
   public thc: any;
   public cbd: any;
-  current_batch(index,val,event) {
+  current_batch(index, val, event) {
     if (event.isUserInput) {
       this.batch_no = val.batch_no;
       this.thc = val.thc;
@@ -664,7 +664,7 @@ export class ViewProductComponent implements OnInit {
           this.result = response.data;
           this.selectedChain();
           this.variants = response.data.product.variants;
-          
+
           this.supplierListData = response.data.suppliers;
           let supplierData: any = [];
           var data: any;
@@ -707,10 +707,10 @@ export class ViewProductComponent implements OnInit {
     let input = event.input;
     let value = event.value;
     const control = (<FormArray>this.variantsForm.controls['variant_detail']).at(index).get('barcode') as FormArray;
-    if ((value || '').trim() && value.length>=8) {
+    if ((value || '').trim() && value.length > 7) {
 
       /* find GTIN value if standard barcode */
-      if(value){
+      if (value) {
         let index1 = value.indexOf('(01)')
         let index2 = value.indexOf('01')
         let barcode: any;
@@ -739,9 +739,9 @@ export class ViewProductComponent implements OnInit {
       else
         data = control.value
       /* if admin then add full barcode withou extract batch and expire date */
-      if(this.isAdminRole){
+      if (this.isAdminRole) {
         data.push(event.value);
-      }else{
+      } else {
         data.push(value);
       }
       // data.push(value);
@@ -785,7 +785,7 @@ export class ViewProductComponent implements OnInit {
       this.barButtonOptions.active = true;
       this.barButtonOptions.text = 'Saving Data...';
       this.updateProduct(formData);
-    }else{
+    } else {
       this.utility.scrollToError();
     }
   }
@@ -836,13 +836,13 @@ export class ViewProductComponent implements OnInit {
   }
   taxInfoStore(event) {
     this.taxForm.get('section').setValue(event);
-    if(!this.isAdminRole){
+    if (!this.isAdminRole) {
       this.taxForm.removeControl('store_id');
       this.taxForm.removeControl('taxrate_id');
     }
-    
+
     const formData = new FormData();
-    
+
     Object.keys(this.taxForm.value).forEach(key => {
       if (this.taxForm.value[key] instanceof Object) {
         formData.append(key, JSON.stringify(this.taxForm.value[key]));
@@ -955,28 +955,28 @@ export class ViewProductComponent implements OnInit {
     const control1 = (<FormArray>this.variantsForm.controls['variant_detail']).at(index) as FormArray;
     const control = this.variantsForm.controls['variant_detail'].value;
     let data = control[index];
-    
+
     var selling_error = false;
 
     /* If stock is not added for this variant */
-    if(data.stocks_variants_id < 1 ){
-      this.utility.showSnackBar("No Stock is added for "+ data.variant_name + " this variant, pls add stock.", { panelClass: 'error' });
+    if (data.stocks_variants_id < 1) {
+      this.utility.showSnackBar("No Stock is added for " + data.variant_name + " this variant, pls add stock.", { panelClass: 'error' });
       selling_error = true;
     }
     /* If stock is not added for this variant */
 
     /* if purchase price is not equla or less than selling price */
     data.purchase_price = +data.purchase_price;
-    data.variant_price  = +data.variant_price;
-    if(data.purchase_price > data.variant_price){
+    data.variant_price = +data.variant_price;
+    if (data.purchase_price > data.variant_price) {
       this.utility.showSnackBar("selling price must be equal or greater than purchase price for " + data.variant_name, { panelClass: 'error' });
       selling_error = true;
     }
     /* if purchase price is not equla or less than selling price */
-    
+
     const formData = new FormData()
     formData.append('_method', 'put')
-    if(data.batch_no && data.batch_no != ''){
+    if (data.batch_no && data.batch_no != '') {
       formData.append('batch_array', JSON.stringify({ batch_no: data.batch_no, thc: data.thc, cbd: data.cbd }))
     }
     formData.append('variant_detail', JSON.stringify({ variant_name: data.variant_name, chain_id: this.rawDetail.product.chain_id }))
@@ -1049,7 +1049,7 @@ export class ViewProductComponent implements OnInit {
     });
     let userData = this.utility.getSessionData('currentUser');
     this.isAdmin = userData.user_role.indexOf("superadmin") != -1 || userData.user_role.indexOf("chain_manager") != -1;
-    this.isAdminRole = userData.user_role.indexOf("admin") != -1 ;
+    this.isAdminRole = userData.user_role.indexOf("admin") != -1;
     this.getProductById();
     this.viewOnly();
   }
@@ -1068,19 +1068,19 @@ export class ViewProductComponent implements OnInit {
   }
 
   public chainwiseStores = [];
-  selectedChain() { 
+  selectedChain() {
     this.chainwiseStores = [];
     /* for getting chain wise stores */
     this.result.stores.forEach(element => {
-        this.chainwiseStores.push(element)
+      this.chainwiseStores.push(element)
     });
     /* for getting chain wise stores */
   }
 
   /* store wise taxes */
   public storewiseTaxes = [];
-  selectedStore(store_id, event){
-    
+  selectedStore(store_id, event) {
+
     if (event.isUserInput) {
       this.storewiseTaxes = [];
       this.result.stores.forEach(element => {

@@ -173,7 +173,7 @@ export class AddProductComponent implements OnInit {
       package_capacity: [1, [Validators.required]],
       //barcode: [''],
       barcode: [[]],
-      barcodes: [''],
+      barcodes: ['', Validators.minLength(8)],
       product_provinces: this.formBuilder.array([]),
       price_differ_for_store: ['0'],
       selling_price: [null], //price_differ_for_store==0
@@ -197,8 +197,7 @@ export class AddProductComponent implements OnInit {
     let controlValue: any = this.addProductForm.controls.barcode.value
     // if (value && value != null)
     //   controlValue.push(value);
-
-    if (value && value != null) {
+    if (value && value != null && value.length > 7) {
       /* find gtin value if standard barcode */
       if (value) {
         let index1 = value.indexOf('(01)')
@@ -266,7 +265,7 @@ export class AddProductComponent implements OnInit {
     let timestamp = +(new Date());
     let username = variant_name + timestamp + uname;
     control_val.push(username)
-    
+
     control.setValue(control_val);
   }
 
@@ -284,7 +283,7 @@ export class AddProductComponent implements OnInit {
     let timestamp = +(new Date());
     let username = variant_name + timestamp + uname;
     control_val.push(username)
-    
+
     control.setValue(control_val);
   }
   /* auto generate barcode */
@@ -299,7 +298,7 @@ export class AddProductComponent implements OnInit {
     // if (value && value != null)
     //   controlValue.push(value);
 
-    if (value && value != null) {
+    if (value && value != null && value.length > 7) {
       /* find gtin value if standard barcode */
       if (value) {
         let index1 = value.indexOf('(01)')
@@ -659,7 +658,7 @@ export class AddProductComponent implements OnInit {
       package_capacity: [1, [Validators.required]],
       // barcode: [''],
       barcode: [[]],
-      barcodes: [''],
+      barcodes: ['', [Validators.minLength(8)]],
       variant_tags: [],
       selling_price: [null, (userData.user_role && (userData.user_role.findIndex(e => ['admin', 'superadmin'].includes(e)) > -1)) ? '' : [Validators.required]],
       price_differ_for_store: ['0'],
