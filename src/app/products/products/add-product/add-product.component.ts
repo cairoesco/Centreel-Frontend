@@ -145,8 +145,8 @@ export class AddProductComponent implements OnInit {
       // vendor: ['--'],
       brand: ['', Validators.required],
       chain_id: ['', Validators.required],
-      store_id: ['', [Validators.required]], 
-      taxrate_id: [''], 
+      store_id: ['', [Validators.required]],
+      taxrate_id: [''],
       type_id: ['', Validators.required],
       cannabis_type: ['', Validators.required], //cannabis type
       product_category: ['', Validators.required],
@@ -173,7 +173,7 @@ export class AddProductComponent implements OnInit {
       package_capacity: [1, [Validators.required]],
       //barcode: [''],
       barcode: [[]],
-      barcodes: [''],
+      barcodes: ['', Validators.minLength(8)],
       product_provinces: this.formBuilder.array([]),
       price_differ_for_store: ['0'],
       selling_price: [null], //price_differ_for_store==0
@@ -182,7 +182,7 @@ export class AddProductComponent implements OnInit {
       inventory: this.formBuilder.array([]),
       //************************** Is Variants ************************************
       variants: this.formBuilder.array([]),
-      dry_weight: [0.00,[Validators.required]],
+      dry_weight: [0.00, [Validators.required]],
       cannabis_unit: ['gm'],
       cannabis_type_id: [''],
       product_suppliers_ids: [''],
@@ -197,10 +197,9 @@ export class AddProductComponent implements OnInit {
     let controlValue: any = this.addProductForm.controls.barcode.value
     // if (value && value != null)
     //   controlValue.push(value);
-
-    if (value && value != null){
+    if (value && value != null && value.length > 7) {
       /* find gtin value if standard barcode */
-      if(value){
+      if (value) {
         let index1 = value.indexOf('(01)')
         let index2 = value.indexOf('01')
         let barcode: any;
@@ -222,17 +221,17 @@ export class AddProductComponent implements OnInit {
         value = barcode;
       }
       /* find gtin value if standard barcode */
-      if(this.isAuthorized){
+      if (this.isAuthorized) {
         controlValue.push(event.value); //if admin then pass full barcode withou extract barcode, batch, expire date.
-      }else{
+      } else {
         controlValue.push(value);
       }
       // controlValue.push(value);
     }
-      
-    if(controlValue.length == 0 && this.isCanabis && !this.isAuthorized){
+
+    if (controlValue.length == 0 && this.isCanabis && !this.isAuthorized) {
       this.barcodeList.errorState = true;
-    }else{
+    } else {
       this.barcodeList.errorState = false;
     }
     this.addProductForm.controls.barcode.setValue(controlValue)
@@ -245,13 +244,49 @@ export class AddProductComponent implements OnInit {
     if (index >= 0) {
       controlValue.splice(index, 1);
     }
-    if(controlValue.length == 0 && this.isCanabis && !this.isAuthorized){
+    if (controlValue.length == 0 && this.isCanabis && !this.isAuthorized) {
       this.barcodeList.errorState = true;
-    }else{
+    } else {
       this.barcodeList.errorState = false;
     }
   }
+  /* auto generate barcode */
+  auto_generate_barcode(index) {
+    const control = (<FormArray>this.addProductForm.controls['barcode']) as FormArray;
+    let control_val = control.value
 
+    let userData = this.utility.getSessionData('currentUser');
+    let uname = (userData.name).charAt(0).toUpperCase();
+
+    let pname = this.addProductForm.get('product_name').value ? this.addProductForm.get('product_name').value : 'P';
+    let product_module = 'O';
+    let product_name = product_module + pname.charAt(0).toUpperCase();
+    let variant_name = product_name + "v";
+    let timestamp = +(new Date());
+    let username = variant_name + timestamp + uname;
+    control_val.push(username)
+
+    control.setValue(control_val);
+  }
+
+  auto_generate_barcode_variant(index) {
+    const control = (<FormArray>this.addProductForm.controls['variants']).at(index).get('barcode') as FormArray;
+    let control_val = control.value
+
+    let userData = this.utility.getSessionData('currentUser');
+    let uname = (userData.name).charAt(0).toUpperCase();
+
+    let pname = this.addProductForm.get('product_name').value ? this.addProductForm.get('product_name').value : 'P';
+    let product_module = 'O';
+    let product_name = product_module + pname.charAt(0).toUpperCase();
+    let variant_name = product_name + "v";
+    let timestamp = +(new Date());
+    let username = variant_name + timestamp + uname;
+    control_val.push(username)
+
+    control.setValue(control_val);
+  }
+  /* auto generate barcode */
   addBarcodeVariant(event: MatChipInputEvent, index) {
     let input = event.input;
     let value = event.value;
@@ -263,9 +298,9 @@ export class AddProductComponent implements OnInit {
     // if (value && value != null)
     //   controlValue.push(value);
 
-    if (value && value != null){
+    if (value && value != null && value.length > 7) {
       /* find gtin value if standard barcode */
-      if(value){
+      if (value) {
         let index1 = value.indexOf('(01)')
         let index2 = value.indexOf('01')
         let barcode: any;
@@ -286,18 +321,18 @@ export class AddProductComponent implements OnInit {
         }
         value = barcode;
       }
-      if(this.isAuthorized){
+      if (this.isAuthorized) {
         controlValue.push(event.value); //if admin then pass full barcode withou extract barcode, batch, expire date.
-      }else{
+      } else {
         controlValue.push(value);
       }
       // controlValue.push(value);
     }
-      
 
-    if(controlValue.length == 0 && this.isCanabis && !this.isAuthorized){
+
+    if (controlValue.length == 0 && this.isCanabis && !this.isAuthorized) {
       this.barcodeList.errorState = true;
-    }else{
+    } else {
       this.barcodeList.errorState = false;
     }
     control.setValue(controlValue);
@@ -313,9 +348,9 @@ export class AddProductComponent implements OnInit {
     if (index >= 0) {
       controlValue.splice(index_value, 1);
     }
-    if(controlValue.length == 0 && this.isCanabis && !this.isAuthorized){
+    if (controlValue.length == 0 && this.isCanabis && !this.isAuthorized) {
       this.barcodeList.errorState = true;
-    }else{
+    } else {
       this.barcodeList.errorState = false;
     }
   }
@@ -326,7 +361,7 @@ export class AddProductComponent implements OnInit {
   //#region ______________________ General section all functions ______________________/
 
   /* store wise taxes */
-  selectedStore(store_id, event){
+  selectedStore(store_id, event) {
     if (event.isUserInput) {
       this.storewiseTaxes = [];
       /* for getting store wise taxes */
@@ -343,11 +378,11 @@ export class AddProductComponent implements OnInit {
   //************************ Data change as chain selected ******************/
   selectedChain(chain_id, event) {
     this.selectedData = [];
-    
+
     if (event.isUserInput) {
       this.chainwiseStores = [];
       if (this.rawDetail.chains.length > 0) {
-        
+
         /* for getting chain wise stores */
         this.rawDetail.stores.forEach(element => {
           if (element.chain_id == chain_id) {
@@ -368,7 +403,7 @@ export class AddProductComponent implements OnInit {
       if (this.rawDetail.chains.length > 1) {
         this.addProductForm.get('store_id').setValidators([Validators.required]);
         this.addProductForm.get('taxrate_id').setValidators([Validators.required]);
-      }else{
+      } else {
         this.addProductForm.get('store_id').clearValidators();
         this.addProductForm.get('taxrate_id').clearValidators();
       }
@@ -536,9 +571,9 @@ export class AddProductComponent implements OnInit {
       VariantOption.controls = [];
       VariantOption.push(this.addnewProductVariant());
 
-      if(!this.isAuthorized){
+      if (!this.isAuthorized) {
         this.addProductForm.addControl('selling_price', new FormControl(null, Validators.required))
-      }else{
+      } else {
         this.addProductForm.addControl('selling_price', new FormControl(null))
       }
       this.addProductForm.addControl('package_capacity', new FormControl(1, Validators.required))
@@ -623,7 +658,7 @@ export class AddProductComponent implements OnInit {
       package_capacity: [1, [Validators.required]],
       // barcode: [''],
       barcode: [[]],
-      barcodes: [''],
+      barcodes: ['', [Validators.minLength(8)]],
       variant_tags: [],
       selling_price: [null, (userData.user_role && (userData.user_role.findIndex(e => ['admin', 'superadmin'].includes(e)) > -1)) ? '' : [Validators.required]],
       price_differ_for_store: ['0'],
@@ -631,7 +666,7 @@ export class AddProductComponent implements OnInit {
       inventory: this.warehousesVariantPrice(this.selectedData),// form array
       product_provinces: this.formBuilder.array([]),
       track_inventory: [false],
-      dry_weight: [0.00,[Validators.required]],
+      dry_weight: [0.00, [Validators.required]],
       cannabis_unit: ['gm'],
     });
     this.barcodeValidation(fbgroup)
@@ -731,9 +766,9 @@ export class AddProductComponent implements OnInit {
 
     }
     else {
-      if(!this.isAuthorized){
+      if (!this.isAuthorized) {
         VariantControls[index].addControl('selling_price', new FormControl(null, Validators.required))
-      }else{
+      } else {
         VariantControls[index].addControl('selling_price', new FormControl(null))
       }
       VariantControls[index].removeControl('variant_price');
@@ -838,12 +873,12 @@ export class AddProductComponent implements OnInit {
     const dialogRef = this.dialog.open(InventoryModalComponent, {
       width: '550px',
       disableClose: true,
-      data: { vendors: this.rawDetail.vendors, purchase_orders: this.rawDetail.purchase_orders, product_type: this.categoryList? this.categoryList.type_slug : 0 }
+      data: { vendors: this.rawDetail.vendors, purchase_orders: this.rawDetail.purchase_orders, product_type: this.categoryList ? this.categoryList.type_slug : 0 }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         let date = result.get('purchase_date').value;
-        if(date){
+        if (date) {
           let formatedDate = _moment(date).format("YYYY-MM-DD");
           result.get('purchase_date').setValue(formatedDate);
         }
@@ -876,9 +911,9 @@ export class AddProductComponent implements OnInit {
       });
     }
     else {
-      if(!this.isAuthorized){
+      if (!this.isAuthorized) {
         this.addProductForm.addControl('selling_price', new FormControl(null, Validators.required))
-      }else{
+      } else {
         this.addProductForm.addControl('selling_price', new FormControl(null))
       }
       this.addProductForm.removeControl('variant_price');
@@ -977,7 +1012,7 @@ export class AddProductComponent implements OnInit {
           this.warehouses = this.rawDetail.warehouses;
           this.chains = this.rawDetail.chains;
           this.addProductForm.controls.chain_id.setValue(this.chains[0].chain_id);
-          
+
           let userData = this.utility.getSessionData('currentUser');
           if (userData.user_role && (userData.user_role.findIndex(e => ['admin', 'superadmin'].includes(e)) > -1)) {
             this.addProductForm.get('selling_price').clearValidators();
@@ -1091,7 +1126,7 @@ export class AddProductComponent implements OnInit {
     }
     const formData = new FormData();
     // console.log(this.addProductForm);
-    
+
     if (this.addProductForm.valid) {
       this.barButtonOptions.active = true;
       this.barButtonOptions.text = 'Saving Data...';
@@ -1123,9 +1158,9 @@ export class AddProductComponent implements OnInit {
     if (this.addProductForm.get('default_image').value)
       formData.append("default_image", '1');
     // console.log(this.addProductForm); return false;
-    
+
     if (this.addProductForm.valid) {
-  
+
       this.api.createProduct(formData)
         .subscribe((response: any) => {
           if (response.success) {
@@ -1151,7 +1186,7 @@ export class AddProductComponent implements OnInit {
             this.barButtonOptions.active = false;
             this.barButtonOptions.text = 'SAVE ALL';
           });
-    }else{
+    } else {
       this.utility.scrollToError();
     }
   }

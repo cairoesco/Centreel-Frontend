@@ -239,7 +239,8 @@
                 <h2 layout-margin>TAX
                   <span fxFlex></span>
                   <!-- <button class="btn-edit" *ngIf="(!taxInfo && !isCanabies) || (!taxInfo && isAdmin)" -->
-                  <button class="btn-edit" *ngIf="(!taxInfo && !isCanabies) || (!taxInfo && isAdmin) || (!taxInfo && isAdminRole)"
+                  <button class="btn-edit"
+                    *ngIf="(!taxInfo && !isCanabies) || (!taxInfo && isAdmin) || (!taxInfo && isAdminRole)"
                     (click)="isEditable(4)">
                     <mat-icon class="material-icons pointer">edit</mat-icon>
                   </button>
@@ -262,32 +263,33 @@
                       </div>
                     </div>
 
-                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center" *ngIf="isAdminRole">
-                    <div fxFlex="50%">
-                      <mat-form-field fxFlex="100%">
-                        <mat-select placeholder="store*" formControlName="store_id" [disableOptionCentering]="true">
-                          <mat-option *ngFor="let store of chainwiseStores" [value]="store.store_id"
-                            (onSelectionChange)="selectedStore(store.store_id,$event)">
-                            {{store.name}}
-                          </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="taxForm.controls['store_id'].hasError('required')">
-                          Please select store</mat-error>
-                      </mat-form-field>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center"
+                      *ngIf="isAdminRole">
+                      <div fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <mat-select placeholder="store*" formControlName="store_id" [disableOptionCentering]="true">
+                            <mat-option *ngFor="let store of chainwiseStores" [value]="store.store_id"
+                              (onSelectionChange)="selectedStore(store.store_id,$event)">
+                              {{store.name}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="taxForm.controls['store_id'].hasError('required')">
+                            Please select store</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="50%">
+                        <mat-form-field class="example-full-width" fxFlex="100">
+                          <mat-select placeholder="Tax Rate*" formControlName="taxrate_id"
+                            [disableOptionCentering]="true">
+                            <mat-option *ngFor="let tax_rate of storewiseTaxes[0]" [value]="tax_rate.id">
+                              {{tax_rate.tax_type}}({{tax_rate.provincial_rate>0 ? tax_rate.country_rate +" + "+ tax_rate.provincial_rate : tax_rate.country_rate}})
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="taxForm.controls['taxrate_id'].hasError('required')">Please select
+                            tax rate</mat-error>
+                        </mat-form-field>
+                      </div>
                     </div>
-                    <div fxFlex="50%">
-                      <mat-form-field class="example-full-width" fxFlex="100" >
-                        <mat-select placeholder="Tax Rate*" formControlName="taxrate_id" [disableOptionCentering]="true">
-                          <mat-option 
-                            *ngFor="let tax_rate of storewiseTaxes[0]" [value]="tax_rate.id">
-                            {{tax_rate.tax_type}}({{tax_rate.provincial_rate>0 ? tax_rate.country_rate +" + "+ tax_rate.provincial_rate : tax_rate.country_rate}})
-                          </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="taxForm.controls['taxrate_id'].hasError('required')">Please select
-                          tax rate</mat-error>
-                      </mat-form-field>
-                    </div>
-                  </div>
                   </mat-card-content>
                 </mat-card>
               </div>
@@ -329,9 +331,9 @@
                 <mat-card class="body-card-block audit-trail-padding">
                   <mat-card-content class="variant-card-content" formArrayName="variant_detail">
                     <!-- table for variants -->
-                    <ngx-datatable #myDatatable class="material fancyscroll variant-ngx-table" [ngStyle]="{'height':dynamicHeight}"
-                      [headerHeight]="50" [limit]="10" [columnMode]="'force'" [footerHeight]="0"
-                      [rowHeight]="90" [scrollbarV]="true" [scrollbarH]="true"
+                    <ngx-datatable #myDatatable class="material fancyscroll variant-ngx-table"
+                      [ngStyle]="{'height':dynamicHeight}" [headerHeight]="50" [limit]="10" [columnMode]="'force'"
+                      [footerHeight]="0" [rowHeight]="90" [scrollbarV]="true" [scrollbarH]="true"
                       [rows]="variantsForm.controls.variant_detail.value">
 
                       <ngx-datatable-column [resizeable]="false" prop="variant_name" name="Variant" [width]="150">
@@ -339,8 +341,10 @@
                           let-row="row">
                           <span title="{{value}}" *ngIf="!variantsInfo"> {{value}}</span>
                           <div [formGroupName]="rowIndex" *ngIf="variantsInfo" style="height: 13px;">
-                            <input autocomplete="off" formControlName="variant_name" class="variant_input"/>
-                            <span  style="font-size: 75%; color: #f44336;" *ngIf="!variantsForm.controls['variant_detail'].at(rowIndex).get('variant_name').value && isUpdate">Please enter variant name</span>
+                            <input autocomplete="off" formControlName="variant_name" class="variant_input" />
+                            <span style="font-size: 75%; color: #f44336;"
+                              *ngIf="!variantsForm.controls['variant_detail'].at(rowIndex).get('variant_name').value && isUpdate">Please
+                              enter variant name</span>
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
@@ -352,10 +356,11 @@
                           <div [formGroupName]="rowIndex" *ngIf="variantsInfo">
                             <!-- <span>$</span>&nbsp;<input autocomplete="off" autofocus class="min-width" formControlName="variant_price" /> -->
                             <mat-form-field class="example-full-width" fxFlex="100">
-                            <input matInput placeholder="" (focus)="isOnSellingPrice=true"
-                              (focusout)="isOnSellingPrice=false" formControlName="variant_price" autocomplete="off"
-                              currencyMask [options]="priceOptions" maxlength='15'>
-                              <mat-error *ngIf="variantsForm.controls['variant_detail'].at(rowIndex).get('variant_price').hasError('required')">
+                              <input matInput placeholder="" (focus)="isOnSellingPrice=true"
+                                (focusout)="isOnSellingPrice=false" formControlName="variant_price" autocomplete="off"
+                                currencyMask [options]="priceOptions" maxlength='15'>
+                              <mat-error
+                                *ngIf="variantsForm.controls['variant_detail'].at(rowIndex).get('variant_price').hasError('required')">
                                 Please enter selling price
                               </mat-error>
                             </mat-form-field>
@@ -370,10 +375,11 @@
                           <div [formGroupName]="rowIndex" *ngIf="variantsInfo">
                             <!-- <span>$</span>&nbsp;<input autocomplete="off" autofocus class="min-width" formControlName="purchase_price" /> -->
                             <mat-form-field class="example-full-width" fxFlex="100">
-                            <input matInput placeholder="" (focus)="isOnSellingPrice=true"
-                              (focusout)="isOnSellingPrice=false" formControlName="purchase_price" autocomplete="off"
-                              currencyMask [options]="priceOptions" maxlength='15'>
-                              <mat-error *ngIf="variantsForm.controls['variant_detail'].at(rowIndex).get('purchase_price').hasError('required')">
+                              <input matInput placeholder="" (focus)="isOnSellingPrice=true"
+                                (focusout)="isOnSellingPrice=false" formControlName="purchase_price" autocomplete="off"
+                                currencyMask [options]="priceOptions" maxlength='15'>
+                              <mat-error
+                                *ngIf="variantsForm.controls['variant_detail'].at(rowIndex).get('purchase_price').hasError('required')">
                                 Please enter purchase price
                               </mat-error>
                             </mat-form-field>
@@ -387,24 +393,26 @@
                         </ng-template>
                       </ngx-datatable-column>
                       <!-- for thc cbd -->
-                      
-                      <ngx-datatable-column [resizeable]="false" prop="batch_detail" name="Batch no" [width]="120" *ngIf="isCanabies">
+
+                      <ngx-datatable-column [resizeable]="false" prop="batch_detail" name="Batch no" [width]="120"
+                        *ngIf="isCanabies">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <!-- <span title="{{value}}" *ngIf="!variantsInfo"> {{row.batch_detail.length>0 ? row.batch_detail[0].batch_no : ''}}</span> -->
                           <span title="{{value}}" *ngIf="row.batch_detail.length == 0"> No Batch</span>
-                          <div [formGroupName]="rowIndex" >
+                          <div [formGroupName]="rowIndex">
                             <mat-select formControlName="batch_no" *ngIf="row.batch_detail.length>0">
-                              <mat-option *ngFor="let batchs of row.batch_detail" 
-                                [value]="batchs.batch_no" (onSelectionChange)="current_batch(rowIndex,batchs,$event)">
+                              <mat-option *ngFor="let batchs of row.batch_detail" [value]="batchs.batch_no"
+                                (onSelectionChange)="current_batch(rowIndex,batchs,$event)">
                                 {{batchs.batch_no}}
                               </mat-option>
-                            </mat-select>    
+                            </mat-select>
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
 
-                      <ngx-datatable-column [resizeable]="false" prop="thc" name="THC %" [width]="130" *ngIf="isCanabies">
+                      <ngx-datatable-column [resizeable]="false" prop="thc" name="THC %" [width]="130"
+                        *ngIf="isCanabies">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <span title="{{value}}" *ngIf="!variantsInfo">{{value}}</span>
@@ -415,7 +423,8 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" prop="cbd" name="CBD %" [width]="130" *ngIf="isCanabies">
+                      <ngx-datatable-column [resizeable]="false" prop="cbd" name="CBD %" [width]="130"
+                        *ngIf="isCanabies">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <span title="{{value}}" *ngIf="!variantsInfo">{{value}}</span>
@@ -432,20 +441,28 @@
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div *ngIf="variantsInfo">
-                            <mat-form-field class="demo-chip-list">
-                              <mat-chip-list #chipList>
-                                <mat-chip
-                                  *ngFor="let barcode_value of variantsForm.controls['variant_detail'].at(rowIndex).get('barcode').value ;let i=index"
-                                  [selectable]="selectable" [removable]="removable"
-                                  (removed)="remove(barcode_value,rowIndex)">
-                                  {{barcode_value}}
-                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                                </mat-chip>
-                                <input [matChipInputFor]="chipList"
-                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event,rowIndex)" />
-                              </mat-chip-list>
-                            </mat-form-field>
+                            <div>
+                              <mat-form-field class="demo-chip-list">
+                                <mat-chip-list #chipList>
+                                  <mat-chip
+                                    *ngFor="let barcode_value of variantsForm.controls['variant_detail'].at(rowIndex).get('barcode').value ;let i=index"
+                                    [selectable]="selectable" [removable]="removable"
+                                    (removed)="remove(barcode_value,rowIndex)">
+                                    {{barcode_value}}
+                                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                  </mat-chip>
+                                  <input [matChipInputFor]="chipList"
+                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" minlength="8"
+                                    [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event,rowIndex)" />
+                                  <mat-icon matSuffix class="auto_icon"
+                                    (click)="auto_generate_barcode_variant(rowIndex)">
+                                    text_format</mat-icon>
+                                </mat-chip-list>
+                              </mat-form-field>
+                            </div>
+                            <div class="mat-text-warn validate-barcode-view" *ngIf="variantsInfo">
+                              Barcode length must be atleast 8 characters
+                            </div>
                           </div>
                           <div *ngIf="!variantsInfo">
                             <span title="{{value}}"

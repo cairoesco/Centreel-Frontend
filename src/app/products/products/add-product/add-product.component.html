@@ -71,33 +71,33 @@
               <mat-card class="body-card-block">
                 <mat-card-content>
                   <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
-                  <div fxFlex="50%">
-                    <mat-form-field fxFlex="100%" *ngIf="chains.length == 1">
-                      <input matInput placeholder="Chain" [value]="chains[0].chain_name" readonly autocomplete="off">
-                    </mat-form-field>
-                    <mat-form-field fxFlex="100%" *ngIf="chains.length > 1">
-                      <mat-select placeholder="Chain*" formControlName="chain_id" [disableOptionCentering]="true">
-                        <mat-option *ngFor="let item of chains" [value]="item.chain_id"
-                          (onSelectionChange)="selectedChain(item.chain_id,$event)">
-                          {{item.chain_name}}
-                        </mat-option>
-                      </mat-select>
-                      <mat-error *ngIf="addProductForm.controls['chain_id'].hasError('required')">
-                        Please select chain</mat-error>
-                    </mat-form-field>
-                  </div>
-                  <div fxFlex="50%">
-                    <mat-form-field fxFlex="100%" *ngIf="chains.length > 1">
-                      <mat-select placeholder="store*" formControlName="store_id" [disableOptionCentering]="true">
-                        <mat-option *ngFor="let store of chainwiseStores" [value]="store.store_id"
-                          (onSelectionChange)="selectedStore(store.store_id,$event)">
-                          {{store.name}}
-                        </mat-option>
-                      </mat-select>
-                      <mat-error *ngIf="addProductForm.controls['store_id'].hasError('required')">
-                        Please select store</mat-error>
-                    </mat-form-field>
-                  </div>
+                    <div fxFlex="50%">
+                      <mat-form-field fxFlex="100%" *ngIf="chains.length == 1">
+                        <input matInput placeholder="Chain" [value]="chains[0].chain_name" readonly autocomplete="off">
+                      </mat-form-field>
+                      <mat-form-field fxFlex="100%" *ngIf="chains.length > 1">
+                        <mat-select placeholder="Chain*" formControlName="chain_id" [disableOptionCentering]="true">
+                          <mat-option *ngFor="let item of chains" [value]="item.chain_id"
+                            (onSelectionChange)="selectedChain(item.chain_id,$event)">
+                            {{item.chain_name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="addProductForm.controls['chain_id'].hasError('required')">
+                          Please select chain</mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="50%">
+                      <mat-form-field fxFlex="100%" *ngIf="chains.length > 1">
+                        <mat-select placeholder="store*" formControlName="store_id" [disableOptionCentering]="true">
+                          <mat-option *ngFor="let store of chainwiseStores" [value]="store.store_id"
+                            (onSelectionChange)="selectedStore(store.store_id,$event)">
+                            {{store.name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="addProductForm.controls['store_id'].hasError('required')">
+                          Please select store</mat-error>
+                      </mat-form-field>
+                    </div>
                   </div>
                   <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
                     <div fxFlex="50%">
@@ -128,8 +128,10 @@
                   </div>
                   <div *ngIf="isCanabis">
                     <mat-form-field class="example-full-width" fxFlex="100">
-                      <mat-select placeholder="Cannabis Type*" formControlName="cannabis_type" [disableOptionCentering]="true">
-                        <mat-option *ngFor="let cannabisType of rawDetail?.cannabis_types " [value]="cannabisType.type_id">
+                      <mat-select placeholder="Cannabis Type*" formControlName="cannabis_type"
+                        [disableOptionCentering]="true">
+                        <mat-option *ngFor="let cannabisType of rawDetail?.cannabis_types "
+                          [value]="cannabisType.type_id">
                           {{cannabisType.type_name}}
                         </mat-option>
                       </mat-select>
@@ -272,9 +274,9 @@
                   <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
                     <div fxFlex="50%">
                       <mat-form-field class="example-full-width" fxFlex="100" *ngIf="isAuthorized">
-                        <mat-select placeholder="Tax Rate*" formControlName="taxrate_id" [disableOptionCentering]="true">
-                          <mat-option 
-                            *ngFor="let tax_rate of storewiseTaxes[0]" [value]="tax_rate.id">
+                        <mat-select placeholder="Tax Rate*" formControlName="taxrate_id"
+                          [disableOptionCentering]="true">
+                          <mat-option *ngFor="let tax_rate of storewiseTaxes[0]" [value]="tax_rate.id">
                             {{tax_rate.tax_type}}({{tax_rate.provincial_rate>0 ? tax_rate.country_rate +" + "+ tax_rate.provincial_rate : tax_rate.country_rate}})
                           </mat-option>
                         </mat-select>
@@ -396,28 +398,35 @@
                                 </mat-form-field>
                               </div>
                               <div fxFlex="50%">
-                                <mat-form-field class="example-full-width" fxFlex="100">
-                                  <!-- barcodes for variants -->
-                                  <mat-chip-list #barcodeList>
-                                    <mat-chip *ngFor="let item of unitVariants?.controls?.barcode?.value"
-                                      [selectable]="selectable" [removable]="removable"
-                                      (removed)="removeBarcodeVariant(item,i)">
-                                      {{item}}
-                                      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                                    </mat-chip>
-                                    <input placeholder="Enter Barcodes" class="margin-zero"
-                                      [matChipInputFor]="barcodeList"
-                                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                      [matChipInputAddOnBlur]="addOnBlur"
-                                      (matChipInputTokenEnd)="addBarcodeVariant($event,i)" formControlName="barcodes"
-                                      autocomplete="off">
-                                  </mat-chip-list>
-                                  <mat-error *ngIf="unitVariants.controls['barcode'].hasError('required')"
-                                    class="mat-text-warn">
-                                    Please enter barcode number
-                                  </mat-error>
-                                  <!-- barcodes for variants -->
-                                </mat-form-field>
+                                <div>
+                                  <mat-form-field class="example-full-width" fxFlex="100">
+                                    <!-- barcodes for variants -->
+                                    <mat-chip-list #barcodeList>
+                                      <mat-chip *ngFor="let item of unitVariants?.controls?.barcode?.value"
+                                        [selectable]="selectable" [removable]="removable"
+                                        (removed)="removeBarcodeVariant(item,i)">
+                                        {{item}}
+                                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                      </mat-chip>
+                                      <input placeholder="Enter Barcodes" class="margin-zero"
+                                        [matChipInputFor]="barcodeList"
+                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                        [matChipInputAddOnBlur]="addOnBlur"
+                                        (matChipInputTokenEnd)="addBarcodeVariant($event,i)" formControlName="barcodes"
+                                        autocomplete="off">
+                                      <mat-icon matSuffix class="auto_icon" (click)="auto_generate_barcode_variant(i)">
+                                        text_format</mat-icon>
+                                    </mat-chip-list>
+                                    <mat-error *ngIf="unitVariants.controls['barcode'].hasError('required')"
+                                      class="mat-text-warn">
+                                      Please enter barcode number
+                                    </mat-error>
+                                    <!-- barcodes for variants -->
+                                  </mat-form-field>
+                                  <div class="mat-text-warn validate-barcode">
+                                    Barcode length must be atleast 8 characters
+                                  </div>
+                                </div>
                               </div>
                             </div>
 
@@ -518,7 +527,7 @@
                           </mat-card-content>
                         </div>
                         <!-- ****************************************************************** Variant Pricing *********************************************-->
-                        <div class="Pricing" >
+                        <div class="Pricing">
                           <mat-card-title>
                             <label class="section-title">Pricing</label>
                           </mat-card-title>
@@ -551,9 +560,9 @@
                                       <mat-form-field class="example-full-width" fxFlex="50%">
                                         <mat-label>Selling Price($)<span *ngIf="!isAuthorized">*</span></mat-label>
                                         <input matInput (focus)="isOnVariantSellingPrice=true"
-                                          (focusout)="isOnVariantSellingPrice=false"
-                                          autocomplete="off" formControlName="selling_price" currencyMask
-                                          [options]="priceOptions" maxlength='15'>
+                                          (focusout)="isOnVariantSellingPrice=false" autocomplete="off"
+                                          formControlName="selling_price" currencyMask [options]="priceOptions"
+                                          maxlength='15'>
                                         <mat-error *ngIf="item.controls['selling_price'].hasError('required')">
                                           Please enter selling price
                                         </mat-error>
@@ -573,9 +582,9 @@
                                 <mat-form-field class="example-full-width" fxFlex="50%">
                                   <mat-label>Selling Price($)<span *ngIf="!isAuthorized">*</span></mat-label>
                                   <input matInput (focus)="isOnVariantSellingPrice=true"
-                                    (focusout)="isOnVariantSellingPrice=false"
-                                    autocomplete="off" formControlName="selling_price" currencyMask
-                                    [options]="priceOptions" maxlength='15'>
+                                    (focusout)="isOnVariantSellingPrice=false" autocomplete="off"
+                                    formControlName="selling_price" currencyMask [options]="priceOptions"
+                                    maxlength='15'>
                                   <mat-error *ngIf="unitVariants.controls['selling_price'].hasError('required')">
                                     Please enter selling price
                                   </mat-error>
@@ -647,25 +656,32 @@
                           </mat-form-field>
                         </div>
                         <div fxFlex="50%">
-                          <mat-form-field class="example-full-width" fxFlex="100">
-                            <!-- mat chip input for barcode -->
-                            <mat-chip-list #barcodeList>
-                              <mat-chip *ngFor="let item of addProductForm?.controls?.barcode?.value"
-                                [selectable]="selectable" [removable]="removable" (removed)="removeBarcode(item)">
-                                {{item}}
-                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                              </mat-chip>
-                              <input placeholder="Enter Barcodes" class="margin-zero" [matChipInputFor]="barcodeList"
-                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
-                                (matChipInputTokenEnd)="addBarcode($event)" formControlName="barcodes"
-                                autocomplete="off">
-                            </mat-chip-list>
-                            <mat-error *ngIf="addProductForm.controls['barcode'].hasError('required')"
-                              class="mat-text-warn">
-                              Please enter barcode number
-                            </mat-error>
-                            <!-- mat chip input for barcode -->
-                          </mat-form-field>
+                          <div>
+                            <mat-form-field class="example-full-width" fxFlex="100">
+                              <!-- mat chip input for barcode -->
+                              <mat-chip-list #barcodeList>
+                                <mat-chip *ngFor="let item of addProductForm?.controls?.barcode?.value"
+                                  [selectable]="selectable" [removable]="removable" (removed)="removeBarcode(item)">
+                                  {{item}}
+                                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input placeholder="Enter Barcodes" class="margin-zero" [matChipInputFor]="barcodeList"
+                                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addBarcode($event)"
+                                  formControlName="barcodes" autocomplete="off">
+                                <mat-icon matSuffix class="auto_icon" (click)="auto_generate_barcode(0)">text_format
+                                </mat-icon>
+                              </mat-chip-list>
+                              <mat-error *ngIf="addProductForm.controls['barcode'].hasError('required')"
+                                class="mat-text-warn">
+                                Please enter barcode number
+                              </mat-error>
+                              <!-- mat chip input for barcode -->
+                            </mat-form-field>
+                          </div>
+                          <div class="mat-text-warn validate-barcode">
+                            Barcode length must be atleast 8 characters
+                          </div>
                         </div>
                       </div>
 
@@ -721,8 +737,8 @@
             </div>
             <!-- ****************************** Product Inventory ******************************* -->
             <!-- <div class="container Inventory section-content" *ngIf="selectedData.length>0" fxLayout="row" -->
-            <div class="container Inventory section-content" *ngIf="!isAuthorized" fxLayout="row"
-              fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            <div class="container Inventory section-content" *ngIf="!isAuthorized" fxLayout="row" fxLayout.xs="column"
+              fxLayoutWrap fxLayoutGap="0.5%"
               [ngClass]="{'display-none': addProductForm.controls['is_product_variant'].value != 0}"
               fxLayoutAlign="center">
               <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="10%">
@@ -786,9 +802,8 @@
             <!-- ****************************************************************** Product Pricing *********************************************-->
 
             <!-- <div class="container Pricing section-content" *ngIf="selectedData.length>0" fxLayout="row" -->
-            <div class="container Pricing section-content"  fxLayout="row"
-              fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
-              [ngClass]="{'display-none': addProductForm.controls['is_product_variant'].value != 0}"
+            <div class="container Pricing section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap
+              fxLayoutGap="0.5%" [ngClass]="{'display-none': addProductForm.controls['is_product_variant'].value != 0}"
               fxLayoutAlign="center">
               <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="10%">
               </div>
@@ -830,8 +845,8 @@
                                   <mat-form-field class="example-full-width" fxFlex="50%">
                                     <mat-label>Selling Price($)<span *ngIf="!isAuthorized">*</span></mat-label>
                                     <input matInput (focus)="isOnSellingPrice=true" (focusout)="isOnSellingPrice=false"
-                                       currencyMask [options]="priceOptions"
-                                      maxlength='15' formControlName="selling_price" autocomplete="off">
+                                      currencyMask [options]="priceOptions" maxlength='15'
+                                      formControlName="selling_price" autocomplete="off">
                                     <mat-error *ngIf="store.controls['selling_price'].hasError('required')">
                                       Please enter selling price
                                     </mat-error>
@@ -846,9 +861,9 @@
                         <div fxLayout="row" fxLayoutGap="5%">
                           <mat-form-field class="example-full-width" fxFlex="50%">
                             <mat-label>Selling Price($)<span *ngIf="!isAuthorized">*</span></mat-label>
-                            <input matInput (focus)="isOnSellingPrice=true"
-                              (focusout)="isOnSellingPrice=false" formControlName="selling_price" autocomplete="off"
-                              currencyMask [options]="priceOptions" maxlength='15'>
+                            <input matInput (focus)="isOnSellingPrice=true" (focusout)="isOnSellingPrice=false"
+                              formControlName="selling_price" autocomplete="off" currencyMask [options]="priceOptions"
+                              maxlength='15'>
                             <mat-error *ngIf="addProductForm.controls['selling_price'].hasError('required')">
                               Please enter selling price
                             </mat-error>
@@ -1009,44 +1024,44 @@
         </div>
 
         <div id="section6" *ngIf="isCanabis">
-            <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
-              fxLayoutAlign="center">
-              <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
-              </div>
-              <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75" fxFlex.xs="80%">
-                <h2 layout-margin>Properties</h2>
-                <mat-card class="body-card-block">
-                  <mat-card-content>
-                    <div formArrayName="productProperties" class="bottomMargin">
-                      <div *ngFor="let properties of addProductForm.get('productProperties')['controls']; let p=index">
-                        <div [formGroupName]="p" *ngIf="properties.value.attribute_name=='Terpene Profile'">
-                          <div fxLayout="column" fxLayoutAlign="center">
-                            <mat-form-field fxFlex="100">
-                              <mat-select placeholder="Select {{properties.value.attribute_name}}" [multiple]="true"
-                                [disableOptionCentering]="true" formControlName="attribute_property_id">
-                                <mat-option (onSelectionChange)="countProductProperties($event,effects,p)"
-                                  *ngFor="let effects of properties?.value?.product_attribute_properties"
-                                  [value]="effects?.property_id">
-                                  {{effects?.property_name}}
-                                </mat-option>
-                              </mat-select>
-                            </mat-form-field>
-                            <div formArrayName="selected_product_attribute_properties">
-                              <div
-                                *ngFor="let selectedProperties of properties?.get('selected_product_attribute_properties')['controls']; let j=index">
-                                <div [formGroupName]="j" fxLayout="row" fxLayoutAlign="start center">
-                                  <mat-label fxFlex="30" fxLayoutAlign="start center">
-                                    {{selectedProperties?.value.attribute_property_name}}</mat-label>
-                                  <ng5-slider class="slider" color="primary" formControlName="attribute_property_value"
-                                    [options]="options"></ng5-slider>
-                                </div>
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75" fxFlex.xs="80%">
+              <h2 layout-margin>Properties</h2>
+              <mat-card class="body-card-block">
+                <mat-card-content>
+                  <div formArrayName="productProperties" class="bottomMargin">
+                    <div *ngFor="let properties of addProductForm.get('productProperties')['controls']; let p=index">
+                      <div [formGroupName]="p" *ngIf="properties.value.attribute_name=='Terpene Profile'">
+                        <div fxLayout="column" fxLayoutAlign="center">
+                          <mat-form-field fxFlex="100">
+                            <mat-select placeholder="Select {{properties.value.attribute_name}}" [multiple]="true"
+                              [disableOptionCentering]="true" formControlName="attribute_property_id">
+                              <mat-option (onSelectionChange)="countProductProperties($event,effects,p)"
+                                *ngFor="let effects of properties?.value?.product_attribute_properties"
+                                [value]="effects?.property_id">
+                                {{effects?.property_name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <div formArrayName="selected_product_attribute_properties">
+                            <div
+                              *ngFor="let selectedProperties of properties?.get('selected_product_attribute_properties')['controls']; let j=index">
+                              <div [formGroupName]="j" fxLayout="row" fxLayoutAlign="start center">
+                                <mat-label fxFlex="30" fxLayoutAlign="start center">
+                                  {{selectedProperties?.value.attribute_property_name}}</mat-label>
+                                <ng5-slider class="slider" color="primary" formControlName="attribute_property_value"
+                                  [options]="options"></ng5-slider>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <!-- <div fxLayout="row wrap" fxLayoutGap="4%" *ngIf="isCanabis">
+                  </div>
+                  <!-- <div fxLayout="row wrap" fxLayoutGap="4%" *ngIf="isCanabis">
                       <div fxFlex="47.5%">
                         <div fxFlex="40%">
                           <mat-form-field class="example-full-width " fxFlex="100">
@@ -1098,7 +1113,7 @@
                         </div>
                       </div>
                     </div> -->
-                    <!-- <div fxLayout="row" fxLayoutGap="20%">
+                  <!-- <div fxLayout="row" fxLayoutGap="20%">
                       <div fxFlex="50%">
                         <small *ngIf="isTHCGreater" class="mat-text-warn">End range should greater or equals then start
                           range</small>
@@ -1116,12 +1131,12 @@
                           is required</mat-error>
                       </div>
                     </div> -->
-                  </mat-card-content>
-                </mat-card>
-              </div>
-              <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20" fxFlex.xs="10%">
-              </div>
+                </mat-card-content>
+              </mat-card>
             </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20" fxFlex.xs="10%">
+            </div>
+          </div>
         </div>
         <div id="section7">
           <div class="section-content" fxLayout="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
