@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, FormArray, FormGroup, Validators, FormControl,AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormArray, FormGroup, Validators, FormControl, AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { UtilsServiceService } from '../../shared/services/utils-service.service';
 import { Observable, timer, of } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
@@ -123,7 +123,7 @@ export class CreateProductComponent implements OnInit {
 
     const control = (<FormArray>this.addProductForm.controls['variants']).at(index).get('barcode') as FormArray;
     const control1 = (<FormArray>this.addProductForm.controls['variants']).at(index).get('barcodes') as FormArray;
-    
+
     // let controlValue: any = this.addProductForm.controls.barcode.value
     let controlValue: any = control.value
     // if (value && value != null)
@@ -214,7 +214,7 @@ export class CreateProductComponent implements OnInit {
   /* auto generate barcode */
   auto_generate_barcode(index) {
     const control = (<FormArray>this.addProductForm.controls['variants']).at(index).get('barcode') as FormArray;
-
+    let control_val = control.value
     let userData = this.utils.getSessionData('currentUser');
     let uname = (userData.name).charAt(0).toUpperCase();
 
@@ -224,16 +224,14 @@ export class CreateProductComponent implements OnInit {
     let variant_name = product_name + "v";
     let timestamp = +(new Date());
     let username = variant_name + timestamp + uname;
-    let auto_barcode = [username];
-
-    // this.addProductForm.get('barcode').setValue(auto_barcode);
-    control.setValue(auto_barcode);
+    control_val.push(username)
+    control.setValue(control_val);
   }
   /* auto generate barcode */
 
   isThisProductHasVariants(event) {
     if (event.value == 0) {
-      
+
     } else {
       const controlVariants = <FormArray>this.addProductForm.controls['variants'];
       controlVariants.controls = [];
@@ -245,16 +243,16 @@ export class CreateProductComponent implements OnInit {
   }
 
   private addnewProductVariant() {
-    
+
     return this.fb.group({
-      variant_name: ['',this.first == 0 ? [Validators.required]:[]],
-      variant_sku: ['',this.first == 0 ? [Validators.required]:[], [this.customAsyncValidator()]],
+      variant_name: ['', this.first == 0 ? [Validators.required] : []],
+      variant_sku: ['', this.first == 0 ? [Validators.required] : [], [this.customAsyncValidator()]],
       price_differ_for_store: ['1'],
       barcode: [[]],
       barcodes: [''],
     });
   }
-  public first=0;
+  public first = 0;
   private addvariant_propertiesOption() {
     this.first = this.first + 1;
     const controlVariant = <FormArray>this.addProductForm.controls['variants'];
@@ -265,7 +263,7 @@ export class CreateProductComponent implements OnInit {
   public scroll(id: any) {
     let element = document.getElementById(id)
     element.scrollIntoView();
-}
+  }
 
   removeUnit(i) {
     this.first = this.first - 1;
@@ -277,7 +275,7 @@ export class CreateProductComponent implements OnInit {
     }
   }
 
-  setVariantName(val){
+  setVariantName(val) {
     const mainControl: any = this.addProductForm.controls['variants'];
     // console.log(mainControl.controls[0]);
     // const variant_name = mainControl.controls[0].controls['variant_name'].setValue(val);
@@ -285,18 +283,18 @@ export class CreateProductComponent implements OnInit {
 
   customAsyncValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> => {
-            
-      
-      if(control.value != ''){
+
+
+      if (control.value != '') {
         this.formobj.variant_sku = control.value;
-      this.formobj.chain_id = this.chains[0].chain_id;
+        this.formobj.chain_id = this.chains[0].chain_id;
 
         return timer(1000).pipe(
           switchMap(() => {
             return this.api.isExist(this.formobj).pipe(
               map(res => {
-                if((res.data).length>0){
-                  return {'asyncValidation':'failed'};
+                if ((res.data).length > 0) {
+                  return { 'asyncValidation': 'failed' };
                 }
                 return null;
               })
