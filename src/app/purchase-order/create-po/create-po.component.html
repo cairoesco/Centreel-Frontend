@@ -10,10 +10,12 @@
         Receive Purchase Order
       </div>
       <div fxFlex="32.5%" fxFlex.md="37.5%" fxFlex.sm="40%" class="breadcrumb-btn-content">
-        
+
         <!-- <button type="button" class="import-doc-btn import-btn" (click)="fileInput.click()"> IMPORT PO</button> -->
-        <button type="button" class="import-doc-btn1 import-btn" (click)="saveDraft()" *ngIf="!importSheet"> SAVE DRAFT</button>
-        <span *ngIf="(this.purchaseForm.controls?.noncannabisProducts?.value.length > 0 || this.purchaseForm.controls?.cannabisProductsAccessories?.value.length > 0) && !isImported">
+        <button type="button" class="import-doc-btn1 import-btn" (click)="saveDraft()" *ngIf="!importSheet"> SAVE
+          DRAFT</button>
+        <span
+          *ngIf="(this.purchaseForm.controls?.noncannabisProducts?.value.length > 0 || this.purchaseForm.controls?.cannabisProductsAccessories?.value.length > 0) && !isImported">
           <mat-bar-button type="submit" [options]="barButtonOptions"></mat-bar-button>
         </span>
         <!-- if import file -->
@@ -65,7 +67,8 @@
                             autocomplete="off">
                           <mat-error *ngIf="purchaseForm.controls['purchase_order_no'].hasError('required')">Please
                             enter PO number for reference</mat-error>
-                          <mat-error *ngIf="purchaseForm.controls['purchase_order_no'].errors?.asyncValidation">The purchase order no has already been taken</mat-error>
+                          <mat-error *ngIf="purchaseForm.controls['purchase_order_no'].errors?.asyncValidation">The
+                            purchase order no has already been taken</mat-error>
                           <!-- <span class="mat-text-warn" *ngIf="isPOnumber">The purchase order no has already been taken.</span> -->
                         </mat-form-field>
                       </div>
@@ -82,9 +85,10 @@
                       </div>
                       <div fxFlex="31%">
                         <mat-form-field fxFlex="100%" *ngIf="!isImported">
-                          <mat-select [formControl]="purchaseForm.controls['storage_id']" placeholder="Inventory Import Location"
-                            [disableOptionCentering]="true">
-                            <mat-option (onSelectionChange)="taxrate(wh.store_id,wh.chain_id, $event)" *ngFor="let wh of warehouse" [value]="wh.storage_id">{{ wh.name }}
+                          <mat-select [formControl]="purchaseForm.controls['storage_id']"
+                            placeholder="Inventory Import Location" [disableOptionCentering]="true">
+                            <mat-option (onSelectionChange)="taxrate(wh.store_id,wh.chain_id, $event)"
+                              *ngFor="let wh of warehouse" [value]="wh.storage_id">{{ wh.name }}
                             </mat-option>
                           </mat-select>
                         </mat-form-field>
@@ -158,10 +162,11 @@
                       <!-- Tax rate drop down -->
                       <div fxFlex="15%">
                         <mat-form-field fxFlex="100%" *ngIf="!isImported" class="input-align">
-                          <mat-select placeholder="Tax rate" 
-                            [formControl]="purchaseForm.controls['taxrate_id']" [disableOptionCentering]="true">
+                          <mat-select placeholder="Tax rate" [formControl]="purchaseForm.controls['taxrate_id']"
+                            [disableOptionCentering]="true">
                             <mat-option (onSelectionChange)="tax_rate_none()">Choose an option</mat-option>
-                            <mat-option *ngFor="let tax_rate of tax_rate" [value]="tax_rate.id" (onSelectionChange)="current_taxrate(tax_rate, $event)">
+                            <mat-option *ngFor="let tax_rate of tax_rate" [value]="tax_rate.id"
+                              (onSelectionChange)="current_taxrate(tax_rate, $event)">
                               {{tax_rate.tax_type}}({{tax_rate.provincial_rate>0 ? tax_rate.country_rate +" + "+ tax_rate.provincial_rate : tax_rate.country_rate}})
                             </mat-option>
                           </mat-select>
@@ -170,7 +175,8 @@
                       <!-- Tax rate drop down -->
                       <div fxFlex="15%">
                         <mat-form-field fxFlex="100%" class="input-align">
-                          <input matInput placeholder="GST Amount($)" [readonly]="purchaseForm.controls['total'].value === 0" type="text" currencyMask
+                          <input matInput placeholder="GST Amount($)"
+                            [readonly]="purchaseForm.controls['total'].value === 0" type="text" currencyMask
                             [options]="options" maxlength='15'
                             [formControl]="purchaseForm.controls['country_tax_amount']" autocomplete="off">
                           <mat-error *ngIf="purchaseForm.controls['country_tax_amount'].hasError('required')">Please
@@ -179,7 +185,8 @@
                       </div>
                       <div fxFlex="15%">
                         <mat-form-field fxFlex="100%" class="input-align">
-                          <input matInput placeholder="PST Amount($)" [readonly]="purchaseForm.controls['total'].value === 0" type="text" currencyMask
+                          <input matInput placeholder="PST Amount($)"
+                            [readonly]="purchaseForm.controls['total'].value === 0" type="text" currencyMask
                             [options]="options" maxlength='15'
                             [formControl]="purchaseForm.controls['provincial_tax_amount']" autocomplete="off">
                           <mat-error *ngIf="purchaseForm.controls['provincial_tax_amount'].hasError('required')">Please
@@ -197,9 +204,9 @@
                       </div>
                       <div fxFlex="14%">
                         <mat-form-field fxFlex="100%" class="input-align">
-                          <input matInput placeholder="Total" type="text" currencyMask
-                            [options]="options" [readonly]="true" maxlength='15'
-                            [formControl]="purchaseForm.controls['final_total']" autocomplete="off" >
+                          <input matInput placeholder="Total" type="text" currencyMask [options]="options"
+                            [readonly]="true" maxlength='15' [formControl]="purchaseForm.controls['final_total']"
+                            autocomplete="off">
                           <!-- <mat-error *ngIf="purchaseForm.controls['final_total'].hasError('required')">Please enter total
                             amount of purchase receive</mat-error> -->
                         </mat-form-field>
@@ -207,9 +214,9 @@
                     </div>
 
                     <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3%">
-                      
+
                     </div>
-                    
+
                     <div fxLayout="row">
                       <div fxFlex="100%">
                         <mat-form-field fxFlex="100%">
@@ -281,10 +288,12 @@
                     <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%" fxLayoutAlign="center">
                       <div class="" fxFlex="65%">
                         <mat-form-field fxFlex="100%">
-                          <input matInput placeholder="ADD PRODUCTS TO ORDER" [formControl]="purchaseForm.controls['search']"
-                            [matAutocomplete]="auto" #searchInput (input)="selected_result(purchaseForm.controls['search'].value)">
+                          <input matInput placeholder="ADD PRODUCTS TO ORDER"
+                            [formControl]="purchaseForm.controls['search']" [matAutocomplete]="auto" #searchInput
+                            (input)="selected_result(purchaseForm.controls['search'].value)">
                           <mat-autocomplete #auto="matAutocomplete" [displayWith]="productDisplay">
-                            <mat-option *ngFor="let option of productData" [value]="option" (onSelectionChange)="selected_result(option)">
+                            <mat-option *ngFor="let option of productData" [value]="option"
+                              (onSelectionChange)="selected_result(option)">
                               {{option.variant_sku+" - "+option.product_name+" - "+option.variant_name}}
                             </mat-option>
                           </mat-autocomplete>
@@ -349,12 +358,12 @@
                   </div>
                   <div class="import-po-table">
                     <ngx-datatable #myDatatable class="material product_table" [headerHeight]="60"
-                      [ngStyle]="{'height':dynamicHeight}" [limit]="10" [columnMode]="'force'" [scrollbarH]="true" [footerHeight]="0"
-                      [rowHeight]="48" [scrollbarV]="true" [rows]="this.purchaseForm.controls.poProducts.value"
-                      >
+                      [ngStyle]="{'height':dynamicHeight}" [limit]="10" [columnMode]="'force'" [scrollbarH]="true"
+                      [footerHeight]="0" [rowHeight]="48" [scrollbarV]="true"
+                      [rows]="this.purchaseForm.controls.poProducts.value">
 
-                      <ngx-datatable-column name="" [frozenLeft]="true" [sortable]="false" [draggable]="false" [resizeable]="false"
-                      [width]="80" [maxWidth]="60" [minWidth]="50">
+                      <ngx-datatable-column name="" [frozenLeft]="true" [sortable]="false" [draggable]="false"
+                        [resizeable]="false" [width]="80" [maxWidth]="60" [minWidth]="50">
                         <ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected"
                           let-selectFn="selectFn">
                         </ng-template>
@@ -370,7 +379,8 @@
                         </ng-template>
                       </ngx-datatable-column>
 
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" [frozenLeft]="true" prop="variant_sku" name="SKU" [width]="80">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" [frozenLeft]="true"
+                        prop="variant_sku" name="SKU" [width]="80">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
@@ -380,8 +390,8 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" [sortable]="false" prop="product_desc" name="Product Description"
-                      [width]="230">
+                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" [sortable]="false"
+                        prop="product_desc" name="Product Description" [width]="230">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
@@ -393,56 +403,60 @@
                       </ngx-datatable-column>
 
                       <!-- Barcode number and batch number -->
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="barcode_number" name="Barcode Number"
-                      [width]="200">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="barcode_number"
+                        name="Barcode Number" [width]="200">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
                             <span *ngIf="skuData[rowIndex]?.barcode">
                               {{value}}
                             </span>
-                            <input (input)="getGTIN(rowIndex,'poProducts')" *ngIf="!skuData[rowIndex]?.barcode" autocomplete="off"
-                              autofocus class="max-width" maxlength="50" [value]="value"
+                            <input (input)="getGTIN(rowIndex,'poProducts')" *ngIf="!skuData[rowIndex]?.barcode"
+                              autocomplete="off" autofocus class="max-width" maxlength="50" [value]="value"
                               formControlName="barcode_number" appRemoveSpace />
-                            <span class="mat-text-warn" *ngIf="!purchaseForm.controls.poProducts.at(rowIndex).controls.barcode_number.value && isSubmitted">Barcode is required</span>
+                            <span class="mat-text-warn"
+                              *ngIf="!purchaseForm.controls.poProducts.at(rowIndex).controls.barcode_number.value && isSubmitted">Barcode
+                              is required</span>
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
                       <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="batch_no" name="Batch Number"
-                      [width]="150">
+                        [width]="150">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
-                            <input (input)="getBatch(rowIndex)" autocomplete="off" autofocus class="batch-width" [value]="value" 
-                              formControlName="batch_no" appRemoveSpace />
-                            <span class="mat-text-warn" *ngIf="!purchaseForm.controls.poProducts.at(rowIndex).controls.batch_no.value && isSubmitted">Batch is required</span>
+                            <input (input)="getBatch(rowIndex)" autocomplete="off" autofocus class="batch-width"
+                              [value]="value" formControlName="batch_no" appRemoveSpace />
+                            <span class="mat-text-warn"
+                              *ngIf="!purchaseForm.controls.poProducts.at(rowIndex).controls.batch_no.value && isSubmitted">Batch
+                              is required</span>
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
                       <!-- Barcode number and batch number -->
                       <!-- THC CBD -->
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="thc" name="THC"
-                      [width]="90">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="thc" name="THC" [width]="90">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
-                            <input autocomplete="off" autofocus class="thc-cbd-width" [value]="value" formControlName="thc" />
+                            <input autocomplete="off" autofocus class="thc-cbd-width" [value]="value"
+                              formControlName="thc" />
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="cbd" name="CBD"
-                      [width]="90">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="cbd" name="CBD" [width]="90">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
-                            <input autocomplete="off" autofocus class="thc-cbd-width" [value]="value" formControlName="cbd" />
+                            <input autocomplete="off" autofocus class="thc-cbd-width" [value]="value"
+                              formControlName="cbd" />
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
                       <!-- THC CBD -->
 
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="stock_price" name="Purchase <br/>Price<br/> per unit($)"
-                      [width]="120">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="stock_price"
+                        name="Purchase <br/>Price<br/> per unit($)" [width]="120">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
@@ -452,32 +466,33 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="selling_price" name="Selling <br/>Price<br/> per unit($)"
-                      [width]="120">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="selling_price"
+                        name="Selling <br/>Price<br/> per unit($)" [width]="120">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div fxLayout="row">
                             <div>$</div>&nbsp;
                             <div [formGroupName]="rowIndex">
-                              <input autocomplete="off" autofocus
-                              appTwoDigitDecimaNumber
-                                class="min-width" [value]="value" (input)="stockprice(rowIndex,'poProducts')"
+                              <input autocomplete="off" autofocus appTwoDigitDecimaNumber class="min-width"
+                                [value]="value" (input)="stockprice(rowIndex,'poProducts')"
                                 onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}"
-                                formControlName="selling_price" type="text"/>
+                                formControlName="selling_price" type="text" />
                             </div>
                           </div>
-                          <span class="mat-text-warn" *ngIf="!purchaseForm.controls.poProducts.at(rowIndex).controls.selling_price.value && isSubmitted">Required</span>
+                          <span class="mat-text-warn"
+                            *ngIf="!purchaseForm.controls.poProducts.at(rowIndex).controls.selling_price.value && isSubmitted">Required</span>
                         </ng-template>
                       </ngx-datatable-column>
 
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="margin" name="Profit Margin(%)" [width]="150">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="margin"
+                        name="Profit Margin(%)" [width]="150">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div fxLayout="row">
                             <div [formGroupName]="rowIndex">
                               <input autocomplete="off" autofocus (input)="margin(rowIndex,'poProducts')" type="text"
-                              appTwoDigitDecimaNumber
-                                class="min-width" [value]="value" formControlName="margin" min="0" max="100"
+                                appTwoDigitDecimaNumber class="min-width" [value]="value" formControlName="margin"
+                                min="0" max="100"
                                 onKeyUp="if(this.value==100.){this.value=100};while(this.value>100){this.value = this.value.slice(0, -1)};" />
                             </div>
                             &nbsp;<div>%</div>
@@ -485,32 +500,36 @@
                         </ng-template>
                       </ngx-datatable-column>
 
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="no_of_package" name="case quantity" [width]="120">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="no_of_package"
+                        name="case quantity" [width]="120">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
-                            <input (keypress)="utility.numberOnlyValue($event)" (input)="change_qty(rowIndex)" class="min-width" autocomplete="off" maxlength="10" [value]="value" formControlName="no_of_package" />
+                            <input (keypress)="utility.numberOnlyValue($event)" (input)="change_qty(rowIndex)"
+                              class="min-width" autocomplete="off" maxlength="10" [value]="value"
+                              formControlName="no_of_package" />
                           </div>
-                          <span class="mat-text-warn" *ngIf="!purchaseForm.controls.poProducts.at(rowIndex).controls.no_of_package.value && isSubmitted">Required</span>
+                          <span class="mat-text-warn"
+                            *ngIf="!purchaseForm.controls.poProducts.at(rowIndex).controls.no_of_package.value && isSubmitted">Required</span>
                         </ng-template>
                       </ngx-datatable-column>
 
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="actual_qty" name="Product Quantity"
-                      [width]="100">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="actual_qty"
+                        name="Product Quantity" [width]="100">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
-                              <span>
-                                {{value}}
-                              </span>
+                            <span>
+                              {{value}}
+                            </span>
                             <!-- <input autocomplete="off" autofocus type="number" class="min-width" [value]="value"
                               formControlName="actual_qty" /> -->
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
 
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="product_category" name="product category"
-                      [width]="150">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="product_category"
+                        name="product category" [width]="150">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
@@ -533,7 +552,8 @@
                         </ng-template>
                       </ngx-datatable-column>
 
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="storage_id" name="Warehouse" [width]="200">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="storage_id" name="Warehouse"
+                        [width]="200">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
@@ -545,7 +565,7 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      
+
                     </ngx-datatable>
                   </div>
                 </mat-card>
@@ -568,11 +588,12 @@
                 <mat-card style="padding:0px; overflow: auto;">
                   <div>
                     <ngx-datatable #myDatatable class="material product_table" [headerHeight]="60"
-                      [ngStyle]="{'height':cannabis_dynamicHeight}" [limit]="10" [columnMode]="'force'" [scrollbarH]="true" [footerHeight]="0"
-                      [rowHeight]="48" [scrollbarV]="true" [rows]="this.purchaseForm.controls.cannabisProducts.value">
+                      [ngStyle]="{'height':cannabis_dynamicHeight}" [limit]="10" [columnMode]="'force'"
+                      [scrollbarH]="true" [footerHeight]="0" [rowHeight]="48" [scrollbarV]="true"
+                      [rows]="this.purchaseForm.controls.cannabisProducts.value">
 
-                      <ngx-datatable-column name="" [frozenLeft]="true" [sortable]="false" [draggable]="false" [resizeable]="false"
-                      [width]="150" [maxWidth]="60" [minWidth]="50">
+                      <ngx-datatable-column name="" [frozenLeft]="true" [sortable]="false" [draggable]="false"
+                        [resizeable]="false" [width]="150" [maxWidth]="60" [minWidth]="50">
                         <ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected"
                           let-selectFn="selectFn">
                         </ng-template>
@@ -588,7 +609,8 @@
                         </ng-template>
                       </ngx-datatable-column>
 
-                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="product_name"  name="Product Name" [width]="200">
+                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="product_name"
+                        name="Product Name" [width]="200">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
@@ -598,7 +620,8 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="variant_name" name="Variant Name" [frozenLeft]="true" [width]="200">
+                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="variant_name"
+                        name="Variant Name" [frozenLeft]="true" [width]="200">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
@@ -608,7 +631,8 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="variant_sku" name="Variant SKU" [width]="200">
+                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="variant_sku"
+                        name="Variant SKU" [width]="200">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
@@ -631,8 +655,7 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" prop="actual_qty" name="Actual Quantity"
-                      [width]="150">
+                      <ngx-datatable-column [resizeable]="false" prop="actual_qty" name="Actual Quantity" [width]="150">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
@@ -662,8 +685,8 @@
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
-                            <mat-select [attr.disabled]="!editing[rowIndex + '-storage_id']" formControlName="storage_id"
-                              placeholder="Warehouse" [disableOptionCentering]="true">
+                            <mat-select [attr.disabled]="!editing[rowIndex + '-storage_id']"
+                              formControlName="storage_id" placeholder="Warehouse" [disableOptionCentering]="true">
                               <mat-option *ngFor="let wh of warehouse" [value]="wh.storage_id">{{ wh.name }}
                               </mat-option>
                             </mat-select>
@@ -698,7 +721,8 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="selling_price" name="Selling Price per unit($)" [width]="200">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="selling_price"
+                        name="Selling Price per unit($)" [width]="200">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
@@ -715,8 +739,8 @@
                         </ng-template>
                       </ngx-datatable-column>
 
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="margin" name="Profit Margin(%)"
-                      [width]="150">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="margin"
+                        name="Profit Margin(%)" [width]="150">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
@@ -732,7 +756,7 @@
                       </ngx-datatable-column>
 
                       <ngx-datatable-column name="ACTION" [sortable]="false" width="70" [resizeable]="false"
-                      [width]="200">
+                        [width]="200">
                         <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex"
                           ngx-datatable-cell-template>
                           <button mat-icon-button (click)="edit_row(rowIndex);isEditable[rowIndex] = true"
@@ -777,11 +801,11 @@
                 <mat-card style="padding:0px; overflow: auto;">
                   <div>
                     <ngx-datatable #myDatatable class="material product_table" [headerHeight]="60"
-                      [ngStyle]="{'height':cannabis_accessories_dynamicHeight}" [limit]="10" [columnMode]="'force'" [scrollbarH]="true" [footerHeight]="0"
-                      [rowHeight]="48" [scrollbarV]="true"
+                      [ngStyle]="{'height':cannabis_accessories_dynamicHeight}" [limit]="10" [columnMode]="'force'"
+                      [scrollbarH]="true" [footerHeight]="0" [rowHeight]="48" [scrollbarV]="true"
                       [rows]="this.purchaseForm.controls.cannabisProductsAccessories.value">
-                      <ngx-datatable-column name="" [frozenLeft]="true" [sortable]="false" [draggable]="false" [resizeable]="false"
-                      [width]="50" [maxWidth]="40" [minWidth]="30">
+                      <ngx-datatable-column name="" [frozenLeft]="true" [sortable]="false" [draggable]="false"
+                        [resizeable]="false" [width]="50" [maxWidth]="40" [minWidth]="30">
                         <ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected"
                           let-selectFn="selectFn">
                         </ng-template>
@@ -796,7 +820,8 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="variant_sku" name="SKU" [width]="135">
+                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="variant_sku" name="SKU"
+                        [width]="135">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex" class="cell-data">
@@ -806,7 +831,8 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="product_name" name="Product Name" [width]="200">
+                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="product_name"
+                        name="Product Name" [width]="200">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex" class="cell-data">
@@ -816,7 +842,8 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="variant_name" name="Variant Name" [width]="200">
+                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="variant_name"
+                        name="Variant Name" [width]="200">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex" class="cell-data">
@@ -836,25 +863,26 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column> -->
-                      
+
                       <ngx-datatable-column [resizeable]="false" prop="value_added" name="qty*" [width]="85">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
                             <div fxLayout="row" class="cell-data">
-                            <span *ngIf="!editing[rowIndex + '-value_added']">
-                              {{value}}
-                            </span>
-                            <input autocomplete="off" autofocus *ngIf="editing[rowIndex+ '-value_added']" type="number" min="0"
-                              (keypress)="utility.numberOnly($event)" class="min-width" [value]="value"
-                              formControlName="value_added"
-                              (input)="total_product_qty(rowIndex,'cannabisProductsAccessories')" />
+                              <span *ngIf="!editing[rowIndex + '-value_added']">
+                                {{value}}
+                              </span>
+                              <input autocomplete="off" autofocus *ngIf="editing[rowIndex+ '-value_added']"
+                                type="number" min="0" (keypress)="utility.numberOnly($event)" class="min-width"
+                                [value]="value" formControlName="value_added"
+                                (input)="total_product_qty(rowIndex,'cannabisProductsAccessories')" />
                             </div>
-                            <span class="mat-text-warn" *ngIf="!purchaseForm.controls.cannabisProductsAccessories.at(rowIndex).controls.value_added.value && isSubmitted">Required</span>
+                            <span class="mat-text-warn"
+                              *ngIf="!purchaseForm.controls.cannabisProductsAccessories.at(rowIndex).controls.value_added.value && isSubmitted">Required</span>
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      
+
                       <!-- purchase price per unit / purchase price / stock price -->
                       <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="stock_price"
                         name="Purchase price per unit($)*" [width]="145">
@@ -865,19 +893,20 @@
                             <span *ngIf="!editing[rowIndex + '-stock_price'] && value">
                               ${{value | number : '1.2-2'}}
                             </span>
-                            <input autocomplete="off" autofocus *ngIf="editing[rowIndex+ '-stock_price']" type="text" min="0"
-                            appTwoDigitDecimaNumber
+                            <input autocomplete="off" autofocus *ngIf="editing[rowIndex+ '-stock_price']" type="text"
+                              min="0" appTwoDigitDecimaNumber
                               (input)="stockprice(rowIndex,'cannabisProductsAccessories')" class="min-width"
                               [value]="value" formControlName="stock_price"
                               onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}" />
                             <!-- </div> -->
-                            <span class="mat-text-warn" *ngIf="!purchaseForm.controls.cannabisProductsAccessories.at(rowIndex).controls.stock_price.value && isSubmitted">Required</span>
+                            <span class="mat-text-warn"
+                              *ngIf="!purchaseForm.controls.cannabisProductsAccessories.at(rowIndex).controls.stock_price.value && isSubmitted">Required</span>
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
                       <!-- purchase price per lot / extended price -->
                       <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="cost" name="Extended Price"
-                      [width]="120">
+                        [width]="120">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex" class="cell-data">
@@ -888,8 +917,9 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="selling_price" name="Selling Price per unit($)*" [width]="130">
+
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="selling_price"
+                        name="Selling Price per unit($)*" [width]="130">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex" class="cell-data">
@@ -899,17 +929,18 @@
                             </span>
                             <input autocomplete="off" autofocus
                               (input)="stockprice(rowIndex,'cannabisProductsAccessories')" type="text" min="0"
-                              appTwoDigitDecimaNumber
-                              *ngIf="editing[rowIndex+ '-total_selling_price']" class="min-width" [value]="value"
+                              appTwoDigitDecimaNumber *ngIf="editing[rowIndex+ '-total_selling_price']"
+                              class="min-width" [value]="value"
                               onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}"
                               formControlName="selling_price" />
                             <!-- </div> -->
-                            <span class="mat-text-warn" *ngIf="!purchaseForm.controls.cannabisProductsAccessories.at(rowIndex).controls.selling_price.value && isSubmitted">Required</span>  
+                            <span class="mat-text-warn"
+                              *ngIf="!purchaseForm.controls.cannabisProductsAccessories.at(rowIndex).controls.selling_price.value && isSubmitted">Required</span>
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="margin" name="Profit Margin(%)"
-                      [width]="120">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="margin"
+                        name="Profit Margin(%)" [width]="120">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex" class="cell-data">
@@ -917,29 +948,33 @@
                               {{value}}
                             </span>
                             <input autocomplete="off" autofocus *ngIf="editing[rowIndex + '-margin']"
-                              (input)="margin(rowIndex,'cannabisProductsAccessories')"
-                              appTwoDigitDecimaNumber
-                              type="text" class="min-width" [value]="value" formControlName="margin" min="0" max="100" 
-                              onKeyUp="if(this.value==100.){this.value=100};while(this.value>100){this.value = this.value.slice(0, -1)};"/>
+                              (input)="margin(rowIndex,'cannabisProductsAccessories')" appTwoDigitDecimaNumber
+                              type="text" class="min-width" [value]="value" formControlName="margin" min="0" max="100"
+                              onKeyUp="if(this.value==100.){this.value=100};while(this.value>100){this.value = this.value.slice(0, -1)};" />
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="barcode_number" name="Barcode Number"
-                      [width]="160">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="barcode_number"
+                        name="Barcode Number" [width]="160">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex" class="cell-data">
                             <span *ngIf="!editing[rowIndex + '-barcode_number']">
                               {{row.barcodes ? row['barcodes'].split(',').length ?  row['barcodes'].split(',')[row['barcodes'].split(',').length - 1] : 'n' : ''}}
                             </span>
-                            <input *ngIf="editing[rowIndex + '-barcode_number']" (input)="getGTIN(rowIndex,'cannabisProductsAccessories')"  autocomplete="off" [matAutocomplete]="poAuto" class="max-width" maxlength="50" 
+                            <input *ngIf="editing[rowIndex + '-barcode_number']"
+                              (input)="getGTIN(rowIndex,'cannabisProductsAccessories')" autocomplete="off"
+                              [matAutocomplete]="poAuto" class="max-width" maxlength="50"
                               formControlName="barcode_number" appRemoveSpace />
                             <mat-autocomplete #poAuto="matAutocomplete">
-                              <mat-option *ngFor="let option of (row['barcodes'] && row['barcodes'].split(',') != ',' ? row['barcodes'].split(',') : [])" [value]="option" (onSelectionChange)="changeBarcode(rowIndex,'cannabisProductsAccessories')" >
+                              <mat-option
+                                *ngFor="let option of (row['barcodes'] && row['barcodes'].split(',') != ',' ? row['barcodes'].split(',') : [])"
+                                [value]="option"
+                                (onSelectionChange)="changeBarcode(rowIndex,'cannabisProductsAccessories')">
                                 {{option}}
                               </mat-option>
                             </mat-autocomplete>
-                            </div>
+                          </div>
                         </ng-template>
                       </ngx-datatable-column>
                       <!-- <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="package_capacity" name="case quantity" [width]="120">
@@ -964,12 +999,12 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column> -->
-                      <ngx-datatable-column name="ACTION" [frozenRight]="true" [sortable]="false" width="70" [resizeable]="false"
-                      [width]="120">
+                      <ngx-datatable-column name="ACTION" [frozenRight]="true" [sortable]="false" width="70"
+                        [resizeable]="false" [width]="120">
                         <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex"
                           ngx-datatable-cell-template>
-                          <button class="action_btn" mat-icon-button (click)="edit_row(rowIndex);isEditable[rowIndex] = true"
-                            *ngIf="!isEditable[rowIndex]">
+                          <button class="action_btn" mat-icon-button
+                            (click)="edit_row(rowIndex);isEditable[rowIndex] = true" *ngIf="!isEditable[rowIndex]">
                             <mat-icon>edit</mat-icon>
                           </button>
                           <button class="action_btn" mat-icon-button type="button"
@@ -981,7 +1016,9 @@
                             (click)="deleteVariant(rowIndex,'cannabisProductsAccessories')">
                             <mat-icon>delete</mat-icon>
                           </button>
-                          <button class="action_btn" *ngIf="!isEditable[rowIndex] && row.barcodes && row.barcodes != ','" mat-icon-button type="button" (click)="printBarcode(rowIndex,row.variant_id,'cannabisProductsAccessories')">
+                          <button class="action_btn"
+                            *ngIf="!isEditable[rowIndex] && row.barcodes && row.barcodes != ','" mat-icon-button
+                            type="button" (click)="printBarcode(rowIndex,row.variant_id,'cannabisProductsAccessories')">
                             <mat-icon>print</mat-icon>
                           </button>
                         </ng-template>
@@ -1010,15 +1047,32 @@
             </div>
             <div fxFlex="96" fxFlex.sm="75" fxFlex.md="96" fxFlex.xs="80%">
               <div class="" formArrayName="noncannabisProducts">
-                <h2 layout-margin>Non-Cannabis / Others</h2>
+                <!-- my search bar -->
+                <div fxLayout="row">
+                  <div fxFlex="50%">
+                    <h2 layout-margin>Non-Cannabis / Others</h2>
+                  </div>
+                  <div fxFlex="50%">
+                    <div class="searchbar-div margin-top-30" fxLayout="row" fxLayoutWrap fxLayoutAlign="center">
+                      <div class="po-search-input" fxFlex="100%" fxFlex.md="100%" fxFlex.lg="100%" fxFlex.sm="100%"
+                        fxFlex.xs="100%">
+                        <img class="Search-icon" alt="Search" src="../../assets/icon/search.png">
+                        <input class="Search" placeholder="Search By #PO" (input)="applyFilterProducts($event)">
+                        <span class="result-count">Results</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
                 <mat-card style="padding:0px; overflow: auto;">
                   <div>
                     <ngx-datatable #myDatatable class="material product_table" [headerHeight]="60"
-                      [ngStyle]="{'height':non_cannabis_dynamicHeight}" [limit]="10" [columnMode]="'force'" [scrollbarH]="true" [footerHeight]="0"
-                      [rowHeight]="48" [scrollbarV]="true"
+                      [ngStyle]="{'height':non_cannabis_dynamicHeight}" [limit]="10" [columnMode]="'force'"
+                      [scrollbarH]="true" [footerHeight]="0" [rowHeight]="48" [scrollbarV]="true"
                       [rows]="this.purchaseForm.controls.noncannabisProducts.value">
-                      <ngx-datatable-column name="" [frozenLeft]="true" [sortable]="false" [draggable]="false" [resizeable]="false"
-                      [width]="50" [maxWidth]="40" [minWidth]="30">
+                      <ngx-datatable-column name="" [frozenLeft]="true" [sortable]="false" [draggable]="false"
+                        [resizeable]="false" [width]="50" [maxWidth]="40" [minWidth]="30">
                         <ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected"
                           let-selectFn="selectFn">
                         </ng-template>
@@ -1033,7 +1087,8 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="variant_sku" name="SKU" [width]="135">
+                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="variant_sku" name="SKU"
+                        [width]="135">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex" class="cell-data">
@@ -1043,7 +1098,8 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="product_name" name="Product Name" [width]="200">
+                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="product_name"
+                        name="Product Name" [width]="200">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex" class="cell-data">
@@ -1053,7 +1109,8 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="variant_name" name="Variant Name" [width]="200">
+                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="variant_name"
+                        name="Variant Name" [width]="200">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex" class="cell-data">
@@ -1069,19 +1126,20 @@
                           let-row="row">
                           <div [formGroupName]="rowIndex" class="cell-data">
                             <div fxLayout="row">
-                            <span *ngIf="!editing[rowIndex + '-value_added']">
-                              {{value}}
-                            </span>
-                            <input autocomplete="off" autofocus *ngIf="editing[rowIndex+ '-value_added']" type="number" min="0"
-                              class="min-width" [value]="value" formControlName="value_added"
-                              (keypress)="utility.numberOnly($event)"
-                              (input)="total_product_qty(rowIndex,'noncannabisProducts')" />
+                              <span *ngIf="!editing[rowIndex + '-value_added']">
+                                {{value}}
+                              </span>
+                              <input autocomplete="off" autofocus *ngIf="editing[rowIndex+ '-value_added']"
+                                type="number" min="0" class="min-width" [value]="value" formControlName="value_added"
+                                (keypress)="utility.numberOnly($event)"
+                                (input)="total_product_qty(rowIndex,'noncannabisProducts')" />
                             </div>
-                            <span class="mat-text-warn" *ngIf="!purchaseForm.controls.noncannabisProducts.at(rowIndex).controls.value_added.value && isSubmitted">Required</span>
+                            <span class="mat-text-warn"
+                              *ngIf="!purchaseForm.controls.noncannabisProducts.at(rowIndex).controls.value_added.value && isSubmitted">Required</span>
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      
+
                       <!-- purchase price per unit / purchase price / stock price -->
                       <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="stock_price"
                         name="Purchase price per unit($)*" [width]='143'>
@@ -1093,13 +1151,12 @@
                               ${{value | number : '1.2-2'}}
                             </span>
                             <input autocomplete="off" autofocus (input)="stockprice(rowIndex,'noncannabisProducts')"
-                              type="text" min="0"
-                              appTwoDigitDecimaNumber
-                              *ngIf="editing[rowIndex+ '-stock_price']" class="min-width" [value]="value"
-                              formControlName="stock_price"
+                              type="text" min="0" appTwoDigitDecimaNumber *ngIf="editing[rowIndex+ '-stock_price']"
+                              class="min-width" [value]="value" formControlName="stock_price"
                               onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}" />
                             <!-- </div> -->
-                            <span class="mat-text-warn" *ngIf="!purchaseForm.controls.noncannabisProducts.at(rowIndex).controls.stock_price.value && isSubmitted">Required</span>
+                            <span class="mat-text-warn"
+                              *ngIf="!purchaseForm.controls.noncannabisProducts.at(rowIndex).controls.stock_price.value && isSubmitted">Required</span>
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
@@ -1117,28 +1174,29 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="selling_price" name="Selling Price per unit($)*" [width]="130">
+
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="selling_price"
+                        name="Selling Price per unit($)*" [width]="130">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex" class="cell-data">
                             <!-- <div fxLayout="row"> -->
-                              <span *ngIf="!editing[rowIndex + '-total_selling_price']">
-                                ${{value | number : '1.2-2'}}
-                              </span>
-                              <input autocomplete="off" autofocus (input)="stockprice(rowIndex,'noncannabisProducts')"
-                                type="text" min="0"
-                                appTwoDigitDecimaNumber
-                                *ngIf="editing[rowIndex+ '-total_selling_price']" class="min-width" [value]="value"
-                                onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}"
-                                formControlName="selling_price" />
+                            <span *ngIf="!editing[rowIndex + '-total_selling_price']">
+                              ${{value | number : '1.2-2'}}
+                            </span>
+                            <input autocomplete="off" autofocus (input)="stockprice(rowIndex,'noncannabisProducts')"
+                              type="text" min="0" appTwoDigitDecimaNumber
+                              *ngIf="editing[rowIndex+ '-total_selling_price']" class="min-width" [value]="value"
+                              onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}"
+                              formControlName="selling_price" />
                             <!-- </div> -->
-                            <span class="mat-text-warn" *ngIf="!purchaseForm.controls.noncannabisProducts.at(rowIndex).controls.selling_price.value && isSubmitted">Required</span>
+                            <span class="mat-text-warn"
+                              *ngIf="!purchaseForm.controls.noncannabisProducts.at(rowIndex).controls.selling_price.value && isSubmitted">Required</span>
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="margin" name="Profit Margin(%)"
-                      [width]="120">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="margin"
+                        name="Profit Margin(%)" [width]="120">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex" class="cell-data">
@@ -1146,30 +1204,32 @@
                               --
                             </span>
                             <input autocomplete="off" autofocus *ngIf="editing[rowIndex + '-margin']"
-                              (input)="margin(rowIndex,'noncannabisProducts')"
-                              appTwoDigitDecimaNumber
-                              type="text" class="min-width" [value]="value" formControlName="margin" min="0" max="100"
-                              onKeyUp="if(this.value==100.){this.value=100};while(this.value>100){this.value = this.value.slice(0, -1)};"
-                              />
+                              (input)="margin(rowIndex,'noncannabisProducts')" appTwoDigitDecimaNumber type="text"
+                              class="min-width" [value]="value" formControlName="margin" min="0" max="100"
+                              onKeyUp="if(this.value==100.){this.value=100};while(this.value>100){this.value = this.value.slice(0, -1)};" />
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="barcode_number" name="Barcode Number"
-                      [width]="160">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="barcode_number"
+                        name="Barcode Number" [width]="160">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex" class="cell-data">
                             <span *ngIf="!editing[rowIndex + '-barcode_number']">
                               {{row.barcodes ? row['barcodes'].split(',').length ?  row['barcodes'].split(',')[row['barcodes'].split(',').length - 1] : 'n' : ''}}
                             </span>
-                            <input *ngIf="editing[rowIndex + '-barcode_number']" (input)="getGTIN(rowIndex,'noncannabisProducts')"  autocomplete="off" [matAutocomplete]="poAuto" class="max-width" maxlength="50" 
+                            <input *ngIf="editing[rowIndex + '-barcode_number']"
+                              (input)="getGTIN(rowIndex,'noncannabisProducts')" autocomplete="off"
+                              [matAutocomplete]="poAuto" class="max-width" maxlength="50"
                               formControlName="barcode_number" appRemoveSpace />
                             <mat-autocomplete #poAuto="matAutocomplete">
-                              <mat-option *ngFor="let option of (row['barcodes'] && row['barcodes'].split(',') != ',' ? row['barcodes'].split(',') : [])" [value]="option" (onSelectionChange)="changeBarcode(rowIndex,'noncannabisProducts')">
+                              <mat-option
+                                *ngFor="let option of (row['barcodes'] && row['barcodes'].split(',') != ',' ? row['barcodes'].split(',') : [])"
+                                [value]="option" (onSelectionChange)="changeBarcode(rowIndex,'noncannabisProducts')">
                                 {{option}}
                               </mat-option>
                             </mat-autocomplete>
-                            </div>
+                          </div>
                         </ng-template>
                       </ngx-datatable-column>
                       <!-- <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="package_capacity" name="case quantity" [width]="120">
@@ -1194,12 +1254,12 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column> -->
-                      <ngx-datatable-column name="ACTION" [frozenRight]="true" [sortable]="false"  [resizeable]="false"
-                      [width]="120">
+                      <ngx-datatable-column name="ACTION" [frozenRight]="true" [sortable]="false" [resizeable]="false"
+                        [width]="120">
                         <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex"
                           ngx-datatable-cell-template>
-                          <button class="action_btn" mat-icon-button (click)="edit_row(rowIndex);isEditable[rowIndex] = true"
-                            *ngIf="!isEditable[rowIndex]">
+                          <button class="action_btn" mat-icon-button
+                            (click)="edit_row(rowIndex);isEditable[rowIndex] = true" *ngIf="!isEditable[rowIndex]">
                             <mat-icon>edit</mat-icon>
                           </button>
                           <button class="action_btn" mat-icon-button type="button"
@@ -1207,10 +1267,13 @@
                             *ngIf="isEditable[rowIndex]">
                             <mat-icon>add_box</mat-icon>
                           </button>
-                          <button class="action_btn" mat-icon-button type="button" (click)="deleteVariant(rowIndex,'noncannabisProducts')">
+                          <button class="action_btn" mat-icon-button type="button"
+                            (click)="deleteVariant(rowIndex,'noncannabisProducts')">
                             <mat-icon>delete</mat-icon>
                           </button>
-                          <button class="action_btn" *ngIf="!isEditable[rowIndex] && row.barcodes && row.barcodes != ','" mat-icon-button type="button" (click)="printBarcode(rowIndex,row.variant_id,'noncannabisProducts')">
+                          <button class="action_btn"
+                            *ngIf="!isEditable[rowIndex] && row.barcodes && row.barcodes != ','" mat-icon-button
+                            type="button" (click)="printBarcode(rowIndex,row.variant_id,'noncannabisProducts')">
                             <mat-icon>print</mat-icon>
                           </button>
                         </ng-template>

@@ -81,6 +81,41 @@ export class CreatePoComponent implements OnInit {
   focusOnSearch() {
     this.searchInput.nativeElement.focus();
   }
+
+  //#region*****************Apply filter************//
+  applyFilterProducts(event) {
+    console.log(event, event.target.value);
+    let value = event.target.value
+    let data: any = value.split(' ') || []
+    console.log(data);
+    let filteredData: any = []
+    if (data.length > 0) {
+      data.forEach(element => {
+        debugger
+        let val = element;
+        let temp = this.purchaseForm.controls.noncannabisProducts.value.filter(function (d) {
+          return d.name.toLowerCase().indexOf(val) !== -1 || !val;
+        });
+        if (!temp) {
+          this.purchaseForm.controls.noncannabisProducts.setValue([])
+          return false;
+        }
+        filteredData.concat(temp)
+      });
+
+      this.purchaseForm.controls.noncannabisProducts.setValue(filteredData)
+    }
+    else {
+      let val = value;
+      let temp = this.purchaseForm.controls.noncannabisProducts.value.filter(function (d) {
+        return d.name.toLowerCase().indexOf(val) !== -1 || !val;
+      });
+      this.purchaseForm.controls.noncannabisProducts.setValue(temp)
+    }
+    // this.rows = temp;
+
+  }
+
   //#region******************* File *****************//
   fileUploader() {
     this.uploader = new FileUploader({
