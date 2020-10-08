@@ -81,7 +81,7 @@ export class CreatePoComponent implements OnInit {
   focusOnSearch() {
     this.searchInput.nativeElement.focus();
   }
-  //#region******************* File *****************//
+   //#region******************* File *****************//
   fileUploader() {
     this.uploader = new FileUploader({
       disableMultipart: true,
