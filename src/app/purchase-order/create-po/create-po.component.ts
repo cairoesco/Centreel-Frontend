@@ -81,39 +81,41 @@ export class CreatePoComponent implements OnInit {
   focusOnSearch() {
     this.searchInput.nativeElement.focus();
   }
-
+  noncannabisProducts: any = [];
   //#region*****************Apply filter************//
   applyFilterProducts(event) {
-    console.log(event, event.target.value);
     let value = event.target.value
     let data: any = value.split(' ') || []
-    console.log(data);
-    let filteredData: any = []
+    let selfProducts = this.purchaseForm.controls.noncannabisProducts.value;
     if (data.length > 0) {
-      data.forEach(element => {
-        debugger
-        let val = element;
-        let temp = this.purchaseForm.controls.noncannabisProducts.value.filter(function (d) {
-          return d.name.toLowerCase().indexOf(val) !== -1 || !val;
-        });
-        if (!temp) {
-          this.purchaseForm.controls.noncannabisProducts.setValue([])
-          return false;
+      let filteredData: any = []
+      data.forEach((element, index) => {
+        if (element) {
+          let val = element;
+          let temp = this.purchaseForm.controls.noncannabisProducts.value.filter(function (d) {
+            let value = false;
+            selfProducts.forEach(element => {
+              if (index == 0 || element.product_id != d.product_id) {
+                value = true
+              }
+            });
+            if (value)
+              return (d.product_name.toLowerCase().indexOf(val) !== -1);
+          });
+          if (!temp) {
+            this.noncannabisProducts = []
+            return false;
+          }
+          filteredData = filteredData.concat(temp)
+          filteredData = [...filteredData]
         }
-        filteredData.concat(temp)
       });
-
-      this.purchaseForm.controls.noncannabisProducts.setValue(filteredData)
+      if (filteredData.length)
+        this.noncannabisProducts = filteredData;
+      else {
+        this.noncannabisProducts = [];
+      }
     }
-    else {
-      let val = value;
-      let temp = this.purchaseForm.controls.noncannabisProducts.value.filter(function (d) {
-        return d.name.toLowerCase().indexOf(val) !== -1 || !val;
-      });
-      this.purchaseForm.controls.noncannabisProducts.setValue(temp)
-    }
-    // this.rows = temp;
-
   }
 
   //#region******************* File *****************//
@@ -703,6 +705,7 @@ export class CreatePoComponent implements OnInit {
             this.isEditable[nonCannabisControl.value.length - 1] = true
             this.edit_row(nonCannabisControl.value.length - 1);
           }
+          this.noncannabisProducts = this.purchaseForm.controls.noncannabisProducts.value;
 
           break;
       }

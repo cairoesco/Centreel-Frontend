@@ -1064,13 +1064,12 @@
                   </div>
                 </div>
 
-
-                <mat-card style="padding:0px; overflow: auto;">
+                <mat-card style="padding:0px; overflow: auto;" *ngIf="noncannabisProducts.length>0">
                   <div>
                     <ngx-datatable #myDatatable class="material product_table" [headerHeight]="60"
                       [ngStyle]="{'height':non_cannabis_dynamicHeight}" [limit]="10" [columnMode]="'force'"
                       [scrollbarH]="true" [footerHeight]="0" [rowHeight]="48" [scrollbarV]="true"
-                      [rows]="this.purchaseForm.controls.noncannabisProducts.value">
+                      [rows]="noncannabisProducts">
                       <ngx-datatable-column name="" [frozenLeft]="true" [sortable]="false" [draggable]="false"
                         [resizeable]="false" [width]="50" [maxWidth]="40" [minWidth]="30">
                         <ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected"
