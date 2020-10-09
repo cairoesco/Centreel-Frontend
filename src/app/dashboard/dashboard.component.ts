@@ -56,7 +56,6 @@ export class DashboardComponent {
         let today = moment().format('YYYY-MM-DD') + '00:00:00'; 
         let current_date = this.utils.get_utc_from_to_date(today);
         var TZ = this.utils.getTimeZone(); //timezone
-        // console.log(current_date);
         let params = 'date=' + current_date + '&tz=' + encodeURIComponent(TZ); 
         this.dashboardService.getDashboard(params.trim()).subscribe((response: any) => {
             if (response.success) {

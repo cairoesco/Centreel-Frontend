@@ -47,8 +47,8 @@ export class WarehouseModalComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      name: [null,Validators.required],
-      subtype: ['',Validators.required],
+      name: [null, Validators.required],
+      subtype: ['', Validators.required],
       address: [null],
       city_id: [''],
       state_id: [''],
@@ -58,14 +58,14 @@ export class WarehouseModalComponent implements OnInit {
       phone: [''],
       email: [''],
       storage_id: [0],
-      zipcode:['']
+      zipcode: ['']
     });
 
     this.getLocationList('country', 0)
-    this.getLocationList("state", (Boolean(this.warehouse) && Boolean(this.warehouse.country_id))?this.warehouse.country_id:0);
-    this.getLocationList("city", (Boolean(this.warehouse) && Boolean(this.warehouse.state_id))?this.warehouse.state_id:0);
+    this.getLocationList("state", (Boolean(this.warehouse) && Boolean(this.warehouse.country_id)) ? this.warehouse.country_id : 0);
+    this.getLocationList("city", (Boolean(this.warehouse) && Boolean(this.warehouse.state_id)) ? this.warehouse.state_id : 0);
     //this.storeInfoForm(this.warehouse)
-    if(Boolean(this.warehouse)){
+    if (Boolean(this.warehouse)) {
       this.form.patchValue({
         storage_id: this.warehouse.storage_id,
         name: this.warehouse.name,
@@ -85,9 +85,8 @@ export class WarehouseModalComponent implements OnInit {
   close() {
     this.dialogRef.close();
   }
-  
+
   onSubmit(): void {
-    console.log(this.form.value)
     if (this.form.valid) {
       this.dialogRef.close(this.form);
     }
@@ -95,9 +94,9 @@ export class WarehouseModalComponent implements OnInit {
 
   storeInfoForm(data?: any) {
     this.form = this.fb.group({
-      storage_id: [data.storage_id?data.storage_id:0],
-      name: [data.name,Validators.required],
-      subtype: [data.subtype,Validators.required],
+      storage_id: [data.storage_id ? data.storage_id : 0],
+      name: [data.name, Validators.required],
+      subtype: [data.subtype, Validators.required],
       address: [data.address],
       city_id: [data.city_id],
       state_id: [data.state_id],

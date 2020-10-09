@@ -164,13 +164,11 @@ export class MarketingMailComponent implements OnInit {
 
   /******************************* Display stores name as per store selected in Autocomplete ********************************/  
   storeDisplay(user?: any): string | undefined {
-    console.log(this.sendMarketingMail)
     return user ? user.name : undefined;
   }
 
   /******************************* Display chain name as per store selected in Autocomplete ********************************/  
   chainDisplay(user?: any): string | undefined {
-    console.log(this.sendMarketingMail);
     return user ? user.name : undefined;
   }
 

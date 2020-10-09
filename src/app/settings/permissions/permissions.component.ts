@@ -31,8 +31,6 @@ export class PermissionsComponent implements OnInit {
   }
 
   deleteRow(typeId, index) {
-    console.log(this.rows);
-    //this.rows.splice(2,1);
     this.api.deletes('permissions/deletes', typeId)
         .subscribe((response: any) => {
             if (response.success) {
