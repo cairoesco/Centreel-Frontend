@@ -45,8 +45,6 @@ export class SharedService {
 
     /******************************************************************** */
     checkRoutePermission(module) {
-        console.log(module);
-
         let moduleName = module;
         let permissionSlug = [];
         this.api.get('permissions').subscribe((response: any) => {

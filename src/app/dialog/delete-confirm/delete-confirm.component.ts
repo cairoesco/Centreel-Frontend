@@ -35,8 +35,6 @@ export class DeleteConfirmComponent implements OnInit {
   /* close dialog box */
 
   changeCheckbox(user, event) {
-
-    console.log(this.confirmSelectedItems);
     if (event.checked) {
       this.confirmSelectedItems.push(user);
     } else {

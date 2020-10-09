@@ -1125,8 +1125,6 @@ export class AddProductComponent implements OnInit {
       this.addProductForm.controls.product_suppliers_ids.setValue(suppliers_ids);
     }
     const formData = new FormData();
-    // console.log(this.addProductForm);
-
     if (this.addProductForm.valid) {
       this.barButtonOptions.active = true;
       this.barButtonOptions.text = 'Saving Data...';
@@ -1157,8 +1155,6 @@ export class AddProductComponent implements OnInit {
     }
     if (this.addProductForm.get('default_image').value)
       formData.append("default_image", '1');
-    // console.log(this.addProductForm); return false;
-
     if (this.addProductForm.valid) {
 
       this.api.createProduct(formData)

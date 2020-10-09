@@ -65,7 +65,6 @@ export class CreateComponent implements OnInit {
 
   onScrollEvent(evt) {
     let check = this.componentRef.directiveRef.geometry();
-    console.log(this.element1.nativeElement.offsetHeight);
     if (check.y < this.element1.nativeElement.offsetHeight) {
       this.indexofTab = 0;
     }
@@ -92,8 +91,6 @@ export class CreateComponent implements OnInit {
 
   /* Scroll on tab clicking */
   onClick(event) {
-    console.log(event);
-
     switch (event) {
       case 0:
         this.heightOfY = 0;
@@ -110,7 +107,6 @@ export class CreateComponent implements OnInit {
       default:
         break;
     }
-    console.log(this.heightOfY);
     this.heightOfY = this.heightOfY + (event * 40);
     this.componentRef.directiveRef.scrollToY(this.heightOfY, 500);
   }
