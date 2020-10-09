@@ -42,9 +42,6 @@ export class IncidentReportEditComponent implements OnInit {
   onResize(event) {
     this.innerHeight = window.innerHeight - 192;
     this.innerHeight = this.innerHeight + ""
-    console.log(this.innerHeight);
-
-    // this.innerHeight = window.innerWidth;
   }
   /* Scroll Events */
 

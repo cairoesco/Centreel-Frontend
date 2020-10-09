@@ -33,9 +33,7 @@ export class ResetPasswordComponent implements OnInit {
       let id: any = params['id'];
       this.encryptedKey = id;
       let parmeters = Boolean(id) ? atob(id) : id;
-      console.log(parmeters);
       let request = Boolean(parmeters) ? parmeters.split(":") : [];
-      console.log(request)
       this.requestType = request[3];
       this.form.patchValue({ email: request[0], otp: request[1], type: request[2] })
 
@@ -55,7 +53,6 @@ export class ResetPasswordComponent implements OnInit {
   getUserAuthentication() {
     this.api.get("verifyToken/" + this.encryptedKey, this.form)
       .subscribe((response: any) => {
-        console.log(response);
         if (response.success) {
           this.isValidToken = true;
         } else {
