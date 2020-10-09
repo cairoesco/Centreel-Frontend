@@ -81,6 +81,43 @@ export class CreatePoComponent implements OnInit {
   focusOnSearch() {
     this.searchInput.nativeElement.focus();
   }
+  noncannabisProducts: any = [];
+  //#region*****************Apply filter************//
+  applyFilterProducts(event) {
+    let value = event.target.value
+    let data: any = value.split(' ') || []
+    let selfProducts = this.purchaseForm.controls.noncannabisProducts.value;
+    if (data.length > 0) {
+      let filteredData: any = []
+      data.forEach((element, index) => {
+        if (element) {
+          let val = element;
+          let temp = this.purchaseForm.controls.noncannabisProducts.value.filter(function (d) {
+            let value = false;
+            selfProducts.forEach(element => {
+              if (index == 0 || element.product_id != d.product_id) {
+                value = true
+              }
+            });
+            if (value)
+              return (d.product_name.toLowerCase().indexOf(val) !== -1);
+          });
+          if (!temp) {
+            this.noncannabisProducts = []
+            return false;
+          }
+          filteredData = filteredData.concat(temp)
+          filteredData = [...filteredData]
+        }
+      });
+      if (filteredData.length)
+        this.noncannabisProducts = filteredData;
+      else {
+        this.noncannabisProducts = [];
+      }
+    }
+  }
+
   //#region******************* File *****************//
   fileUploader() {
     this.uploader = new FileUploader({
@@ -668,6 +705,7 @@ export class CreatePoComponent implements OnInit {
             this.isEditable[nonCannabisControl.value.length - 1] = true
             this.edit_row(nonCannabisControl.value.length - 1);
           }
+          this.noncannabisProducts = this.purchaseForm.controls.noncannabisProducts.value;
 
           break;
       }
