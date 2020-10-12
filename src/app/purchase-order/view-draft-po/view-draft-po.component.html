@@ -536,7 +536,7 @@
                       [ngStyle]="{'height':cannabis_dynamicHeight}" [limit]="10" [columnMode]="'force'" [scrollbarH]="true" [footerHeight]="0"
                       [rowHeight]="48" [scrollbarV]="true" [rows]="this.purchaseForm.controls.cannabisProducts.value">
 
-                      <ngx-datatable-column name="" [frozenLeft]="true" [sortable]="false" [draggable]="false" [resizeable]="false"
+                      <!-- <ngx-datatable-column name="" [frozenLeft]="true" [sortable]="false" [draggable]="false" [resizeable]="false"
                       [width]="150" [maxWidth]="60" [minWidth]="50">
                         <ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected"
                           let-selectFn="selectFn">
@@ -551,7 +551,7 @@
                             </mat-checkbox>
                           </div>
                         </ng-template>
-                      </ngx-datatable-column>
+                      </ngx-datatable-column> -->
 
                       <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="product_name"  name="Product Name" [width]="200">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
@@ -745,7 +745,7 @@
                       [ngStyle]="{'height':cannabis_accessories_dynamicHeight}" [limit]="10" [columnMode]="'force'" [scrollbarH]="true" [footerHeight]="0"
                       [rowHeight]="48" [scrollbarV]="true"
                       [rows]="this.purchaseForm.controls.cannabisProductsAccessories.value">
-                      <ngx-datatable-column name="" [frozenLeft]="true" [sortable]="false" [draggable]="false" [resizeable]="false"
+                      <!-- <ngx-datatable-column name="" [frozenLeft]="true" [sortable]="false" [draggable]="false" [resizeable]="false"
                       [width]="50" [maxWidth]="40" [minWidth]="30">
                         <ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected"
                           let-selectFn="selectFn">
@@ -760,7 +760,7 @@
                             </mat-checkbox>
                           </div>
                         </ng-template>
-                      </ngx-datatable-column>
+                      </ngx-datatable-column> -->
                       <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="variant_sku" name="SKU" [width]="135">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
@@ -983,7 +983,7 @@
                       [ngStyle]="{'height':non_cannabis_dynamicHeight}" [limit]="10" [columnMode]="'force'" [scrollbarH]="true" [footerHeight]="0"
                       [rowHeight]="48" [scrollbarV]="true"
                       [rows]="this.purchaseForm.controls.noncannabisProducts.value">
-                      <ngx-datatable-column name="" [frozenLeft]="true" [sortable]="false" [draggable]="false" [resizeable]="false"
+                      <!-- <ngx-datatable-column name="" [frozenLeft]="true" [sortable]="false" [draggable]="false" [resizeable]="false"
                       [width]="50" [maxWidth]="40" [minWidth]="30">
                         <ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected"
                           let-selectFn="selectFn">
@@ -998,7 +998,7 @@
                             </mat-checkbox>
                           </div>
                         </ng-template>
-                      </ngx-datatable-column>
+                      </ngx-datatable-column> -->
                       <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" prop="variant_sku" name="SKU" [width]="135">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">

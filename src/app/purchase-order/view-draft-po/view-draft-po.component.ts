@@ -199,7 +199,7 @@ export class ViewDraftPoComponent implements OnInit {
       value_added: [data.qty?data.qty>0? data.qty : '' : '', Validators.required],
       package_capacity: [data.package_capacity],
       package_price: [data.purchase_price],
-      is_received: [false],
+      is_received: [true],
       total_qty: [data.qty?data.qty>0? data.qty : '' : ''],
       actual_qty: [data.qty?data.qty>0? data.qty : '' : ''],
       stock_price: [data.purchase_price? data.purchase_price : 0, Validators.required],
@@ -1018,7 +1018,7 @@ export class ViewDraftPoComponent implements OnInit {
       stock_price: [data.stock_price],
       extended_price: [(data.package_price * data.Qty)],
       selling_price: [response_data.selling_price ? response_data.selling_price : 0, Validators.required],
-      is_received: [false],
+      is_received: [true],
       product_desc: [data.product_desc],
       storage_id: [this.warehouse[0].storage_id],
       dry_weight: [data.dry_weight],
@@ -1129,11 +1129,11 @@ export class ViewDraftPoComponent implements OnInit {
       rControl.setValue(false);
       let margin_value: any;
       control1.setValue(margin_value);
-      if(stockprice > 0){
-        rControl.setValue(true);
-      }else{
-        rControl.setValue(false);
-      }
+      // if(stockprice > 0){
+      //   rControl.setValue(true);
+      // }else{
+      //   rControl.setValue(false);
+      // }
     }
 
     
