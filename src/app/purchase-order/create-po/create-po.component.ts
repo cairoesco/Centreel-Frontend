@@ -215,7 +215,7 @@ export class CreatePoComponent implements OnInit {
       value_added: [''], //required
       package_capacity: [data.package_capacity],
       package_price: [''],
-      is_received: [false],
+      is_received: [true],
       total_qty: [1],
       actual_qty: [1],
       stock_price: [0, Validators.required], //required
