@@ -20,6 +20,7 @@ import { ProvinceSettingsComponent } from './province-settings/province-settings
 import { ChainSettingsComponent } from './chain-settings/chain-settings.component';
 import { SettingsService } from './settings.service';
 import { StoreSettingComponent } from './store-setting/store-setting.component';
+import { EmailSettingComponent } from './email-setting/email-setting.component';
 
 @NgModule({
     imports: [
@@ -44,9 +45,10 @@ import { StoreSettingComponent } from './store-setting/store-setting.component';
         PermissionEditComponent,
         ProvinceSettingsComponent,
         ChainSettingsComponent,
-        StoreSettingComponent
+        StoreSettingComponent,
+        EmailSettingComponent
     ],
-    entryComponents: [],
+    entryComponents: [EmailSettingComponent],
     providers: [SettingsService]
 })
 export class SettingsModule {

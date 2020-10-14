@@ -23,7 +23,11 @@
 
       <mat-card>
         <mat-card-title>
-          <h3>Email Settings</h3>
+          
+          <div fxLayout="row">
+            <div fxFlex="50%"><h3>Email Settings</h3></div>
+            <div fxFlex="50%" class="text-right"><span class="pointer" (click)="openEmailSetting()">Verify Settings</span></div>
+          </div>
         </mat-card-title>
         <mat-card-content>
             
