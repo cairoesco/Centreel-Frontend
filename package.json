@@ -61,6 +61,7 @@
     "ngx-currency": "^2.2.2",
     "ngx-daterangepicker-material": "^2.2.0",
     "ngx-material-timepicker": "^5.3.0",
+    "ngx-papaparse": "^4.0.4",
     "ngx-perfect-scrollbar": "^8.0.0",
     "ngx-quill": "^7.3.12",
     "npm": "^6.13.7",
