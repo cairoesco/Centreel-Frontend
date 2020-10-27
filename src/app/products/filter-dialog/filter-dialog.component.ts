@@ -85,6 +85,7 @@ export class FilterDialogComponent implements OnInit {
     if (!(this.form_obj.without_price)) {
       delete this.form_obj.without_price;
     }
+    
     this.dialogRef.close(this.form_obj);
   }
 
