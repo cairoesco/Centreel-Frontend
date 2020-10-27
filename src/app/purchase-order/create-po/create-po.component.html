@@ -122,6 +122,31 @@
                       </div>
                     </div>
 
+                    <mat-card class="file-drop-box po-document po-new-file" (click)="excelUpload.click()" ng2FileDrop
+                      [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event,'excel')"
+                      [uploader]="uploader">
+                      <div class="mb-1 drag_upload">Browse or drag file(s) to upload</div>
+                    </mat-card>
+                    <input hidden #excelUpload type="file" multiple [formControl]="purchaseForm.controls['file_input']"
+                      ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+                      (change)="fileOverBase($event,'excel')" ng2FileSelect [uploader]="uploader" />
+                    <mat-card class="po-document" *ngFor="let file of arrayOfFiles ; let i = index">
+                      <div fxLayout="row" class="file-view-section">
+                        <div fxFlex="15%">
+                          <mat-icon class="material-icons">
+                            attachment
+                          </mat-icon>
+                        </div>
+                        <div fxFlex="70%">{{file.original_name}}</div>
+                        <div fxFlex="15%" class="end">
+                          <mat-icon class="material-icons pointer" (click)="deleteFile(i)">
+                            delete
+                          </mat-icon>
+                        </div>
+                      </div>
+                      <hr>
+                    </mat-card>
+
                     <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3%">
                       <div fxFlex="31%">
                         <mat-form-field fxFlex="100%" class="input-align">

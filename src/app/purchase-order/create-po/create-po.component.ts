@@ -19,6 +19,8 @@ import { PurchaseOrderComponent } from '../purchase-order.component';
 import { SharedService } from 'src/app/shared/shared.service';
 import { Observable, timer } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
+import { Papa } from 'ngx-papaparse';
+
 @Component({
   selector: 'app-create-po',
   templateUrl: './create-po.component.html',
@@ -69,7 +71,7 @@ export class CreatePoComponent implements OnInit {
   public variantObj: any = new Object();
   public isTrue: boolean = true;
   public importSheet: boolean = false;
-  constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, public dialog: MatDialog, public refVar: ChangeDetectorRef, private api: PurchaseOrderService, public utility: UtilsServiceService) {
+  constructor(private papa: Papa, private route: ActivatedRoute, private router: Router, private fb: FormBuilder, public dialog: MatDialog, public refVar: ChangeDetectorRef, private api: PurchaseOrderService, public utility: UtilsServiceService) {
     this.fileUploader();
     this.utility.indexofTab = 0;
     // @ts-ignore
@@ -155,9 +157,128 @@ export class CreatePoComponent implements OnInit {
     this.uploader.clearQueue()
 
   }
+
+  public excelFileDragged() {
+    this.uploader.queue.forEach(element => {
+      debugger
+      let file: any = element.file.rawFile
+      if (file) {
+        //   const reader: FileReader = new FileReader();
+        //   reader.readAsText(file);
+
+        //   reader.onload = (e: any) => {
+        //     debugger
+        //     const bstr: string = e.target.result;
+        //     const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
+        //     const wsname: string = wb.SheetNames[0];
+        //     const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+        //     let rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
+        //     let headers: any = [];
+        //     let dataTable: any = [];
+        //     this.isImported = true;
+        //     rows.forEach((element: any, i) => {
+        //       let item_index = element.indexOf('ItemNumber');
+        //       let desc_index = element.indexOf('Description');
+        //       let min_index = element.indexOf('Minimum');
+        //       let price_index = element.indexOf('List_Price');
+        //       let qty_index = element.indexOf('Quantity_To_Ship');
+        //       let case_qty_index = element.indexOf('CaseQty');
+        //       let upc_index = element.indexOf('Upc');
+        //       debugger
+        //     })
+        //   }
+        // }
+        const reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = () => {
+          let text: any = reader.result;
+          this.papa.parse(text, {
+            skipEmptyLines: true,
+            header: true,
+            complete: (result) => {
+              console.log('Parsed: ', result);
+            }
+          });
+          let data = this.csvJSON(text)
+          this.exceldata(data)
+        };
+      }
+      this.arrayOfFiles.push({ id: 0, original_name: element.file.name, document_path: element.file });
+      this.filesOfarray.push(element.file.rawFile);
+    });
+    this.uploader.clearQueue()
+
+  }
+  exceldata(data) {
+    debugger
+    // this.excelUploaded = data;
+    console.log(data);
+    console.log(this.productArrData, 'productArrData');
+    // this.form = this.fb.group({
+    //   excel_attributes: this.checkParameters(),
+    // })
+  }
+  // checkParameters() {
+  //   let arr = new FormArray([]);
+  //   if (this.checkParams.length > 0) {
+  //     this.checkParams.forEach((element, i) => {
+  //       arr.push(this.fb.group({
+  //         attribute_id: [element],
+  //         attribute_name: [this.excelUploaded[i], [Validators.required]],
+  //         attribute_value: [true],
+  //       }))
+  //     });
+  //   }
+  //   return arr;
+  // }
+  public csvJSON(csv) {
+    var lines = csv.split("\r");
+    var lineArr = csv.split("\r");
+    let self = this;
+    if (lines.length == 1) {
+      lines = csv.split("\n");
+    }
+    else if (lines.length > 1) {
+      lineArr = csv.split("\n");
+    }
+    lines = csv.split("\n");
+    var headers = lines[0].split(",");
+    var body = lineArr.slice(1);
+    let updatedData = []
+    body.forEach((element, i) => {
+      self.crateImportProduct(element, i, headers)
+    });
+    console.log(this.productArrData);
+
+    var data = {
+      headers: headers,
+      body: body,
+    }
+    return data; //JSON
+  }
+  productArrData: any = []
+  crateImportProduct(data, index, headers) {
+    let iData = data.split(",");
+    debugger
+    if (headers[index] == "Description") {
+      // let sData = iData.split(" ");
+      let dataObj: any = {}
+      iData.forEach((element, i) => {
+        dataObj[headers[i]] = element;
+      });
+      this.productArrData.push(dataObj)
+    }
+
+  }
   public fileOverBase(e: any, type): void {
-    this.hasBaseDropZoneOver = e;
-    this.fileDragged();
+    if (type == 'excel') {
+      this.hasBaseDropZoneOver = e;
+      this.excelFileDragged();
+    }
+    else {
+      this.hasBaseDropZoneOver = e;
+      this.fileDragged();
+    }
   }
 
   public fileOverAnother(e: any): void {
@@ -194,6 +315,7 @@ export class CreatePoComponent implements OnInit {
       // status: ['1'],
       storage_id: [''],
       poProducts: this.fb.array([]),
+      poImportProducts: this.fb.array([]),
       cannabisProductsAccessories: this.fb.array([]),
       cannabisProducts: this.fb.array([]),
       noncannabisProducts: this.fb.array([]),
@@ -746,10 +868,10 @@ export class CreatePoComponent implements OnInit {
       let file: any = event.target.files[0];
       let rows: any;
       let detailObj = new Object();
-      const reader: FileReader = new FileReader();
       this.arrayOfFiles.push({ id: 0, original_name: file.name, document_path: file });
       this.filesOfarray.push(file);
 
+      const reader: FileReader = new FileReader();
       reader.onload = (e: any) => {
         const bstr: string = e.target.result;
         const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
