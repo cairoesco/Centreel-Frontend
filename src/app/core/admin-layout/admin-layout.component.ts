@@ -17,7 +17,7 @@ import { LockScreenService } from 'src/app/dialog/lock-screen/lock-screen.servic
     [isScreenSmall]="isScreenSmall | async"
   ></app-layout-inner>
   `,
-encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
 
 export class AdminLayoutComponent {
@@ -45,8 +45,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
     dir: 'ltr'
   };
 
-  @ViewChild('sidemenu', {static: true}) sidemenu;
-  @ViewChild(PerfectScrollbarDirective, {static: true}) directiveScroll: PerfectScrollbarDirective;
+  @ViewChild('sidemenu', { static: true }) sidemenu;
+  @ViewChild(PerfectScrollbarDirective, { static: true }) directiveScroll: PerfectScrollbarDirective;
   public config: PerfectScrollbarConfigInterface = {};
 
   //Check user lock status
@@ -82,7 +82,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     // Start watching when user idle is starting.
     this.userIdle.onTimerStart().subscribe(count => {
       //let redirect_url = encodeURIComponent(this.sharedservice.getPreviousUrl());
-      if (this.router.url != '/session/signin' && !Boolean(this.utils.getSessionData('isLock'))) {
+      if (this.router.url != ('/session/signin' || '/session/login') && !Boolean(this.utils.getSessionData('isLock'))) {
         this.utils.setSessionData('isLock', "true");
         this.lockService.openLockDialog();
       } else {
@@ -121,8 +121,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
       this.url === '/apps/media' ||
       this.url === '/maps/leaflet' ||
       this.url === '/purchaseorder/po-list/create' ||
-      this.url === '/purchaseorder/po-list/'+id+'/view' ||
-      this.url === '/purchaseorder/po-draft/'+id+'/view' ||
+      this.url === '/purchaseorder/po-list/' + id + '/view' ||
+      this.url === '/purchaseorder/po-draft/' + id + '/view' ||
       this.url === '/taskboard') {
       return true;
     } else {
