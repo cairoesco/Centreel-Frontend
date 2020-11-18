@@ -1317,6 +1317,260 @@
             </div>
           </div>
         </div>
+
+
+        <!------------------------- CTG Brands Invoice Excel ---------------------->
+        <div id="section3" *ngIf="this.purchaseForm.controls?.poImportProducts?.value.length > 0">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <div fxFlex="2" fxFlex.md="2" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="96" fxFlex.sm="92.5" fxFlex.md="96">
+              <div class="" formArrayName="poImportProducts">
+                <h2 layout-margin>Products</h2>
+                <mat-card style="padding:0px;">
+                  <div fxLayout="row" class="import-file-success" *ngIf="isTrue">
+                    <div class="error-icon">
+                      <mat-icon class="material-icons">
+                        warning
+                      </mat-icon>
+                    </div>
+                    <h3>Selling price must be input above $0.00 to be displayed on the POS</h3>
+                    <span fxFlex></span>
+                    <div class="close-icon" (click)="isTrue = false">
+                      <mat-icon class="material-icons">
+                        cancel
+                      </mat-icon>
+                    </div>
+                  </div>
+                  <div class="import-po-table">
+                    <ngx-datatable #myDatatable class="material product_table" [headerHeight]="60"
+                      [ngStyle]="{'height':dynamicHeight}" [limit]="10" [columnMode]="'force'" [scrollbarH]="true"
+                      [footerHeight]="0" [rowHeight]="48" [scrollbarV]="true"
+                      [rows]="this.purchaseForm.controls.poImportProducts.value">
+
+
+                      <!-- <ngx-datatable-column name="" [frozenLeft]="true" [sortable]="false" [draggable]="false"
+                        [resizeable]="false" [width]="80" [maxWidth]="60" [minWidth]="50">
+                        <ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected"
+                          let-selectFn="selectFn">
+                        </ng-template>
+                        <ng-template ngx-datatable-cell-template ngx-datatable-cell-template let-row="row"
+                          let-expanded="expanded" let-value="value" let-rowIndex="rowIndex" let-isSelected="isSelected"
+                          let-onCheckboxChangeFn="onCheckboxChangeFn">
+                          <div class="checkbox-column" [formGroupName]="rowIndex">
+                            <mat-checkbox color="primary" (click)="$event.stopPropagation();"
+                              (change)="onCheckboxChangeFn($event);" formControlName="is_received"
+                              [checked]="isSelected">
+                            </mat-checkbox>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column> -->
+
+                      <!-- <ngx-datatable-column [resizeable]="false" [sortable]="false" [frozenLeft]="true"
+                        prop="variant_sku" name="SKU" [width]="80">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <span>
+                              {{value}}
+                            </span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column> -->
+                      <ngx-datatable-column name="" [frozenLeft]="true" [sortable]="false" [draggable]="false"
+                        [resizeable]="false" [width]="80" [maxWidth]="60" [minWidth]="50">
+                        <ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected"
+                          let-selectFn="selectFn">
+                        </ng-template>
+                        <ng-template ngx-datatable-cell-template ngx-datatable-cell-template let-row="row"
+                          let-expanded="expanded" let-value="value" let-rowIndex="rowIndex" let-isSelected="isSelected"
+                          let-onCheckboxChangeFn="onCheckboxChangeFn">
+                          <div class="checkbox-column" [formGroupName]="rowIndex">
+                            <mat-checkbox color="primary" (click)="$event.stopPropagation();"
+                              (change)="onCheckboxChangeFn($event);" formControlName="is_received"
+                              [checked]="isSelected">
+                            </mat-checkbox>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <!-- <ngx-datatable-column [resizeable]="false" [sortable]="false" [frozenLeft]="true" prop="barcode"
+                        name="Barcode" [width]="80">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <span>
+                              {{value}}
+                            </span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column> -->
+                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" [sortable]="false"
+                        prop="product_desc" name="Product Description" [width]="230">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <span>
+                              {{value}}
+                            </span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="barcode" name="Barcode Number"
+                        [width]="200">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <span>
+                              <!-- <span *ngIf="skuData[rowIndex]?.barcode"> -->
+                              <!-- {{value}}{{rowIndex}} -->
+                            </span>
+                            <input
+                                      autocomplete="off" autofocus class="max-width" maxlength="50" [value]="value"
+                                      formControlName="barcode_number" appRemoveSpace />
+                            <!-- <span class="mat-text-warn"
+                                      *ngIf="!purchaseForm.controls.poProducts.at(rowIndex).controls.barcode.value && isSubmitted">Barcode
+                                      is required</span> -->
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="stock_price"
+                        name="Purchase <br/>Price<br/> per unit($)" [width]="120">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <span>
+                              ${{value|number : '1.2-2'}}
+                            </span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <!-- <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="selling_price"
+                        name="Selling <br/>Price<br/> per unit($)" [width]="120">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div fxLayout="row">
+                            <div>$</div>&nbsp;
+                            <div [formGroupName]="rowIndex">
+                              <input autocomplete="off" autofocus appTwoDigitDecimaNumber class="min-width"
+                                [value]="value" (input)="stockprice(rowIndex,'poProducts')"
+                                onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}"
+                                formControlName="selling_price" type="text" />
+                            </div>
+                          </div>
+                          <span class="mat-text-warn"
+                            *ngIf="!purchaseForm.controls.poProducts.at(rowIndex).controls.selling_price.value && isSubmitted">Required</span>
+                        </ng-template>
+                      </ngx-datatable-column> -->
+
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="actual_qty"
+                        name="Product Quantity" [width]="100">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <span>
+                              {{value}}
+                            </span>
+
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="product_category"
+                        name="product category" [width]="150">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <span>
+                              {{value}}
+                            </span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="variant_size" name="Size"
+                        [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <span>
+                              {{value}}
+                            </span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="storage_id" name="Warehouse"
+                        [width]="200">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <mat-select formControlName="storage_id" placeholder="Warehouse"
+                              [disableOptionCentering]="true">
+                              <mat-option *ngFor="let wh of warehouse" [value]="wh.storage_id">{{ wh.name }}
+                              </mat-option>
+                            </mat-select>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <!-- <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" [sortable]="false" prop="name"
+                        name="Product Description" [width]="230">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <span>
+                              {{value}}
+                            </span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column> -->
+
+                      <!-- Barcode number and batch number -->
+                      <!-- <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="barcode_number"
+                        name="Barcode Number" [width]="200">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <span *ngIf="skuData[rowIndex]?.barcode">
+                              {{value}}
+                            </span>
+                            <input (input)="getGTIN(rowIndex,'poProducts')" *ngIf="!skuData[rowIndex]?.barcode"
+                              autocomplete="off" autofocus class="max-width" maxlength="50" [value]="value"
+                              formControlName="barcode_number" appRemoveSpace />
+                            <span class="mat-text-warn"
+                              *ngIf="!purchaseForm.controls.poProducts.at(rowIndex).controls.barcode_number.value && isSubmitted">Barcode
+                              is required</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="batch_no" name="Batch Number"
+                        [width]="150">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <input (input)="getBatch(rowIndex)" autocomplete="off" autofocus class="batch-width"
+                              [value]="value" formControlName="batch_no" appRemoveSpace />
+                            <span class="mat-text-warn"
+                              *ngIf="!purchaseForm.controls.poProducts.at(rowIndex).controls.batch_no.value && isSubmitted">Batch
+                              is required</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column> -->
+                      <!-- Barcode number and batch number -->
+
+
+                    </ngx-datatable>
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+            <div fxFlex="2" fxFlex.sm="2.5" fxFlex.md="2">
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

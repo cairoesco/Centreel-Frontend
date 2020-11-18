@@ -36,6 +36,7 @@ export class CreatePoComponent implements OnInit {
   @ViewChild('searchInput') searchInput: ElementRef;
   name = 'Angular';
   @ViewChild(PurchaseOrderComponent) hello: PurchaseOrderComponent;
+  @ViewChild('myDatatable') table: any;
 
   ngAfterViewInit() {
     // console.log('Hello ', this.hello.name); 
@@ -157,119 +158,176 @@ export class CreatePoComponent implements OnInit {
     this.uploader.clearQueue()
 
   }
-
+  public SKUs: any;
   public excelFileDragged() {
+    const control: any = (<FormArray>this.purchaseForm.get('poImportProducts')['controls']) as FormArray;
+
     this.uploader.queue.forEach(element => {
-      debugger
       let file: any = element.file.rawFile
       if (file) {
-        //   const reader: FileReader = new FileReader();
-        //   reader.readAsText(file);
-
-        //   reader.onload = (e: any) => {
-        //     debugger
-        //     const bstr: string = e.target.result;
-        //     const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
-        //     const wsname: string = wb.SheetNames[0];
-        //     const ws: XLSX.WorkSheet = wb.Sheets[wsname];
-        //     let rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
-        //     let headers: any = [];
-        //     let dataTable: any = [];
-        //     this.isImported = true;
-        //     rows.forEach((element: any, i) => {
-        //       let item_index = element.indexOf('ItemNumber');
-        //       let desc_index = element.indexOf('Description');
-        //       let min_index = element.indexOf('Minimum');
-        //       let price_index = element.indexOf('List_Price');
-        //       let qty_index = element.indexOf('Quantity_To_Ship');
-        //       let case_qty_index = element.indexOf('CaseQty');
-        //       let upc_index = element.indexOf('Upc');
-        //       debugger
-        //     })
-        //   }
-        // }
-        const reader = new FileReader();
+        const reader: FileReader = new FileReader();
         reader.readAsText(file);
-        reader.onload = () => {
-          let text: any = reader.result;
-          this.papa.parse(text, {
-            skipEmptyLines: true,
-            header: true,
-            complete: (result) => {
-              console.log('Parsed: ', result);
+
+        reader.onload = (e: any) => {
+          const bstr: string = e.target.result;
+          const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
+          const wsname: string = wb.SheetNames[0];
+          const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+          this.SKUs = []
+          let rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
+          let headers: any = [];
+          let dataTable: any = [];
+          this.isImported = true;
+          let item_index: any;
+          let desc_index: any;
+          let min_index: any;
+          let price_index: any;
+          let qty_index: any;
+          let case_qty_index: any;
+          let upc_index: any;
+          let productNames: any = [];
+          let SKU = [];
+
+          rows.forEach((element: any, i) => {
+            let detailObj = new Object();
+            if (i == 0) {
+              item_index = element.indexOf('ItemNumber');
+              desc_index = element.indexOf('Description');
+              min_index = element.indexOf('Minimum');
+              price_index = element.indexOf('List_Price');
+              qty_index = element.indexOf('Quantity_To_Ship');
+              case_qty_index = element.indexOf('CaseQty');
+              upc_index = element.indexOf('Upc');
             }
-          });
-          let data = this.csvJSON(text)
-          this.exceldata(data)
-        };
+            else {
+              let varObj = new Object();
+              if (desc_index != -1) {
+                let value = element[desc_index]
+                value = value.trim();
+                let data = value.split(' ')
+                console.log(data);
+                detailObj['desc'] = data[0];
+                varObj['desc'] = value;
+                if (item_index != -1) {
+                  let value: any = element[item_index]
+                  value = value.trim();
+                  varObj['itemNumber'] = value;
+                  console.log(value);
+                }
+                if (min_index != -1) {
+                  varObj['minimum'] = element[min_index];
+                }
+
+                if (price_index != -1) {
+                  varObj['list_price'] = element[price_index];
+                }
+
+                if (qty_index != -1) {
+                  varObj['quantity'] = element[qty_index];
+                }
+
+                if (case_qty_index != -1) {
+                  varObj['case_qty'] = element[case_qty_index];
+                }
+
+                if (upc_index != -1) {
+                  let value = element[upc_index]
+                  value = value.trim();
+                  varObj['sku'] = value;
+                  SKU.push(value)
+                  this.SKUs.push(value)
+                }
+                let indexvar = productNames.indexOf(data[0]);
+                if (indexvar != -1) {
+                  dataTable[indexvar].variantDetail.push(varObj);
+                }
+                else {
+                  productNames.push(data[0])
+                  detailObj['variantDetail'] = [];
+                  detailObj['variantDetail'].push(varObj);
+                  dataTable.push(detailObj);
+                }
+              }
+            }
+          })
+          console.log(dataTable);
+          // let SKU = dataTable.map(x => x.SKU);
+          if (SKU.length) {
+            const formData = new FormData();
+            formData.append('variant_sku', JSON.stringify(SKU));
+            let indVar = 0;
+            let arr = new FormArray([])
+            let resData: any = []
+            this.api.getSellingPrice(formData)
+              .subscribe((response: any) => {
+                console.log(response);
+                if (response.success) {
+                  resData = response
+                  console.log(resData);
+
+                  dataTable.forEach((element, j) => {
+                    this.exceldata(element, j, resData);
+                    // control.push(this.fb.group({
+                    //   storage_id: ['element'],
+                    //   name: [element.desc],
+                    //   is_received: [true],
+                    //   stock_price: [''],
+                    //   value_added: [''],
+                    //   purchase_order_no: [''],
+                    //   batch_no: [''],
+                    //   reorder: [''],
+                    //   variantDetail: this.exceldata(element, j, resData),
+                    // }));
+                  });
+                  console.log(control);
+                  this.purchaseForm.get('poImportProducts').updateValueAndValidity()
+                }
+              });
+
+
+          }
+        }
       }
+      // console.log(this.purchaseForm);
       this.arrayOfFiles.push({ id: 0, original_name: element.file.name, document_path: element.file });
       this.filesOfarray.push(element.file.rawFile);
     });
+    console.log(control, this.purchaseForm);
+
     this.uploader.clearQueue()
 
   }
-  exceldata(data) {
-    debugger
-    // this.excelUploaded = data;
-    console.log(data);
-    console.log(this.productArrData, 'productArrData');
-    // this.form = this.fb.group({
-    //   excel_attributes: this.checkParameters(),
-    // })
-  }
-  // checkParameters() {
-  //   let arr = new FormArray([]);
-  //   if (this.checkParams.length > 0) {
-  //     this.checkParams.forEach((element, i) => {
-  //       arr.push(this.fb.group({
-  //         attribute_id: [element],
-  //         attribute_name: [this.excelUploaded[i], [Validators.required]],
-  //         attribute_value: [true],
-  //       }))
-  //     });
-  //   }
-  //   return arr;
-  // }
-  public csvJSON(csv) {
-    var lines = csv.split("\r");
-    var lineArr = csv.split("\r");
-    let self = this;
-    if (lines.length == 1) {
-      lines = csv.split("\n");
-    }
-    else if (lines.length > 1) {
-      lineArr = csv.split("\n");
-    }
-    lines = csv.split("\n");
-    var headers = lines[0].split(",");
-    var body = lineArr.slice(1);
-    let updatedData = []
-    body.forEach((element, i) => {
-      self.crateImportProduct(element, i, headers)
+  variant_index = 0
+  exceldata(data, index, resData) {
+    // let varControl: any = this.fb.array([]);
+    const varControl: any = (<FormArray>this.purchaseForm.get('poImportProducts')['controls']) as FormArray;
+    data.variantDetail.forEach((element1, k) => {
+      console.log(resData[this.variant_index]);
+
+      varControl.push(this.fb.group({
+        barcode: [resData[this.variant_index] && resData[this.variant_index].barcode],
+        barcode_number: [''],
+        product_desc: [element1.desc],
+        product_id: [resData[this.variant_index] && resData[this.variant_index].product_id],
+        purchase_price: [resData[this.variant_index] && resData[this.variant_index].purchase_price],
+        selling_price: [resData[this.variant_index] && resData[this.variant_index].selling_price],
+        variant_id: [resData[this.variant_index] && resData[this.variant_index].variant_id],
+        product_category_id: [resData[this.variant_index] && resData[this.variant_index].product_category_id],
+        batch_no: [''],
+        reorder: [''],
+        variant_sku: [''],
+        value_added: [''],
+        stock_price: [''],
+        is_received: [''],
+        storage_id: [''],
+        product_name: [''],
+        variant_name: [''],
+      }));
+      this.variant_index = this.variant_index + 1;
     });
-    console.log(this.productArrData);
-
-    var data = {
-      headers: headers,
-      body: body,
-    }
-    return data; //JSON
+    return varControl;
   }
-  productArrData: any = []
-  crateImportProduct(data, index, headers) {
-    let iData = data.split(",");
-    debugger
-    if (headers[index] == "Description") {
-      // let sData = iData.split(" ");
-      let dataObj: any = {}
-      iData.forEach((element, i) => {
-        dataObj[headers[i]] = element;
-      });
-      this.productArrData.push(dataObj)
-    }
 
-  }
   public fileOverBase(e: any, type): void {
     if (type == 'excel') {
       this.hasBaseDropZoneOver = e;
@@ -287,6 +345,24 @@ export class CreatePoComponent implements OnInit {
   //#endregion
 
   //#region**************** FormGroup ***************/
+  getRowindex(row) {
+    debugger
+    console.log(this.purchaseForm.controls.poImportProducts.value.indexOf(row));
+
+    return this.purchaseForm.controls.poImportProducts.value.indexOf(row)
+  }
+  onActivate(event) {
+    if (event.type == 'click') {
+      // let i = this.sortedData.indexOf(event.row)
+      // if (i != this.index) {
+      //   this.table.rowDetail.collapseAllRows()
+      // }
+      // this.index = i;
+      // this.GetProductVariantsStockList(event.row.product_id);
+      this.table.rowDetail.toggleExpandRow(event.row);
+      // this.expandedRow = event.row;
+    }
+  }
   purchaseInfoForm() {
     this.purchaseForm = this.fb.group({
       purchase_order_no: ['', [Validators.required], [this.customAsyncValidator()]],
