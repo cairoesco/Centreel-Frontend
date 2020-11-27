@@ -29,7 +29,8 @@ export class SigninComponent implements OnInit {
     this.form = this.fb.group({
       username: ['', Validators.compose([Validators.required])], 
       password: ['', Validators.compose([Validators.required])],
-      rememberMe:[false]
+      rememberMe:[false],
+      chain_id:[2]
     });
 
     // reset login status

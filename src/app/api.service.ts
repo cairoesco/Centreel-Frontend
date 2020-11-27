@@ -9,13 +9,14 @@ export class ApiService {
 
     constructor(private http: HttpClient) { }
 
-    getAccessToken({ username, password }) {
+    getAccessToken({ username, password,chain_id }) {
         let postData = {
             grant_type: "password",
             client_id: environment.client_id,
             client_secret: environment.client_secret,
             username: username,
             password: password,
+            chain_id: chain_id,
             scope: "",
             provider: "users",
             platform: "WEB",

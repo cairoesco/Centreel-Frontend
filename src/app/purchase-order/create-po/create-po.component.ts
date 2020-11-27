@@ -263,8 +263,6 @@ export class CreatePoComponent implements OnInit {
                 console.log(response);
                 if (response.success) {
                   resData = response
-                  console.log(resData);
-
                   dataTable.forEach((element, j) => {
                     this.exceldata(element, j, resData);
                     // control.push(this.fb.group({
@@ -279,7 +277,6 @@ export class CreatePoComponent implements OnInit {
                     //   variantDetail: this.exceldata(element, j, resData),
                     // }));
                   });
-                  console.log(control);
                   this.purchaseForm.get('poImportProducts').updateValueAndValidity()
                 }
               });
@@ -292,7 +289,6 @@ export class CreatePoComponent implements OnInit {
       this.arrayOfFiles.push({ id: 0, original_name: element.file.name, document_path: element.file });
       this.filesOfarray.push(element.file.rawFile);
     });
-    console.log(control, this.purchaseForm);
 
     this.uploader.clearQueue()
 
@@ -302,7 +298,7 @@ export class CreatePoComponent implements OnInit {
     // let varControl: any = this.fb.array([]);
     const varControl: any = (<FormArray>this.purchaseForm.get('poImportProducts')['controls']) as FormArray;
     data.variantDetail.forEach((element1, k) => {
-      console.log(resData[this.variant_index]);
+      console.log(resData[this.variant_index], element1);
 
       varControl.push(this.fb.group({
         barcode: [resData[this.variant_index] && resData[this.variant_index].barcode],
@@ -315,10 +311,12 @@ export class CreatePoComponent implements OnInit {
         product_category_id: [resData[this.variant_index] && resData[this.variant_index].product_category_id],
         batch_no: [''],
         reorder: [''],
-        variant_sku: [''],
+        variant_sku: [element1.sku],
         value_added: [''],
-        stock_price: [''],
-        is_received: [''],
+        stock_price: [element1.list_price],
+        actual_qty: [element1.quantity],
+        variant_size: [element1.case_qty],
+        is_received: [true],
         storage_id: [''],
         product_name: [''],
         variant_name: [''],
@@ -614,7 +612,17 @@ export class CreatePoComponent implements OnInit {
   //#endregion
 
   //#region*********** API ********************//
+  // categoryList:any = [];
   getRawData() {
+    // this.api.getRawPODetails()
+    // // this.api.getRawDetails()
+    //   .subscribe((response: any) => {
+    //     if (response.success) {
+    //       this.categoryList = response.data.product_categories;
+    //       // this.getWarehouse();
+    //     }
+    //   });
+    // this.api.getRawPODetails()
     this.api.getRawDetails()
       .subscribe((response: any) => {
         if (response.success) {
