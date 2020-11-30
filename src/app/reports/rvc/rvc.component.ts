@@ -20,7 +20,7 @@ export class RvcComponent implements OnInit {
   resultdata = [];
   submitted: boolean = false;
   type: any = new Object();
-  rows:any = {};
+  rows: any = {};
   formobj: any = new Object();
   grand_total: number = 0;
   minDate = moment("2018-01-01");
@@ -29,10 +29,18 @@ export class RvcComponent implements OnInit {
   public dynamicHeight = "";
   public export_date: any;
 
-  //datepicker
+  //datepicker range
   selected: any;
   alwaysShowCalendars: boolean;
-  //datepicker
+  ranges: any = {
+    'Today': [moment(), moment()],
+    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+    'This Month': [moment().startOf('month'), moment().endOf('month')],
+    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+  }
+  //datepicker range
 
   constructor(private router: Router,
     public reportService: ReportService,
@@ -53,7 +61,6 @@ export class RvcComponent implements OnInit {
 
   /* onchange event */
   onChanges(): void {
-    
     this.inProgress = true;
     this.rvc.valueChanges.subscribe(val => {
       this.formobj.store_id = val.store_id
@@ -68,7 +75,7 @@ export class RvcComponent implements OnInit {
 
       var display_date = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('DD/MM/YYYY');
       this.export_date = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('MMMDDYYYY');
-      
+
       this.formobj.date = display_date;
       this.reportService.getRVCReport(this.formobj)
         .subscribe((response: any) => {
@@ -88,7 +95,7 @@ export class RvcComponent implements OnInit {
   getExportPDF() {
     this.reportService.exportReport("rvcpdf", this.formobj).then(
       (res: HttpResponse<any>) => {
-        this.reportService.downloadFile(res.body, 'application/pdf', 'Closeout Report '+this.export_date);
+        this.reportService.downloadFile(res.body, 'application/pdf', 'Closeout Report ' + this.export_date);
       });
   }
   /* download pdf */
@@ -99,9 +106,9 @@ export class RvcComponent implements OnInit {
     this.reportService.exportReport("rvccsv", this.formobj).then(
       (res: HttpResponse<any>) => {
         if (ext == 'csv') {
-          this.reportService.downloadFile(res.body, 'text/csv', 'Closeout Report '+this.export_date);
+          this.reportService.downloadFile(res.body, 'text/csv', 'Closeout Report ' + this.export_date);
         } else if (ext == 'xls') {
-          this.reportService.downloadFile(res.body, 'application/vnd.ms-excel', 'Closeout Report '+this.export_date);
+          this.reportService.downloadFile(res.body, 'application/vnd.ms-excel', 'Closeout Report ' + this.export_date);
         }
       });
   }
