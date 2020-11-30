@@ -159,6 +159,7 @@ export class CreatePoComponent implements OnInit {
 
   }
   public SKUs: any;
+  public isExcelImported: any;
   public excelFileDragged() {
     const control: any = (<FormArray>this.purchaseForm.get('poImportProducts')['controls']) as FormArray;
 
@@ -177,7 +178,7 @@ export class CreatePoComponent implements OnInit {
           let rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
           let headers: any = [];
           let dataTable: any = [];
-          this.isImported = true;
+          this.isExcelImported = true;
           let item_index: any;
           let desc_index: any;
           let min_index: any;
@@ -451,7 +452,7 @@ export class CreatePoComponent implements OnInit {
   /* SAVE DRAFT */
   draft_po_number: boolean = false;
   saveDraft() {
-
+debugger
     /* save draft data */
     if (this.purchaseForm.value.purchase_order_no != "") {
       this.draft_po_number = true;
@@ -484,11 +485,13 @@ export class CreatePoComponent implements OnInit {
 
       if (this.isImported)
         formData.append('variants', JSON.stringify(this.purchaseForm.controls.poProducts.value));
+      if (this.isExcelImported)
+        formData.append('variants', JSON.stringify(this.purchaseForm.controls.poImportProducts.value));
       else
         formData.append('variants', JSON.stringify(VariantData));
 
       Object.keys(this.purchaseForm.value).forEach(key => {
-        if (key != 'cannabisProducts' && key != 'cannabisProductsAccessories' && key != 'noncannabisProducts' && key != 'poProducts') {
+        if (key != 'cannabisProducts' && key != 'cannabisProductsAccessories' && key != 'noncannabisProducts' && key != 'poProducts' && key != 'poImportProducts') {
           if (key == "documents") {
             Object.keys(key).forEach(key => {
               if (this.filesOfarray[key])
@@ -563,13 +566,16 @@ export class CreatePoComponent implements OnInit {
             VariantData = this.purchaseForm.controls.cannabisProducts.value.concat(this.purchaseForm.controls.cannabisProductsAccessories.value);
             VariantData = VariantData.concat(this.purchaseForm.controls.noncannabisProducts.value);
             const formData = new FormData();
+            debugger
             if (this.isImported)
               formData.append('variants', JSON.stringify(this.purchaseForm.controls.poProducts.value));
+            if (this.isExcelImported)
+              formData.append('variants', JSON.stringify(this.purchaseForm.controls.poImportProducts.value));
             else
               formData.append('variants', JSON.stringify(VariantData));
 
             Object.keys(this.purchaseForm.value).forEach(key => {
-              if (key != 'cannabisProducts' && key != 'cannabisProductsAccessories' && key != 'noncannabisProducts' && key != 'poProducts') {
+              if (key != 'cannabisProducts' && key != 'cannabisProductsAccessories' && key != 'noncannabisProducts' && key != 'poProducts' && key != 'poImportProducts') {
                 if (key == "documents") {
                   Object.keys(key).forEach(key => {
                     if (this.filesOfarray[key])
