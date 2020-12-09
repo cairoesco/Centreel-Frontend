@@ -51,7 +51,7 @@ export class AuthService {
       user_image: data.user_image,
       user_id: data.user_id,
       role_id: data.role_id,
-      chain_id: chaindata.chain_id,
+      chain_id: chaindata && chaindata.chain_id,
     };
     if (data.rememberMe) {
       localStorage.setItem(this.tokenKey, JSON.stringify(this.session));
