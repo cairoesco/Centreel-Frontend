@@ -31,7 +31,7 @@ export class SigninComponent implements OnInit {
     this.form = this.fb.group({
       username: ['', Validators.compose([Validators.required])], 
       password: ['', Validators.compose([Validators.required])],
-      chain_id: [chaindata.chain_id],
+      chain_id: [(chaindata && chaindata.chain_id) || 0],
       rememberMe:[false]
     });
 
