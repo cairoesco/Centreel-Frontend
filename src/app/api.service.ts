@@ -23,6 +23,12 @@ export class ApiService {
         }
         return this.http.post(API_URL + 'signin', postData);
     }
+    validateChain({ username }) {
+        let postData = {
+            slug: username + '.centreel.app'
+        }
+        return this.http.post(API_URL + 'checkSlugUrl', postData);
+    }
 
     public get(actionUrl: string, params: any = null): Observable<any[]> {
         return this.http.get<any[]>(API_URL + actionUrl, {
@@ -56,14 +62,14 @@ export class ApiService {
     public getExportPDFPost(actionUrl: string, params: any = null) {
         return new Promise((resolve, reject) => {
             this.http
-                .post(API_URL + actionUrl,params,  {responseType: "blob", observe: 'response'} )
+                .post(API_URL + actionUrl, params, { responseType: "blob", observe: 'response' })
                 .subscribe(
                     res => {
-                        console.log(res);                        
+                        console.log(res);
                         resolve(res);
                     },
                     err => {
-                        console.log(err,'error');
+                        console.log(err, 'error');
                         reject(err);
                     }
                 );
