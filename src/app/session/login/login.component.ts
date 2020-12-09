@@ -52,28 +52,31 @@ export class LoginComponent implements OnInit {
   }
 
   //Login user 
-  onSubmit() {
-    this.router.navigateByUrl('session/signin');
-    console.log(this.form.value.username,'username');
-    
-    localStorage.setItem('chain_slug',this.form.value.username)
-    //   this.barButtonOptions.active = true;
-    //   this.barButtonOptions.text = 'Loading...';
-    //   this.api.getAccessToken(this.form.value).subscribe((response: any) => {
-    //     if (response.success) {
-    //       this.barButtonOptions.active = false;
-    //       this.barButtonOptions.text = 'Success';
-    //       response.data.rememberMe=this.form.value.rememberMe;
-    //       this.auth.doSignIn(response.data);
-    //       this.router.navigateByUrl(this.return);
-    //     }else{
-    //       this.barButtonOptions.active = false;
-    //       this.barButtonOptions.text = 'Validate Chain';
-    //     }
-    //   },
-    //   err=>{
-    //     this.barButtonOptions.active = false;
-    //       this.barButtonOptions.text = 'Sign in';
-    //   });
+  onSubmit(admin?) {
+    this.barButtonOptions.active = true;
+    this.barButtonOptions.text = 'Loading...';
+    let value = admin ? { username: 'admin' } : this.form.value
+    this.api.validateChain(value).subscribe((response: any) => {
+      if (response.data.length) {
+        console.log(response);
+        console.log(response.data);
+        localStorage.setItem('chain_data', JSON.stringify(response.data[0]))
+        this.router.navigateByUrl('session/signin');
+        this.utils.showSnackBar(response.message, { panelClass: 'success' });
+        this.barButtonOptions.active = false;
+        this.barButtonOptions.text = 'Success';
+        // response.data.rememberMe=this.form.value.rememberMe;
+        // this.auth.doSignIn(response.data);
+        // this.router.navigateByUrl(this.return);
+      } else {
+        this.barButtonOptions.active = false;
+        this.barButtonOptions.text = 'Validate Chain';
+        this.utils.showSnackBar(response.message, { panelClass: 'error' });
+      }
+    },
+      err => {
+        this.barButtonOptions.active = false;
+        this.barButtonOptions.text = 'Sign in';
+      });
   }
 }

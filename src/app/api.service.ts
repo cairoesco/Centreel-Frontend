@@ -9,18 +9,25 @@ export class ApiService {
 
     constructor(private http: HttpClient) { }
 
-    getAccessToken({ username, password }) {
+    getAccessToken({ username, password,chain_id }) {
         let postData = {
             grant_type: "password",
             client_id: environment.client_id,
             client_secret: environment.client_secret,
             username: username,
             password: password,
+            chain_id: chain_id,
             scope: "",
             provider: "users",
             platform: "WEB",
         }
         return this.http.post(API_URL + 'signin', postData);
+    }
+    validateChain({ username }) {
+        let postData = {
+            slug: username + '.centreel.app'
+        }
+        return this.http.post(API_URL + 'checkSlugUrl', postData);
     }
 
     public get(actionUrl: string, params: any = null): Observable<any[]> {
@@ -55,14 +62,14 @@ export class ApiService {
     public getExportPDFPost(actionUrl: string, params: any = null) {
         return new Promise((resolve, reject) => {
             this.http
-                .post(API_URL + actionUrl,params,  {responseType: "blob", observe: 'response'} )
+                .post(API_URL + actionUrl, params, { responseType: "blob", observe: 'response' })
                 .subscribe(
                     res => {
-                        console.log(res);                        
+                        console.log(res);
                         resolve(res);
                     },
                     err => {
-                        console.log(err,'error');
+                        console.log(err, 'error');
                         reject(err);
                     }
                 );

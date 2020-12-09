@@ -36,9 +36,9 @@
           <mat-bar-button  type="submit" [options]="barButtonOptions"></mat-bar-button>
         </form>
       </div>
-      <!-- <div class="pt-1 pb-1 text-xs-center">
-        <a [routerLink]="['/session/forgot']" class="link">Forgot password?</a>
-      </div> -->
+      <div class="pt-1 pb-1 text-xs-center">
+        <a class="link" (click)="onSubmit('admin')">Are you Admin ?</a>
+      </div>
     </div>
   </div>
 </div>

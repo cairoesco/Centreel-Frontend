@@ -26,9 +26,12 @@ export class SigninComponent implements OnInit {
     private utils: UtilsServiceService) { }
 
   ngOnInit() {
+    let chaindata = JSON.parse(localStorage.getItem('chain_data'))
+
     this.form = this.fb.group({
       username: ['', Validators.compose([Validators.required])], 
       password: ['', Validators.compose([Validators.required])],
+      chain_id: [chaindata.chain_id],
       rememberMe:[false]
     });
 
