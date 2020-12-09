@@ -453,6 +453,7 @@ export class CreatePoComponent implements OnInit {
   draft_po_number: boolean = false;
   saveDraft() {
 debugger
+this.purchaseForm.get('poImportProducts').updateValueAndValidity()
     /* save draft data */
     if (this.purchaseForm.value.purchase_order_no != "") {
       this.draft_po_number = true;
@@ -536,6 +537,8 @@ debugger
     this.isSubmitted = true;
     var string = '';
     var selling_error = false;
+    this.purchaseForm.get('poImportProducts').updateValueAndValidity()
+    debugger
     if (this.purchaseForm.valid) {
       /* check validation for selling price equal or greater than purchase price */
       var variant_data = _.filter(this.purchaseForm.value.poProducts, function (o) {
