@@ -8,6 +8,9 @@ export class PurchaseOrderService {
     createPo(poDetails) {
         return this.webApi.post('purchaseReceive/storeData', poDetails)
     }
+    createNonCanabiesPo(poDetails) {
+        return this.webApi.post('purchaseReceive/storeNoncannabisData', poDetails)
+    }
     /* save new draft */
     createDraft(poDetails) {
         return this.webApi.post('purchaseReceiveDraft', poDetails)

@@ -188,7 +188,7 @@ export class CreatePoComponent implements OnInit {
           let upc_index: any;
           let productNames: any = [];
           let SKU = [];
-
+          this.purchaseForm.controls.action.setValue('import');
           rows.forEach((element: any, i) => {
             let detailObj = new Object();
             if (i == 0) {
@@ -309,7 +309,7 @@ export class CreatePoComponent implements OnInit {
         purchase_price: [resData[this.variant_index] && resData[this.variant_index].purchase_price],
         selling_price: [resData[this.variant_index] && resData[this.variant_index].selling_price],
         variant_id: [resData[this.variant_index] && resData[this.variant_index].variant_id],
-        product_category_id: [resData[this.variant_index] && resData[this.variant_index].product_category_id],
+        product_category_id: [resData[this.variant_index] && resData[this.variant_index].product_category_id + ''],
         batch_no: [''],
         reorder: [''],
         variant_sku: [element1.sku],
@@ -319,18 +319,19 @@ export class CreatePoComponent implements OnInit {
         variant_size: [element1.case_qty],
         is_received: [true],
         storage_id: [''],
-        product_name: [''],
+        product_name: [element1.desc],
         variant_name: [''],
       }));
       this.variant_index = this.variant_index + 1;
     });
     return varControl;
   }
-
+  isUploaded: boolean = false
   public fileOverBase(e: any, type): void {
     if (type == 'excel') {
       this.hasBaseDropZoneOver = e;
       this.excelFileDragged();
+      this.isUploaded = true;
     }
     else {
       this.hasBaseDropZoneOver = e;
@@ -452,8 +453,8 @@ export class CreatePoComponent implements OnInit {
   /* SAVE DRAFT */
   draft_po_number: boolean = false;
   saveDraft() {
-debugger
-this.purchaseForm.get('poImportProducts').updateValueAndValidity()
+    debugger
+    this.purchaseForm.get('poImportProducts').updateValueAndValidity()
     /* save draft data */
     if (this.purchaseForm.value.purchase_order_no != "") {
       this.draft_po_number = true;
@@ -592,23 +593,44 @@ this.purchaseForm.get('poImportProducts').updateValueAndValidity()
             });
 
             if (this.purchaseForm.valid) {
-              this.api.createPo(formData).subscribe((response: any) => {
-                if (response.success) {
-                  let po_id = response.data.id;
-                  this.utility.showSnackBar(response.message);
-                  this.router.navigateByUrl('purchaseorder/po-list/' + po_id + '/view');
-                  this.barButtonOptions.active = false;
-                  this.barButtonOptions.text = 'SAVE ALL';
-                }
-                else {
-                  this.barButtonOptions.active = false;
-                  this.barButtonOptions.text = 'SAVE ALL';
-                }
-              },
-                err => {
-                  this.barButtonOptions.active = false;
-                  this.barButtonOptions.text = 'SAVE ALL';
-                });
+              if (this.isUploaded) {
+                this.api.createNonCanabiesPo(formData).subscribe((response: any) => {
+                  if (response.success) {
+                    let po_id = response.data.id;
+                    this.utility.showSnackBar(response.message);
+                    this.router.navigateByUrl('purchaseorder/po-list/' + po_id + '/view');
+                    this.barButtonOptions.active = false;
+                    this.barButtonOptions.text = 'SAVE ALL';
+                  }
+                  else {
+                    this.barButtonOptions.active = false;
+                    this.barButtonOptions.text = 'SAVE ALL';
+                  }
+                },
+                  err => {
+                    this.barButtonOptions.active = false;
+                    this.barButtonOptions.text = 'SAVE ALL';
+                  });
+              }
+              else {
+                this.api.createPo(formData).subscribe((response: any) => {
+                  if (response.success) {
+                    let po_id = response.data.id;
+                    this.utility.showSnackBar(response.message);
+                    this.router.navigateByUrl('purchaseorder/po-list/' + po_id + '/view');
+                    this.barButtonOptions.active = false;
+                    this.barButtonOptions.text = 'SAVE ALL';
+                  }
+                  else {
+                    this.barButtonOptions.active = false;
+                    this.barButtonOptions.text = 'SAVE ALL';
+                  }
+                },
+                  err => {
+                    this.barButtonOptions.active = false;
+                    this.barButtonOptions.text = 'SAVE ALL';
+                  });
+              }
             }
           }
         })
