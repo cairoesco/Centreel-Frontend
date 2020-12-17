@@ -122,7 +122,7 @@
                       </div>
                     </div>
 
-                    <mat-card class="file-drop-box po-document po-new-file" (click)="excelUpload.click()" ng2FileDrop
+                    <mat-card *ngIf="!isExcelImported && !isProductAdded" class="file-drop-box po-document po-new-file" (click)="excelUpload.click()" ng2FileDrop
                       [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event,'excel')"
                       [uploader]="uploader">
                       <div class="mb-1 drag_upload">Browse or drag file(s) to upload</div>
@@ -130,7 +130,7 @@
                     <input hidden #excelUpload type="file" multiple [formControl]="purchaseForm.controls['file_input']"
                       ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
                       (change)="fileOverBase($event,'excel')" ng2FileSelect [uploader]="uploader" />
-                    <mat-card class="po-document" *ngFor="let file of arrayOfFiles ; let i = index">
+                    <!-- <mat-card class="po-document" *ngFor="let file of arrayOfFiles ; let i = index">
                       <div fxLayout="row" class="file-view-section">
                         <div fxFlex="15%">
                           <mat-icon class="material-icons">
@@ -145,7 +145,7 @@
                         </div>
                       </div>
                       <hr>
-                    </mat-card>
+                    </mat-card> -->
 
                     <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3%">
                       <div fxFlex="31%">
@@ -288,7 +288,7 @@
             </div>
           </div>
         </div>
-        <div id="section2" *ngIf="!isImported">
+        <div id="section2" *ngIf="!isImported && !isExcelImported">
           <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
             fxLayoutAlign="center">
             <div fxFlex="2" fxFlex.md="2" fxFlex.sm="5" fxFlex.xs="10%">

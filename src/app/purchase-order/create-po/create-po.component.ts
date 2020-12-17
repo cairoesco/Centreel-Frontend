@@ -206,14 +206,12 @@ export class CreatePoComponent implements OnInit {
                 let value = element[desc_index]
                 value = value.trim();
                 let data = value.split(' ')
-                console.log(data);
                 detailObj['desc'] = data[0];
                 varObj['desc'] = value;
                 if (item_index != -1) {
                   let value: any = element[item_index]
                   value = value.trim();
                   varObj['itemNumber'] = value;
-                  console.log(value);
                 }
                 if (min_index != -1) {
                   varObj['minimum'] = element[min_index];
@@ -251,7 +249,6 @@ export class CreatePoComponent implements OnInit {
               }
             }
           })
-          console.log(dataTable);
           // let SKU = dataTable.map(x => x.SKU);
           if (SKU.length) {
             const formData = new FormData();
@@ -261,7 +258,6 @@ export class CreatePoComponent implements OnInit {
             let resData: any = []
             this.api.getSellingPrice(formData)
               .subscribe((response: any) => {
-                console.log(response);
                 if (response.success) {
                   resData = response
                   dataTable.forEach((element, j) => {
@@ -286,7 +282,6 @@ export class CreatePoComponent implements OnInit {
           }
         }
       }
-      // console.log(this.purchaseForm);
       this.arrayOfFiles.push({ id: 0, original_name: element.file.name, document_path: element.file });
       this.filesOfarray.push(element.file.rawFile);
     });
@@ -299,17 +294,16 @@ export class CreatePoComponent implements OnInit {
     // let varControl: any = this.fb.array([]);
     const varControl: any = (<FormArray>this.purchaseForm.get('poImportProducts')['controls']) as FormArray;
     data.variantDetail.forEach((element1, k) => {
-      console.log(resData[this.variant_index], element1);
-
+      let data: any = resData['data'][this.variant_index] || new Object()
       varControl.push(this.fb.group({
-        barcode: [resData[this.variant_index] && resData[this.variant_index].barcode],
-        barcode_number: [''],
+        barcode: [data.barcode],
+        barcode_number: [data.barcode],
         product_desc: [element1.desc],
-        product_id: [resData[this.variant_index] && resData[this.variant_index].product_id],
-        purchase_price: [resData[this.variant_index] && resData[this.variant_index].purchase_price],
-        selling_price: [resData[this.variant_index] && resData[this.variant_index].selling_price],
-        variant_id: [resData[this.variant_index] && resData[this.variant_index].variant_id],
-        product_category_id: [resData[this.variant_index] && resData[this.variant_index].product_category_id + ''],
+        product_id: [data.product_id],
+        purchase_price: [data.purchase_price],
+        selling_price: [data.selling_price],
+        variant_id: [data.variant_id],
+        product_category_id: [data.product_category_id],
         batch_no: [''],
         reorder: [''],
         variant_sku: [element1.sku],
@@ -321,6 +315,9 @@ export class CreatePoComponent implements OnInit {
         storage_id: [''],
         product_name: [element1.desc],
         variant_name: [''],
+        package_capacity: [data.package_capacity],
+        package_price: [''],
+        margin: [''],
       }));
       this.variant_index = this.variant_index + 1;
     });
@@ -346,9 +343,6 @@ export class CreatePoComponent implements OnInit {
 
   //#region**************** FormGroup ***************/
   getRowindex(row) {
-    debugger
-    console.log(this.purchaseForm.controls.poImportProducts.value.indexOf(row));
-
     return this.purchaseForm.controls.poImportProducts.value.indexOf(row)
   }
   onActivate(event) {
@@ -453,7 +447,6 @@ export class CreatePoComponent implements OnInit {
   /* SAVE DRAFT */
   draft_po_number: boolean = false;
   saveDraft() {
-    debugger
     this.purchaseForm.get('poImportProducts').updateValueAndValidity()
     /* save draft data */
     if (this.purchaseForm.value.purchase_order_no != "") {
@@ -539,7 +532,6 @@ export class CreatePoComponent implements OnInit {
     var string = '';
     var selling_error = false;
     this.purchaseForm.get('poImportProducts').updateValueAndValidity()
-    debugger
     if (this.purchaseForm.valid) {
       /* check validation for selling price equal or greater than purchase price */
       var variant_data = _.filter(this.purchaseForm.value.poProducts, function (o) {
@@ -570,7 +562,6 @@ export class CreatePoComponent implements OnInit {
             VariantData = this.purchaseForm.controls.cannabisProducts.value.concat(this.purchaseForm.controls.cannabisProductsAccessories.value);
             VariantData = VariantData.concat(this.purchaseForm.controls.noncannabisProducts.value);
             const formData = new FormData();
-            debugger
             if (this.isImported)
               formData.append('variants', JSON.stringify(this.purchaseForm.controls.poProducts.value));
             if (this.isExcelImported)
@@ -697,7 +688,6 @@ export class CreatePoComponent implements OnInit {
       if (storeid) {
         this.purchaseForm.controls['store_id'].setValue(storeid);
       }
-      // console.log('mk',this.tax_rate);
     }
   }
 
@@ -833,7 +823,6 @@ export class CreatePoComponent implements OnInit {
       let total = this.purchaseForm.get('total').value;
       let tax_rate = this.purchaseForm.get('taxrate_id').value;
       if (tax_rate) {
-        console.log(this.taxrateValue);
         this.current_taxrate1(this.taxrateValue)
       }
 
@@ -898,9 +887,7 @@ export class CreatePoComponent implements OnInit {
             var i;
             for (i = 0; i < accessoriesControl.value.length; i++) {
               if (i == (accessoriesControl.value.length - 1)) {
-                // console.log('match');
               } else {
-                // console.log('not match');
                 this.updateValue(['product_name', 'variant_name', 'value_added', 'stock_price', 'selling_price', 'batch', 'storage_id', 'cost', 'total_selling_price', 'margin', 'package_capacity', 'barcode_number'], i)
                 this.isEditable[i] = false;
               }
@@ -1150,8 +1137,6 @@ export class CreatePoComponent implements OnInit {
 
     let sheet_price = (data.stock_price.toFixed(2));
     let new_price = (+response_data.purchase_price).toFixed(2);
-    // console.log(sheet_price,'--',new_price);
-
     return this.fb.group({
       variant_sku: [data.SKU],
       variant_size: [data.variant_size],
@@ -1240,7 +1225,7 @@ export class CreatePoComponent implements OnInit {
     let stockprice = +control.value;
     let sellingprice = +control2.value;
 
-    let packagePrice: any = (stockprice) * (control4.value);
+    let packagePrice: any = (stockprice) * (control4 ? control4.value : 1) || 0;
     control3.setValue(packagePrice)
     if (sellingprice > 0) {
       rControl.setValue(true);
@@ -1481,8 +1466,10 @@ export class CreatePoComponent implements OnInit {
 
   /* search selected */
   public selectedResult: boolean = false;
+  public isProductAdded: boolean = false;
   selected_result(val) {
     if (val != '') {
+      this.isProductAdded = true;
       if (typeof val === 'object') {
         this.selectedResult = true;
       } else {
