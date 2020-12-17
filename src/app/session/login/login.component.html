@@ -1,14 +1,19 @@
 <div class="session mat-grey-100 signin-button">
-  <div class="top-bar">
+  <!-- <div class="top-bar">
     <div class="logo-section">
       <img alt="Search" src="assets/images/c.png"
         srcset="assets/images/c.png 1x, assets/images/c@2x.png 2x, assets/images/c@3x.png 3x" />
     </div>
     <div class="CENTREEL">CENTREEL</div>
-  </div>
+  </div> -->
   <div class="session-content">
     <div class="session-wrapper">
       <div class="text-xs-center pb-1">
+        <div class="logo-section">
+          <img alt="Search" src="assets/images/c.png"
+            srcset="assets/images/c.png 1x, assets/images/c@2x.png 2x, assets/images/c@3x.png 3x" />
+        </div>
+        <!-- <div class="CENTREEL">CENTREEL</div> -->
         <div class="Hello-welcome">Hello, welcome!</div>
         <div class="Please-enter-your-cr">Please enter your chain to sign in.</div>
       </div>
@@ -17,7 +22,8 @@
           <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div fxLayout="column" class="form-controls" fxLayoutAlign="space-around">
               <div class="pb-1">
-                <mat-form-field style="width: 100%; margin-bottom: -10px">
+                <mat-form-field style="width: 100%; margin-bottom: -10px" appearance="outline">
+                  <mat-label>Chain Name *</mat-label>
                   <input matInput placeholder="Chain Name *" autocomplete="off" [formControl]="form.controls['username']">
                 </mat-form-field>
                 <small *ngIf="form.controls['username'].hasError('required') && form.controls['username'].touched" class="mat-text-warn">Chain name is required.</small>

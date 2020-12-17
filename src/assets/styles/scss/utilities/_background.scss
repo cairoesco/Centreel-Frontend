@@ -270,21 +270,21 @@
 .mat-brown-A400 { background-color: mat-color($mat-brown, A400)!important; color: mat-contrast($mat-brown, A400)!important;}
 .mat-brown-A700 { background-color: mat-color($mat-brown, A700)!important; color: mat-contrast($mat-brown, A700)!important;}
 
-.mat-grey { background-color: mat-color($mat-grey, 500)!important; color: mat-contrast($mat-grey, 500)!important;}
-.mat-grey-50 { background-color: mat-color($mat-grey, 50)!important; color: mat-contrast($mat-grey, 50)!important;}
-.mat-grey-100 { background-color: mat-color($mat-grey, 100)!important; color: mat-contrast($mat-grey, 100)!important;}
-.mat-grey-200 { background-color: mat-color($mat-grey, 200)!important; color: mat-contrast($mat-grey, 200)!important;}
-.mat-grey-300 { background-color: mat-color($mat-grey, 300)!important; color: mat-contrast($mat-grey, 300)!important;}
-.mat-grey-400 { background-color: mat-color($mat-grey, 400)!important; color: mat-contrast($mat-grey, 400)!important;}
-.mat-grey-500 { background-color: mat-color($mat-grey, 500)!important; color: mat-contrast($mat-grey, 500)!important;}
-.mat-grey-600 { background-color: mat-color($mat-grey, 600)!important; color: mat-contrast($mat-grey, 600)!important;}
-.mat-grey-700 { background-color: mat-color($mat-grey, 700)!important; color: mat-contrast($mat-grey, 700)!important;}
-.mat-grey-800 { background-color: mat-color($mat-grey, 800)!important; color: mat-contrast($mat-grey, 800)!important;}
-.mat-grey-900 { background-color: mat-color($mat-grey, 900)!important; color: mat-contrast($mat-grey, 900)!important;}
-.mat-grey-A100 { background-color: mat-color($mat-grey, A100)!important; color: mat-contrast($mat-grey, A100)!important;}
-.mat-grey-A200 { background-color: mat-color($mat-grey, A200)!important; color: mat-contrast($mat-grey, A200)!important;}
-.mat-grey-A400 { background-color: mat-color($mat-grey, A400)!important; color: mat-contrast($mat-grey, A400)!important;}
-.mat-grey-A700 { background-color: mat-color($mat-grey, A700)!important; color: mat-contrast($mat-grey, A700)!important;}
+// .mat-grey { background-color: mat-color($mat-grey, 500)!important; color: mat-contrast($mat-grey, 500)!important;}
+// .mat-grey-50 { background-color: mat-color($mat-grey, 50)!important; color: mat-contrast($mat-grey, 50)!important;}
+// .mat-grey-100 { background-color: mat-color($mat-grey, 100)!important; color: mat-contrast($mat-grey, 100)!important;}
+// .mat-grey-200 { background-color: mat-color($mat-grey, 200)!important; color: mat-contrast($mat-grey, 200)!important;}
+// .mat-grey-300 { background-color: mat-color($mat-grey, 300)!important; color: mat-contrast($mat-grey, 300)!important;}
+// .mat-grey-400 { background-color: mat-color($mat-grey, 400)!important; color: mat-contrast($mat-grey, 400)!important;}
+// .mat-grey-500 { background-color: mat-color($mat-grey, 500)!important; color: mat-contrast($mat-grey, 500)!important;}
+// .mat-grey-600 { background-color: mat-color($mat-grey, 600)!important; color: mat-contrast($mat-grey, 600)!important;}
+// .mat-grey-700 { background-color: mat-color($mat-grey, 700)!important; color: mat-contrast($mat-grey, 700)!important;}
+// .mat-grey-800 { background-color: mat-color($mat-grey, 800)!important; color: mat-contrast($mat-grey, 800)!important;}
+// .mat-grey-900 { background-color: mat-color($mat-grey, 900)!important; color: mat-contrast($mat-grey, 900)!important;}
+// .mat-grey-A100 { background-color: mat-color($mat-grey, A100)!important; color: mat-contrast($mat-grey, A100)!important;}
+// .mat-grey-A200 { background-color: mat-color($mat-grey, A200)!important; color: mat-contrast($mat-grey, A200)!important;}
+// .mat-grey-A400 { background-color: mat-color($mat-grey, A400)!important; color: mat-contrast($mat-grey, A400)!important;}
+// .mat-grey-A700 { background-color: mat-color($mat-grey, A700)!important; color: mat-contrast($mat-grey, A700)!important;}
 
 .mat-blue-grey { background-color: mat-color($mat-blue-grey, 500)!important; color: mat-contrast($mat-blue-grey, 500)!important;}
 .mat-blue-grey-50 { background-color: mat-color($mat-blue-grey, 50)!important; color: mat-contrast($mat-blue-grey, 50)!important;}
@@ -301,3 +301,22 @@
 .mat-blue-grey-A200 { background-color: mat-color($mat-blue-grey, A200)!important; color: mat-contrast($mat-blue-grey, A200)!important;}
 .mat-blue-grey-A400 { background-color: mat-color($mat-blue-grey, A400)!important; color: mat-contrast($mat-blue-grey, A400)!important;}
 .mat-blue-grey-A700 { background-color: mat-color($mat-blue-grey, A700)!important; color: mat-contrast($mat-blue-grey, A700)!important;}
+
+
+
+// updated colors
+.mat-grey { background-color: #ffffff!important; color: mat-contrast($mat-grey, 500)!important;}
+.mat-grey-50 { background-color: #ffffff!important; color: mat-contrast($mat-grey, 50)!important;}
+.mat-grey-100 { background-color: #ffffff!important; color: mat-contrast($mat-grey, 100)!important;}
+.mat-grey-200 { background-color: #ffffff!important; color: mat-contrast($mat-grey, 200)!important;}
+.mat-grey-300 { background-color: #ffffff!important; color: mat-contrast($mat-grey, 300)!important;}
+.mat-grey-400 { background-color: #ffffff!important; color: mat-contrast($mat-grey, 400)!important;}
+.mat-grey-500 { background-color: #ffffff!important; color: mat-contrast($mat-grey, 500)!important;}
+.mat-grey-600 { background-color: #ffffff!important; color: mat-contrast($mat-grey, 600)!important;}
+.mat-grey-700 { background-color: #ffffff!important; color: mat-contrast($mat-grey, 700)!important;}
+.mat-grey-800 { background-color: #ffffff!important; color: mat-contrast($mat-grey, 800)!important;}
+.mat-grey-900 { background-color: #ffffff!important; color: mat-contrast($mat-grey, 900)!important;}
+.mat-grey-A100 { background-color: #ffffff!important; color: mat-contrast($mat-grey, A100)!important;}
+.mat-grey-A200 { background-color: #ffffff!important; color: mat-contrast($mat-grey, A200)!important;}
+.mat-grey-A400 { background-color: #ffffff!important; color: mat-contrast($mat-grey, A400)!important;}
+.mat-grey-A700 { background-color: #ffffff!important; color: mat-contrast($mat-grey, A700)!important;}
