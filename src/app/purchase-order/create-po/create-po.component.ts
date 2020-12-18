@@ -220,6 +220,7 @@ export class CreatePoComponent implements OnInit {
       actual_qty: [1],
       stock_price: [0, Validators.required], //required
       selling_price: [data.selling_price, Validators.required], //required
+      regular_price: [data.regular_price], //required
       margin: [null],
       // batch_no: ['--', Validators.required],
       storage_id: [this.purchaseForm.controls.storage_id.value],
@@ -663,8 +664,7 @@ export class CreatePoComponent implements OnInit {
               if (i == (accessoriesControl.value.length - 1)) {
                 // console.log('match');
               } else {
-                // console.log('not match');
-                this.updateValue(['product_name', 'variant_name', 'value_added', 'stock_price', 'selling_price', 'batch', 'storage_id', 'cost', 'total_selling_price', 'margin', 'package_capacity', 'barcode_number'], i)
+                this.updateValue(['product_name', 'variant_name', 'value_added', 'stock_price', 'selling_price','regular_price', 'batch', 'storage_id', 'cost', 'total_selling_price', 'margin', 'package_capacity', 'barcode_number'], i)
                 this.isEditable[i] = false;
               }
             }
@@ -697,7 +697,7 @@ export class CreatePoComponent implements OnInit {
                 // console.log('match');
               } else {
                 // console.log('not match');
-                this.updateValue(['product_name', 'variant_name', 'value_added', 'stock_price', 'selling_price', 'batch', 'storage_id', 'cost', 'total_selling_price', 'margin', 'package_capacity', 'barcode_number'], i)
+                this.updateValue(['product_name', 'variant_name', 'value_added', 'stock_price', 'selling_price','regular_price', 'batch', 'storage_id', 'cost', 'total_selling_price', 'margin', 'package_capacity', 'barcode_number'], i)
                 this.isEditable[i] = false;
               }
             }
@@ -729,6 +729,7 @@ export class CreatePoComponent implements OnInit {
     this.editing[rowIndex + '-value_added'] = true;
     this.editing[rowIndex + '-stock_price'] = true;
     this.editing[rowIndex + '-selling_price'] = true;
+    this.editing[rowIndex + '-regular_price'] = true;
     this.editing[rowIndex + '-batch_no'] = true;
     this.editing[rowIndex + '-storage_id'] = true;
     this.editing[rowIndex + '-cost'] = true;
@@ -929,6 +930,7 @@ export class CreatePoComponent implements OnInit {
       stock_price: [data.stock_price],
       extended_price: [(data.package_price * data.Qty)],
       selling_price: [response_data.selling_price ? sheet_price != new_price ? 0 : response_data.selling_price : 0, Validators.required],
+      regular_price: [response_data.regular_price],
       is_received: [false],
       product_desc: [data.product_desc],
       storage_id: [this.warehouse[0].storage_id],
