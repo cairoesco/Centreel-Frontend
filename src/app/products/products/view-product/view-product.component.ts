@@ -953,10 +953,10 @@ export class ViewProductComponent implements OnInit {
   isUpdate: boolean = false;
   onVariantSubmit(id, index) {
     this.isUpdate = true;
+    this.variantsForm.get('variant_detail').updateValueAndValidity()
     const control1 = (<FormArray>this.variantsForm.controls['variant_detail']).at(index) as FormArray;
     const control = this.variantsForm.controls['variant_detail'].value;
     let data = control[index];
-
     var selling_error = false;
 
     /* If stock is not added for this variant */
@@ -969,6 +969,7 @@ export class ViewProductComponent implements OnInit {
     /* if purchase price is not equla or less than selling price */
     data.purchase_price = +data.purchase_price;
     data.variant_price = +data.variant_price;
+    data.dry_weight = +data.dry_weight;
     if (data.purchase_price > data.variant_price) {
       this.utility.showSnackBar("selling price must be equal or greater than purchase price for " + data.variant_name, { panelClass: 'error' });
       selling_error = true;
@@ -982,7 +983,7 @@ export class ViewProductComponent implements OnInit {
     }
     formData.append('variant_detail', JSON.stringify({ variant_name: data.variant_name, chain_id: this.rawDetail.product.chain_id }))
     formData.append('barcode', JSON.stringify(data.barcode))
-    formData.append('dry_weight', JSON.stringify(data.dry_weight))
+    formData.append('dry_weight', data.dry_weight)
     formData.append('selling_price', JSON.stringify({ selling_price: data.variant_price, store_id: data.store_id }))
     formData.append('purchase_price', JSON.stringify({ purchase_price: data.purchase_price, stocks_variants_id: data.stocks_variants_id }))
     if (control1.valid && !selling_error && data.store_id > 0) {
