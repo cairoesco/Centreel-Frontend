@@ -126,18 +126,34 @@
                       </mat-form-field>
                     </div>
                   </div>
-                  <div *ngIf="isCanabis">
-                    <mat-form-field class="example-full-width" fxFlex="100">
-                      <mat-select placeholder="Cannabis Type*" formControlName="cannabis_type"
-                        [disableOptionCentering]="true">
-                        <mat-option *ngFor="let cannabisType of rawDetail?.cannabis_types "
-                          [value]="cannabisType.type_id">
-                          {{cannabisType.type_name}}
-                        </mat-option>
-                      </mat-select>
-                      <mat-error *ngIf="addProductForm.controls['cannabis_type'].hasError('required')">Please select
-                        Cannabis Type</mat-error>
-                    </mat-form-field>
+                  <div *ngIf="isCanabis" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+                    fxLayoutAlign="center">
+                    <div fxFlex="50%">
+                      <mat-form-field class="example-full-width" fxFlex="100">
+                        <mat-select placeholder="Cannabis Type*" formControlName="cannabis_type"
+                          [disableOptionCentering]="true">
+                          <mat-option *ngFor="let cannabisType of rawDetail?.cannabis_types "
+                            [value]="cannabisType.type_id">
+                            {{cannabisType.type_name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="addProductForm.controls['cannabis_type'].hasError('required')">Please select
+                          Cannabis Type</mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="50%">
+                      <mat-form-field class="example-full-width" fxFlex="100">
+                        <mat-select placeholder="Species" formControlName="species_type"
+                          [disableOptionCentering]="true">
+                          <mat-option *ngFor="let cannabisType of rawDetail?.cannabis_types "
+                            [value]="cannabisType.type_id">
+                            {{cannabisType.type_name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="addProductForm.controls['species_type'].hasError('required')">Please select
+                          Species Type</mat-error>
+                      </mat-form-field>
+                    </div>
                   </div>
                   <div>
                     <mat-form-field class="example-full-width" fxFlex="100">
@@ -277,7 +293,8 @@
                         <mat-select placeholder="Tax Rate*" formControlName="taxrate_id"
                           [disableOptionCentering]="true">
                           <mat-option *ngFor="let tax_rate of storewiseTaxes[0]" [value]="tax_rate.id">
-                            {{tax_rate.tax_type}}({{tax_rate.provincial_rate>0 ? tax_rate.country_rate +" + "+ tax_rate.provincial_rate : tax_rate.country_rate}})
+                            {{tax_rate.tax_type}}({{tax_rate.provincial_rate>0 ? tax_rate.country_rate +" + "+
+                            tax_rate.provincial_rate : tax_rate.country_rate}})
                           </mat-option>
                         </mat-select>
                         <mat-error *ngIf="addProductForm.controls['taxrate_id'].hasError('required')">Please select
