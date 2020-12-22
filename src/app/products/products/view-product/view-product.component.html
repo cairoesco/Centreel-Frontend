@@ -386,6 +386,24 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" prop="dry_weight" name="Dry Weight"
+                        [width]="120" *ngIf="isCanabies">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <span title="{{value}}" *ngIf="!variantsInfo"> {{value}}</span>
+                          <div [formGroupName]="rowIndex" *ngIf="variantsInfo">
+                            <!-- <span>$</span>&nbsp;<input autocomplete="off" autofocus class="min-width" formControlName="purchase_price" /> -->
+                            <mat-form-field class="example-full-width" fxFlex="100">
+                              <input matInput placeholder=""  formControlName="dry_weight" autocomplete="off"
+                                >
+                              <!-- <mat-error
+                                *ngIf="variantsForm.controls['variant_detail'].at(rowIndex).get('dry_weight').hasError('required')">
+                                Please enter dry weight
+                              </mat-error> -->
+                            </mat-form-field>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
                       <ngx-datatable-column [resizeable]="false" prop="variant_sku" name="SKU" [width]="135">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
