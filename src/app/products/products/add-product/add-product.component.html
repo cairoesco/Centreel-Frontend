@@ -585,13 +585,13 @@
                                         </mat-error>
                                       </mat-form-field>
                                       <mat-form-field class="example-full-width" fxFlex="50%">
-                                        <mat-label>Regular Price($)</mat-label>
+                                        <mat-label>Special Price($)</mat-label>
                                         <input matInput (focus)="isOnVariantSellingPrice=true"
                                           (focusout)="isOnVariantSellingPrice=false" autocomplete="off"
-                                          formControlName="regular_price" currencyMask [options]="priceOptions"
+                                          formControlName="special_price" currencyMask [options]="priceOptions"
                                           maxlength='15'>
-                                        <mat-error *ngIf="item.controls['regular_price'].hasError('required')">
-                                          Please enter regular price
+                                        <mat-error *ngIf="item.controls['special_price'].hasError('required')">
+                                          Please enter special price
                                         </mat-error>
                                       </mat-form-field>
                                     </div>
@@ -620,13 +620,13 @@
                                 </div>
                                 <div fxFlex="50%">
                                   <mat-form-field class="example-full-width" fxFlex="100%">
-                                    <mat-label>Regular Price($)</mat-label>
+                                    <mat-label>Special Price($)</mat-label>
                                     <input matInput (focus)="isOnVariantSellingPrice=true"
                                       (focusout)="isOnVariantSellingPrice=false" autocomplete="off"
-                                      formControlName="regular_price" currencyMask [options]="priceOptions"
+                                      formControlName="special_price" currencyMask [options]="priceOptions"
                                       maxlength='15'>
-                                    <mat-error *ngIf="unitVariants.controls['regular_price'].hasError('required')">
-                                      Please enter regular price
+                                    <mat-error *ngIf="unitVariants.controls['special_price'].hasError('required')">
+                                      Please enter special price
                                     </mat-error>
                                   </mat-form-field>
                                 </div>
@@ -893,12 +893,12 @@
                                     </mat-error>
                                   </mat-form-field>
                                   <mat-form-field class="example-full-width" fxFlex="50%">
-                                    <mat-label>Regular Price($)</mat-label>
+                                    <mat-label>Special Price($)</mat-label>
                                     <input matInput (focus)="isOnSellingPrice=true" (focusout)="isOnSellingPrice=false"
                                       currencyMask [options]="priceOptions" maxlength='15'
-                                      formControlName="regular_price" autocomplete="off">
-                                    <mat-error *ngIf="store.controls['regular_price'].hasError('required')">
-                                      Please enter regular price
+                                      formControlName="special_price" autocomplete="off">
+                                    <mat-error *ngIf="store.controls['special_price'].hasError('required')">
+                                      Please enter special price
                                     </mat-error>
                                   </mat-form-field>
                                 </div>
@@ -922,12 +922,12 @@
                           </div>
                           <div fxFlex="50%">
                             <mat-form-field class="example-full-width" fxFlex="100%">
-                              <mat-label>Regular Price($)</mat-label>
+                              <mat-label>Special Price($)</mat-label>
                               <input matInput (focus)="isOnSellingPrice=true" (focusout)="isOnSellingPrice=false"
-                                formControlName="regular_price" autocomplete="off" currencyMask [options]="priceOptions"
+                                formControlName="special_price" autocomplete="off" currencyMask [options]="priceOptions"
                                 maxlength='15'>
-                              <mat-error *ngIf="addProductForm.controls['regular_price'].hasError('required')">
-                                Please enter regular price
+                              <mat-error *ngIf="addProductForm.controls['special_price'].hasError('required')">
+                                Please enter special price
                               </mat-error>
                             </mat-form-field>
                           </div>
