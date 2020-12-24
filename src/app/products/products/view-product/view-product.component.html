@@ -367,7 +367,7 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" prop="regular_price" name="Regular Price"
+                      <ngx-datatable-column [resizeable]="false" prop="special_price" name="Special Price"
                         [width]="120">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
@@ -376,11 +376,11 @@
                             <!-- <span>$</span>&nbsp;<input autocomplete="off" autofocus class="min-width" formControlName="variant_price" /> -->
                             <mat-form-field class="example-full-width" fxFlex="100">
                               <input matInput placeholder="" (focus)="isOnSellingPrice=true"
-                                (focusout)="isOnSellingPrice=false" formControlName="regular_price" autocomplete="off"
+                                (focusout)="isOnSellingPrice=false" formControlName="special_price" autocomplete="off"
                                 currencyMask [options]="priceOptions" maxlength='15'>
                               <mat-error
-                                *ngIf="variantsForm.controls['variant_detail'].at(rowIndex).get('regular_price').hasError('required')">
-                                Please enter regular price
+                                *ngIf="variantsForm.controls['variant_detail'].at(rowIndex).get('special_price').hasError('required')">
+                                Please enter special price
                               </mat-error>
                             </mat-form-field>
                           </div>

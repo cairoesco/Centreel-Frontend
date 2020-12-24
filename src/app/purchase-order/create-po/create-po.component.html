@@ -508,8 +508,8 @@
                             *ngIf="!purchaseForm.controls.poProducts.at(rowIndex).controls.selling_price.value && isSubmitted">Required</span>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="regular_price"
-                        name="Regular <br/>Price<br/> per unit($)" [width]="120">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="special_price"
+                        name="Special <br/>Price<br/> per unit($)" [width]="120">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div fxLayout="row">
@@ -517,11 +517,11 @@
                             <div [formGroupName]="rowIndex">
                               <input autocomplete="off" autofocus appTwoDigitDecimaNumber class="min-width"
                                 [value]="value" onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}"
-                                formControlName="regular_price" type="text" />
+                                formControlName="special_price" type="text" />
                             </div>
                           </div>
                           <span class="mat-text-warn"
-                            *ngIf="!purchaseForm.controls.poProducts.at(rowIndex).controls.regular_price.value && isSubmitted">Required</span>
+                            *ngIf="!purchaseForm.controls.poProducts.at(rowIndex).controls.special_price.value && isSubmitted">Required</span>
                         </ng-template>
                       </ngx-datatable-column>
 
@@ -779,20 +779,20 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="regular_price"
-                        name="Regular Price per unit($)" [width]="200">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="special_price"
+                        name="Special Price per unit($)" [width]="200">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
-                            <span *ngIf="!editing[rowIndex + '-regular_price']">
+                            <span *ngIf="!editing[rowIndex + '-special_price']">
                               ${{value | number : '1.2-2'}}
                             </span>
-                            <input autocomplete="off" autofocus *ngIf="editing[rowIndex+ '-regular_price']"
+                            <input autocomplete="off" autofocus *ngIf="editing[rowIndex+ '-special_price']"
                               type="number"
-                              (keypress)="utility.numberAndDotOnly($event,this.purchaseForm.controls['cannabisProducts'].controls[rowIndex].controls['regular_price'].value)"
+                              (keypress)="utility.numberAndDotOnly($event,this.purchaseForm.controls['cannabisProducts'].controls[rowIndex].controls['special_price'].value)"
                               class="min-width" [value]="value"
                               onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}"
-                              formControlName="regular_price" />
+                              formControlName="special_price" />
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
@@ -822,7 +822,7 @@
                             <mat-icon>edit</mat-icon>
                           </button>
                           <button mat-icon-button type="button"
-                            (click)="updateValue(['product_name','variant_name','value_added','stock_price','selling_price','batch','storage_id','cost','total_selling_price','regular_price','margin'], rowIndex);isEditable[rowIndex] = false;focusOnSearch()"
+                            (click)="updateValue(['product_name','variant_name','value_added','stock_price','selling_price','batch','storage_id','cost','total_selling_price','special_price','margin'], rowIndex);isEditable[rowIndex] = false;focusOnSearch()"
                             *ngIf="isEditable[rowIndex]">
                             <mat-icon>add_box</mat-icon>
                           </button>
@@ -997,24 +997,24 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="regular_price"
-                        name="Regular Price per unit($)*" [width]="130">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="special_price"
+                        name="Special Price per unit($)*" [width]="130">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex" class="cell-data">
                             <!-- <div fxLayout="row"> -->
-                            <span *ngIf="!editing[rowIndex + '-regular_price']">
+                            <span *ngIf="!editing[rowIndex + '-special_price']">
                               ${{value | number : '1.2-2'}}
                             </span>
                             <input autocomplete="off" autofocus
                               type="text" min="0"
-                              appTwoDigitDecimaNumber *ngIf="editing[rowIndex+ '-regular_price']"
+                              appTwoDigitDecimaNumber *ngIf="editing[rowIndex+ '-special_price']"
                               class="min-width" [value]="value"
                               onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}"
-                              formControlName="regular_price" />
+                              formControlName="special_price" />
                             <!-- </div> -->
                             <span class="mat-text-warn"
-                              *ngIf="!purchaseForm.controls.cannabisProductsAccessories.at(rowIndex).controls.regular_price.value && isSubmitted">Required</span>
+                              *ngIf="!purchaseForm.controls.cannabisProductsAccessories.at(rowIndex).controls.special_price.value && isSubmitted">Required</span>
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
@@ -1087,7 +1087,7 @@
                             <mat-icon>edit</mat-icon>
                           </button>
                           <button class="action_btn" mat-icon-button type="button"
-                            (click)="updateValue(['product_name','variant_name','value_added','stock_price','selling_price','regular_price','batch','storage_id','cost','total_selling_price','margin','package_capacity','barcode_number'], rowIndex);isEditable[rowIndex] = false"
+                            (click)="updateValue(['product_name','variant_name','value_added','stock_price','selling_price','special_price','batch','storage_id','cost','total_selling_price','margin','package_capacity','barcode_number'], rowIndex);isEditable[rowIndex] = false"
                             *ngIf="isEditable[rowIndex]">
                             <mat-icon>add_box</mat-icon>
                           </button>
@@ -1273,23 +1273,23 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="regular_price"
-                        name="Regular Price per unit($)*" [width]="130">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="special_price"
+                        name="Special Price per unit($)*" [width]="130">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex" class="cell-data">
                             <!-- <div fxLayout="row"> -->
-                            <span *ngIf="!editing[rowIndex + '-regular_price']">
+                            <span *ngIf="!editing[rowIndex + '-special_price']">
                               ${{value | number : '1.2-2'}}
                             </span>
                             <input autocomplete="off" autofocus 
                               type="text" min="0" appTwoDigitDecimaNumber
-                              *ngIf="editing[rowIndex+ '-regular_price']" class="min-width" [value]="value"
+                              *ngIf="editing[rowIndex+ '-special_price']" class="min-width" [value]="value"
                               onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}"
-                              formControlName="regular_price" />
+                              formControlName="special_price" />
                             <!-- </div> -->
                             <span class="mat-text-warn"
-                              *ngIf="!purchaseForm.controls.noncannabisProducts.at(rowIndex).controls.regular_price.value && isSubmitted">Required</span>
+                              *ngIf="!purchaseForm.controls.noncannabisProducts.at(rowIndex).controls.special_price.value && isSubmitted">Required</span>
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
@@ -1361,7 +1361,7 @@
                             <mat-icon>edit</mat-icon>
                           </button>
                           <button class="action_btn" mat-icon-button type="button"
-                            (click)="updateValue(['product_name','variant_name','value_added','stock_price','selling_price','regular_price','batch','storage_id','cost','total_selling_price','margin','package_capacity','barcode_number'], rowIndex);isEditable[rowIndex] = false"
+                            (click)="updateValue(['product_name','variant_name','value_added','stock_price','selling_price','special_price','batch','storage_id','cost','total_selling_price','margin','package_capacity','barcode_number'], rowIndex);isEditable[rowIndex] = false"
                             *ngIf="isEditable[rowIndex]">
                             <mat-icon>add_box</mat-icon>
                           </button>
@@ -1522,8 +1522,8 @@
                             *ngIf="!purchaseForm.controls.poImportProducts.at(rowIndex).controls.selling_price.value && isSubmitted">Required</span>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="regular_price"
-                        name="Regular <br/>Price<br/> per unit($)" [width]="120">
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="special_price"
+                        name="Special <br/>Price<br/> per unit($)" [width]="120">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div fxLayout="row">
@@ -1532,11 +1532,11 @@
                               <input autocomplete="off" autofocus appTwoDigitDecimaNumber class="min-width"
                                 [value]="value"
                                 onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}"
-                                formControlName="regular_price" type="text" />
+                                formControlName="special_price" type="text" />
                             </div>
                           </div>
                           <span class="mat-text-warn"
-                            *ngIf="!purchaseForm.controls.poImportProducts.at(rowIndex).controls.regular_price.value && isSubmitted">Required</span>
+                            *ngIf="!purchaseForm.controls.poImportProducts.at(rowIndex).controls.special_price.value && isSubmitted">Required</span>
                         </ng-template>
                       </ngx-datatable-column>
 

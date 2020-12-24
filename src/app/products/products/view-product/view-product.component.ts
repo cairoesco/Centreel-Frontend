@@ -547,7 +547,7 @@ export class ViewProductComponent implements OnInit {
       variant_sku: [data.variant_sku],
       dry_weight: [data.dry_weight],
       purchase_price: [data.purchase_price, Validators.required],
-      regular_price: [data.regular_price],
+      special_price: [data.special_price],
       store_id: [data.store_id],
       batch_no: [data.variant_batches.length > 0 ? data.variant_batches[0].batch_no : ''],
       batch_detail: [data.variant_batches],
@@ -986,7 +986,7 @@ export class ViewProductComponent implements OnInit {
     formData.append('barcode', JSON.stringify(data.barcode))
     formData.append('dry_weight', data.dry_weight)
     formData.append('selling_price', JSON.stringify({ selling_price: data.variant_price, store_id: data.store_id }))
-    formData.append('regular_price', JSON.stringify({ regular_price: data.regular_price, store_id: data.store_id }))
+    formData.append('special_price', JSON.stringify({ special_price: data.special_price, store_id: data.store_id }))
     formData.append('purchase_price', JSON.stringify({ purchase_price: data.purchase_price, stocks_variants_id: data.stocks_variants_id }))
     if (control1.valid && !selling_error && data.store_id > 0) {
       this.api.updateVariant(formData, id)
