@@ -121,8 +121,20 @@
                         </mat-form-field>
                       </div>
                     </div>
+
                     <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
                       fxLayoutAlign="center">
+                      <div fxFlex="50%" *ngIf="isCanabies">
+                        <mat-form-field class="example-full-width" fxFlex="100%">
+                          <mat-select placeholder="Species" formControlName="specie_id" [disableOptionCentering]="true">
+                            <mat-option *ngFor="let species of rawDetail?.species" [value]="species.id">
+                              {{species.species_name}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="generalForm.controls['specie_id'].hasError('required')">Please select
+                            Species Type</mat-error>
+                        </mat-form-field>
+                      </div>
                       <div fxFlex="50%">
                         <mat-form-field fxFlex="100%">
                           <mat-select placeholder="Unit of Measurement*" formControlName="product_unit"
@@ -136,6 +148,8 @@
                           </mat-select>
                         </mat-form-field>
                       </div>
+                    </div>
+                    <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%">
                       <div fxFlex="50%">
                         <mat-form-field class="example-full-width" fxFlex="100">
                           <input matInput placeholder="Brand" formControlName="brand" autocomplete="off">
@@ -282,7 +296,8 @@
                           <mat-select placeholder="Tax Rate*" formControlName="taxrate_id"
                             [disableOptionCentering]="true">
                             <mat-option *ngFor="let tax_rate of storewiseTaxes[0]" [value]="tax_rate.id">
-                              {{tax_rate.tax_type}}({{tax_rate.provincial_rate>0 ? tax_rate.country_rate +" + "+ tax_rate.provincial_rate : tax_rate.country_rate}})
+                              {{tax_rate.tax_type}}({{tax_rate.provincial_rate>0 ? tax_rate.country_rate +" + "+
+                              tax_rate.provincial_rate : tax_rate.country_rate}})
                             </mat-option>
                           </mat-select>
                           <mat-error *ngIf="taxForm.controls['taxrate_id'].hasError('required')">Please select
@@ -386,16 +401,15 @@
                           </div>
                         </ng-template>
                       </ngx-datatable-column>
-                      <ngx-datatable-column [resizeable]="false" prop="dry_weight" name="Dry Weight"
-                        [width]="120" *ngIf="isCanabies">
+                      <ngx-datatable-column [resizeable]="false" prop="dry_weight" name="Dry Weight" [width]="120"
+                        *ngIf="isCanabies">
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <span title="{{value}}" *ngIf="!variantsInfo"> {{value}}</span>
                           <div [formGroupName]="rowIndex" *ngIf="variantsInfo">
                             <!-- <span>$</span>&nbsp;<input autocomplete="off" autofocus class="min-width" formControlName="purchase_price" /> -->
                             <mat-form-field class="example-full-width" fxFlex="100">
-                              <input matInput placeholder=""  formControlName="dry_weight" autocomplete="off"
-                                >
+                              <input matInput placeholder="" formControlName="dry_weight" autocomplete="off">
                               <!-- <mat-error
                                 *ngIf="variantsForm.controls['variant_detail'].at(rowIndex).get('dry_weight').hasError('required')">
                                 Please enter dry weight
