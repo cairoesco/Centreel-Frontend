@@ -19,7 +19,7 @@
           <mat-bar-button type="submit" [options]="barButtonOptions"></mat-bar-button>
         </span>
         <!-- if import file -->
-        <span *ngIf="isImported">
+        <span *ngIf="isImported || isExcelImported">
           <mat-bar-button type="submit" [options]="barButtonOptions"></mat-bar-button>
         </span>
         <!-- if import file -->
@@ -122,7 +122,7 @@
                       </div>
                     </div>
 
-                    <mat-card class="file-drop-box po-document po-new-file" (click)="excelUpload.click()" ng2FileDrop
+                    <mat-card *ngIf="!isExcelImported && !isProductAdded" class="file-drop-box po-document po-new-file" (click)="excelUpload.click()" ng2FileDrop
                       [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event,'excel')"
                       [uploader]="uploader">
                       <div class="mb-1 drag_upload">Browse or drag file(s) to upload</div>
@@ -130,7 +130,7 @@
                     <input hidden #excelUpload type="file" multiple [formControl]="purchaseForm.controls['file_input']"
                       ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
                       (change)="fileOverBase($event,'excel')" ng2FileSelect [uploader]="uploader" />
-                    <mat-card class="po-document" *ngFor="let file of arrayOfFiles ; let i = index">
+                    <!-- <mat-card class="po-document" *ngFor="let file of arrayOfFiles ; let i = index">
                       <div fxLayout="row" class="file-view-section">
                         <div fxFlex="15%">
                           <mat-icon class="material-icons">
@@ -145,7 +145,7 @@
                         </div>
                       </div>
                       <hr>
-                    </mat-card>
+                    </mat-card> -->
 
                     <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3%">
                       <div fxFlex="31%">
@@ -288,7 +288,7 @@
             </div>
           </div>
         </div>
-        <div id="section2" *ngIf="!isImported">
+        <div id="section2" *ngIf="!isImported && !isExcelImported">
           <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
             fxLayoutAlign="center">
             <div fxFlex="2" fxFlex.md="2" fxFlex.sm="5" fxFlex.xs="10%">
@@ -1314,6 +1314,173 @@
               </div>
             </div>
             <div fxFlex="2" fxFlex.sm="20" fxFlex.md="2" fxFlex.xs="10%">
+            </div>
+          </div>
+        </div>
+
+        <!------------------------- CTG Brands Invoice Excel ---------------------->
+        <div id="section3" *ngIf="this.purchaseForm.controls?.poImportProducts?.value.length > 0">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <div fxFlex="2" fxFlex.md="2" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="96" fxFlex.sm="92.5" fxFlex.md="96">
+              <div class="" formArrayName="poImportProducts">
+                <h2 layout-margin>Products</h2>
+                <mat-card style="padding:0px;">
+                  <div fxLayout="row" class="import-file-success" *ngIf="isTrue">
+                    <div class="error-icon">
+                      <mat-icon class="material-icons">
+                        warning
+                      </mat-icon>
+                    </div>
+                    <h3>Selling price must be input above $0.00 to be displayed on the POS</h3>
+                    <span fxFlex></span>
+                    <div class="close-icon" (click)="isTrue = false">
+                      <mat-icon class="material-icons">
+                        cancel
+                      </mat-icon>
+                    </div>
+                  </div>
+                  <div class="import-po-table">
+                    <ngx-datatable #myDatatable class="material product_table" [headerHeight]="60"
+                      [ngStyle]="{'height':dynamicHeight}" [limit]="10" [columnMode]="'force'" [scrollbarH]="true"
+                      [footerHeight]="0" [rowHeight]="48" [scrollbarV]="true"
+                      [rows]="this.purchaseForm.controls.poImportProducts.value">
+                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" [sortable]="false"
+                        prop="product_desc" name="Product Category" [width]="230">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <mat-select formControlName="product_category_id" placeholder="Product Category"
+                              [disableOptionCentering]="true">
+                              <mat-option *ngFor="let category of rawData.product_categories"
+                                [value]="category.product_category_id">
+                                {{ category.product_category_name }}
+                              </mat-option>
+                            </mat-select>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" [frozenLeft]="true" [sortable]="false"
+                        prop="product_name" name="Product Name" [width]="230">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <input autocomplete="off" autofocus class="max-width" maxlength="50" [value]="value"
+                              formControlName="product_name" appRemoveSpace />
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="variant_name"
+                        name="Variant Name" [width]="200">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <input autocomplete="off" autofocus class="max-width" maxlength="50" [value]="value"
+                              formControlName="variant_name" appRemoveSpace />
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="barcode" name="Barcode Number"
+                        [width]="200">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <input autocomplete="off" autofocus class="max-width" maxlength="50" [value]="value"
+                              formControlName="barcode" appRemoveSpace />
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="variant_sku" name="SKU"
+                        [width]="200">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <span>
+                              {{value}}
+                            </span>
+
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="stock_price"
+                        name="Purchase <br/>Price<br/> per unit($)" [width]="120">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <span>
+                              ${{value|number : '1.2-2'}}
+                            </span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="value_added" name="Quantity"
+                        [width]="100">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div fxLayout="row">
+                            <!-- <div>$</div>&nbsp; -->
+                            <div [formGroupName]="rowIndex">
+                              <input autocomplete="off" autofocus appTwoDigitDecimaNumber class="min-width"
+                                [value]="value" formControlName="value_added" type="text" />
+                            </div>
+                          </div>
+                          <span class="mat-text-warn"
+                            *ngIf="!purchaseForm.controls.poImportProducts.at(rowIndex).controls.selling_price.value && isSubmitted">Required</span>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="selling_price"
+                        name="Selling <br/>Price<br/> per unit($)" [width]="120">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div fxLayout="row">
+                            <div>$</div>&nbsp;
+                            <div [formGroupName]="rowIndex">
+                              <input autocomplete="off" autofocus appTwoDigitDecimaNumber class="min-width"
+                                [value]="value" (input)="stockprice(rowIndex,'poImportProducts')"
+                                onKeyUp="if(this.value == ' '){while(this.value){this.value = this.value.slice(0, -1)};}"
+                                formControlName="selling_price" type="text" />
+                            </div>
+                          </div>
+                          <span class="mat-text-warn"
+                            *ngIf="!purchaseForm.controls.poImportProducts.at(rowIndex).controls.selling_price.value && isSubmitted">Required</span>
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="variant_size" name="Size"
+                        [width]="120">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <span>
+                              {{value}}
+                            </span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="storage_id" name="Warehouse"
+                        [width]="200">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <mat-select formControlName="storage_id" placeholder="Warehouse"
+                              [disableOptionCentering]="true">
+                              <mat-option *ngFor="let wh of warehouse" [value]="wh.storage_id">{{ wh.name }}
+                              </mat-option>
+                            </mat-select>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                    </ngx-datatable>
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+            <div fxFlex="2" fxFlex.sm="2.5" fxFlex.md="2">
             </div>
           </div>
         </div>
