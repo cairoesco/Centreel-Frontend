@@ -143,14 +143,12 @@
                     </div>
                     <div fxFlex="50%">
                       <mat-form-field class="example-full-width" fxFlex="100">
-                        <mat-select placeholder="Species" formControlName="species_type"
-                          [disableOptionCentering]="true">
-                          <mat-option *ngFor="let cannabisType of rawDetail?.cannabis_types "
-                            [value]="cannabisType.type_id">
-                            {{cannabisType.type_name}}
+                        <mat-select placeholder="Species" formControlName="specie_id" [disableOptionCentering]="true">
+                          <mat-option *ngFor="let species of rawDetail?.species" [value]="species.id">
+                            {{species.species_name}}
                           </mat-option>
                         </mat-select>
-                        <mat-error *ngIf="addProductForm.controls['species_type'].hasError('required')">Please select
+                        <mat-error *ngIf="addProductForm.controls['specie_id'].hasError('required')">Please select
                           Species Type</mat-error>
                       </mat-form-field>
                     </div>

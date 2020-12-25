@@ -217,6 +217,7 @@ export class ViewProductComponent implements OnInit {
     this.generalForm = this.fb.group({
       product_name: ["", Validators.required],
       product_highlights: [""],
+      specie_id: [""],
       type_id: ["", Validators.required],
       product_category: ["", Validators.required],
       //vendor: ["--"],
@@ -361,6 +362,7 @@ export class ViewProductComponent implements OnInit {
       product_name: product.product_name,
       product_highlights: product.product_highlights == null ? '' : product.product_highlights,
       type_id: product.type_id,
+      specie_id: product.specie_id,
       product_category: product.product_category,
       // vendor: product.vendor,
       brand: product.brand == null ? '' : product.brand,
@@ -685,7 +687,7 @@ export class ViewProductComponent implements OnInit {
           this.generalInfoForm(this.productData);
           this.taxInfoForm(this.productData);
           this.identificationInfoForm(this.productData);
-          this.getRawDetails_temp({ product_attributes: response.data.product_attributes, product_types: response.data.product_types, variant_properties: response.data.variant_properties, product: response.data.product });
+          this.getRawDetails_temp({ product_attributes: response.data.product_attributes, product_types: response.data.product_types, variant_properties: response.data.variant_properties, product: response.data.product,species:response.data.species });
           this.supplierForm.controls.product_suppliers_data.setValue(this.productData.product_supplier);
           const control1: any = this.identificationForm.controls['product_proviences'];
           this.variantsForm = this.fb.group({
