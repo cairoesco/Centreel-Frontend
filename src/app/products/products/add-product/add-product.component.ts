@@ -149,6 +149,7 @@ export class AddProductComponent implements OnInit {
       taxrate_id: [''],
       type_id: ['', Validators.required],
       cannabis_type: ['', Validators.required], //cannabis type
+      specie_id: [''], //species id
       product_category: ['', Validators.required],
       default_image: [''],
       product_image: [''],
