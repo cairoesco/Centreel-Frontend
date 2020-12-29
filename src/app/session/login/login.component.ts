@@ -58,9 +58,7 @@ export class LoginComponent implements OnInit {
     let value = admin ? { username: 'admin' } : this.form.value
     this.api.validateChain(value).subscribe((response: any) => {
       if (response.data.length) {
-        console.log(response);
-        console.log(response.data);
-        localStorage.setItem('chain_data', JSON.stringify(response.data[0]))
+        localStorage.setItem('chainData', JSON.stringify(response.data[0]))
         this.router.navigateByUrl('session/signin');
         this.utils.showSnackBar(response.message, { panelClass: 'success' });
         this.barButtonOptions.active = false;
