@@ -582,6 +582,16 @@
                                           Please enter selling price
                                         </mat-error>
                                       </mat-form-field>
+                                      <mat-form-field class="example-full-width" fxFlex="50%">
+                                        <mat-label>Special Price($)</mat-label>
+                                        <input matInput (focus)="isOnVariantSellingPrice=true"
+                                          (focusout)="isOnVariantSellingPrice=false" autocomplete="off"
+                                          formControlName="special_price" currencyMask [options]="priceOptions"
+                                          maxlength='15'>
+                                        <mat-error *ngIf="item.controls['special_price'].hasError('required')">
+                                          Please enter special price
+                                        </mat-error>
+                                      </mat-form-field>
                                     </div>
                                   </div>
                                 </div>
@@ -594,16 +604,30 @@
                           <div *ngIf="unitVariants.value.price_differ_for_store == 0">
                             <mat-card-content>
                               <div fxLayout="row" fxLayoutGap="5%">
-                                <mat-form-field class="example-full-width" fxFlex="50%">
-                                  <mat-label>Selling Price($)<span *ngIf="!isAuthorized">*</span></mat-label>
-                                  <input matInput (focus)="isOnVariantSellingPrice=true"
-                                    (focusout)="isOnVariantSellingPrice=false" autocomplete="off"
-                                    formControlName="selling_price" currencyMask [options]="priceOptions"
-                                    maxlength='15'>
-                                  <mat-error *ngIf="unitVariants.controls['selling_price'].hasError('required')">
-                                    Please enter selling price
-                                  </mat-error>
-                                </mat-form-field>
+                                <div fxFlex="50%">
+                                  <mat-form-field class="example-full-width" fxFlex="100%">
+                                    <mat-label>Selling Price($)<span *ngIf="!isAuthorized">*</span></mat-label>
+                                    <input matInput (focus)="isOnVariantSellingPrice=true"
+                                      (focusout)="isOnVariantSellingPrice=false" autocomplete="off"
+                                      formControlName="selling_price" currencyMask [options]="priceOptions"
+                                      maxlength='15'>
+                                    <mat-error *ngIf="unitVariants.controls['selling_price'].hasError('required')">
+                                      Please enter selling price
+                                    </mat-error>
+                                  </mat-form-field>
+                                </div>
+                                <div fxFlex="50%">
+                                  <mat-form-field class="example-full-width" fxFlex="100%">
+                                    <mat-label>Special Price($)</mat-label>
+                                    <input matInput (focus)="isOnVariantSellingPrice=true"
+                                      (focusout)="isOnVariantSellingPrice=false" autocomplete="off"
+                                      formControlName="special_price" currencyMask [options]="priceOptions"
+                                      maxlength='15'>
+                                    <mat-error *ngIf="unitVariants.controls['special_price'].hasError('required')">
+                                      Please enter special price
+                                    </mat-error>
+                                  </mat-form-field>
+                                </div>
                               </div>
                               <mat-error *ngIf="isOnVariantSellingPrice && isCanabis" class="mat-text-warn">
                                 Product selling price can not be less than it's purchase price
@@ -866,6 +890,15 @@
                                       Please enter selling price
                                     </mat-error>
                                   </mat-form-field>
+                                  <mat-form-field class="example-full-width" fxFlex="50%">
+                                    <mat-label>Special Price($)</mat-label>
+                                    <input matInput (focus)="isOnSellingPrice=true" (focusout)="isOnSellingPrice=false"
+                                      currencyMask [options]="priceOptions" maxlength='15'
+                                      formControlName="special_price" autocomplete="off">
+                                    <mat-error *ngIf="store.controls['special_price'].hasError('required')">
+                                      Please enter special price
+                                    </mat-error>
+                                  </mat-form-field>
                                 </div>
                               </div>
                             </div>
@@ -874,15 +907,28 @@
                       </div>
                       <div *ngIf="addProductForm.controls['price_differ_for_store'].value != 1">
                         <div fxLayout="row" fxLayoutGap="5%">
-                          <mat-form-field class="example-full-width" fxFlex="50%">
-                            <mat-label>Selling Price($)<span *ngIf="!isAuthorized">*</span></mat-label>
-                            <input matInput (focus)="isOnSellingPrice=true" (focusout)="isOnSellingPrice=false"
-                              formControlName="selling_price" autocomplete="off" currencyMask [options]="priceOptions"
-                              maxlength='15'>
-                            <mat-error *ngIf="addProductForm.controls['selling_price'].hasError('required')">
-                              Please enter selling price
-                            </mat-error>
-                          </mat-form-field>
+                          <div fxFlex="50%">
+                            <mat-form-field class="example-full-width" fxFlex="100%">
+                              <mat-label>Selling Price($)<span *ngIf="!isAuthorized">*</span></mat-label>
+                              <input matInput (focus)="isOnSellingPrice=true" (focusout)="isOnSellingPrice=false"
+                                formControlName="selling_price" autocomplete="off" currencyMask [options]="priceOptions"
+                                maxlength='15'>
+                              <mat-error *ngIf="addProductForm.controls['selling_price'].hasError('required')">
+                                Please enter selling price
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div fxFlex="50%">
+                            <mat-form-field class="example-full-width" fxFlex="100%">
+                              <mat-label>Special Price($)</mat-label>
+                              <input matInput (focus)="isOnSellingPrice=true" (focusout)="isOnSellingPrice=false"
+                                formControlName="special_price" autocomplete="off" currencyMask [options]="priceOptions"
+                                maxlength='15'>
+                              <mat-error *ngIf="addProductForm.controls['special_price'].hasError('required')">
+                                Please enter special price
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
                         </div>
                       </div>
                     </div>
