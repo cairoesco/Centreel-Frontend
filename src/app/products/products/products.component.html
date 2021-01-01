@@ -108,7 +108,7 @@
                         </ng-template>
                     </ngx-datatable-column>
                     <ngx-datatable-column name="BRAND NAME" width="100" prop="brand" [resizeable]="false"
-                        [flexGrow]="4">
+                        [flexGrow]="2">
                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                             <div title='{{row["brand"]}}'>{{(row["brand"] == null || row["brand"] ==
                                 'null')?'':
