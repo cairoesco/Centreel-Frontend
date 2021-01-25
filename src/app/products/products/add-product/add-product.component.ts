@@ -257,16 +257,16 @@ export class AddProductComponent implements OnInit {
     const control = (<FormArray>this.addProductForm.controls['barcode']) as FormArray;
     let control_val = control.value
 
-    let userData = this.utility.getSessionData('currentUser');
-    let uname = (userData.name).charAt(0).toUpperCase();
+    //let userData = this.utility.getSessionData('currentUser');
+    //let uname = (userData.name).charAt(0).toUpperCase();
 
-    let pname = this.addProductForm.get('product_name').value ? this.addProductForm.get('product_name').value : 'P';
-    let product_module = 'O';
-    let product_name = product_module + pname.charAt(0).toUpperCase();
-    let variant_name = product_name + "v";
+    //let pname = this.addProductForm.get('product_name').value ? this.addProductForm.get('product_name').value : 'P';
+    //let product_module = 'O';
+    //let product_name = product_module + pname.charAt(0).toUpperCase();
+    //let variant_name = product_name + "v";
     let timestamp = +(new Date());
-    let username = variant_name + timestamp + uname;
-    control_val.push(username)
+    //let username = variant_name + timestamp + uname;
+    control_val.push(timestamp)
 
     control.setValue(control_val);
   }
@@ -275,16 +275,16 @@ export class AddProductComponent implements OnInit {
     const control = (<FormArray>this.addProductForm.controls['variants']).at(index).get('barcode') as FormArray;
     let control_val = control.value
 
-    let userData = this.utility.getSessionData('currentUser');
-    let uname = (userData.name).charAt(0).toUpperCase();
+    // let userData = this.utility.getSessionData('currentUser');
+    // let uname = (userData.name).charAt(0).toUpperCase();
 
-    let pname = this.addProductForm.get('product_name').value ? this.addProductForm.get('product_name').value : 'P';
-    let product_module = 'O';
-    let product_name = product_module + pname.charAt(0).toUpperCase();
-    let variant_name = product_name + "v";
+    // let pname = this.addProductForm.get('product_name').value ? this.addProductForm.get('product_name').value : 'P';
+    // let product_module = 'O';
+    // let product_name = product_module + pname.charAt(0).toUpperCase();
+    // let variant_name = product_name + "v";
     let timestamp = +(new Date());
-    let username = variant_name + timestamp + uname;
-    control_val.push(username)
+    // let username = variant_name + timestamp + uname;
+    control_val.push(timestamp)
 
     control.setValue(control_val);
   }
