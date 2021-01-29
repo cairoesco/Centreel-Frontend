@@ -70,7 +70,7 @@ export class ReconsileInventoryComponent implements OnInit {
   ngOnInit() {
     this.getStores();
     this.inventory_reconcile = this.formBuilder.group({
-      product_type: ['non cannabis'],
+      product_type: ['cannabis'],
       store_id: [''],
       has_stock: [false],
       selected: { start: moment().format('DD/MM/YYYY HH:mm:ss'), end: moment().format('DD/MM/YYYY') }
