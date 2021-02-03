@@ -97,19 +97,19 @@
                             </div>
                         </ng-template>
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="ID" prop="user_id" [resizeable]="false" [flexGrow]="1">
-                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                            <span class="hover-color" (click)="$event.stopPropagation();"
-                                [routerLink]="['/users', row['user_id'], 'view']">#{{row['user_id']}}</span>
-                        </ng-template>
-                    </ngx-datatable-column>
                     <ngx-datatable-column name="Employee Name" prop="name" [resizeable]="false" [flexGrow]="2">
                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                             <span class="hover-color" (click)="$event.stopPropagation();"
                                 [routerLink]="['/users', row['user_id'], 'view']">{{row['name']}}</span>
                         </ng-template>
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="Store" prop="store_name" [resizeable]="false" [flexGrow]="3">
+                    <ngx-datatable-column name="Employee Email" prop="user_email" [resizeable]="false" [flexGrow]="2.5">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <span class="hover-color" (click)="$event.stopPropagation();"
+                                [routerLink]="['/users', row['user_id'], 'view']">{{row['user_email']}}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Store" prop="store_name" [resizeable]="false" [flexGrow]="2.5">
                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                             {{row['store_name']}}
                         </ng-template>
