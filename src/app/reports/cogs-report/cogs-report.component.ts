@@ -80,13 +80,11 @@ export class CogsReportComponent implements OnInit {
       this.formobj.from_date = this.utility.get_utc_from_to_date(start_date);
       this.formobj.to_date = this.utility.get_utc_from_to_date(to_date);
       
-      let params = 'store_id=' + this.formobj.store_id + '&from_date=' + this.formobj.from_date + '&to_date=' + this.formobj.to_date + '&tz=' + encodeURIComponent(TZ) + '&timezone=' + this.formobj.timezone; 
+      let params = 'store_id=' + this.formobj.store_id + '&from_date=' + this.formobj.from_date + '&to_date=' + this.formobj.to_date + '&tz=' + encodeURIComponent(TZ) + '&timezone=' + this.formobj.timezone;
       this.reportService.getCogsReport(params)
         .subscribe((response: any) => {
           this.inProgress = false;
           this.rows = response.data;
-          let appendData = this.rows.total_hour;
-          this.rows.cogsForm = this.rows.cogsForm.concat(appendData)
           this.dynamicHeight = this.rows.length < 12 ? ((this.rows.length + 2) * 48 + 10) + "px" : '';
         },
           err => {
@@ -126,6 +124,7 @@ export class CogsReportComponent implements OnInit {
   getStores() {
     this.reportService.getStores()
       .subscribe((response: any) => {
+        this.storeList = response.data.stores;
         if (response.data.stores.length > 0) {
           this.cogsForm.patchValue({ store_id: this.storeList[0].store_id });
         }
@@ -135,7 +134,7 @@ export class CogsReportComponent implements OnInit {
   reset_form() {
     this.cogsForm.controls['selected'].setValue({ start: moment().format('DD/MM/YYYY'), end: moment().format('DD/MM/YYYY') });
   }
-
+/*
   toggleExpandRow(row) {
     this.table.rowDetail.toggleExpandRow(row);
   }
@@ -143,5 +142,5 @@ export class CogsReportComponent implements OnInit {
     if (event.type == 'click') {
       this.table.rowDetail.toggleExpandRow(event.row);
     }
-  }
+  }*/
 }
