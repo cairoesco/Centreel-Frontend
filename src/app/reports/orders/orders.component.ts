@@ -72,7 +72,7 @@ export class OrdersComponent implements OnInit {
     this.onChanges();
   }
 
-  columnsToDisplay = ['Order ID', 'Customer ID', 'Customer Name', 'Employee Name', 'Order Status', 'Order Time', 'Order Type', 'Payment Mode', 'Bill Amount'];
+  // columnsToDisplay = ['Order ID', 'Employee Name', 'Order Status', 'Order Time', 'Order Type', 'Payment Mode', 'Bill Amount'];
   getStores() {
     this.reportService.getStores()
       .subscribe((response: any) => {

@@ -35,7 +35,7 @@
             <div _ngcontent-c41="" class="button-row">
                 <form [formGroup]="orderlist">
                     <div class="" fxLayout="row" fxLayoutGap="1%" fxLayoutAlign="left">
-                        <div fxFlex="25%">
+                        <div fxFlex="33.33%">
                             <mat-form-field fxFlex="100%">
                                 <mat-select [formControl]="orderlist.controls['store_id']" placeholder="Store"
                                     [disableOptionCentering]="true">
@@ -44,19 +44,19 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <div fxFlex="20%">
+                        <!-- <div fxFlex="20%">
                             <mat-form-field fxFlex="100%">
                                 <input matInput placeholder="Customer Name"
                                     [formControl]="orderlist.controls['customer_name']">
                             </mat-form-field>
-                        </div>
-                        <div fxFlex="20%">
+                        </div> -->
+                        <div fxFlex="33.33%">
                             <mat-form-field fxFlex="100%">
                                 <input matInput placeholder="Order ID"
                                     [formControl]="orderlist.controls['order_id']">
                             </mat-form-field>
                         </div>
-                        <div fxFlex="35%">
+                        <div fxFlex="33.33%">
                             <mat-form-field fxFlex="100%" class="range-date-input">
                                 <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
                                     [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end"
@@ -141,26 +141,20 @@
                     </ng-template>
                 </ngx-datatable-column>
                 <!-- row detail -->
-                <ngx-datatable-column [resizeable]="false" prop="order_id" name="ORDER ID" [flexGrow]="1.5">
+                <ngx-datatable-column [resizeable]="false" prop="order_id" name="ORDER ID" [flexGrow]="1">
                     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                         <span title="{{value}}"> {{value}}</span>
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [resizeable]="false" prop="patient_id" name="Customer ID" [flexGrow]="1">
-                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                        <span title="{{value}}"> {{value}}</span>
-                    </ng-template>
-                </ngx-datatable-column>
-
-                <ngx-datatable-column [resizeable]="false" prop="patient_full_name" name="Customer Name"
+                <!-- <ngx-datatable-column [resizeable]="false" prop="patient_full_name" name="Customer Name"
                     [flexGrow]="1.5">
                     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                         <span title="{{value}}"> {{value}}</span>
                     </ng-template>
-                </ngx-datatable-column>
+                </ngx-datatable-column> -->
 
-                <ngx-datatable-column [resizeable]="false" prop="order_placed_by" name="Employee Name" [flexGrow]="1.5">
+                <ngx-datatable-column [resizeable]="false" prop="order_placed_by" name="Employee Name" [flexGrow]="2">
                     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                         <span title="{{value}}"> {{value}}</span>
                     </ng-template>
@@ -173,7 +167,7 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [resizeable]="false" prop="order_time" name="Order Time" [flexGrow]="1">
+                <ngx-datatable-column [resizeable]="false" prop="order_time" name="Order Time" [flexGrow]="1.5">
                     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                         <span title="{{value}}"> {{utils.convertLocalDateToUTCDate(value) | date: 'dd/MM/yyyy hh:mm
                             a'}}</span>
