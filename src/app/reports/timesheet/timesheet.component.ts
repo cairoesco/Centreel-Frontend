@@ -98,6 +98,7 @@ export class TimesheetComponent implements OnInit {
       // this.reportService.getTimesheetReport(this.formobj)
       this.reportService.getTimesheetReport(params)
         .subscribe((response: any) => {
+          console.log(response, 'line 101??????');
           this.inProgress = false;
           this.rows = response.data;
           let appendData = this.rows.total_hour;
