@@ -75,9 +75,9 @@ export class CogsReportComponent implements OnInit {
         edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
         this.formobj.enddate = sdate;
       }
-      this.formobj.from_date = this.utils.get_utc_from_to_date(sdate);
+      this.formobj.from_date = this.utility.get_utc_from_to_date(sdate);
       //this.formobj.end_date = this.utils.get_utc_from_to_date(edate);
-      this.formobj.to_date = this.utils.get_utc_from_to_date(edate);
+      this.formobj.to_date = this.utility.get_utc_from_to_date(edate);
 
       var display_date = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('DD/MM/YYYY');
       this.export_date = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('MMMDDYYYY');
