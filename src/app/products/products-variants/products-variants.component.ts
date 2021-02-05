@@ -393,7 +393,7 @@ export class ProductsVariantsComponent implements OnInit {
     this.router.navigateByUrl('products/' + this.product_id + '/view');
   }
   onSubmit(formData) {
-    console.log("form data is ", formData);
+    // console.log("form data is ", formData);
   }
   ngDoCheck() {
     this.innerHeight = window.innerHeight - 192;

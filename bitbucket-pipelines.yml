@@ -40,7 +40,7 @@ pipelines:
             - ng build --configuration=dev
             - scp -r dist/* root@169.48.27.167:/s3/dev-frontend
 
-    testing:
+    staging:
       - step:
           name: Deploy to testing
           deployment: test

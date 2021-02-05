@@ -2,7 +2,7 @@ name: centreel
 
 on:
   push:
-    branches: [main, dev, test]
+    branches: [master, dev, staging]
      
 
 jobs:
@@ -17,28 +17,28 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION}}
       - name: Build Application for production environment
-        if: endsWith(github.ref, '/main')
+        if: endsWith(github.ref, '/master')
         run: npm install && npm run build-prod
-      - name: Build Application for testing environment
-        if: endsWith(github.ref, '/test')
-        run: npm install && npm run build-test
+      - name: Build Application for staging environment
+        if: endsWith(github.ref, '/staging')
+        run: npm install && npm run build-staging
       - name: Build Application for development environment
         if: endsWith(github.ref, '/dev')
         run: npm install && npm run build-dev
 
         
       - name: Deploy app build to S3 bucket to prodution
-        if: endsWith(github.ref, '/main')
+        if: endsWith(github.ref, '/master')
         run: aws s3 sync ./dist/ s3://centreel-production-frontend --delete
       - name: Deploy app build to S3 bucket to testing
-        if: endsWith(github.ref, '/test')
+        if: endsWith(github.ref, '/staging')
         run: aws s3 sync ./dist/ s3://centreel-testing-frontend --delete
       - name: Deploy app build to S3 bucket to dev
         if: endsWith(github.ref, '/dev')
         run: aws s3 sync ./dist/ s3://centreel-dev-frontend --delete
 
       - name: Create CloudFront Cache Invalidation for prod
-        if: endsWith(github.ref, '/main')
+        if: endsWith(github.ref, '/master')
         uses: chetan/invalidate-cloudfront-action@master
         env:
           DISTRIBUTION: ${{ secrets.AWS_CF_DISTRIBUTION_ID_PROD }}
@@ -48,7 +48,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Create CloudFront Cache Invalidation for test
-        if: endsWith(github.ref, '/test')
+        if: endsWith(github.ref, '/staging')
         uses: chetan/invalidate-cloudfront-action@master
         env:
           DISTRIBUTION: ${{ secrets.AWS_CF_DISTRIBUTION_ID_TEST }}
