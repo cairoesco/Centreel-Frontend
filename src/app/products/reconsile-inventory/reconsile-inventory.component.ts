@@ -232,7 +232,7 @@ export class ReconsileInventoryComponent implements OnInit {
         if (this.storeList.length > 0) {
           //this.getInventoryReportData(this.storeList[0].store_id);
           this.inventory_reconcile.patchValue({ store_id: this.storeList[0].store_id });
-          this.formobj.type = 'non cannabis';
+          this.formobj.type = 'cannabis';
           this.onChanges(this.inventory_reconcile.value)
         }
       });
