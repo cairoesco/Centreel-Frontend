@@ -32,7 +32,7 @@ export class FilterReconcileDialogComponent implements OnInit {
     public productService: ProductService,
     public dialogRef: MatDialogRef<FilterReconcileDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public fb: FormBuilder) {
     this.inventory_reconcile = this.formBuilder.group({
-      product_type: ['non cannabis'],
+      product_type: ['cannabis'],
       store_id: [this.data.fdata.store_id],
       has_stock: [false],
     });
@@ -59,7 +59,7 @@ export class FilterReconcileDialogComponent implements OnInit {
 
   close() {
     this.inventory_reconcile.controls.store_id.setValue(this.storeList[0].store_id);
-    this.inventory_reconcile.controls.product_type.setValue('non cannabis');
+    this.inventory_reconcile.controls.product_type.setValue('cannabis');
     this.inventory_reconcile.controls.has_stock.setValue(false);
     this.applyFilter();
   }
