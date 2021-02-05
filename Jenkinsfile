@@ -23,7 +23,7 @@ pipeline {
         stage('Build for testing') {
             when {
                 expression {
-                    return GIT_BRANCH == 'origin/testing'
+                    return GIT_BRANCH == 'origin/staging'
                 }
             }
             steps {
@@ -55,7 +55,7 @@ pipeline {
       stage('Deploy for testing') {
         when {
           expression {
-            return GIT_BRANCH == 'origin/testing'
+            return GIT_BRANCH == 'origin/staging'
           }
         }
         steps {
