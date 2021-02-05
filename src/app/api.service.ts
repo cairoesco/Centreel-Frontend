@@ -65,11 +65,11 @@ export class ApiService {
                 .post(API_URL + actionUrl, params, { responseType: "blob", observe: 'response' })
                 .subscribe(
                     res => {
-                        console.log(res);
+                        // console.log(res);
                         resolve(res);
                     },
                     err => {
-                        console.log(err, 'error');
+                        // console.log(err, 'error');
                         reject(err);
                     }
                 );
