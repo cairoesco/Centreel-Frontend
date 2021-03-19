@@ -52,11 +52,7 @@ export class LockScreenComponent implements OnInit {
     }
   }
   goToSignIn() {
-    let isChainSlug = localStorage.getItem('chain_slug')
-    if (isChainSlug)
-      this.router.navigate(['/session/signin'])
-    else
-      this.router.navigate(['/session/login'])
+    this.router.navigate(['/session/signin'])
     this.dialogRef.close();
   }
 }

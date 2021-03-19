@@ -38,10 +38,8 @@
         <div fxLayout="column" class="main-container" *ngIf="newrows.length > 0 && !isLoading">
             <mat-card class="list-bulk-action-header">
                 <div _ngcontent-c41="" class="button-row add-tag-button">
-                    <span matTooltip="Select one or more products to add Tags."
-                        [matTooltipDisabled]="selected.length>0">
-                        <button mat-button mat-stroked-button type="button" [disabled]="selected.length<1"
-                            (click)="AddNewTag('ALL')">ADD TAGS</button>
+                    <span matTooltip="Select one or more products to add Tags." [matTooltipDisabled]="selected.length>0">
+                        <button mat-button mat-stroked-button type="button" [disabled]="selected.length<1" (click)="AddNewTag('ALL')">ADD TAGS</button>
                     </span>
                 </div>
             </mat-card>
@@ -151,8 +149,7 @@
                     <ngx-datatable-column name="STOCK" prop="total_stock" width="100" [resizeable]="false"
                         [flexGrow]="2">
                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                            <span *ngIf="row['total_stock']==null">0.00</span><span
-                                *ngIf="row['total_stock']!=null">{{row["total_stock"]|
+                            <span *ngIf="row['total_stock']==null">0.00</span><span *ngIf="row['total_stock']!=null">{{row["total_stock"]|
                                 number:'1.0'}}</span>
                         </ng-template>
                     </ngx-datatable-column>
@@ -180,8 +177,7 @@
                             </button>
                         </ng-template>
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="PRINT" [sortable]="false" width="70" [resizeable]="false"
-                        [flexGrow]="1">
+                    <ngx-datatable-column name="PRINT" [sortable]="false" width="70" [resizeable]="false" [flexGrow]="1">
                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                             <button mat-icon-button (click)="printBarcode(row.variant_id)" *ngIf="row['barcodes']">
                                 <mat-icon>print</mat-icon>

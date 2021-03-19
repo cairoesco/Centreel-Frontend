@@ -26,15 +26,10 @@ export class SigninComponent implements OnInit {
     private utils: UtilsServiceService) { }
 
   ngOnInit() {
-    let chaindata = JSON.parse(localStorage.getItem('chainData'))
-    if (!chaindata) {
-      this.router.navigateByUrl('session/login');
-    }
     this.form = this.fb.group({
-      username: ['', Validators.compose([Validators.required])],
+      username: ['', Validators.compose([Validators.required])], 
       password: ['', Validators.compose([Validators.required])],
-      chain_id: [(chaindata && chaindata.chain_id) || ''],
-      rememberMe: [false]
+      rememberMe:[false]
     });
 
     // reset login status
