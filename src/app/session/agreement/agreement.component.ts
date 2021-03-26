@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../api.service';
-import { SignaturePad } from 'angular2-signaturepad/signature-pad';
+import { SignaturePad } from 'angular2-signaturepad';
 
 @Component({
   selector: 'app-agreement',
