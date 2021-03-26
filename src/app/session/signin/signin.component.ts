@@ -62,17 +62,17 @@ export class SigninComponent implements OnInit {
       if (response.success) {
         this.barButtonOptions.active = false;
         this.barButtonOptions.text = 'Success';
-        response.data.rememberMe=this.form.value.rememberMe;
+        response.data.rememberMe = this.form.value.rememberMe;
         this.auth.doSignIn(response.data);
         this.router.navigateByUrl(this.return);
-      }else{
+      } else {
         this.barButtonOptions.active = false;
         this.barButtonOptions.text = 'Sign in';
       }
     },
-    err=>{
-      this.barButtonOptions.active = false;
+      err => {
+        this.barButtonOptions.active = false;
         this.barButtonOptions.text = 'Sign in';
-    });
+      });
   }
 }

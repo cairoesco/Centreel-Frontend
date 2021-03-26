@@ -131,7 +131,6 @@ export class AddProductComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result);
       }
     });
   }
@@ -149,6 +148,7 @@ export class AddProductComponent implements OnInit {
       taxrate_id: [''],
       type_id: ['', Validators.required],
       cannabis_type: ['', Validators.required], //cannabis type
+      specie_id: [''], //species id
       product_category: ['', Validators.required],
       default_image: [''],
       product_image: [''],
@@ -177,6 +177,7 @@ export class AddProductComponent implements OnInit {
       product_provinces: this.formBuilder.array([]),
       price_differ_for_store: ['0'],
       selling_price: [null], //price_differ_for_store==0
+      special_price: [null], //price_differ_for_store==0
       //      selling_price: [null, [Validators.required]], //price_differ_for_store==0
       variant_price: this.formBuilder.array([]),
       inventory: this.formBuilder.array([]),
@@ -255,16 +256,16 @@ export class AddProductComponent implements OnInit {
     const control = (<FormArray>this.addProductForm.controls['barcode']) as FormArray;
     let control_val = control.value
 
-    let userData = this.utility.getSessionData('currentUser');
-    let uname = (userData.name).charAt(0).toUpperCase();
+    //let userData = this.utility.getSessionData('currentUser');
+    //let uname = (userData.name).charAt(0).toUpperCase();
 
-    let pname = this.addProductForm.get('product_name').value ? this.addProductForm.get('product_name').value : 'P';
-    let product_module = 'O';
-    let product_name = product_module + pname.charAt(0).toUpperCase();
-    let variant_name = product_name + "v";
+    //let pname = this.addProductForm.get('product_name').value ? this.addProductForm.get('product_name').value : 'P';
+    //let product_module = 'O';
+    //let product_name = product_module + pname.charAt(0).toUpperCase();
+    //let variant_name = product_name + "v";
     let timestamp = +(new Date());
-    let username = variant_name + timestamp + uname;
-    control_val.push(username)
+    //let username = variant_name + timestamp + uname;
+    control_val.push(timestamp)
 
     control.setValue(control_val);
   }
@@ -273,16 +274,16 @@ export class AddProductComponent implements OnInit {
     const control = (<FormArray>this.addProductForm.controls['variants']).at(index).get('barcode') as FormArray;
     let control_val = control.value
 
-    let userData = this.utility.getSessionData('currentUser');
-    let uname = (userData.name).charAt(0).toUpperCase();
+    // let userData = this.utility.getSessionData('currentUser');
+    // let uname = (userData.name).charAt(0).toUpperCase();
 
-    let pname = this.addProductForm.get('product_name').value ? this.addProductForm.get('product_name').value : 'P';
-    let product_module = 'O';
-    let product_name = product_module + pname.charAt(0).toUpperCase();
-    let variant_name = product_name + "v";
+    // let pname = this.addProductForm.get('product_name').value ? this.addProductForm.get('product_name').value : 'P';
+    // let product_module = 'O';
+    // let product_name = product_module + pname.charAt(0).toUpperCase();
+    // let variant_name = product_name + "v";
     let timestamp = +(new Date());
-    let username = variant_name + timestamp + uname;
-    control_val.push(username)
+    // let username = variant_name + timestamp + uname;
+    control_val.push(timestamp)
 
     control.setValue(control_val);
   }
@@ -559,6 +560,7 @@ export class AddProductComponent implements OnInit {
   isThisProductHasVariants(event) {
     if (event.value == 1) {
       this.addProductForm.removeControl('selling_price')
+      this.addProductForm.removeControl('special_price')
       this.addProductForm.removeControl('product_sku')
       this.addProductForm.removeControl('barcode')
       this.addProductForm.removeControl('inventory')
@@ -576,6 +578,7 @@ export class AddProductComponent implements OnInit {
       } else {
         this.addProductForm.addControl('selling_price', new FormControl(null))
       }
+      this.addProductForm.addControl('special_price', new FormControl(null))
       this.addProductForm.addControl('package_capacity', new FormControl(1, Validators.required))
       this.addProductForm.addControl('product_sku', new FormControl('', Validators.required))
       if (this.isCanabis && !this.isAuthorized)
@@ -660,6 +663,7 @@ export class AddProductComponent implements OnInit {
       barcode: [[]],
       barcodes: ['', [Validators.minLength(8)]],
       variant_tags: [],
+      special_price: [null],
       selling_price: [null, (userData.user_role && (userData.user_role.findIndex(e => ['admin', 'superadmin'].includes(e)) > -1)) ? '' : [Validators.required]],
       price_differ_for_store: ['0'],
       variant_price: this.formBuilder.array([]),
@@ -756,6 +760,7 @@ export class AddProductComponent implements OnInit {
     const VariantControls = this.addProductForm.get('variants')['controls']
     if (event.value == 1) {
       VariantControls[index].removeControl('selling_price');
+      VariantControls[index].removeControl('special_price');
       VariantControls[index].addControl('variant_price', this.formBuilder.array([]));
       let variant_price_control = <FormArray>VariantControls[index].controls['variant_price'];
       // this.selectedData.forEach(element => {
@@ -771,6 +776,7 @@ export class AddProductComponent implements OnInit {
       } else {
         VariantControls[index].addControl('selling_price', new FormControl(null))
       }
+      VariantControls[index].addControl('special_price', new FormControl(null))
       VariantControls[index].removeControl('variant_price');
 
     }
@@ -782,6 +788,7 @@ export class AddProductComponent implements OnInit {
       store_id: [data.store_id],
       name: [data.name],
       selling_price: [null, this.isAuthorized ? '' : [Validators.required]],
+      special_price: [null],
     });
   }
 
@@ -901,6 +908,7 @@ export class AddProductComponent implements OnInit {
   PricingDiffersPerStoreChange(event) {
     if (event.value == 1) {
       this.addProductForm.removeControl('selling_price');
+      this.addProductForm.removeControl('special_price');
       // this.addProductForm.removeControl('variant_price');
       this.addProductForm.addControl('variant_price', this.formBuilder.array([]))
       const SellingPriceControl = <FormArray>this.addProductForm.controls['variant_price'];
@@ -916,6 +924,7 @@ export class AddProductComponent implements OnInit {
       } else {
         this.addProductForm.addControl('selling_price', new FormControl(null))
       }
+      this.addProductForm.addControl('special_price', new FormControl(null))
       this.addProductForm.removeControl('variant_price');
 
     }

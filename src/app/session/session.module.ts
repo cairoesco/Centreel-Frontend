@@ -10,7 +10,6 @@ import { SignupComponent } from './signup/signup.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { AgreementComponent } from './agreement/agreement.component';
 import { SignaturePadModule } from 'angular2-signaturepad';
-import { LoginComponent } from './login/login.component';
 
 @NgModule({
   imports: [
@@ -25,8 +24,7 @@ import { LoginComponent } from './login/login.component';
     SigninComponent,
     SignupComponent,
     ResetPasswordComponent,
-    AgreementComponent,
-    LoginComponent
+    AgreementComponent
   ]
 })
 

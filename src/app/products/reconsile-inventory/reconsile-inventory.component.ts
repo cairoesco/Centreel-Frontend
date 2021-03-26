@@ -70,7 +70,7 @@ export class ReconsileInventoryComponent implements OnInit {
   ngOnInit() {
     this.getStores();
     this.inventory_reconcile = this.formBuilder.group({
-      product_type: ['non cannabis'],
+      product_type: ['cannabis'],
       store_id: [''],
       has_stock: [false],
       selected: { start: moment().format('DD/MM/YYYY HH:mm:ss'), end: moment().format('DD/MM/YYYY') }
@@ -232,7 +232,7 @@ export class ReconsileInventoryComponent implements OnInit {
         if (this.storeList.length > 0) {
           //this.getInventoryReportData(this.storeList[0].store_id);
           this.inventory_reconcile.patchValue({ store_id: this.storeList[0].store_id });
-          this.formobj.type = 'non cannabis';
+          this.formobj.type = 'cannabis';
           this.onChanges(this.inventory_reconcile.value)
         }
       });

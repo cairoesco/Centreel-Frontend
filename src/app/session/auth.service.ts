@@ -34,12 +34,10 @@ export class AuthService {
   public doSignOut() {
     this.utility.removeSessionData(this.tokenKey);
     this.utility.removeSessionData('isLock');
-    this.utility.removeSessionData('chain_data');
     this.utility.removeSessionData('rememberMe');
   }
 
   public doSignIn(data: any) {
-    let chaindata = JSON.parse(localStorage.getItem('chain_data'))
     if ((!data.access_token) || (!data.name)) {
       return;
     }
@@ -51,7 +49,7 @@ export class AuthService {
       user_image: data.user_image,
       user_id: data.user_id,
       role_id: data.role_id,
-      chain_id: chaindata && chaindata.chain_id,
+      chain_id: data.chain_id,
     };
     if (data.rememberMe) {
       localStorage.setItem(this.tokenKey, JSON.stringify(this.session));

@@ -118,16 +118,16 @@ export class ViewProductComponent implements OnInit {
     const control = (<FormArray>this.variantsForm.controls['variant_detail']).at(index).get('barcode') as FormArray;
     let control_val = control.value
 
-    let userData = this.utility.getSessionData('currentUser');
-    let uname = (userData.name).charAt(0).toUpperCase();
+    // let userData = this.utility.getSessionData('currentUser');
+    // let uname = (userData.name).charAt(0).toUpperCase();
 
-    let pname = this.generalForm.get('product_name').value ? this.generalForm.get('product_name').value : 'P';
-    let product_module = 'O';
-    let product_name = product_module + pname.charAt(0).toUpperCase();
-    let variant_name = product_name + "v";
+    // let pname = this.generalForm.get('product_name').value ? this.generalForm.get('product_name').value : 'P';
+    // let product_module = 'O';
+    // let product_name = product_module + pname.charAt(0).toUpperCase();
+    // let variant_name = product_name + "v";
     let timestamp = +(new Date());
-    let username = variant_name + timestamp + uname;
-    control_val.push(username)
+    // let username = variant_name + timestamp + uname;
+    control_val.push(timestamp)
 
     control.setValue(control_val);
   }
@@ -217,6 +217,7 @@ export class ViewProductComponent implements OnInit {
     this.generalForm = this.fb.group({
       product_name: ["", Validators.required],
       product_highlights: [""],
+      specie_id: [""],
       type_id: ["", Validators.required],
       product_category: ["", Validators.required],
       //vendor: ["--"],
@@ -361,6 +362,7 @@ export class ViewProductComponent implements OnInit {
       product_name: product.product_name,
       product_highlights: product.product_highlights == null ? '' : product.product_highlights,
       type_id: product.type_id,
+      specie_id: product.specie_id,
       product_category: product.product_category,
       // vendor: product.vendor,
       brand: product.brand == null ? '' : product.brand,
@@ -545,7 +547,9 @@ export class ViewProductComponent implements OnInit {
       variant_price: [data.variant_price, Validators.required],
       stocks_variants_id: [data.stocks_variants_id],
       variant_sku: [data.variant_sku],
+      dry_weight: [data.dry_weight],
       purchase_price: [data.purchase_price, Validators.required],
+      special_price: [data.special_price],
       store_id: [data.store_id],
       batch_no: [data.variant_batches.length > 0 ? data.variant_batches[0].batch_no : ''],
       batch_detail: [data.variant_batches],
@@ -683,7 +687,7 @@ export class ViewProductComponent implements OnInit {
           this.generalInfoForm(this.productData);
           this.taxInfoForm(this.productData);
           this.identificationInfoForm(this.productData);
-          this.getRawDetails_temp({ product_attributes: response.data.product_attributes, product_types: response.data.product_types, variant_properties: response.data.variant_properties, product: response.data.product });
+          this.getRawDetails_temp({ product_attributes: response.data.product_attributes, product_types: response.data.product_types, variant_properties: response.data.variant_properties, product: response.data.product,species:response.data.species });
           this.supplierForm.controls.product_suppliers_data.setValue(this.productData.product_supplier);
           const control1: any = this.identificationForm.controls['product_proviences'];
           this.variantsForm = this.fb.group({
@@ -952,10 +956,10 @@ export class ViewProductComponent implements OnInit {
   isUpdate: boolean = false;
   onVariantSubmit(id, index) {
     this.isUpdate = true;
+    this.variantsForm.get('variant_detail').updateValueAndValidity()
     const control1 = (<FormArray>this.variantsForm.controls['variant_detail']).at(index) as FormArray;
     const control = this.variantsForm.controls['variant_detail'].value;
     let data = control[index];
-
     var selling_error = false;
 
     /* If stock is not added for this variant */
@@ -968,6 +972,7 @@ export class ViewProductComponent implements OnInit {
     /* if purchase price is not equla or less than selling price */
     data.purchase_price = +data.purchase_price;
     data.variant_price = +data.variant_price;
+    data.dry_weight = +data.dry_weight;
     if (data.purchase_price > data.variant_price) {
       this.utility.showSnackBar("selling price must be equal or greater than purchase price for " + data.variant_name, { panelClass: 'error' });
       selling_error = true;
@@ -981,7 +986,9 @@ export class ViewProductComponent implements OnInit {
     }
     formData.append('variant_detail', JSON.stringify({ variant_name: data.variant_name, chain_id: this.rawDetail.product.chain_id }))
     formData.append('barcode', JSON.stringify(data.barcode))
+    formData.append('dry_weight', data.dry_weight)
     formData.append('selling_price', JSON.stringify({ selling_price: data.variant_price, store_id: data.store_id }))
+    formData.append('special_price', JSON.stringify({ special_price: data.special_price, store_id: data.store_id }))
     formData.append('purchase_price', JSON.stringify({ purchase_price: data.purchase_price, stocks_variants_id: data.stocks_variants_id }))
     if (control1.valid && !selling_error && data.store_id > 0) {
       this.api.updateVariant(formData, id)

@@ -39,7 +39,7 @@
             <mat-card class="list-bulk-action-header">
                 <div _ngcontent-c41="" class="button-row add-tag-button">
                     <span matTooltip="Select one or more products to add Tags." [matTooltipDisabled]="selected.length>0">
-                    <button mat-button mat-stroked-button type="button" [disabled]="selected.length<1" (click)="AddNewTag('ALL')">ADD TAGS</button>
+                        <button mat-button mat-stroked-button type="button" [disabled]="selected.length<1" (click)="AddNewTag('ALL')">ADD TAGS</button>
                     </span>
                 </div>
             </mat-card>
@@ -105,12 +105,28 @@
                             </div>
                         </ng-template>
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="PRODUCT NAME" width="100" prop="product_name" [resizeable]="false"
-                        [flexGrow]="4">
+                    <ngx-datatable-column name="BRAND NAME" width="100" prop="brand" [resizeable]="false"
+                        [flexGrow]="2">
                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                            <div title='{{row["product_name"] == row["variant_name"]?row["variant_name"]:
-                            row["variant_name"]+" "+row["product_name"]}}'>{{row["product_name"] == row["variant_name"]?row["variant_name"]:
-                            row["product_name"]+" "+row["variant_name"]}}</div>
+                            <div title='{{row["brand"]}}'>{{(row["brand"] == null || row["brand"] ==
+                                'null')?'':
+                                row["brand"]}}</div>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="PRODUCT NAME" width="200" prop="product_name" [resizeable]="false"
+                        [flexGrow]="2">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <div title='{{row["product_name"]}}'>{{(row["product_name"] == null || row["product_name"] ==
+                                'null')?'':
+                                row["product_name"]}}</div>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="VARIANT NAME" width="200" prop="variant_name" [resizeable]="false"
+                        [flexGrow]="2">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <div title='{{row["variant_name"]}}'>{{(row["variant_name"] == null || row["variant_name"] ==
+                            'null')?'':
+                            row["variant_name"]}}</div>
                         </ng-template>
                     </ngx-datatable-column>
                     <ngx-datatable-column name="SKU" prop="variant_sku" width="300" [resizeable]="false" [flexGrow]="2">
@@ -118,26 +134,26 @@
                             <div title="{{value}}">{{row["variant_sku"]}}</div>
                         </ng-template>
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="CATEGORY" prop="product_type_name" width="300" [resizeable]="false"
-                        [flexGrow]="3">
+                    <ngx-datatable-column name="CATEGORY" prop="product_type_name" width="200" [resizeable]="false"
+                        [flexGrow]="2">
                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                             <div title="{{value}}">{{row["product_type_name"]}}</div>
                         </ng-template>
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="SUB-CATEGORY" prop="product_category_name" width="300"
-                        [resizeable]="false" [flexGrow]="4">
+                    <ngx-datatable-column name="SUB-CATEGORY" prop="product_category_name" width="200"
+                        [resizeable]="false" [flexGrow]="2">
                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                             <div title="{{value}}">{{row["product_category_name"]}}</div>
                         </ng-template>
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="STOCK" prop="total_stock" width="200" [resizeable]="false"
+                    <ngx-datatable-column name="STOCK" prop="total_stock" width="100" [resizeable]="false"
                         [flexGrow]="2">
                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                             <span *ngIf="row['total_stock']==null">0.00</span><span *ngIf="row['total_stock']!=null">{{row["total_stock"]|
                                 number:'1.0'}}</span>
                         </ng-template>
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="PRICE" prop="variant_price" width="200" [resizeable]="false"
+                    <ngx-datatable-column name="PRICE" prop="variant_price" width="100" [resizeable]="false"
                         [flexGrow]="2">
                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                             <span *ngIf="row['variant_price']==null">{{0.00|currency}}</span><span
