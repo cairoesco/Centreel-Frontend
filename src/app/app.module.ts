@@ -27,6 +27,9 @@ import { TagComponent } from "./dialog/tag/tag.component";
 import { DeleteConfirmComponent } from './dialog/delete-confirm/delete-confirm.component';
 import { LockScreenComponent } from './dialog/lock-screen/lock-screen.component';
 import { PrintBarcodeComponent } from '../app/products/products/print-barcode/print-barcode.component';
+
+import { SignaturePadModule } from 'angular2-signaturepad';
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -67,6 +70,7 @@ export function createTranslateLoader(http: HttpClient) {
     LoadingBarRouterModule,
     BidiModule,
     SharedModule,
+    SignaturePadModule
   ],
   providers: [
     AuthGuardService,
