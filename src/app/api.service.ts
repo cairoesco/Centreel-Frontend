@@ -16,7 +16,6 @@ export class ApiService {
             client_secret: environment.client_secret,
             username: username,
             password: password,
-            chain_id: chain_id,
             scope: "",
             provider: "users",
             platform: "WEB",
