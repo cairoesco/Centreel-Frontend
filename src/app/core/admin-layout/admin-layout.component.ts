@@ -82,7 +82,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     // Start watching when user idle is starting.
     this.userIdle.onTimerStart().subscribe(count => {
       //let redirect_url = encodeURIComponent(this.sharedservice.getPreviousUrl());
-      if (this.router.url != '/session/signin' && !Boolean(this.utils.getSessionData('isLock'))) {
+      if (this.router.url != ('/session/signin' || '/session/login') && !Boolean(this.utils.getSessionData('isLock'))) {
         this.utils.setSessionData('isLock', "true");
         this.lockService.openLockDialog();
       } else {
