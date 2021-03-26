@@ -4,7 +4,6 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { ErrorComponent } from './error/error.component';
 import { ForgotComponent } from './forgot/forgot.component';
 import { SigninComponent } from './signin/signin.component';
-import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { AgreementComponent } from './agreement/agreement.component';
@@ -25,11 +24,6 @@ export const SessionRoutes: Routes = [
       path: 'signin',
       component: SigninComponent,
       data: { title: 'Sign In' }
-    }, 
-    {
-      path: 'login',
-      component: LoginComponent,
-      data: { title: 'Log In' }
     }, 
     {
       path: 'signup',
