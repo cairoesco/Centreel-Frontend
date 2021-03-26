@@ -63,7 +63,7 @@
                 }
               ]
             },
-            "testing": {
+            "staging": {
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -122,9 +122,6 @@
             },
             "staging": {
               "browserTarget": "primer:build:staging"
-            },
-            "testing": {
-              "browserTarget": "primer:build:testing"
             },
             "dev": {
               "browserTarget": "primer:build:dev"

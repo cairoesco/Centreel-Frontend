@@ -130,6 +130,7 @@
                     <input hidden #excelUpload type="file" multiple [formControl]="purchaseForm.controls['file_input']"
                       ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
                       (change)="fileOverBase($event,'excel')" ng2FileSelect [uploader]="uploader" />
+
                     <!-- <mat-card class="po-document" *ngFor="let file of arrayOfFiles ; let i = index">
                       <div fxLayout="row" class="file-view-section">
                         <div fxFlex="15%">
@@ -145,6 +146,7 @@
                         </div>
                       </div>
                       <hr>
+
                     </mat-card> -->
 
                     <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3%">
