@@ -32,7 +32,7 @@ export class HeaderComponent {
   }
 
   doSignOut(): void {
-    this.router.navigateByUrl('session/signin');
+    this.router.navigateByUrl('session/login');
   }
 
   onSend(feedback) {
