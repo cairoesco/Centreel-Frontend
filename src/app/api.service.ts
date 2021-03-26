@@ -9,7 +9,7 @@ export class ApiService {
 
     constructor(private http: HttpClient) { }
 
-    getAccessToken({ username, password,chain_id }) {
+    getAccessToken({ username, password}) {
         let postData = {
             grant_type: "password",
             client_id: environment.client_id,
@@ -22,12 +22,6 @@ export class ApiService {
             platform: "WEB",
         }
         return this.http.post(API_URL + 'signin', postData);
-    }
-    validateChain({ username }) {
-        let postData = {
-            slug: username + '.centreel.app'
-        }
-        return this.http.post(API_URL + 'checkSlugUrl', postData);
     }
 
     public get(actionUrl: string, params: any = null): Observable<any[]> {
