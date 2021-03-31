@@ -21,6 +21,7 @@ import { ChainSettingsComponent } from './chain-settings/chain-settings.componen
 import { SettingsService } from './settings.service';
 import { StoreSettingComponent } from './store-setting/store-setting.component';
 import { EmailSettingComponent } from './email-setting/email-setting.component';
+import { DiscountSettingComponent } from './discount-setting/discount-setting.component';
 
 @NgModule({
     imports: [
@@ -46,7 +47,8 @@ import { EmailSettingComponent } from './email-setting/email-setting.component';
         ProvinceSettingsComponent,
         ChainSettingsComponent,
         StoreSettingComponent,
-        EmailSettingComponent
+        EmailSettingComponent,
+        DiscountSettingComponent
     ],
     entryComponents: [EmailSettingComponent],
     providers: [SettingsService]

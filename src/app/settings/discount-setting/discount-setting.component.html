@@ -1,0 +1,175 @@
+<mat-card class="header-main-content storesetting-header-main-content">
+  <div fxLayout="row">
+    <div fxFlex="30%" class="breadcrumb-content">
+      <mat-icon class="material-icons" [routerLink]="['/settings']">
+        keyboard_arrow_left </mat-icon
+      ><label class="lable">
+        <a class="label" [routerLink]="['/settings']">Settings</a>
+      </label>
+    </div>
+    <div fxFlex="40%" class="breadcrumb-header-content">Discounts</div>
+  </div>
+</mat-card>
+
+<mat-progress-bar mode="indeterminate" *ngIf="inProgress"></mat-progress-bar>
+
+<div class="table-container" *ngIf="rows.length > 0">
+    <ngx-datatable 
+    class="table-wrapper"
+    [rows]="rows" 
+    [headerHeight]="50"
+    [externalPaging]="false"
+    [footerHeight]="0"
+    [columnMode]="'flex'"
+    [scrollbarV]="true"
+    [limit]="10"
+    >
+        <ngx-datatable-column
+        name="Name"
+        prop="name"
+        [resizeable]="false"
+        [flexGrow]="3"
+      >
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <span>{{ row["name"] }}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+   
+  <!-- <ngx-datatable
+    #discountTable
+    class="material expandable fancyscroll employee-list-table"
+    [ngStyle]="{ height: dynamicHeight }"
+    [headerHeight]="50"
+    [externalPaging]="false"
+    [footerHeight]="0"
+    [columnMode]="'flex'"
+    [rowHeight]="getRowHeight"
+    [scrollbarV]="true"
+    [rows]="rows"
+    [limit]="10"
+    [selected]="selected"
+    [selectionType]="'checkbox'"
+    (activate)="onActivate($event)"
+    (select)="onSelect($event)"
+  > -->
+    <!-- Row Detail Template -->
+    <!-- <ngx-datatable-row-detail
+      [rowHeight]="155"
+      #myDetailRow
+      style="cursor: auto"
+    ></ngx-datatable-row-detail> -->
+    <!-- <ngx-datatable-column name="" [sortable]="false" [draggable]="false" [resizeable]="false" [flexGrow]="1"  [maxWidth]="70" [minWidth]="50"> -->
+    <!-- <ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+          <mat-checkbox color="primary" class="all-select-checkbox" (change)="selectFn(!allRowsSelected)"
+            [checked]="allRowsSelected" [indeterminate]="!allRowsSelected && selected.length>0">
+          </mat-checkbox>
+        </ng-template> -->
+    <!-- <ng-template ngx-datatable-cell-template let-row="row" let-expanded="expanded" let-value="value"
+          let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
+          <div class="checkbox-column">
+            <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded"
+              [class.datatable-icon-down]="expanded" title="Expand/Collapse Row" class="ngx-expand-arrow"></a>
+            <mat-checkbox color="primary" (click)="$event.stopPropagation();" (change)="onCheckboxChangeFn($event);"
+              [checked]="isSelected">
+            </mat-checkbox>
+          </div>
+        </ng-template> -->
+    <!-- </ngx-datatable-column> -->
+    <ngx-datatable-column
+      name="Start Date"
+      prop="start_date"
+      [resizeable]="false"
+      [flexGrow]="3"
+    >
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        <span>{{ row["startDate"] }}</span>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column
+      name="Value"
+      prop="value"
+      [resizeable]="false"
+      [flexGrow]="2"
+    >
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        <span>{{ row["value"] }}</span>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column
+      name="Status"
+      prop="status"
+      [resizeable]="false"
+      [flexGrow]="2.5"
+    >
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        <span>{{ row["status"] }}</span>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Action" [sortable]="false" headerClass="display-none"
+        [resizeable]="false" [flexGrow]="1.5" [maxWidth]="75" [minWidth]="50">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <span class="actions" (click)="$event.stopPropagation();" mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </span>
+          <mat-menu #menu="matMenu">
+            <button  mat-menu-item>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        </ng-template>
+      </ngx-datatable-column>
+
+</ngx-datatable>
+    <!-- <ngx-datatable-column name="Action" [sortable]="false" headerClass="display-none"
+        [resizeable]="false" [flexGrow]="1.5" [maxWidth]="75" [minWidth]="50">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <span class="align-end" (click)="$event.stopPropagation();" mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </span>
+          <mat-menu #menu="matMenu">
+            <button [disabled]='0' mat-menu-item>
+              <span>View Sales History</span>
+            </button>
+            <button mat-menu-item (click)="customerPreferredProducts(row.patient_id)">
+              <span>View Preffered Products</span>
+            </button>
+            <button [disabled]='0' mat-menu-item>
+              <span>Send Email</span>
+            </button>
+            <button [disabled]='0' mat-menu-item>
+              <span>Request Account Removal</span>
+            </button>
+          </mat-menu>
+        </ng-template>
+      </ngx-datatable-column> -->
+    <!-- <ngx-datatable-footer>
+        <ng-template ngx-datatable-footer-template></ng-template>
+      </ngx-datatable-footer> -->
+  <!-- </ngx-datatable> -->
+</div>
+
+<div class="main-div-container discount-setting-container"  *ngIf="rows.length == 0 && !inProgress">
+  <!-- <div fxLayout="column" *ngIf="rows.length != 0 && !inProgress"> -->
+  <div class="discount-setting-empty-state-wrapper">
+    <h4 class="h4-text">No Discounts Have Been Created</h4>
+    <p class="p-text">Click on + to start making some Discounts</p>
+
+    <div fxFlex="50px" class="settings-icon">
+      <mat-icon class="material-icons loyalty-icon">loyalty</mat-icon>
+    </div>
+
+   
+  </div>
+  <!-- </div> -->
+</div>
+
+<div class="add-icon-wrapper">
+    <mat-icon class="material-icons add-icon">add_circle_outline</mat-icon>
+  </div>

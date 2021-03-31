@@ -11,10 +11,12 @@ import { AgreementComponent } from './agreement/agreement.component';
 import { ProvinceSettingsComponent } from './province-settings/province-settings.component';
 import { ChainSettingsComponent } from './chain-settings/chain-settings.component';
 import { StoreSettingComponent } from './store-setting/store-setting.component';
+import { DiscountSettingComponent } from './discount-setting/discount-setting.component';
 
 export const SettingsRoutes: Routes = [
   { path: '', component: SettingsComponent, data: { title: 'Settings' } },
   { path: 'email-settings', component: SmtpSettingComponent, data: { title: 'Email Settings' } },
+  { path: 'discount-settings', component: DiscountSettingComponent, data: { title: 'Discount Settings' } },
   { path: 'provincetax', component: ProvincetaxComponent, data: { title: 'Province-tax Settings' } },
   { path: 'roles', component: RolesComponent, data: { title: 'Roles' } },
 
