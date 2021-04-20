@@ -207,6 +207,7 @@ export class CreateProductComponent implements OnInit {
       store_id: [data.store_id],
       name: [data.name],
       selling_price: [0.00],
+      special_price: [0.00],
     });
   }
   /* price store wise */
