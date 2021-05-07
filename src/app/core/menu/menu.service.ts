@@ -74,6 +74,14 @@ const MENUITEMS = [
     method: 'index'
   },
   {
+    state: 'discounts',
+    name: 'DISCOUNTS',
+    type: 'link',
+    icon: 'menu-employee-svg',
+    module: 'users',
+    method: 'index'
+  },
+  {
     state: 'customer',
     name: 'CUSTOMER',
     type: 'link',

@@ -29,8 +29,18 @@ export class ApiService {
         });
     }
 
+    // public put(actionUrl: string, params: any = null): Observable<any[]> {
+    //     return this.http.put<any[]>(API_URL + actionUrl, {
+    //         params: params
+    //     });
+    // }
+
     public post(actionUrl: string, itemName: any): Observable<any[]> {
         return this.http.post<any[]>(API_URL + actionUrl, itemName);
+    }
+
+    public put(actionUrl: string, itemName: any): Observable<any[]> {
+        return this.http.put<any[]>(API_URL + actionUrl, itemName);
     }
 
     public deletes(actionUrl: string, id: number): Observable<any[]> {
