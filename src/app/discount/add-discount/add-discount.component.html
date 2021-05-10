@@ -1,0 +1,85 @@
+<h2 mat-dialog-title>Add new Discount
+  <span fxFlex></span>
+  <span class="close-btn" align="end" (click)="discountDialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </span>
+</h2>
+
+<form [formGroup]="discountForm" (ngSubmit)="addNewDiscount()">
+  <mat-dialog-content class="mat-typography">
+    <div fxLayout="row wrap" fxLayoutGap="20px">
+
+      <mat-form-field>
+        <mat-label>Select Store</mat-label>
+        <mat-select formControlName="store_id" [disableOptionCentering]="true">
+          <mat-option *ngFor="let store of stores; let i=index" [value]="store.store_id">
+            {{store.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="discountForm.controls['store_id'].hasError('required')" class="mat-text-warn">
+          Please select a store
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Discount Title</mat-label>
+        <input matInput placeholder="Discount Title*" formControlName="discount_title" autocomplete="off">
+
+        <mat-error *ngIf="discountForm.controls['discount_title'].hasError('required')" class="mat-text-warn">
+          Please enter discount title or description
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Discount value</mat-label>
+        <input matInput placeholder="Discount Value*" type="number" formControlName="value"
+        autocomplete="off">
+
+        <mat-error *ngIf="discountForm.controls['value'].hasError('required')" class="mat-text-warn">
+          Please enter a specific value
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Discount Type</mat-label>
+        <mat-select formControlName="discount_type" (selectionChange)="handleSelectDiscountType($event.value)" [disableOptionCentering]="true">
+          <mat-option *ngFor="let value of discount_types" [value]="value">
+            {{value}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="discountForm.controls['discount_type'].hasError('required')" class="mat-text-warn">
+          Please select one 
+        </mat-error>
+      </mat-form-field>
+      
+      <mat-form-field *ngIf="selectedDiscountType == 'tag'">
+        <mat-label>Discount Parameters</mat-label>
+        <mat-select formControlName="parameters" multiple [disableOptionCentering]="true">
+          <mat-option *ngFor="let tag of tags; let i=index" [value]="tag.id">
+            {{tag.tag_name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="discountForm.controls['parameters'].hasError('required')" class="mat-text-warn">
+          Please select one 
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="selectedDiscountType == 'category'">
+        <mat-label>Discount Parameters</mat-label>
+        <mat-select formControlName="parameters" multiple [disableOptionCentering]="true">
+          <mat-option *ngFor="let category of categories; let i=index" [value]="category.product_category_id">
+            {{category.product_category_name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="discountForm.controls['parameters'].hasError('required')" class="mat-text-warn">
+          Please select one 
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="start" class="mat-dialog-footer-custom">
+    <button type="submit" class="ok-button" mat-raised-button color="primary">CREATE DISCOUNT</button>
+    <button (click)="close()" mat-button color="primary" class="cancel-button">CANCEL</button>
+  </mat-dialog-actions>
+</form>
