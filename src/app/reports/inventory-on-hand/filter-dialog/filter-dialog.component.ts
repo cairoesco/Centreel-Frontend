@@ -28,7 +28,10 @@ export class FilterDialogComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public reportService: ReportService,
-    public dialogRef: MatDialogRef<FilterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public fb: FormBuilder) {
+    public dialogRef: MatDialogRef<FilterDialogComponent>, 
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public router: Router, 
+    public fb: FormBuilder) {
     this.inventory_report = this.formBuilder.group({
       product_type: ['non cannabis'],
       store_id: [this.data.fdata.store_id],
@@ -54,6 +57,7 @@ export class FilterDialogComponent implements OnInit {
     this.reportService.getStores()
       .subscribe((response: any) => {
         this.storeList = response.data.stores;
+        console.log(this.storeList, "this.storeList line 45>>>>>>")
         if (this.storeList.length > 0) {
           this.data.fdata.has_stock = !this.data.fdata.has_stock;
           this.data.fdata.product_type = this.data.fdata.type;

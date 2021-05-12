@@ -82,7 +82,7 @@
                     </ngx-datatable-column>
 
 
-                    <ngx-datatable-column name="Status" [sortable]="false" [resizeable]="false" [flexGrow]="1">
+                    <ngx-datatable-column name="Status" [sortable]="false" [resizeable]="false" [flexGrow]="2">
                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                             <mat-slide-toggle color="primary" [checked]="row['status'] == 1"
                                 (click)="$event.stopPropagation();" (change)="changeDiscountStatus(row['discount_id'],$event)">
@@ -90,8 +90,14 @@
                         </ng-template>
                     </ngx-datatable-column>
 
+                    <ngx-datatable-column name="Last updated"  prop="discount_status" [resizeable]="false" [flexGrow]="2.5">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{row['last_updated']}}
+                        </ng-template>
+                    </ngx-datatable-column>
 
-                    <ngx-datatable-column name="View" [sortable]="false" width="70" headerClass="display-none"
+
+                    <!-- <ngx-datatable-column name="View" [sortable]="false" width="70" headerClass="display-none"
                         [resizeable]="false" [flexGrow]="0.5">
                         <ng-template ngx-datatable-header-template>
                             <span class="align-end" mat-icon-button>
@@ -108,7 +114,7 @@
                                 </span>
                             </mat-menu>
                         </ng-template>
-                    </ngx-datatable-column>
+                    </ngx-datatable-column> -->
                     <ngx-datatable-footer>
                         <ng-template ngx-datatable-footer-template></ng-template>
                     </ngx-datatable-footer>
