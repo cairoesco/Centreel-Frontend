@@ -20,8 +20,7 @@
       <mat-form-field>
         <mat-label>Discount Type</mat-label>
         <mat-select formControlName="type" multiple [disableOptionCentering]="true">
-            <mat-option *ngFor="let type of discount_types" [value]="type">{{
-              type }}</mat-option>
+            <mat-option *ngFor="let value of discount_types; let i=index" [value]="value.value">{{value.item }}</mat-option>
         </mat-select>
       </mat-form-field>
 
