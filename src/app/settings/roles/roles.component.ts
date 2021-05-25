@@ -31,7 +31,6 @@ export class RolesComponent implements OnInit {
   }
 
   deleteRow(typeId, index) {
-    console.log(this.rows);
     this.api.deletes('roles/deletes', typeId)
       .subscribe((response: any) => {
         if (response.success) {

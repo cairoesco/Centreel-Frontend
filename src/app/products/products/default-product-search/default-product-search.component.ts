@@ -35,7 +35,6 @@ export class DefaultProductSearchComponent implements OnInit {
     this.subCategoryList=_.find(this.categoryList,(data)=>data.type_id==type_id);
   }
   onSubmit(){
-    console.log(this.form.value);
   }
   productSelect(data){
     this.dialogRef.close(data);

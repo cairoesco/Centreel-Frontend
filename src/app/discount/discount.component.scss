@@ -1,0 +1,26 @@
+//************ Unverified message color for List view ***********//
+.unverified-message{
+  color: #ff0000;
+}
+.image > .image-block{
+  width: 80px;
+  height: 80px;
+  border-radius: 3px;
+  object-fit: contain;
+  margin-left: 40px;
+}
+.main-container{
+  box-shadow: none !important;
+  .list-detail-content{
+    ::ng-deep .ngx-datatable{
+      background-color: #fff0;
+      ::ng-deep .datatable-header,.datatable-scroll{
+        background-color: #FFF;
+        width: 100% !important;
+      }
+    }
+  }
+}
+.add-tag-button{
+  text-align: right;
+}

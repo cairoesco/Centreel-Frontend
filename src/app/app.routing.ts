@@ -16,6 +16,11 @@ export const AppRoutes: Routes = [{
     loadChildren: () => import('./user/user.module').then(m => m.UserModule),
     data: { title: 'Employee', breadcrumb: {name:'Employee',url:"users"}  }
   },
+  {
+    path: 'discounts',
+    loadChildren: () => import('./discount/discount.module').then(m => m.DiscountModule),
+    data: { title: 'Discount', breadcrumb: {name:'Discount',url:"discounts"}  }
+  },
   // Purchase order routing
   {
     path: 'purchaseorder',

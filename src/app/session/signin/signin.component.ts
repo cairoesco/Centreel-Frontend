@@ -26,9 +26,12 @@ export class SigninComponent implements OnInit {
     private utils: UtilsServiceService) { }
 
   ngOnInit() {
+    let chaindata = JSON.parse(localStorage.getItem('chain_data'))
+
     this.form = this.fb.group({
       username: ['', Validators.compose([Validators.required])], 
       password: ['', Validators.compose([Validators.required])],
+      chain_id: [(chaindata && chaindata.chain_id) || 0],
       rememberMe:[false]
     });
 
@@ -59,17 +62,17 @@ export class SigninComponent implements OnInit {
       if (response.success) {
         this.barButtonOptions.active = false;
         this.barButtonOptions.text = 'Success';
-        response.data.rememberMe=this.form.value.rememberMe;
+        response.data.rememberMe = this.form.value.rememberMe;
         this.auth.doSignIn(response.data);
         this.router.navigateByUrl(this.return);
-      }else{
+      } else {
         this.barButtonOptions.active = false;
         this.barButtonOptions.text = 'Sign in';
       }
     },
-    err=>{
-      this.barButtonOptions.active = false;
+      err => {
+        this.barButtonOptions.active = false;
         this.barButtonOptions.text = 'Sign in';
-    });
+      });
   }
 }

@@ -8,7 +8,7 @@
       "sourceRoot": "src",
       "projectType": "application",
       "architect": {
-        "build": {
+        "build": { 
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": true,

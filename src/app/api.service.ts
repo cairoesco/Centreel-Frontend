@@ -9,7 +9,7 @@ export class ApiService {
 
     constructor(private http: HttpClient) { }
 
-    getAccessToken({ username, password }) {
+    getAccessToken({ username, password}) {
         let postData = {
             grant_type: "password",
             client_id: environment.client_id,
@@ -29,8 +29,18 @@ export class ApiService {
         });
     }
 
+    // public put(actionUrl: string, params: any = null): Observable<any[]> {
+    //     return this.http.put<any[]>(API_URL + actionUrl, {
+    //         params: params
+    //     });
+    // }
+
     public post(actionUrl: string, itemName: any): Observable<any[]> {
         return this.http.post<any[]>(API_URL + actionUrl, itemName);
+    }
+
+    public put(actionUrl: string, itemName: any): Observable<any[]> {
+        return this.http.put<any[]>(API_URL + actionUrl, itemName);
     }
 
     public deletes(actionUrl: string, id: number): Observable<any[]> {
@@ -55,14 +65,12 @@ export class ApiService {
     public getExportPDFPost(actionUrl: string, params: any = null) {
         return new Promise((resolve, reject) => {
             this.http
-                .post(API_URL + actionUrl,params,  {responseType: "blob", observe: 'response'} )
+                .post(API_URL + actionUrl, params, { responseType: "blob", observe: 'response' })
                 .subscribe(
                     res => {
-                        console.log(res);                        
                         resolve(res);
                     },
                     err => {
-                        console.log(err,'error');
                         reject(err);
                     }
                 );

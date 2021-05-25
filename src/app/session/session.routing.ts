@@ -24,7 +24,8 @@ export const SessionRoutes: Routes = [
       path: 'signin',
       component: SigninComponent,
       data: { title: 'Sign In' }
-    }, {
+    }, 
+    {
       path: 'signup',
       component: SignupComponent
     }, {

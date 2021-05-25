@@ -74,6 +74,14 @@ const MENUITEMS = [
     method: 'index'
   },
   {
+    state: 'discounts',
+    name: 'DISCOUNTS',
+    type: 'link',
+    icon: 'menu-employee-svg',
+    module: 'users',
+    method: 'index'
+  },
+  {
     state: 'customer',
     name: 'CUSTOMER',
     type: 'link',
@@ -120,6 +128,7 @@ const MENUITEMS = [
     children: [
       // { state: 'cashout', name: 'Cash Out', module: 'reports', method: 'sales' },
       { state: 'closeout', name: 'Closeout', module: 'reports', method: 'sales' },
+      { state: 'cogs', name: 'Cogs', module: 'reports', method: 'sales' },
       { state: 'customsales', name: 'Custom sales', module: 'reports', method: 'sales' },
       // { state: 'monthly-report', name: 'Monthly Report', module: 'reports', method: 'sales' },
       { state: 'inventory', name: 'Inventory Report', module: 'reports', method: 'sales' },

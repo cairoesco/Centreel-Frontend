@@ -163,12 +163,15 @@ export class UserComponent {
   //******************************** Filter popup start **************************/
   public filter_data: any;
   ApplyMultipleFilter(fdata): void {
+    console.log({ fdata }, "before open")
     const dialogRef = this.dialog.open(UserFilterDialogComponent, {
       width: '70%',
       maxWidth:"700px",
       data: { fdata }
     });
+
     dialogRef.afterClosed().subscribe((result: any) => {
+      console.log({ result }, "after close")
       if (Boolean(result)) {
         let filterObject = new Object();
         filterObject['store_id'] = result.store_id?JSON.stringify(result.store_id):'';

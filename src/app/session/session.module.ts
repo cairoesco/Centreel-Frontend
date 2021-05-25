@@ -24,7 +24,7 @@ import { SignaturePadModule } from 'angular2-signaturepad';
     SigninComponent,
     SignupComponent,
     ResetPasswordComponent,
-    AgreementComponent,
+    AgreementComponent
   ]
 })
 
