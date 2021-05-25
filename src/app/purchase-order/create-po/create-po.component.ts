@@ -482,7 +482,7 @@ export class CreatePoComponent implements OnInit {
 
       if (this.isImported)
         formData.append('variants', JSON.stringify(this.purchaseForm.controls.poProducts.value));
-      if (this.isExcelImported)
+      else if (this.isExcelImported)
         formData.append('variants', JSON.stringify(this.purchaseForm.controls.poImportProducts.value));
       else
         formData.append('variants', JSON.stringify(VariantData));
