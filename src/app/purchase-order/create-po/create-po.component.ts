@@ -530,6 +530,7 @@ export class CreatePoComponent implements OnInit {
 
   isSubmitted: boolean = false;
   onSubmit(form) {
+    
     this.isSubmitted = true;
     var string = '';
     var selling_error = false;
@@ -549,6 +550,7 @@ export class CreatePoComponent implements OnInit {
       else {
 
         this.utility.confirmDialog({ title: 'Please confirm the action', message: 'Do you really want to proceed to save the Purchase Order or do you still want to make sure everything is well checked for selling?', okButton: 'SAVE', cancelButton: 'REVIEW' }).subscribe((result: any) => {
+         
           if (Boolean(result)) {
             /* invoice date format */
             let invoicedate = this.purchaseForm.get('invoice_date').value;
@@ -564,13 +566,16 @@ export class CreatePoComponent implements OnInit {
             VariantData = this.purchaseForm.controls.cannabisProducts.value.concat(this.purchaseForm.controls.cannabisProductsAccessories.value);
             VariantData = VariantData.concat(this.purchaseForm.controls.noncannabisProducts.value);
             const formData = new FormData();
-            if (this.isImported)
-              formData.append('variants', JSON.stringify(this.purchaseForm.controls.poProducts.value));
-            if (this.isExcelImported)
-              formData.append('variants', JSON.stringify(this.purchaseForm.controls.poImportProducts.value));
-            else
-              formData.append('variants', JSON.stringify(VariantData));
 
+            if (this.isImported){
+              formData.append('variants', JSON.stringify(this.purchaseForm.controls.poProducts.value));
+            } else if (this.isExcelImported){
+              formData.append('variants', JSON.stringify(this.purchaseForm.controls.poImportProducts.value));
+            }
+            else {
+             formData.append('variants', JSON.stringify(VariantData));
+            }
+                       
             Object.keys(this.purchaseForm.value).forEach(key => {
               if (key != 'cannabisProducts' && key != 'cannabisProductsAccessories' && key != 'noncannabisProducts' && key != 'poProducts' && key != 'poImportProducts') {
                 if (key == "documents") {
@@ -587,6 +592,7 @@ export class CreatePoComponent implements OnInit {
 
             if (this.purchaseForm.valid) {
               if (this.isUploaded) {
+                
                 this.api.createNonCanabiesPo(formData).subscribe((response: any) => {
                   if (response.success) {
                     let po_id = response.data.id;
@@ -920,9 +926,9 @@ export class CreatePoComponent implements OnInit {
             var i;
             for (i = 0; i < nonCannabisControl.value.length; i++) {
               if (i == (nonCannabisControl.value.length - 1)) {
-                // console.log('match');
+  
               } else {
-                // console.log('not match');
+
                 this.updateValue(['product_name', 'variant_name', 'value_added', 'stock_price', 'selling_price','special_price', 'batch', 'storage_id', 'cost', 'total_selling_price', 'margin', 'package_capacity', 'barcode_number'], i)
                 this.isEditable[i] = false;
               }
