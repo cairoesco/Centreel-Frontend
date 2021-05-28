@@ -8,9 +8,6 @@ export class PurchaseOrderService {
     createPo(poDetails) {
         return this.webApi.post('purchaseReceive/storeData', poDetails)
     }
-    createNonCanabiesPo(poDetails) {
-        return this.webApi.post('purchaseReceive/storeNoncannabisData', poDetails)
-    }
     /* save new draft */
     createDraft(poDetails) {
         return this.webApi.post('purchaseReceiveDraft', poDetails)
@@ -33,9 +30,6 @@ export class PurchaseOrderService {
     }
     getRawDetails() {
         return this.webApi.get('purchaseReceive/create')
-    }
-    getRawPODetails() {
-        return this.webApi.get('purchaseReceiveDraft/create')
     }
     getPobyId(poId) {
         return this.webApi.get('purchaseReceive/' + poId + '/edit')

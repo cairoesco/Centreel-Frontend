@@ -32,10 +32,10 @@ export class ProductsComponent implements OnInit {
   constructor(public dialog: MatDialog,
     private productService: ProductService,
     private utils: UtilsServiceService,
-    private el: ElementRef,
+    private el: ElementRef, 
   ) { }
 
-
+  
   readonly headerHeight = 50;
   readonly rowHeight = 50;
   isLoading: boolean;
@@ -45,8 +45,8 @@ export class ProductsComponent implements OnInit {
 
   public newrows: any[] = [];
   productobj: any = new Object();
-  scrollEnable: boolean = false;
-
+  scrollEnable : boolean = false;
+  
 
   //***************** Text Filter ************************ */
   // ApplyFilter(filterValue: string) {
@@ -67,46 +67,38 @@ export class ProductsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (Boolean(result)) {
         this.inProgress = true;
-        this.isLoading = true;
+      this.isLoading = true;
         this.productobj['pageSize'] = 20;
         this.productobj['pageIndex'] = 0;
         result.product_type_id ? this.productobj['product_type_id'] = result.product_type_id ? JSON.stringify(result.product_type_id) : '' : delete this.productobj['product_type_id'];
-
         result.product_category_id ? this.productobj['product_category_id'] = result.product_category_id ? JSON.stringify(result.product_category_id) : '' : delete this.productobj['product_category_id'];
-
         result.tags ? this.productobj['tags'] = result.tags ? JSON.stringify(result.tags) : '' : delete this.productobj['tags'];
-
-        result.out_of_stock ? this.productobj['out_of_stock'] = (result.out_of_stock ? 1 : '') : delete this.productobj['out_of_stock'];
-
-        result.without_barcode ? this.productobj['without_barcode'] = (result.without_barcode ? 1 : '') : delete this.productobj['without_barcode'];
-
-        result.without_price ? this.productobj['without_price'] = (result.without_price ? 1 : '') : delete this.productobj['without_price'];
-
+        
         this.filter_data = result;
         this.getVariantData();
       }
     });
   }
 
-  getVariantData() {
+  getVariantData(){
     this.productService.GetProductList(this.productobj)
-      .subscribe((response: any) => {
+    .subscribe((response: any) => {
+      this.inProgress = false;
+      if (response.success) {
+        this.total_count = response.total_count;
+        this.productsList = response.data.variants;
+        this.adavance_filter = response.data.filters
+        this.rows = this.productsList
+        this.newrows = this.rows
+        this.newrows = [...this.newrows]
         this.inProgress = false;
-        if (response.success) {
-          this.total_count = response.total_count;
-          this.productsList = response.data.variants;
-          this.adavance_filter = response.data.filters
-          this.rows = this.productsList
-          this.newrows = this.rows
-          this.newrows = [...this.newrows]
-          this.inProgress = false;
-          this.isLoading = false;
-          this.dynamicHeight = this.newrows.length < 12 ? ((this.newrows.length + 1) * 48 + 140) + "px" : '';
-        }
-        else {
-          this.utils.showSnackBar(response.message, { panelClass: 'error' });
-        }
-      });
+        this.isLoading = false;
+        this.dynamicHeight = this.newrows.length < 12 ? ((this.newrows.length + 1) * 48 + 140) + "px" : '';
+      }
+      else {
+        this.utils.showSnackBar(response.message, { panelClass: 'error' });
+      }
+    });
   }
   //******************************** Filter popup end **************************
 
@@ -227,7 +219,7 @@ export class ProductsComponent implements OnInit {
   onScroll(offsetY: number) {
     const viewHeight = this.el.nativeElement.getBoundingClientRect().height - this.headerHeight;
     if ((offsetY + viewHeight) >= (this.newrows.length * this.rowHeight)) {
-      if (!this.scrollEnable) {
+      if(!this.scrollEnable){
         this.scrollEnable = true;
         this.pageIndex = this.productobj.pageIndex + 1;
         this.GetProductList(this.pageSize, this.pageIndex);
@@ -235,7 +227,7 @@ export class ProductsComponent implements OnInit {
     }
 
   }
-
+  
   GetProductList(pageSize, pageIndex) {
     this.inProgress = true;
     if (this.newrows.length == 0) {
@@ -289,8 +281,8 @@ export class ProductsComponent implements OnInit {
     this.GetProductList(this.pageSize, this.pageIndex);
     this.onChanges();
   }
-
-  public search = new FormControl('');
+  
+  public search =new FormControl('');
 
   onChanges(): void {
     this.search.valueChanges.pipe(
@@ -312,14 +304,14 @@ export class ProductsComponent implements OnInit {
           }
         });
     })
-
+    
   }
 
   public variantDetail: any;
   printBarcode(v_id): void {
-    this.variantDetail = this.newrows.find(x => x.variant_id === v_id);
+    this.variantDetail =this.newrows.find(x => x.variant_id === v_id);
     let vData = [this.variantDetail];
-
+    
     let vId = v_id;
     const dialogRef = this.dialog.open(PrintBarcodeComponent, {
       width: '70%',

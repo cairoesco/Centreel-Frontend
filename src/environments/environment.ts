@@ -12,18 +12,16 @@
 
 // export const environment = {
 //   production: false,
-//   // baseUrl: 'http://192.168.1.63/centreel-backend/public/',
-//   baseUrl: 'http://192.168.1.7/centreel/public/index.php/',
+//   baseUrl: 'http://192.168.1.63/centreel-backend/public/',
 //   client_id: 4,
 //   client_secret: "iP5Pnj4W53ByRzLNi7qMBDecrHG8qVEMopbhI3to",
-//   GOOGLE_API_BROWSER_KEY: "AIzaSyCGUPzlHtZaH_RWIWzs SvKE7gh1oU3rCOs",
+//   GOOGLE_API_BROWSER_KEY: "AIzaSyCGUPzlHtZaH_RWIWzsSvKE7gh1oU3rCOs",
 // };
 
 export const environment = {
   production: false,
-  // baseUrl: 'https://devapi.centreel.app/',
-  // baseUrl: 'https://testingapi.centreel.app/',
-  baseUrl: 'https://devapi.centreel.app/', 
+  // baseUrl: 'http://devapi.centreel.ca/',
+  baseUrl: 'https://devapi.centreel.app/',
   client_id: 2,
   client_secret: "86uYm59gFcLwrnUcHZvQ3eXHwiCJiZDVaqA5t863",
   GOOGLE_API_BROWSER_KEY: "AIzaSyCGUPzlHtZaH_RWIWzsSvKE7gh1oU3rCOs",

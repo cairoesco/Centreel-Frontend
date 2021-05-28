@@ -103,6 +103,7 @@ export class ProvincetaxComponent implements OnInit {
 
 
   onSubmit(evt) {
+    console.log(evt.value);
   }
 
 }

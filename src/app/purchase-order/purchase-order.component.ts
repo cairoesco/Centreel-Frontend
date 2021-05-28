@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ElementRef,Input } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatDialog } from '@angular/material/dialog';
 import { FilterComponent } from '../dialog/filter/filter.component'
@@ -31,7 +31,7 @@ export class PurchaseOrderComponent implements OnInit {
   public total_count;
   public dynamicHeight = "";
   public inProgress: boolean = false;
-  constructor(public dialog: MatDialog, private router: Router, private api: PurchaseOrderService, public utils: UtilsServiceService, private el: ElementRef, public fb: FormBuilder) { }
+  constructor(public dialog: MatDialog, private router: Router, private api: PurchaseOrderService, public utils: UtilsServiceService,private el: ElementRef,public fb: FormBuilder) { }
 
   readonly headerHeight = 50;
   readonly rowHeight = 50;
@@ -68,11 +68,11 @@ export class PurchaseOrderComponent implements OnInit {
   //new
 
   /***************** List of PO ********************/
-  scrollEnable: boolean = false;
+  scrollEnable : boolean = false;
   onScroll(offsetY: number) {
     const viewHeight = this.el.nativeElement.getBoundingClientRect().height - this.headerHeight;
     if ((offsetY + viewHeight) >= (this.newrows.length * this.rowHeight)) {
-      if (!this.scrollEnable) {
+      if(!this.scrollEnable){
         this.scrollEnable = true;
         this.pageIndex = this.productobj.pageIndex + 1;
         this.getPOList(this.pageSize, this.pageIndex);
@@ -111,13 +111,13 @@ export class PurchaseOrderComponent implements OnInit {
 
   purchaseStatusChange(po_id) {
     let formData = new FormData();
-    formData.append('status', "completed");
-    this.api.purchaseStatus(po_id, formData)
+    formData.append('status',"completed");
+    this.api.purchaseStatus(po_id,formData)
       .subscribe((response: any) => {
         if (response.success) {
           this.utils.showSnackBar(response.message);
           const targetIdx = this.purchaseOrderData.map(item => item.id).indexOf(po_id);
-          this.purchaseOrderData[targetIdx].status = "completed";
+          this.purchaseOrderData[targetIdx].status ="completed";
         }
       });
   }
@@ -129,21 +129,21 @@ export class PurchaseOrderComponent implements OnInit {
     this.productobj['pageIndex'] = 0;
 
     this.api.getPoDetails(this.productobj)
-      .subscribe((response: any) => {
-        this.inProgress = false;
-        if (response.success) {
-          this.total_count = response.total_count;
-          this.purchaseOrderData = response.data;
+    .subscribe((response: any) => {
+      this.inProgress = false;
+      if (response.success) {
+        this.total_count = response.total_count;
+        this.purchaseOrderData = response.data;
           this.rows = this.purchaseOrderData;
           this.newrows = this.rows
           this.newrows = [...this.newrows]
           this.dynamicHeight = this.newrows.length < 12 ? ((this.newrows.length + 1) * 48 + 10) + "px" : '';
           this.isLoading = false;
-        }
-        else {
-          this.utils.showSnackBar(response.message, { panelClass: 'error' });
-        }
-      });
+      }
+      else {
+        this.utils.showSnackBar(response.message, { panelClass: 'error' });
+      }
+    });
   }
   ngOnInit() {
     this.getPOList(this.pageSize, this.pageIndex);
@@ -177,11 +177,11 @@ export class PurchaseOrderComponent implements OnInit {
       });
   }
   /* for filters */
-
-  public filter_count = 0;
+ 
+  public filter_count= 0;
   applyFilter(evt) {
     this.form_obj = this.filterForm.getRawValue();
-
+    
     if (this.form_obj.selected.start && this.form_obj.selected.start != null)
       var sdate = moment(this.form_obj.selected.start, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
     if (this.form_obj.selected.end && this.form_obj.selected.end != null)
@@ -194,7 +194,7 @@ export class PurchaseOrderComponent implements OnInit {
     if (this.form_obj.selected.start && this.form_obj.selected.end && this.form_obj.selected.start != null && this.form_obj.selected.end != null) {
       this.form_obj.from_date = this.utils.get_utc_from_to_date(sdate);
       this.form_obj.to_date = this.utils.get_utc_from_to_date(edate);
-    } else {
+    }else{
       delete this.form_obj.selected;
     }
 
@@ -207,23 +207,23 @@ export class PurchaseOrderComponent implements OnInit {
     }
     /* filter count */
     this.filter_count = Object.keys(this.form_obj).length;
-    if ((this.form_obj).hasOwnProperty('selected')) {
+    if((this.form_obj).hasOwnProperty('selected')){
       this.filter_count = this.filter_count - 2;
     }
     /* filter count */
-
-
+    
+    
     this.inProgress = true;
-    this.isLoading = true;
-    this.productobj['pageSize'] = 20;
-    this.productobj['pageIndex'] = 0;
-    this.form_obj.user_ids ? this.productobj['user_ids'] = this.form_obj.user_ids ? JSON.stringify(this.form_obj.user_ids) : '' : delete this.productobj['user_ids'];
-    this.form_obj.po_status ? this.productobj['po_status'] = this.form_obj.po_status ? (this.form_obj.po_status) : '' : delete this.productobj['po_status'];
-    this.form_obj.from_date ? this.productobj['from_date'] = this.form_obj.from_date ? (this.form_obj.from_date) : '' : delete this.productobj['from_date'];
-    this.form_obj.to_date ? this.productobj['to_date'] = this.form_obj.to_date ? (this.form_obj.to_date) : '' : delete this.productobj['to_date'];
-
-    // this.filter_data = result;
-    this.getPoFilterData();
+        this.isLoading = true;
+        this.productobj['pageSize'] = 20;
+        this.productobj['pageIndex'] = 0;
+        this.form_obj.user_ids ? this.productobj['user_ids'] = this.form_obj.user_ids ? JSON.stringify(this.form_obj.user_ids) : '' : delete this.productobj['user_ids'];
+        this.form_obj.po_status ? this.productobj['po_status'] = this.form_obj.po_status ? (this.form_obj.po_status) : '' : delete this.productobj['po_status'];
+        this.form_obj.from_date ? this.productobj['from_date'] = this.form_obj.from_date ? (this.form_obj.from_date) : '' : delete this.productobj['from_date'];
+        this.form_obj.to_date ? this.productobj['to_date'] = this.form_obj.to_date ? (this.form_obj.to_date) : '' : delete this.productobj['to_date'];
+        
+        // this.filter_data = result;
+        this.getPoFilterData();
     // this.dialogRef.close(this.form_obj);
   }
 
@@ -232,77 +232,77 @@ export class PurchaseOrderComponent implements OnInit {
     this.applyFilter('clear');
   }
 
-  clear_date_filter() {
+  clear_date_filter(){
     this.filterForm.controls['selected'].reset();
   }
 
-  clear_status_filter() {
+  clear_status_filter(){
     this.filterForm.controls['po_status'].reset();
   }
 
-  clear_user_filter() {
+  clear_user_filter(){
     this.filterForm.controls['user_ids'].reset();
   }
   //new
 
-  public search = new FormControl('');
-  userChecked: boolean = false;
-  statusChecked: boolean = false;
-  dateChecked: boolean = false;
+  public search =new FormControl('');
+  userChecked : boolean = false;
+  statusChecked : boolean = false;
+  dateChecked : boolean = false;
   onChanges(): void {
     /* filter data */
     this.filterForm.valueChanges.subscribe(val => {
       this.form_obj = this.filterForm.getRawValue();
-      if (this.form_obj.selected.start && this.form_obj.selected.start != null)
-        var sdate = moment(this.form_obj.selected.start, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-      if (this.form_obj.selected.end && this.form_obj.selected.end != null)
-        var edate = moment(this.form_obj.selected.end, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-      if (sdate == edate) {
-        if (this.form_obj.selected.end)
-          edate = moment(this.form_obj.selected.end, 'DD/MM/YYYY HH:mm:ss').add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
-      }
+    if (this.form_obj.selected.start && this.form_obj.selected.start != null)
+      var sdate = moment(this.form_obj.selected.start, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+    if (this.form_obj.selected.end && this.form_obj.selected.end != null)
+      var edate = moment(this.form_obj.selected.end, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+    if (sdate == edate) {
+      if (this.form_obj.selected.end)
+        edate = moment(this.form_obj.selected.end, 'DD/MM/YYYY HH:mm:ss').add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
+    }
 
-      if (this.form_obj.selected.start && this.form_obj.selected.end && this.form_obj.selected.start != null && this.form_obj.selected.end != null) {
-        this.form_obj.from_date = this.utils.get_utc_from_to_date(sdate);
-        this.form_obj.to_date = this.utils.get_utc_from_to_date(edate);
-        this.dateChecked = true;
-      } else {
-        delete this.form_obj.selected;
-        this.dateChecked = false;
-      }
+    if (this.form_obj.selected.start && this.form_obj.selected.end && this.form_obj.selected.start != null && this.form_obj.selected.end != null) {
+      this.form_obj.from_date = this.utils.get_utc_from_to_date(sdate);
+      this.form_obj.to_date = this.utils.get_utc_from_to_date(edate);
+      this.dateChecked = true;
+    }else{
+      delete this.form_obj.selected;
+      this.dateChecked = false;
+    }
 
-      if (!((this.form_obj.po_status) && (this.form_obj.po_status.length) > 0)) {
-        delete this.form_obj.po_status;
-        this.statusChecked = false;
-      } else {
-        this.statusChecked = true;
-      }
+    if (!((this.form_obj.po_status) && (this.form_obj.po_status.length) > 0)) {
+      delete this.form_obj.po_status;
+      this.statusChecked = false;
+    }else{
+      this.statusChecked = true;
+    }
 
-      if (!((this.form_obj.user_ids) && (this.form_obj.user_ids.length) > 0)) {
-        delete this.form_obj.user_ids;
-        this.userChecked = false;
-      } else {
-        this.userChecked = true;
-      }
-      /* filter count */
-      this.filter_count = Object.keys(this.form_obj).length;
-      if ((this.form_obj).hasOwnProperty('selected')) {
-        this.filter_count = this.filter_count - 2;
-      }
-      /* filter count */
-
-
-      this.inProgress = true;
-      this.isLoading = true;
-      this.productobj['pageSize'] = 20;
-      this.productobj['pageIndex'] = 0;
-      this.form_obj.user_ids ? this.productobj['user_ids'] = this.form_obj.user_ids ? JSON.stringify(this.form_obj.user_ids) : '' : delete this.productobj['user_ids'];
-      this.form_obj.po_status ? this.productobj['po_status'] = this.form_obj.po_status ? (this.form_obj.po_status) : '' : delete this.productobj['po_status'];
-      this.form_obj.from_date ? this.productobj['from_date'] = this.form_obj.from_date ? (this.form_obj.from_date) : '' : delete this.productobj['from_date'];
-      this.form_obj.to_date ? this.productobj['to_date'] = this.form_obj.to_date ? (this.form_obj.to_date) : '' : delete this.productobj['to_date'];
-
-      // this.filter_data = result;
-      this.getPoFilterData();
+    if (!((this.form_obj.user_ids) && (this.form_obj.user_ids.length) > 0)) {
+      delete this.form_obj.user_ids;
+      this.userChecked = false;
+    }else{
+      this.userChecked = true;
+    }
+    /* filter count */
+    this.filter_count = Object.keys(this.form_obj).length;
+    if((this.form_obj).hasOwnProperty('selected')){
+      this.filter_count = this.filter_count - 2;
+    }
+    /* filter count */
+    
+    
+    this.inProgress = true;
+        this.isLoading = true;
+        this.productobj['pageSize'] = 20;
+        this.productobj['pageIndex'] = 0;
+        this.form_obj.user_ids ? this.productobj['user_ids'] = this.form_obj.user_ids ? JSON.stringify(this.form_obj.user_ids) : '' : delete this.productobj['user_ids'];
+        this.form_obj.po_status ? this.productobj['po_status'] = this.form_obj.po_status ? (this.form_obj.po_status) : '' : delete this.productobj['po_status'];
+        this.form_obj.from_date ? this.productobj['from_date'] = this.form_obj.from_date ? (this.form_obj.from_date) : '' : delete this.productobj['from_date'];
+        this.form_obj.to_date ? this.productobj['to_date'] = this.form_obj.to_date ? (this.form_obj.to_date) : '' : delete this.productobj['to_date'];
+        
+        // this.filter_data = result;
+        this.getPoFilterData();
     });
     /* filter data */
     this.search.valueChanges.pipe(
@@ -310,24 +310,24 @@ export class PurchaseOrderComponent implements OnInit {
     ).subscribe(val => {
       this.productobj['search'] = this.search.value;
       this.productobj['pageIndex'] = 0;
-
+      
       this.api.getPoDetails(this.productobj)
-        .subscribe((response: any) => {
-          this.inProgress = false;
-          if (response.success) {
-            this.total_count = response.total_count;
-            this.purchaseOrderData = response.data;
+      .subscribe((response: any) => {
+        this.inProgress = false;
+        if (response.success) {
+          this.total_count = response.total_count;
+          this.purchaseOrderData = response.data;
             this.rows = this.purchaseOrderData;
             this.newrows = this.rows
             this.newrows = [...this.newrows]
             this.dynamicHeight = this.newrows.length < 12 ? ((this.newrows.length + 1) * 48 + 10) + "px" : '';
             this.isLoading = false;
-          }
-          else {
-            this.utils.showSnackBar(response.message, { panelClass: 'error' });
-          }
-        });
-
+        }
+        else {
+          this.utils.showSnackBar(response.message, { panelClass: 'error' });
+        }
+      });
+      
     })
   }
 
@@ -349,34 +349,34 @@ export class PurchaseOrderComponent implements OnInit {
         result.po_status ? this.productobj['po_status'] = result.po_status ? (result.po_status) : '' : delete this.productobj['po_status'];
         result.from_date ? this.productobj['from_date'] = result.from_date ? (result.from_date) : '' : delete this.productobj['from_date'];
         result.to_date ? this.productobj['to_date'] = result.to_date ? (result.to_date) : '' : delete this.productobj['to_date'];
-
+        
         this.filter_data = result;
         this.getPoFilterData();
       }
     });
   }
 
-  getPoFilterData() {
+  getPoFilterData(){
     this.api.getPoDetails(this.productobj)
-      .subscribe((response: any) => {
-        this.inProgress = false;
-        if (response.success) {
-          this.total_count = response.total_count;
-          this.purchaseOrderData = response.data;
+    .subscribe((response: any) => {
+      this.inProgress = false;
+      if (response.success) {
+        this.total_count = response.total_count;
+        this.purchaseOrderData = response.data;
           this.rows = this.purchaseOrderData;
           this.newrows = this.rows
           this.newrows = [...this.newrows]
           this.dynamicHeight = this.newrows.length < 12 ? ((this.newrows.length + 1) * 48 + 10) + "px" : '';
           this.isLoading = false;
-        }
-        else {
-          this.utils.showSnackBar(response.message, { panelClass: 'error' });
-        }
-      });
+      }
+      else {
+        this.utils.showSnackBar(response.message, { panelClass: 'error' });
+      }
+    });
   }
   /* filter popup */
 
-  uploadFile(event) {
+  uploadFile(event){
     this.router.navigate(['purchaseorder/po-list/create'], event);
   }
 }
