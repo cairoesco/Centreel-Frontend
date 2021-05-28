@@ -22,22 +22,22 @@ export class FilterDialogComponent implements OnInit {
   form_obj: any = new Object();
   minDate = moment("2018-01-01");
   maxDate = moment();
-  localconfi: any = { applyLabel: 'ok', separator: ' To ', format: 'DD/MM/YYYY', direction: 'ltr', weekLabel: 'W', cancelLabel: 'Cancel', customRangeLabel: 'Custom range', daysOfWeek: moment.weekdaysMin(), monthNames: moment.monthsShort(), firstDay: moment.localeData().firstDayOfWeek() };
+  localconfi: any = { applyLabel: 'ok', separator: ' To ', format: 'DD/MM/YYYY', direction: 'ltr', weekLabel: 'W', cancelLabel: 'Cancel', customRangeLabel: 'Custom range', daysOfWeek: moment.weekdaysMin(), monthNames: moment.monthsShort(), firstDay: moment.localeData().firstDayOfWeek() }; 
   product_type_id: any;
   product_category_id: any;
 
-  //datepicker range
-  selected: any;
-  alwaysShowCalendars: boolean;
-  ranges: any = {
-    'Today': [moment(), moment()],
-    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-    'This Month': [moment().startOf('month'), moment().endOf('month')],
-    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-  }
-  //datepicker range
+   //datepicker range
+   selected: any;
+   alwaysShowCalendars: boolean;
+   ranges: any = {
+     'Today': [moment(), moment()],
+     'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+     'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+     'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+     'This Month': [moment().startOf('month'), moment().endOf('month')],
+     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+   }
+   //datepicker range
   constructor(private api: ApiService, public dialogRef: MatDialogRef<FilterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public fb: FormBuilder) {
 
   }
@@ -55,11 +55,8 @@ export class FilterDialogComponent implements OnInit {
       store_id: [[]],
       product_category_id: [[]],
       tags: [[]],
-      out_of_stock: 0,
-      without_barcode: 0,
-      without_price: 0,
-      // selected: [''],
-      // barcode_type: [''],
+      selected: [''],
+      barcode_type: [''],
     });
   }
   applyFilter() {

@@ -77,11 +77,6 @@ export const ReportsRoutes: Routes = [
                 data: { title: 'Tax Report' }
             },
             {
-                path: 'cogs',
-                component: CogsReportComponent,
-                data: { title: 'Cogs Report' }
-            },
-            {
                 path: 'cashout',
                 component: CashoutComponent,
                 data: { title: 'Cash Out Report' }

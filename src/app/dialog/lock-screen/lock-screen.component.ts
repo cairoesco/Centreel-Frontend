@@ -22,7 +22,7 @@ export class LockScreenComponent implements OnInit {
     private router: Router,
     private location: PlatformLocation,
     private api: ApiService,
-    public utility: UtilsServiceService
+    public utility:UtilsServiceService
   ) {
     //Disable back button
     location.onPopState(() => {

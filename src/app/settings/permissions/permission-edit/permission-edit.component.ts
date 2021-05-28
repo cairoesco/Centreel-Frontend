@@ -82,6 +82,7 @@ export class PermissionEditComponent implements OnInit {
   fetch(cb) {
     this.api.get('permissions/'+this.currentId+'/edit').subscribe((response: any) => {
       if (response.success) {
+        console.log(response.data.permission.methods);
         response.data.permission.moduleCtrl = null;
         response.data.permission.methodsCtrl = null;
         this.methods = (response.data.permission.methods.map(x => x.method_name));

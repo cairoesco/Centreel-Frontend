@@ -5,4 +5,3 @@
 public/meta.json
 .env
 package-lock.json
-src/environments/environment.ts
