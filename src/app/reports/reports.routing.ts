@@ -8,6 +8,8 @@ import { TimesheetComponent } from './timesheet/timesheet.component';
 import { StocktransferComponent } from './stocktransfer/stocktransfer.component';
 import { CustomsalesComponent } from './customsales/customsales.component';
 import { TaxReportComponent } from './tax-report/tax-report.component';
+import { CogsReportComponent } from './cogs-report/cogs-report.component';
+import { RefundReportComponent } from './refund-report/refund-report.component';
 import { CashoutComponent } from './cashout/cashout.component';
 import { TimeTrackingComponent } from './time-tracking/time-tracking.component';
 import { InventoryOnHandComponent } from './inventory-on-hand/inventory-on-hand.component';
@@ -88,6 +90,11 @@ export const ReportsRoutes: Routes = [
                 path: 'reconcilehistory',
                 component: ReconcileHistoryComponent,
                 data: { title: 'Reconcile History Report' }
+            },
+            {
+                path: 'refund-report',
+                component: RefundReportComponent,
+                data: { title: 'Refund Report' }
             },
             {
                 path: 'printable-menu',

@@ -97,6 +97,25 @@ export class ReportService {
     }
     /* reconcile history */
 
+    /* refund report */
+
+    getRefundReportStores() {
+        return this.webApi.get('reports/refund/create')
+    }
+
+    getRefundReport(data) {
+        return this.webApi.get('reports/refund?'+data)
+    }
+
+    refund_exportReportPdf(data) {
+        return this.webApi.getExportPDF('reports/refund/refundReportpdf?' +data)
+    }   
+
+    refund_exportReportCsv(data) {
+        return this.webApi.getExportPDF('reports/refund/refundReportcsv?' +data)
+    }    
+    /* refund report */
+
     /* inventory audit report */
     getInventoryAuditReport(data){
         return this.webApi.get('reports/inventoryAudit?'+data)
