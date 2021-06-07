@@ -136,6 +136,7 @@ const MENUITEMS = [
       { state: 'orders', name: 'Orders', module: 'reports', method: 'sales' },
       { state: 'printable-menu', name: 'Printable Menu', module: 'reports', method: 'sales' },
       { state: 'reconcilehistory', name: 'Reconcile History', module: 'reports', method: 'sales' },
+      { state: 'refund-report', name: 'Refund Report', module: 'reports', method: 'sales' },
       { state: 'sales', name: 'Sales Per Category', module: 'reports', method: 'sales' },
       { state: 'stocktransfer', name: 'Stock Transfer', module: 'reports', method: 'sales' },
       { state: 'tax', name: 'Tax', module: 'reports', method: 'sales' },

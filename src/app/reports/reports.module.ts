@@ -17,6 +17,7 @@ import { SalesFilterDialogComponent } from './customsales/sales-filter-dialog/sa
 import { SaleshareFilterDialogComponent } from './customsales/saleshare-filter-dialog/saleshare-filter-dialog.component';
 import { TaxReportComponent } from './tax-report/tax-report.component';
 import { CogsReportComponent } from './cogs-report/cogs-report.component';
+import { RefundReportComponent } from './refund-report/refund-report.component';
 import { ReportService } from './report.service';
 import { CashoutComponent } from './cashout/cashout.component';
 import { TimeTrackingComponent } from './time-tracking/time-tracking.component';
@@ -53,6 +54,7 @@ import { PrintableMenuComponent } from './printable-menu/printable-menu.componen
         SaleshareFilterDialogComponent,
         TaxReportComponent,
         CogsReportComponent,
+        RefundReportComponent,
         CashoutComponent,
         TimeTrackingComponent,
         InventoryOnHandComponent,
