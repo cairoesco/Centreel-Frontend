@@ -88,6 +88,7 @@ export class OrdersComponent implements OnInit {
     this.inProgress = true;
     var TZ = this.utils.getTimeZone(); //timezone
     this.orderlist.valueChanges.subscribe(val => {
+      console.log({ val }, 'line 91')
       this.formobj.store_id = val.store_id
       this.formobj.tz = encodeURIComponent(TZ);
       var sdate = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
@@ -104,8 +105,8 @@ export class OrdersComponent implements OnInit {
         delete this.formobj.search;
       }
 
-      if (Boolean(val.order_pub_id)) {
-        this.formobj.order_pub_id = val.order_pub_id;
+      if (Boolean(val.order_id)) {
+        this.formobj.order_pub_id = val.order_id;
       } else {
         delete this.formobj.order_pub_id;
       }
@@ -154,7 +155,7 @@ export class OrdersComponent implements OnInit {
   reset_form() {
     this.orderlist.controls['selected'].setValue({ start: moment().format('DD/MM/YYYY'), end: moment().format('DD/MM/YYYY') });
     this.orderlist.controls['customer_name'].reset();
-    this.orderlist.controls['order_pub_id'].reset();
+    this.orderlist.controls['order_id'].reset();
     if (this.storeList.length > 0) {
       this.orderlist.patchValue({ store_id: this.storeList[0].store_id });
     }
