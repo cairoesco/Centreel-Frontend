@@ -73,28 +73,28 @@
 
   
       <mat-card class="box-shadow report-listing" *ngIf="rows.length > 0" style="overflow: auto;">
-        <ngx-datatable #myDatatable class="material fancyscroll reconcile-history-table" [ngStyle]="{'height':dynamicHeight}"
+        <ngx-datatable #myDatatable class="material fancyscroll refund-report-table" [ngStyle]="{'height':dynamicHeight}"
           [headerHeight]="50" [limit]="10" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="48" [scrollbarV]="true"
           [rows]="rows" [scrollbarH]="true">
-          <ngx-datatable-column [resizeable]="false" prop="order_id" name="Order ID" [width]="135">
+          <ngx-datatable-column [resizeable]="false" prop="order_id" name="Order ID" [width]="100">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
               <span title="{{value}}"> {{value}}</span>
             </ng-template>
           </ngx-datatable-column>
 
           <ngx-datatable-column [resizeable]="false" prop="purchase_price" name="Purchase Price " [width]="135">
-            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-              <span title="{{value}}"> {{value}}</span>
+            <ng-template  ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <span  title="{{value}}"> $ {{value}}</span>
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column [resizeable]="false" prop="purchase_price_lot" name="Purchase Price Lot" [width]="135">
+          <ngx-datatable-column [resizeable]="false" prop="purchase_price_lot" name="Purchase Price Lot" [width]="150">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-              <span title="{{value}}"> {{value}}</span>
+              <span title="{{value}}"> $ {{value}}</span>
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column [resizeable]="false" prop="batch_no" name="Batch" [width]="135">
+          <ngx-datatable-column [resizeable]="false" prop="batch_no" name="Batch" [width]="110">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
               <span title="{{value}}"> {{value ? value : 'None'}}</span>
             </ng-template>
