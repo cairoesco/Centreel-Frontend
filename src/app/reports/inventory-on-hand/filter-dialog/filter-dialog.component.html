@@ -15,6 +15,15 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <mat-form-field fxFlex="48" class="header-chain-select-block">
+        <mat-select placeholder="Warehouse Name" [disableOptionCentering]="true" [formControl]="inventory_report.controls['storage_id']">
+          <mat-option *ngFor="let item of storageList" [value]="item.storage_id">
+            {{item.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <mat-form-field fxFlex="48" class="header-chain-select-block">
         <mat-select placeholder="Store Name" [disableOptionCentering]="true" [formControl]="inventory_report.controls['store_id']">
           <mat-option *ngFor="let item of storeList" [value]="item.store_id">

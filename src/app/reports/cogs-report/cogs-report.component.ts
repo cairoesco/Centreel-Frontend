@@ -150,4 +150,15 @@ export class CogsReportComponent implements OnInit {
       this.table.rowDetail.toggleExpandRow(event.row);
     }
   }*/
+
+
+  getHeight(records, row) {
+    let inner_height = (records < 5 || records != null) ? ((records + 1) * 48 + 10) + "px" : '';
+    return inner_height;
+  }
+  getRowHeight(sub_detail) {
+    if(sub_detail){
+     return sub_detail.order_detail.variants.length < 10 ? ((sub_detail.order_detail.variants.length + 1) * 48 + 32) : 0;
+    }
+  }
 }

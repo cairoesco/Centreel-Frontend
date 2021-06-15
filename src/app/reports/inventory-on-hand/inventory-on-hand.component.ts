@@ -39,7 +39,15 @@ export class InventoryOnHandComponent implements OnInit {
       has_stock: [false],
     });
     this.getStores();
+    
   }
+
+  getFilterData(){
+    this.reportService.getInventoryFilterData().subscribe((response: any) => {
+      console.log(response, 'inventory report filter data, line 46')
+    })
+  }
+
   onActivate(event) {
     if (event.type == 'click') {
       this.table.rowDetail.toggleExpandRow(event.row);
@@ -135,9 +143,14 @@ export class InventoryOnHandComponent implements OnInit {
   }
   /* onchange event */
   onChanges(data): void {
+    console.log(data, 'data from inventory report filter line 146')
+
     this.formobj = {};
     let val = data;
     this.formobj.type = val.product_type
+    if(val.storage_id){
+      this.formobj.storage_id = val.storage_id
+    }
     this.formobj.store_id = val.store_id
     val.has_stock = val.has_stock ? 0 : 1;
     this.formobj.has_stock = val.has_stock
