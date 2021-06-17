@@ -17,8 +17,10 @@
     </div>
   </div>
 </mat-card>
+
 <mat-progress-bar mode="indeterminate" *ngIf="inProgress"></mat-progress-bar>
 <div class="stock-list-content">
+
   <div fxLayout="column" fxFlex="96%" fxFlexOffset="2%">
     <div fxLayout="column" fxLayoutGap="20px">
       <div class="" fxLayout="row" fxLayoutWrap fxLayoutAlign="center">
@@ -39,6 +41,7 @@
         </div>
       </div>
     </div>
+
     <div class="table-container inventory-parent-table fancyscroll stock-overflow" *ngIf="newrows.length > 0 && !isLoading"
       [style.height]="innerHeight+'px'">
       
@@ -70,6 +73,7 @@
                             <svg:rect x="10" y="15" rx="2" ry="2" width="250" height="3" />
                             <svg:rect x="30" y="20" rx="2" ry="2" width="200" height="3" />
                           </content-loader>
+                          
                           <ngx-datatable class="material orders-table" *ngIf="!showExpandLoading" [rowHeight]="64"
                           [ngStyle]="{'height':getHeight(dataSource.length)}"
                                 [headerHeight]="50" [limit]="10" [columnMode]="'force'" [footerHeight]="0"

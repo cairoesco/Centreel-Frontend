@@ -88,7 +88,6 @@ export class OrdersComponent implements OnInit {
     this.inProgress = true;
     var TZ = this.utils.getTimeZone(); //timezone
     this.orderlist.valueChanges.subscribe(val => {
-      console.log({ val }, 'line 91')
       this.formobj.store_id = val.store_id
       this.formobj.tz = encodeURIComponent(TZ);
       var sdate = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
@@ -105,12 +104,13 @@ export class OrdersComponent implements OnInit {
         delete this.formobj.search;
       }
 
-      if (Boolean(val.order_id)) {
-        this.formobj.order_pub_id = val.order_id;
+      if (Boolean(val.order_pub_id)) {
+        this.formobj.search = val.order_pub_id;
       } else {
         delete this.formobj.order_pub_id;
       }
-
+       
+      
       this.reportService.getOrdersReport(this.formobj)
         .subscribe((response: any) => {
           this.inProgress = false;

@@ -17,6 +17,9 @@ export class ReportService {
     getStores() {
         return this.webApi.get('store/settings/create')
     }
+    getInventoryFilterData() {
+        return this.webApi.get('reports/inventory-on-hand/create')
+    }
     getInventoryData(params?) {
         return this.webApi.get('reports/inventory-on-hand',params)
     }

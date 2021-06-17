@@ -1,45 +1,45 @@
 //************ Unverified message color for List view ***********//
-.unverified-message{
-  color: #ff0000;
-}
-.image > .image-block{
-  width: 80px;
-  height: 80px;
-  border-radius: 3px;
-  object-fit: contain;
-  margin-left: 40px;
-}
-.main-container{
-  box-shadow: none !important;
-  .list-detail-content{
-    ::ng-deep .ngx-datatable{
-      background-color: #fff0;
-      ::ng-deep .datatable-header,.datatable-scroll{
-        background-color: #FFF;
-        width: 100% !important;
-      }
-    }
-  }
-}
+// .unverified-message{
+//   color: #ff0000;
+// }
+// .image > .image-block{
+//   width: 80px;
+//   height: 80px;
+//   border-radius: 3px;
+//   object-fit: contain;
+//   margin-left: 40px;
+// }
+// .main-container{
+//   box-shadow: none !important;
+//   .list-detail-content{
+//     ::ng-deep .ngx-datatable{
+//       background-color: #fff0;
+//       ::ng-deep .datatable-header,.datatable-scroll{
+//         background-color: #FFF;
+//         width: 100% !important;
+//       }
+//     }
+//   }
+// }
 
-.add-tag-button{
-  text-align: right;
-}
+// .add-tag-button{
+//   text-align: right;
+// }
 
-/* from custom sales design*/
+// /* from custom sales design*/
 
-.customsales-search-input {
-  box-shadow: 1px 0 13px 0 rgba(0, 0, 0, 0.04) !important;
-  border-right: 1px solid#e6e6e6;
-  border-radius: 50px 50px 50px 50px;
-  background: white;
-  padding: 10px 10px 10px 10px;
-}
+// .customsales-search-input {
+//   box-shadow: 1px 0 13px 0 rgba(0, 0, 0, 0.04) !important;
+//   border-right: 1px solid#e6e6e6;
+//   border-radius: 50px 50px 50px 50px;
+//   background: white;
+//   padding: 10px 10px 10px 10px;
+// }
 
-.refund-report-table{
-  // width: 100%;
-  text-align: center;
-}
+// .refund-report-table{
+//   // width: 100%;
+//   text-align: center;
+// }
 
 
 // .active-button {
@@ -87,3 +87,13 @@
 // .custom-mat-table{
 //   padding-bottom: 0px;
 // }
+
+.arrow{
+  width: 10px !important;
+}
+.order-list-table{
+  min-width: 1500px;
+}
+.sub-table{
+  border: 1px solid #DCDCDC;
+}
