@@ -277,8 +277,10 @@
                       </div>
                     </div>
 
+                    <!-- *ngIf="isAdminRole" -->
                     <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center"
-                      *ngIf="isAdminRole">
+                     
+                      >
                       <div fxFlex="50%">
                         <mat-form-field fxFlex="100%">
                           <mat-select placeholder="store*" formControlName="store_id" [disableOptionCentering]="true">
