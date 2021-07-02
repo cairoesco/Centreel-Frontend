@@ -30,6 +30,7 @@ import { debounceTime } from 'rxjs/operators';
 export class StockComponent {
   @ViewChild('expandedElement') expandedElement;
   @ViewChild('myTable')  table: any; 
+  console = console;
   public innerHeight: any;
   public inProgress: boolean = true;
   public productId: number = 0
@@ -49,6 +50,7 @@ export class StockComponent {
   public chain_id: any = 0;
   product_unit: any;
   sortedData: any[];
+  public tempData: any = [];
   public newrows: any[] = [];
   public total_count;
   productobj: any = new Object();
@@ -105,10 +107,12 @@ export class StockComponent {
         this.inProgress = false;
         this.stockDataResponse = response
         if (response.success) {
+           
           this.isLoading = false;
           this.dataHeader = response.data.header.stores;
           this.dataSource_parent = new MatTableDataSource(response.data.stocks);
           this.sortedData = response.data.stocks;
+
           if (this.sortedData.length == 0 && this.productobj.pageIndex == 0)
             this.newrows = this.sortedData
           else
@@ -124,13 +128,36 @@ export class StockComponent {
             return addKey;
           })
           this.newrows = [...newrowsArray];
+          this.GetProductVariantOnPageLoad(this.newrows)
           this.getObjKeys();
 
           this.ParentTableDataBind_parent();
         }
+        
+
       }, error => {
         this.inProgress = false;
       });
+
+     
+  }
+  GetProductVariantOnPageLoad(products: any ){
+    const req: any = { chain_id: this.selectedFilter.chain_id};
+    const temp = products.map( item => 
+      this.stockService.getProductVariantsStockList(item.product_id, req)
+      .subscribe((response: any) => {
+            if (response.success) {
+              this.dataSource = [];
+              this.dataHeaderChild = response.data.header.warehouses;
+              this.dataSource = response.data.stocks;
+              item.stock = response.data.stocks
+              item.stock.dataHeaderChild = response.data.header.warehouses;
+              this.ChildTableDataBind();
+              this.showExpandLoading = false;
+             
+            }
+          })
+    )
   }
   onScroll(offsetY: number) {
 
@@ -210,6 +237,14 @@ export class StockComponent {
       this.displayedColumns = [];
       this.dataSource = [];
       this.showExpandLoading = true;
+
+      /** data leakage correction starts here */
+
+       
+       const tempProduct = this.newrows.findIndex(item => item.product_id == product_id);
+       /** data leakage correction ends here */
+
+
       // let request = Boolean(this.selectedFilter.store_id) ? { store_id: this.selectedFilter.store_id, chain_id: this.selectedFilter.chain_id } : { chain_id: this.selectedFilter.chain_id };
       const request: any = { chain_id: this.selectedFilter.chain_id,search:this.productobj.search };
 
@@ -227,8 +262,10 @@ export class StockComponent {
             this.dataSource = [];
             this.dataHeaderChild = response.data.header.warehouses;
             this.dataSource = response.data.stocks;
+            this.newrows[tempProduct].stock = response.data.stocks;
             this.ChildTableDataBind();
             this.showExpandLoading = false;
+           
           }
         });
     }
@@ -482,9 +519,12 @@ export class StockComponent {
         this.table.rowDetail.collapseAllRows()
       }
       this.index = i;
-      this.GetProductVariantsStockList(event.row.product_id);
-      this.table.rowDetail.toggleExpandRow(event.row);
+  
+      this.table.rowDetail.toggleExpandRow(event.row)
+     ;
+     
       this.expandedRow = event.row;
+
     }
   }
 
@@ -509,4 +549,5 @@ export class StockComponent {
       }
     }
   }
+
 }

@@ -500,7 +500,7 @@ export class CreatePoComponent implements OnInit {
           }
         }
       });
-
+        
       if (this.purchaseForm.controls.purchase_order_no.status == 'VALID') {
         this.api.createDraft(formData).subscribe((response: any) => {
           if (response.success) {
@@ -530,7 +530,7 @@ export class CreatePoComponent implements OnInit {
 
   isSubmitted: boolean = false;
   onSubmit(form) {
-    
+    console.log(form, 'check forms content here on line 533')
     this.isSubmitted = true;
     var string = '';
     var selling_error = false;
@@ -973,6 +973,7 @@ export class CreatePoComponent implements OnInit {
 
   uploadFile(event) {
     if (event.target.files.length > 0) {
+      
       this.getWarehouse();
       this.purchaseInfoForm();
       this.isImported = false;
@@ -1089,6 +1090,10 @@ export class CreatePoComponent implements OnInit {
                     tableObject['variant_unit'] = unit[1];
                   }
                 }
+                // deposit field
+                else if (headers[objIndex] == 'Deposit') {
+                  tableObject['deposit'] = obj;
+                }
                 else if (headers[objIndex] == 'Product Category') {
                   tableObject['product_category'] = obj;
                 }
@@ -1109,6 +1114,8 @@ export class CreatePoComponent implements OnInit {
             if (element[0] && element[eleIndex]) {
               dataTable.push(tableObject);
             }
+            console.log(detailObj, 'line 1113 upload detailObj')
+            console.log(tableObject, 'line 1114 upload tableObject')
             this.purchaseForm.patchValue(detailObj);
           }
 

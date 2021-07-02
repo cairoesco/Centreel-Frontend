@@ -73,58 +73,79 @@
                             <svg:rect x="10" y="15" rx="2" ry="2" width="250" height="3" />
                             <svg:rect x="30" y="20" rx="2" ry="2" width="200" height="3" />
                           </content-loader>
-                          
-                          <ngx-datatable class="material orders-table" *ngIf="!showExpandLoading" [rowHeight]="64"
-                          [ngStyle]="{'height':getHeight(dataSource.length)}"
-                                [headerHeight]="50" [limit]="10" [columnMode]="'force'" [footerHeight]="0"
-                                [scrollbarV]="true" [scrollbarH]="true" [rows]="dataSource">
-                                <ngx-datatable-column [resizeable]="false" prop="variant_name" name="variant name"
+
+                          <!-- new code begins here -->
+                              
+                             <ngx-datatable class="material orders-table" *ngIf="!showExpandLoading" [rowHeight]="64"
+                                [ngStyle]="{'height':getHeight(row['stock'].length)}"  [headerHeight]="50" [limit]="10" [columnMode]="'force'" [footerHeight]="0"
+                                [scrollbarV]="true" [scrollbarH]="true"  [rows]="row['stock']"> 
+                               
+                                  <ngx-datatable-column [resizeable]="false"  name="variant name"
+                                [flexGrow]="0.5">
+                                
+                                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row">  
+                                                                      
+                                    <span title="{{row.variant_name}}"> {{row.variant_name}}</span>
+                                   
+                                  </ng-template>
+                                
+                            </ngx-datatable-column> 
+
+                           <ngx-datatable-column [resizeable]="false" name="Total"
                                     [flexGrow]="0.5">
-                                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" 
                                         let-row="row">
-                                        <span title="{{value}}"> {{value}}</span>
-                                    </ng-template>
-                                </ngx-datatable-column>
-                                <ngx-datatable-column [resizeable]="false" prop="total_stock" name="Total"
-                                    [flexGrow]="0.5">
-                                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
-                                        let-row="row">
-                                        <span title="{{value}}"> {{value}}</span>
+                                        <span title="{{row.total_stock}}"> {{row.total_stock}}</span>
                                         <a (click)="StockHistory(row,this.columns,i,row_index)"  title="Stock History" style="margin-left: 10px;">
                                           <mat-icon class="stock-icon" svgIcon="summary-list-svg"></mat-icon>
                                         </a>
                                     </ng-template>
                                 </ngx-datatable-column>
-                                <ngx-datatable-column [resizeable]="false" prop="storage_stock" name="{{key.storage_name}}"
-                                    [flexGrow]="1"  *ngFor="let key of dataHeaderChild;let i = index;">
+
+                               <ngx-datatable-column [resizeable]="false" name="{{key.storage_name}}"
+                                    [flexGrow]="1"  *ngFor="let key of row['stock']['dataHeaderChild'];let i = index;">
+
                                     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                                         let-row="row">
-                                        <div class="icon-spacing" title="{{value[i]}}">{{formatNumber(value[i],expandedRow.product_unit)}}
+                                        
+                                        <div class="icon-spacing" title="{{row.storage_stock[i]}}">{{formatNumber(row.storage_stock[i],expandedRow.product_unit)}}
                                             <span style="padding-right: 10px;"  *ngIf="expandedRow.product_unit=='pcs'">{{expandedRow.product_unit}}</span>
                                             <span style="padding-right: 10px;"  *ngIf="expandedRow.product_unit!=='pcs'">{{expandedRow.product_unit}}</span>
                                         </div>
-                                        <div>
+                                        
+                                        <div>  
                                             <!-- transfer stock -->
-                                            <a (click)="TransferStock(row,this.columns[i+2],i+2,rowIndex)" title="Transfer Stock" *ngIf="i+2 >= 2 && value[i]>0 && !(expandedRow.product_type_slug=='cannabis' && columns[i+2].location_short == 'CA')"> 
+                                            <a 
+                                            
+                                            (click)="TransferStock(row,this.columns[i+2],i+2,rowIndex)" title="Transfer Stock" *ngIf="i+2 >= 2 && row.storage_stock[i]>0 && !(expandedRow.product_type_slug=='cannabis' && columns[i+2].location_short == 'CA')"> 
                                               <mat-icon class="stock-icon" svgIcon="move-stock-svg"></mat-icon>  
-                                            </a>
+                                            </a>  
                                             <!-- transfer stock -->
                                             <!-- add stock -->
-                                            <a (click)="AddStock(row,this.columns[i+2],i+2,rowIndex)" *ngIf="i+2 >= 2" title="Add stock" style="margin-left: 10px;">
+                                              <a (click)="AddStock(row,this.columns[i+2],i+2,rowIndex)" *ngIf="i+2 >= 2" title="Add stock" style="margin-left: 10px;">
                                               <mat-icon class="stock-icon" svgIcon="add-stock-svg"></mat-icon>  
-                                            </a>
+                                            </a> 
                                             <!-- add stock -->
                                             <!-- reconcile stock -->
-                                            <a (click)="ReconcileStock(row,this.columns[i+2],i+2,i)" *ngIf="i+2 >= 2 && value[i]>0 > 0"
+                                             <a (click)="ReconcileStock(row,this.columns[i+2],i+2,i)" *ngIf="i+2 >= 2 && row.storage_stock[i]>=0"
                                               title="Reconcile Stock" style="margin-left: 10px;">
                                               <mat-icon class="stock-icon" svgIcon="new-product-svg"></mat-icon>
-                                            </a>
+                                            </a>  
                                             <!-- reconcile stock -->
-                                        </div>
+                                   </div>
                                         
                                     </ng-template>
-                                </ngx-datatable-column>
-                          </ngx-datatable>
+                                </ngx-datatable-column> 
+
+                           
+                              </ngx-datatable>
+                             
+                          
+                          <!-- new code ends here -->
+                        
+                         
+
+
                           <!-- sub table -->
                         </div>
                       </ng-template>
@@ -159,16 +180,6 @@
                             </div>
                         </ng-template>
                     </ngx-datatable-column>
-
-                    <!-- <ngx-datatable-column [resizeable]="false" width="100" prop="store_stock" name="{{key.store_name}}"
-                        [flexGrow]="2"  *ngFor="let key of dataHeader;let i = index;">
-                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                            <div title="{{value[i]}}"> {{formatNumber(value[i],row["product_unit"])}}
-                                <span style="padding-right: 10px;"  *ngIf="row['product_unit']=='pcs'">{{row["product_unit"]}}</span>
-                                <span style="padding-right: 10px;"  *ngIf="row['product_unit']!=='pcs'">{{row["product_unit"]}}</span>
-                            </div>
-                        </ng-template>
-                    </ngx-datatable-column> -->
 
                     <ngx-datatable-column [resizeable]="false" width="100" prop="{{key}}" *ngFor="let key of storeColumnArr;let i = index;" name="{{storeColumnArr[i]}}" [flexGrow]="2">
                       <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">

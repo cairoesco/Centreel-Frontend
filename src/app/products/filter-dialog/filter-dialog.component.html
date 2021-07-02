@@ -35,6 +35,15 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-form-field>
+        <mat-label>Select Stores</mat-label>
+        <mat-select formControlName="store_id" multiple [disableOptionCentering]="true">
+          <mat-option *ngFor="let store of stores" [value]="store.store_id">
+            {{store.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <!-- <mat-form-field class="range-date-input daterange_width">
         <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
           [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end" [ranges]="ranges"

@@ -15,7 +15,7 @@
             <div fxFlex="100" fxLayoutGap="10px">
               <mat-form-field >
                 <mat-label>Adjustment Stock*</mat-label>
-                <input matInput autocomplete="off" type="number" 
+                <input matInput autocomplete="off" type="number"
                   (keypress)="utility.reconcile_stockValidation($event, productVariantsForm.controls['stock'].value,data.product_unit);"
                   step="{{step}}"  min={{-productVariantsForm.value.current_stock}} formControlName="stock">
                 <mat-error *ngIf="productVariantsForm.controls['stock'].hasError('required')">
