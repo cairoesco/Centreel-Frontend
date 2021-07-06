@@ -73,6 +73,8 @@ export class ProductsComponent implements OnInit {
         result.product_type_id ? this.productobj['product_type_id'] = result.product_type_id ? JSON.stringify(result.product_type_id) : '' : delete this.productobj['product_type_id'];
 
         result.product_category_id ? this.productobj['product_category_id'] = result.product_category_id ? JSON.stringify(result.product_category_id) : '' : delete this.productobj['product_category_id'];
+        
+        result.store_id ? this.productobj['store_id'] = result.store_id ? JSON.stringify(result.store_id) : '' : delete this.productobj['store_id'];
 
         result.tags ? this.productobj['tags'] = result.tags ? JSON.stringify(result.tags) : '' : delete this.productobj['tags'];
 

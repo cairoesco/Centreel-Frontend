@@ -14,6 +14,7 @@ import * as moment from 'moment';
 export class FilterDialogComponent implements OnInit {
   public filterForm: FormGroup;
   product_categories = [];
+  stores = [];
   product_types = [];
   public producttypeFormArray: any = [];
   productSubCategory = [];
@@ -51,6 +52,7 @@ export class FilterDialogComponent implements OnInit {
   initializeForm() {
     this.filterForm = this.fb.group({
       product_type_id: [[]],
+      store_id: [[]],
       product_category_id: [[]],
       tags: [[]],
       out_of_stock: 0,
@@ -62,6 +64,7 @@ export class FilterDialogComponent implements OnInit {
   }
   applyFilter() {
     this.form_obj = this.filterForm.getRawValue();
+    console.log(this.form_obj, 'this.form_obj line 67')
     if (!((this.form_obj.product_category_id) && (this.form_obj.product_category_id.length) > 0)) {
       delete this.form_obj.product_category_id;
     }
@@ -72,6 +75,10 @@ export class FilterDialogComponent implements OnInit {
 
     if (!((this.form_obj.tags) && (this.form_obj.tags.length) > 0)) {
       delete this.form_obj.tags;
+    }
+
+    if (!((this.form_obj.store_id) && (this.form_obj.store_id.length) > 0)) {
+      delete this.form_obj.store_id;
     }
 
     if (!(this.form_obj.out_of_stock)) {
@@ -94,6 +101,7 @@ export class FilterDialogComponent implements OnInit {
       .subscribe((response: any) => {
         this.product_categories = response.data.product_categories;
         this.product_types = response.data.product_types;
+        this.stores = response.data.stores;
       });
   }
   getTags() {

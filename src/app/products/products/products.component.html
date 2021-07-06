@@ -5,6 +5,18 @@
         <div fxFlex="50%" class="breadcrumb-header-content">
             Product Variants
         </div>
+        <!-- chainwise or store filter begins -->
+        <!-- <div fxFlex="30%" class="breadcrumb-btn-content">
+            <mat-form-field class="header-chain-select-block">
+              <mat-select [(ngModel)]="selectedFilter.chain_id" (ngModelChange)="ChangeChain()"
+                [disableOptionCentering]="true">
+                <mat-option *ngFor="let chain of filterList?.chains" [value]="chain.chain_id">
+                  {{chain.chain_name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div> -->
+        <!-- chainwise or store filter ends -->
         <div fxFlex="25%" class="breadcrumb-btn-content">
             <button class="add-new-btn" [routerLink]="['/products/create']" type="button">
                 <a class="add-new-label">

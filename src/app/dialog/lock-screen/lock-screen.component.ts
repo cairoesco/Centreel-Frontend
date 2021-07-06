@@ -52,7 +52,8 @@ export class LockScreenComponent implements OnInit {
     }
   }
   goToSignIn() {
-      this.router.navigate(['/session/login'])
+    console.log('it got here');
+    this.router.navigate(['/session/signin'])
     this.dialogRef.close();
   }
 }
