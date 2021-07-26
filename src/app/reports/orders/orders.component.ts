@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -56,9 +56,21 @@ export class OrdersComponent implements OnInit {
     public reportService: ReportService,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
+    private el: ElementRef, 
     private utils: UtilsServiceService) {
     this.alwaysShowCalendars = true;
+    
   }
+
+  readonly headerHeight = 50;
+  readonly rowHeight = 50;
+  isLoading: boolean;
+
+  public per_page: any = 30;
+  public page: any = 0;
+
+  public newrows: any[] = [];
+  scrollEnable : boolean = false;
 
   ngOnInit() {
     //this.changeHeight();
@@ -109,23 +121,77 @@ export class OrdersComponent implements OnInit {
       } else {
         delete this.formobj.order_pub_id;
       }
-
-      this.reportService.getOrdersReport(this.formobj)
-        .subscribe((response: any) => {
-          this.inProgress = false;
-          if (response.data.length > 0) {
-            this.rows = response.data[0].orders;
-            this.dynamicHeight = this.rows.length < 12 ? ((this.rows.length + 2) * 48 + 140) + "px" : '';
-          } else {
-            this.rows = response.data;
-          }
-        },
-          err => {
-            this.inProgress = false;
-          }
-        );
+      this.formobj.per_page = this.per_page;
+      this.formobj.page = this.page;
+    
+      this.GetOrderListReport(this.formobj);
+      // this.reportService.getOrdersReport(this.formobj)
+      //   .subscribe((response: any) => {
+      //     this.inProgress = false;
+      //     if (response.data.length > 0) {
+      //       console.log('order list data', response)
+      //       this.rows = response.data[0].orders;
+      //       this.dynamicHeight = this.rows.length < 12 ? ((this.rows.length + 2) * 48 + 140) + "px" : '';
+      //     } else {
+      //       this.rows = response.data;
+      //     }
+      //   },
+      //     err => {
+      //       this.inProgress = false;
+      //     }
+      //   );
     });
   }
+
+  /******* Get List Data *************/
+  onScroll(offsetY: number) {
+    const viewHeight = this.el.nativeElement.getBoundingClientRect().height - this.headerHeight;
+    if ((offsetY + viewHeight) >= (this.newrows.length * this.rowHeight)) {
+      if(!this.scrollEnable){
+        this.scrollEnable = true;
+        this.page = this.formobj.page + 1;
+        this.formobj.page = this.page;
+        this.GetOrderListReport(this.formobj);
+      }
+    }
+
+  }
+
+
+  GetOrderListReport(payload){
+     this.inProgress = true;
+     if (this.newrows.length == 0) {
+      this.isLoading = true;
+    }
+    // this.formobj.per_page = per_page;
+    // this.formobj.page = page;
+
+    this.reportService.getOrdersReport(payload)
+    .subscribe((response: any) => {
+      this.inProgress = false;
+      this.scrollEnable = false;
+      if (response.success) {
+      // if (response.data.length > 0) {
+       
+        this.rows = response.data[0].orders;
+        if (this.rows.length == 0 && this.formobj.page == 0)
+            this.newrows = this.rows
+          else  {this.newrows.push(...this.rows)}
+          this.newrows = [...this.newrows]
+        this.dynamicHeight = this.rows.length < 12 ? ((this.rows.length + 1) * 48 + 140) + "px" : '';
+        // this.dynamicHeight = this.rows.length < 12 ? ((this.rows.length + 2) * 48 + 140) + "px" : '';
+        this.isLoading = false;
+      } else {
+        this.rows = response.data;
+      }
+    },
+      err => {
+        this.inProgress = false;
+      }
+    );
+  }
+
+
   /* onchange event */
 
   /* download pdf */

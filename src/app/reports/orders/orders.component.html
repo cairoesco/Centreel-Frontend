@@ -75,7 +75,7 @@
             <ngx-datatable #myDatatable class="material expandable order-list-table"
                 [ngStyle]="{'height':dynamicHeight}" [headerHeight]="50" [limit]="10" [columnMode]="'flex'"
                 [footerHeight]="50" [rowHeight]="48" [scrollbarV]="true" [rows]="rows" (activate)="onActivate($event)"
-                (page)="onPage($event)">
+                (page)="onPage($event)" (scroll)="onScroll($event.offsetY)">
                 <!-- row detail -->
                 <ngx-datatable-row-detail [rowHeight]="getRowHeight">
                     <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
