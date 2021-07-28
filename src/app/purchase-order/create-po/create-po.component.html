@@ -84,7 +84,8 @@
                         </mat-form-field>
                       </div>
                       <div fxFlex="31%">
-                        <mat-form-field fxFlex="100%" *ngIf="!isImported">
+                        <mat-form-field fxFlex="100%">
+                        <!-- <mat-form-field fxFlex="100%" *ngIf="!isImported"> -->
                           <mat-select [formControl]="purchaseForm.controls['storage_id']"
                             placeholder="Inventory Import Location" [disableOptionCentering]="true">
                             <mat-option (onSelectionChange)="taxrate(wh.store_id,wh.chain_id, $event)"
