@@ -574,13 +574,21 @@
                         <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
+                            <mat-option [value]="this.tempWarehouse.storage_id">{{ this.tempWarehouse.name }}
+                            </mat-option>
+                             
+                          </div>
+                        </ng-template>
+                        <!-- <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
                             <mat-select formControlName="storage_id" placeholder="Warehouse"
                               [disableOptionCentering]="true">
                               <mat-option *ngFor="let wh of warehouse" [value]="wh.storage_id">{{ wh.name }}
                               </mat-option>
                             </mat-select>
                           </div>
-                        </ng-template>
+                        </ng-template> -->
                       </ngx-datatable-column>
 
                     </ngx-datatable>
