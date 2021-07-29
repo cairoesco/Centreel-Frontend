@@ -69,6 +69,9 @@ export class CreatePoComponent implements OnInit {
   public variantObj: any = new Object();
   public isTrue: boolean = true;
   public importSheet: boolean = false;
+
+  public tempWarehouse: any = {};
+
   constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, public dialog: MatDialog, public refVar: ChangeDetectorRef, private api: PurchaseOrderService, public utility: UtilsServiceService) {
     this.fileUploader();
     this.utility.indexofTab = 0;
@@ -223,7 +226,8 @@ export class CreatePoComponent implements OnInit {
       special_price: [data.special_price], //required
       margin: [null],
       // batch_no: ['--', Validators.required],
-      storage_id: [this.purchaseForm.controls.storage_id.value],
+      // storage_id: [this.purchaseForm.controls.storage_id.value],
+      storage_id: [this.tempWarehouse.storage_id],
       // cost: [0, Validators.required],
       barcodes: [data.barcodes],
       barcode_number: [barcodeVal], //barcode number
@@ -437,7 +441,7 @@ export class CreatePoComponent implements OnInit {
           this.warehouse = _.filter(response.data, function (o) { return o.subtype == 'Store Front'; });
           this.purchaseForm.controls.storage_id.setValue(this.warehouse[0].storage_id)
           this.cID = this.warehouse[0].chain_id;
-
+          this.tempWarehouse = this.warehouse[0];
         }
       });
   }
@@ -451,6 +455,7 @@ export class CreatePoComponent implements OnInit {
     if (event.isUserInput) {
       let storeid = storeID;
       let chainid = chainID;
+      this.tempWarehouse = this.warehouse.find(wh => wh.store_id == storeID)
       if (this.rawData && this.rawData.stores) {
         this.tax_rate = _.filter(this.rawData.stores, function (o) { return o.store_id == storeid; });
         this.tax_rate = this.tax_rate[0].taxrates;
@@ -464,6 +469,9 @@ export class CreatePoComponent implements OnInit {
       if (storeid) {
         this.purchaseForm.controls['store_id'].setValue(storeid);
       }
+      for ( let item of this.purchaseForm.controls['poProducts'].value){
+        item.storage_id = this.tempWarehouse.storage_id
+      } 
       // console.log('mk',this.tax_rate);
     }
   }
@@ -936,7 +944,8 @@ export class CreatePoComponent implements OnInit {
       special_price: [response_data.special_price],
       is_received: [false],
       product_desc: [data.product_desc],
-      storage_id: [this.warehouse[0].storage_id],
+      // storage_id: [this.warehouse[0].storage_id],
+      storage_id: [this.tempWarehouse.storage_id],
       dry_weight: [data.dry_weight],
       product_category: [data.product_category],
       // batch: ['--'],
