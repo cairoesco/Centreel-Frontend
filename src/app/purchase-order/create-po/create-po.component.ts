@@ -36,7 +36,7 @@ export class CreatePoComponent implements OnInit {
   @ViewChild(PurchaseOrderComponent) hello: PurchaseOrderComponent;
 
   ngAfterViewInit() {
-    // console.log('Hello ', this.hello.name); 
+  
   }
   public config: PerfectScrollbarConfigInterface = {};
   public innerHeight: any;
@@ -69,6 +69,9 @@ export class CreatePoComponent implements OnInit {
   public variantObj: any = new Object();
   public isTrue: boolean = true;
   public importSheet: boolean = false;
+
+  public tempWarehouse: any = {};
+
   constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, public dialog: MatDialog, public refVar: ChangeDetectorRef, private api: PurchaseOrderService, public utility: UtilsServiceService) {
     this.fileUploader();
     this.utility.indexofTab = 0;
@@ -205,6 +208,7 @@ export class CreatePoComponent implements OnInit {
 
 
   fillProductProperties(data) {
+  
     let barcodeVal = data.barcodes ? data['barcodes'].split(',').length ? data['barcodes'].split(',')[data['barcodes'].split(',').length - 1] : '' : '';
     return this.fb.group({
       product_name: [data.product_name],
@@ -223,7 +227,7 @@ export class CreatePoComponent implements OnInit {
       special_price: [data.special_price], //required
       margin: [null],
       // batch_no: ['--', Validators.required],
-      storage_id: [this.purchaseForm.controls.storage_id.value],
+      storage_id: [this.tempWarehouse.storage_id],
       // cost: [0, Validators.required],
       barcodes: [data.barcodes],
       barcode_number: [barcodeVal], //barcode number
@@ -335,7 +339,7 @@ export class CreatePoComponent implements OnInit {
 
   isSubmitted: boolean = false;
   onSubmit(form) {
-    console.log(form, 'check forms content here on line 533')
+    
     this.isSubmitted = true;
     var string = '';
     var selling_error = false;
@@ -437,7 +441,7 @@ export class CreatePoComponent implements OnInit {
           this.warehouse = _.filter(response.data, function (o) { return o.subtype == 'Store Front'; });
           this.purchaseForm.controls.storage_id.setValue(this.warehouse[0].storage_id)
           this.cID = this.warehouse[0].chain_id;
-
+          this.tempWarehouse = this.warehouse[0];
         }
       });
   }
@@ -449,8 +453,12 @@ export class CreatePoComponent implements OnInit {
   public pst_val: any;
   taxrate(storeID, chainID, event) {
     if (event.isUserInput) {
+
       let storeid = storeID;
       let chainid = chainID;
+
+      this.tempWarehouse = this.warehouse.find(wh => wh.store_id == storeID)
+   
       if (this.rawData && this.rawData.stores) {
         this.tax_rate = _.filter(this.rawData.stores, function (o) { return o.store_id == storeid; });
         this.tax_rate = this.tax_rate[0].taxrates;
@@ -464,7 +472,11 @@ export class CreatePoComponent implements OnInit {
       if (storeid) {
         this.purchaseForm.controls['store_id'].setValue(storeid);
       }
-      // console.log('mk',this.tax_rate);
+      
+      
+     for ( let item of this.purchaseForm.controls['poProducts'].value){
+       item.storage_id = this.tempWarehouse.storage_id
+     }  
     }
   }
 
@@ -600,7 +612,6 @@ export class CreatePoComponent implements OnInit {
       let total = this.purchaseForm.get('total').value;
       let tax_rate = this.purchaseForm.get('taxrate_id').value;
       if (tax_rate) {
-        console.log(this.taxrateValue);
         this.current_taxrate1(this.taxrateValue)
       }
 
@@ -665,7 +676,6 @@ export class CreatePoComponent implements OnInit {
             var i;
             for (i = 0; i < accessoriesControl.value.length; i++) {
               if (i == (accessoriesControl.value.length - 1)) {
-                // console.log('match');
               } else {
                 this.updateValue(['product_name', 'variant_name', 'value_added', 'stock_price', 'selling_price','special_price', 'batch', 'storage_id', 'cost', 'total_selling_price', 'margin', 'package_capacity', 'barcode_number'], i)
                 this.isEditable[i] = false;
@@ -885,8 +895,6 @@ export class CreatePoComponent implements OnInit {
             if (element[0] && element[eleIndex]) {
               dataTable.push(tableObject);
             }
-            console.log(detailObj, 'line 1113 upload detailObj')
-            console.log(tableObject, 'line 1114 upload tableObject')
             this.purchaseForm.patchValue(detailObj);
           }
 
@@ -924,8 +932,7 @@ export class CreatePoComponent implements OnInit {
 
     let sheet_price = (data.stock_price.toFixed(2));
     let new_price = (+response_data.purchase_price).toFixed(2);
-    // console.log(sheet_price,'--',new_price);
-
+  
     return this.fb.group({
       variant_sku: [data.SKU],
       variant_size: [data.variant_size],
@@ -943,7 +950,8 @@ export class CreatePoComponent implements OnInit {
       special_price: [response_data.special_price],
       is_received: [false],
       product_desc: [data.product_desc],
-      storage_id: [this.warehouse[0].storage_id],
+      // storage_id: [this.warehouse[0].storage_id],
+      storage_id: [this.tempWarehouse.storage_id],
       dry_weight: [data.dry_weight],
       product_category: [data.product_category],
       // batch: ['--'],
@@ -958,6 +966,7 @@ export class CreatePoComponent implements OnInit {
       variant_id: [response_data.variant_id],
       expiry_date: [''],
     });
+   
   }
 
   test(stock_price, margin) {
@@ -1249,7 +1258,6 @@ export class CreatePoComponent implements OnInit {
 
   /* check po number exists */
   check_po_number(val) {
-    console.log(val);
 
   }
   /* check po number exists */
@@ -1287,7 +1295,6 @@ export class CreatePoComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (Boolean(result)) {
-        // console.log("data send");
       }
     });
   }
@@ -1409,7 +1416,6 @@ export class CreatePoComponent implements OnInit {
 export function spaceValidator(control: AbstractControl) {
   if (control && control.value && !control.value.replace(/\s/g, '').length) {
     control.setValue('');
-    // console.log(control.value);
     return { required: true }
   }
   else {
