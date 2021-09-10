@@ -569,9 +569,17 @@
                         </ng-template>
                       </ngx-datatable-column>
 
-                      <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="storage_id" name="Warehouse"
-                        [width]="200">
-                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                      <!-- <ngx-datatable-column class="hidden-column "  [resizeable]="false" [sortable]="false" prop="storage_id" name="Warehouse" -->
+                        <!-- [width]="200"> -->
+                        <ng-template class="hidden-column " ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="hidden-column " [formGroupName]="rowIndex">
+                            <mat-option class="hidden-column " [value]="this.tempWarehouse.storage_id">{{ this.tempWarehouse.name }}
+                            </mat-option>
+                             
+                          </div>
+                        </ng-template>
+                        <!-- <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
                             <mat-option [value]="this.tempWarehouse.storage_id">{{ this.tempWarehouse.name }}
@@ -588,9 +596,9 @@
                               <mat-option *ngFor="let wh of warehouse" [value]="wh.storage_id">{{ wh.name }}
                               </mat-option>
                             </mat-select>
-                          </div> -->
-                        <!-- </ng-template> -->
-                      </ngx-datatable-column>
+                          </div>
+                        </ng-template> -->
+                      <!-- </ngx-datatable-column> -->
 
                     </ngx-datatable>
                   </div>
