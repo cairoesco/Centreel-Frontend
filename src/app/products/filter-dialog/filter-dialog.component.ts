@@ -1,15 +1,15 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import * as _ from 'lodash';
-import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ApiService } from '../../api.service';
-import * as moment from 'moment';
+import { Component, OnInit, Inject } from "@angular/core";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import * as _ from "lodash";
+import { Router } from "@angular/router";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { ApiService } from "../../api.service";
+import * as moment from "moment";
 
 @Component({
-  selector: 'app-filter-dialog',
-  templateUrl: './filter-dialog.component.html',
-  styleUrls: ['./filter-dialog.component.scss']
+  selector: "app-filter-dialog",
+  templateUrl: "./filter-dialog.component.html",
+  styleUrls: ["./filter-dialog.component.scss"],
 })
 export class FilterDialogComponent implements OnInit {
   public filterForm: FormGroup;
@@ -22,7 +22,18 @@ export class FilterDialogComponent implements OnInit {
   form_obj: any = new Object();
   minDate = moment("2018-01-01");
   maxDate = moment();
-  localconfi: any = { applyLabel: 'ok', separator: ' To ', format: 'DD/MM/YYYY', direction: 'ltr', weekLabel: 'W', cancelLabel: 'Cancel', customRangeLabel: 'Custom range', daysOfWeek: moment.weekdaysMin(), monthNames: moment.monthsShort(), firstDay: moment.localeData().firstDayOfWeek() };
+  localconfi: any = {
+    applyLabel: "ok",
+    separator: " To ",
+    format: "DD/MM/YYYY",
+    direction: "ltr",
+    weekLabel: "W",
+    cancelLabel: "Cancel",
+    customRangeLabel: "Custom range",
+    daysOfWeek: moment.weekdaysMin(),
+    monthNames: moment.monthsShort(),
+    firstDay: moment.localeData().firstDayOfWeek(),
+  };
   product_type_id: any;
   product_category_id: any;
 
@@ -30,24 +41,30 @@ export class FilterDialogComponent implements OnInit {
   selected: any;
   alwaysShowCalendars: boolean;
   ranges: any = {
-    'Today': [moment(), moment()],
-    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-    'This Month': [moment().startOf('month'), moment().endOf('month')],
-    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-  }
+    Today: [moment(), moment()],
+    Yesterday: [moment().subtract(1, "days"), moment().subtract(1, "days")],
+    "Last 7 Days": [moment().subtract(6, "days"), moment()],
+    "Last 30 Days": [moment().subtract(29, "days"), moment()],
+    "This Month": [moment().startOf("month"), moment().endOf("month")],
+    "Last Month": [
+      moment().subtract(1, "month").startOf("month"),
+      moment().subtract(1, "month").endOf("month"),
+    ],
+  };
   //datepicker range
-  constructor(private api: ApiService, public dialogRef: MatDialogRef<FilterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public fb: FormBuilder) {
-
-  }
+  constructor(
+    private api: ApiService,
+    public dialogRef: MatDialogRef<FilterDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public router: Router,
+    public fb: FormBuilder
+  ) {}
 
   ngOnInit() {
-    this.initializeForm()
+    this.initializeForm();
     this.getAlldetail();
     this.getTags();
-    if (this.data.fdata)
-      this.filterForm.patchValue(this.data.fdata);
+    if (this.data.fdata) this.filterForm.patchValue(this.data.fdata);
   }
   initializeForm() {
     this.filterForm = this.fb.group({
@@ -55,61 +72,67 @@ export class FilterDialogComponent implements OnInit {
       store_id: [[]],
       product_category_id: [[]],
       tags: [[]],
-      out_of_stock: 0,
-      without_barcode: 0,
-      without_price: 0,
-      // selected: [''],
-      // barcode_type: [''],
+      selected: [""],
+      barcode_type: [""],
     });
   }
   applyFilter() {
     this.form_obj = this.filterForm.getRawValue();
-    console.log(this.form_obj, 'this.form_obj line 67')
-    if (!((this.form_obj.product_category_id) && (this.form_obj.product_category_id.length) > 0)) {
+    console.log(this.form_obj, "this.form_obj line 67");
+    if (
+      !(
+        this.form_obj.product_category_id &&
+        this.form_obj.product_category_id.length > 0
+      )
+    ) {
       delete this.form_obj.product_category_id;
     }
 
-    if (!((this.form_obj.product_type_id) && (this.form_obj.product_type_id.length) > 0)) {
+    if (
+      !(
+        this.form_obj.product_type_id &&
+        this.form_obj.product_type_id.length > 0
+      )
+    ) {
       delete this.form_obj.product_type_id;
     }
 
-    if (!((this.form_obj.tags) && (this.form_obj.tags.length) > 0)) {
+    if (!(this.form_obj.tags && this.form_obj.tags.length > 0)) {
       delete this.form_obj.tags;
     }
 
-    if (!((this.form_obj.store_id) && (this.form_obj.store_id.length) > 0)) {
+    if (!(this.form_obj.store_id && this.form_obj.store_id.length > 0)) {
       delete this.form_obj.store_id;
     }
 
-    if (!(this.form_obj.out_of_stock)) {
+    if (!this.form_obj.out_of_stock) {
       delete this.form_obj.out_of_stock;
     }
 
-    if (!(this.form_obj.without_barcode)) {
+    if (!this.form_obj.without_barcode) {
       delete this.form_obj.without_barcode;
     }
 
-    if (!(this.form_obj.without_price)) {
+    if (!this.form_obj.without_price) {
       delete this.form_obj.without_price;
     }
-    
+
     this.dialogRef.close(this.form_obj);
   }
 
   getAlldetail() {
-    this.api.get('reports/sales/create')
-      .subscribe((response: any) => {
-        this.product_categories = response.data.product_categories;
-        this.product_types = response.data.product_types;
-        this.stores = response.data.stores;
-      });
+    this.api.get("reports/sales/create").subscribe((response: any) => {
+      this.product_categories = response.data.product_categories;
+      this.product_types = response.data.product_types;
+      this.stores = response.data.stores;
+    });
   }
   getTags() {
-    this.api.get('tags?type=' + 'variant').subscribe((result: any) => {
+    this.api.get("tags?type=" + "variant").subscribe((result: any) => {
       if (Boolean(result.success)) {
         this.alltags = result.data;
       }
-    })
+    });
   }
   /* Bind multiple sub category when multiple category is selected */
   change(event) {
@@ -119,7 +142,9 @@ export class FilterDialogComponent implements OnInit {
       let index = this.producttypeFormArray.indexOf(event.source.value);
       this.producttypeFormArray.splice(index, 1);
     }
-    this.productSubCategory = _.filter(this.product_categories, (o) => { return this.producttypeFormArray.indexOf(o.product_type_id) > -1; });
+    this.productSubCategory = _.filter(this.product_categories, (o) => {
+      return this.producttypeFormArray.indexOf(o.product_type_id) > -1;
+    });
   }
   /* Bind multiple sub category when multiple category selected */
 
