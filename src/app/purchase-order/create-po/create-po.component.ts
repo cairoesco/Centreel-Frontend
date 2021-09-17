@@ -121,7 +121,7 @@ export class CreatePoComponent implements OnInit {
     // @ts-ignore
     if (
       this.router.getCurrentNavigation().extras &&
-      this.router.getCurrentNavigation().extras.target
+      this.router?.getCurrentNavigation()?.extras?.target
     ) {
       this.importSheet = true;
       this.uploadFile(this.router.getCurrentNavigation().extras);
@@ -430,9 +430,7 @@ export class CreatePoComponent implements OnInit {
           { panelClass: "error" }
         );
       } else {
-        
-      /* check validation for selling price equal or greater than purchase price */
-
+        /* check validation for selling price equal or greater than purchase price */
         this.utility
           .confirmDialog({
             title: "Please confirm the action",
