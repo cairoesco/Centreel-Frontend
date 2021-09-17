@@ -430,7 +430,9 @@ export class CreatePoComponent implements OnInit {
           { panelClass: "error" }
         );
       } else {
+        
       /* check validation for selling price equal or greater than purchase price */
+
         this.utility
           .confirmDialog({
             title: "Please confirm the action",

@@ -100,9 +100,7 @@ export class ReportService {
     return this.webApi.get("reports/reconcileInventory?" + data);
   }
   reconcile_exportReport(data) {
-    return this.webApi.getExportPDF(
-      "reports/exports/inventory-reconcile?" + data
-    );
+    return this.webApi.getExportPDF("reports/exports/inventory-reconcile?" + data);
   }
   /* reconcile history */
 
@@ -139,9 +137,7 @@ export class ReportService {
     return this.webApi.get("reports/inventoryPrintableMenu?" + data);
   }
   printableMenu_exportReport(data) {
-    return this.webApi.getExportPDF(
-      "reports/export/inventoryPrintableMenu?" + data
-    );
+    return this.webApi.getExportPDF("reports/export/inventoryPrintableMenu?" + data);
   }
 
   downloadFile(data: any, type, report_name = null) {
