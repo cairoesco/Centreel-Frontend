@@ -29,6 +29,7 @@
 </mat-card>
 
 <mat-progress-bar mode="indeterminate" *ngIf="inProgress"></mat-progress-bar>
+
 <div class="top-20 report-inner-height">
     <div fxFlex="96%" fxFlexOffset="2%">
         <mat-card class="box-shadow report-filter-bar">
@@ -53,7 +54,7 @@
                         <div fxFlex="33.33%">
                             <mat-form-field fxFlex="100%">
                                 <input matInput placeholder="Order ID"
-                                    [formControl]="orderlist.controls['order_id']">
+                                    [formControl]="orderlist.controls['order_pub_id']">
                             </mat-form-field>
                         </div>
                         <div fxFlex="33.33%">
@@ -106,7 +107,7 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column [resizeable]="false" prop="price" name="Purchase Price"
+                                <ngx-datatable-column [resizeable]="false" prop="purchase_price" name="Purchase Price"
                                     [flexGrow]="0.5">
                                     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                                         let-row="row">
@@ -120,7 +121,7 @@
                                         <span title="{{value}}"> {{value}}</span>
                                     </ng-template>
                                 </ngx-datatable-column>
-                                <ngx-datatable-column [resizeable]="false" prop="price" name="Sell Price"
+                                <ngx-datatable-column [resizeable]="false" prop="selling_price" name="Sell Price"
                                     [flexGrow]="0.5">
                                     <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                                         let-row="row">

@@ -291,7 +291,8 @@
                         <mat-select placeholder="Tax Rate*" formControlName="taxrate_id"
                           [disableOptionCentering]="true">
                           <mat-option *ngFor="let tax_rate of storewiseTaxes[0]" [value]="tax_rate.id">
-                            {{tax_rate.tax_type}}({{tax_rate.provincial_rate>0 ? tax_rate.country_rate +" + "+ tax_rate.provincial_rate : tax_rate.country_rate}})
+                            {{tax_rate.tax_type}}({{tax_rate.provincial_rate>0 ? tax_rate.country_rate +" + "+
+                            tax_rate.provincial_rate : tax_rate.country_rate}})
                           </mat-option>
                         </mat-select>
                         <mat-error *ngIf="addProductForm.controls['taxrate_id'].hasError('required')">Please select

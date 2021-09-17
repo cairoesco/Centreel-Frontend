@@ -74,14 +74,6 @@ const MENUITEMS = [
     method: 'index'
   },
   {
-    state: 'discounts',
-    name: 'DISCOUNTS',
-    type: 'link',
-    icon: 'menu-employee-svg',
-    module: 'users',
-    method: 'index'
-  },
-  {
     state: 'customer',
     name: 'CUSTOMER',
     type: 'link',
@@ -128,7 +120,6 @@ const MENUITEMS = [
     children: [
       // { state: 'cashout', name: 'Cash Out', module: 'reports', method: 'sales' },
       { state: 'closeout', name: 'Closeout', module: 'reports', method: 'sales' },
-      { state: 'cogs', name: 'Cogs', module: 'reports', method: 'sales' },
       { state: 'customsales', name: 'Custom sales', module: 'reports', method: 'sales' },
       // { state: 'monthly-report', name: 'Monthly Report', module: 'reports', method: 'sales' },
       { state: 'inventory', name: 'Inventory Report', module: 'reports', method: 'sales' },
@@ -136,6 +127,7 @@ const MENUITEMS = [
       { state: 'orders', name: 'Orders', module: 'reports', method: 'sales' },
       { state: 'printable-menu', name: 'Printable Menu', module: 'reports', method: 'sales' },
       { state: 'reconcilehistory', name: 'Reconcile History', module: 'reports', method: 'sales' },
+      { state: 'refund-report', name: 'Refund Report', module: 'reports', method: 'sales' },
       { state: 'sales', name: 'Sales Per Category', module: 'reports', method: 'sales' },
       { state: 'stocktransfer', name: 'Stock Transfer', module: 'reports', method: 'sales' },
       { state: 'tax', name: 'Tax', module: 'reports', method: 'sales' },

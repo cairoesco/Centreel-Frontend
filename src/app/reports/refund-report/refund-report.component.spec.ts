@@ -1,16 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DiscountComponent } from './discount.component';
-import { SharedModule } from '../shared/shared.module';
+import { RefundReportComponent } from './refund-report.component';
+import { SharedModule } from '../../shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { ApiService } from '../api.service';
-import { DiscountService } from './discount.service';
+// import { ApiService } from '../api.service';
+// import { DiscountService } from './discount.service';
 
 describe('UserComponent', () => {
-  let component: DiscountComponent;
-  let fixture: ComponentFixture<DiscountComponent>;
+  let component: RefundReportComponent;
+  let fixture: ComponentFixture<RefundReportComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -20,14 +20,14 @@ describe('UserComponent', () => {
         RouterTestingModule,
         HttpClientModule
       ],
-      declarations: [ DiscountComponent ],
-      providers:[ApiService,DiscountService]
+      declarations: [ RefundReportComponent ],
+      // providers:[ApiService,DiscountService]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DiscountComponent);
+    fixture = TestBed.createComponent(RefundReportComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

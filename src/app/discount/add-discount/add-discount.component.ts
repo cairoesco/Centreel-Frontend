@@ -129,6 +129,7 @@ const payload = {
 
     close(){
       this.discountForm.reset();
+      this.discountDialogRef.close()
     }
 
 }

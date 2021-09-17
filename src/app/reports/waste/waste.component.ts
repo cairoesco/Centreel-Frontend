@@ -91,7 +91,7 @@ export class WasteComponent implements OnInit {
     this.reportService.getWarehouse()
       .subscribe((response: any) => {
         /* filter only store front data */
-        this.warehouse = _.filter(response.data, function (o) { return o.subtype == 'Store Front'; });
+        this.warehouse = _.filter(response.data, function (o) { return o.subtype == 'Store Front' || o.subtype == 'Store Display'; });
         /* filter only store front data */
         if (response.data.length > 0) {
           this.waste.patchValue({ storage_id: this.warehouse[0].storage_id });

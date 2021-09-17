@@ -45,6 +45,7 @@ export class DiscountComponent {
            this.discountService.GetDiscountList(response.data[0].store_id)
             .subscribe(( payload: any) => {
               if(payload.success){
+
               this.Discounts = payload.data;
               this.rows = this.Discounts;
               this.dynamicHeight = this.rows.length < 12 ? ((this.rows.length + 1) * 48 + 140) + "px" : '';
@@ -136,6 +137,7 @@ export class DiscountComponent {
           .subscribe((response: any) => {
             this.inProgress = false;
             if (response.success) {
+             
               this.Discounts = response.data;
               this.rows = this.Discounts;
               this.dynamicHeight = this.rows.length < 12 ? ((this.rows.length + 1) * 48 + 140) + "px" : '';

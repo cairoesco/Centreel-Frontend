@@ -26,7 +26,7 @@ export class ReconcileStockComponent implements OnInit {
   public batchList: any = [];
   public reasonList: any = [];
   public available_stock: any = 0;
-  public step: number = 0.01;
+  public step: number = 1.00;
   constructor(
     private _formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<ReconcileStockComponent>,

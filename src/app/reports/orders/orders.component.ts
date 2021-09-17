@@ -105,11 +105,12 @@ export class OrdersComponent implements OnInit {
       }
 
       if (Boolean(val.order_pub_id)) {
-        this.formobj.order_pub_id = val.order_pub_id;
+        this.formobj.search = val.order_pub_id;
       } else {
         delete this.formobj.order_pub_id;
       }
-
+       
+      
       this.reportService.getOrdersReport(this.formobj)
         .subscribe((response: any) => {
           this.inProgress = false;
@@ -154,7 +155,7 @@ export class OrdersComponent implements OnInit {
   reset_form() {
     this.orderlist.controls['selected'].setValue({ start: moment().format('DD/MM/YYYY'), end: moment().format('DD/MM/YYYY') });
     this.orderlist.controls['customer_name'].reset();
-    this.orderlist.controls['order_pub_id'].reset();
+    this.orderlist.controls['order_id'].reset();
     if (this.storeList.length > 0) {
       this.orderlist.patchValue({ store_id: this.storeList[0].store_id });
     }

@@ -1,4 +1,5 @@
-<h2 mat-dialog-title>Filters
+<h2 mat-dialog-title>
+  Filters
   <span fxFlex></span>
   <span class="close-btn" align="end" (click)="dialogRef.close()">
     <mat-icon>close</mat-icon>
@@ -8,28 +9,60 @@
 <form [formGroup]="filterForm" (ngSubmit)="applyFilter()">
   <mat-dialog-content class="mat-typography">
     <div fxLayout="row wrap" fxLayoutGap="20px">
-
       <mat-form-field>
         <mat-label>Select Category</mat-label>
-        <mat-select formControlName="product_type_id" multiple [disableOptionCentering]="true">
-          <mat-option *ngFor="let type of product_types" [value]="type.type_id" (onSelectionChange)="change($event)">
-            {{type.type_name}}
+        <mat-select
+          formControlName="product_type_id"
+          multiple
+          [disableOptionCentering]="true"
+        >
+          <mat-option
+            *ngFor="let type of product_types"
+            [value]="type.type_id"
+            (onSelectionChange)="change($event)"
+          >
+            {{ type.type_name }}
           </mat-option>
         </mat-select>
       </mat-form-field>
+
       <mat-form-field>
         <mat-label>Select Subcategory</mat-label>
-        <mat-select formControlName="product_category_id" multiple [disableOptionCentering]="true">
-          <mat-option *ngFor="let category of productSubCategory" [value]="category.product_category_id">{{
-            category.product_category_name }}</mat-option>
+        <mat-select
+          formControlName="product_category_id"
+          multiple
+          [disableOptionCentering]="true"
+        >
+          <mat-option
+            *ngFor="let category of productSubCategory"
+            [value]="category.product_category_id"
+            >{{ category.product_category_name }}</mat-option
+          >
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Select Tags</mat-label>
-        <mat-select formControlName="tags" multiple [disableOptionCentering]="true">
+        <mat-select
+          formControlName="tags"
+          multiple
+          [disableOptionCentering]="true"
+        >
           <mat-option *ngFor="let tag of alltags" [value]="tag">
-            {{tag}}
+            {{ tag }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Select Stores</mat-label>
+        <mat-select
+          formControlName="store_id"
+          multiple
+          [disableOptionCentering]="true"
+        >
+          <mat-option *ngFor="let store of stores" [value]="store.store_id">
+            {{ store.name }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -48,31 +81,48 @@
             {{tag}}
           </mat-option>
         </mat-select>
-      </mat-form-field> -->
+      </mat-form-field>
 
     </div>
     <div fxLayout="row wrap" fxLayoutGap="2">
       <!-- <div fxLayout="row wrap" class="MARGIN-BOTTOM"> -->
       <div fxFlex="49%">
-        <mat-checkbox formControlName="out_of_stock" class="check-box-green" color="primary">
-          Out
-          of stock</mat-checkbox>
+        <mat-checkbox
+          formControlName="barcode_type"
+          class="check-box-green"
+          color="primary"
+        >
+          Out of stock</mat-checkbox
+        >
       </div>
       <div fxFlex="49%">
-        <mat-checkbox formControlName="without_barcode" class="check-box-green" color="primary">
-          Products without barcodes</mat-checkbox>
+        <mat-checkbox
+          formControlName="barcode_type"
+          class="check-box-green"
+          color="primary"
+        >
+          Products without barcodes</mat-checkbox
+        >
       </div>
       <div fxFlex="49%">
-        <mat-checkbox formControlName="without_price" class="check-box-green" color="primary">
-          Products without price</mat-checkbox>
+        <mat-checkbox
+          formControlName="barcode_type"
+          class="check-box-green"
+          color="primary"
+        >
+          Products without price</mat-checkbox
+        >
       </div>
 
       <!-- </div> -->
     </div>
-
   </mat-dialog-content>
   <mat-dialog-actions align="start" class="mat-dialog-footer-custom">
-    <button type="submit" class="ok-button" mat-raised-button color="primary">APPLY FILTER</button>
-    <button (click)="close()" mat-button color="primary" class="cancel-button">CLEAR FILTER</button>
+    <button type="submit" class="ok-button" mat-raised-button color="primary">
+      APPLY FILTER
+    </button>
+    <button (click)="close()" mat-button color="primary" class="cancel-button">
+      CLEAR FILTER
+    </button>
   </mat-dialog-actions>
 </form>
