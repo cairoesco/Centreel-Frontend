@@ -362,7 +362,7 @@
                       [ngStyle]="{'height':dynamicHeight}" [limit]="10" [columnMode]="'force'" [scrollbarH]="true"
                       [footerHeight]="0" [rowHeight]="48" [scrollbarV]="true"
                       [rows]="this.purchaseForm.controls.poProducts.value">
-
+                     
                       <ngx-datatable-column name="" [frozenLeft]="true" [sortable]="false" [draggable]="false"
                         [resizeable]="false" [width]="80" [maxWidth]="60" [minWidth]="50">
                         <ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected"
@@ -579,6 +579,15 @@
                              
                           </div>
                         </ng-template>
+                        <!-- <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex">
+                            <mat-option [value]="this.tempWarehouse.storage_id">{{ this.tempWarehouse.name }}
+                            </mat-option>
+                             
+                          </div>
+                        </ng-template>
+
                         <!-- <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
                           let-row="row">
                           <div [formGroupName]="rowIndex">
