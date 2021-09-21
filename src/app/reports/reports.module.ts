@@ -26,6 +26,7 @@ import { FilterDialogComponent } from "./inventory-on-hand/filter-dialog/filter-
 import { ReconcileHistoryComponent } from "./reconcile-history/reconcile-history.component";
 import { InventoryAuditComponent } from "./inventory-audit/inventory-audit.component";
 import { PrintableMenuComponent } from "./printable-menu/printable-menu.component";
+import { DailyInterimComponent } from "./daily-interim/dailyinterim.component";
 
 @NgModule({
   imports: [
@@ -61,6 +62,7 @@ import { PrintableMenuComponent } from "./printable-menu/printable-menu.componen
     ReconcileHistoryComponent,
     InventoryAuditComponent,
     PrintableMenuComponent,
+    DailyInterimComponent
   ],
   providers: [ReportService],
   entryComponents: [
