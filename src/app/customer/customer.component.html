@@ -1,187 +1,243 @@
 <mat-card class="header-main-content">
-  <div fxLayout="row">
-    <div fxFlex="25%" class="breadcrumb-content">
-    </div>
-    <div fxFlex="50%" class="breadcrumb-header-content">
-      Customers
-    </div>
-    <div fxFlex="25%" class="breadcrumb-btn-content">
-          <button class="add-new-btn" [routerLink]="['create']" type="button">
-              <a class="add-new-label">
-                  <img src="assets/icon/plus-math.svg" alt="Add New" class="plus-math">
-                  ADD NEW
-              </a>
-          </button>
-      </div>
-  </div>
+	<div fxLayout="row">
+		<div fxFlex="25%" class="breadcrumb-content"></div>
+		<div fxFlex="50%" class="breadcrumb-header-content">Customers</div>
+		<div fxFlex="25%" class="breadcrumb-btn-content">
+			<button class="add-new-btn" [routerLink]="['create']" type="button">
+				<a class="add-new-label">
+					<img src="assets/icon/plus-math.svg" alt="Add New" class="plus-math" />
+					ADD NEW
+				</a>
+			</button>
+		</div>
+	</div>
 </mat-card>
 <mat-progress-bar mode="indeterminate" *ngIf="inProgress"></mat-progress-bar>
 <div style="padding-top: 20px">
-  <div fxFlex="2%">
-  </div>
-  <div fxFlex="96%">
-    <div fxLayout="column" fxLayoutGap="20px">
-      <div class="" fxLayout="row" fxLayoutWrap fxLayoutAlign="center">
-        <div class="search-input" fxFlex="90%" fxFlex.md="80%" fxFlex.lg="80%" fxFlex.sm="65%" fxFlex.xs="65%">
-          <img alt="Search" class="Search-icon" src="../../assets/icon/search.png">
-          <input class="Search" (keyup)="applyFilter($event.target.value)" placeholder="Search name...">
-          <span class="result-count">{{rows.length}} Results</span>
-        </div>
-        <div class="search-button pointer" (click)="ApplyMultipleFilter()" fxFlex="10%" fxFlex.md="20%" fxFlex.lg="20%"
-          fxFlex.sm="35%" fxFlex.xs="35%">
-          <div fxFlex="70%" class="text"> Filter by </div>
-          <div fxFlex="30%" class="icon">
-            <mat-icon>keyboard_arrow_down</mat-icon>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div fxLayout="column" class="main-container" *ngIf="rows.length > 0">
-      <mat-card class="list-bulk-action-header">
-        <div _ngcontent-c41="" class="button-row">
-          <button mat-button mat-stroked-button [disabled]="selected.length<1" class="mat-add-tag-btn" type="button"
-            (click)="AddNewTag('ALL')">
-            ADD TAGS
-          </button>
-        </div>
-      </mat-card>
-      <div class="list-detail-content">
-        <ngx-datatable #myTable class='material expandable fancyscroll employee-list-table'
-          [ngStyle]="{'height':dynamicHeight}" [headerHeight]="50" [externalPaging]="false" [footerHeight]="0"
-          [columnMode]="'flex'" [rowHeight]="getRowHeight" [scrollbarV]="true" [rows]='rows' [limit]="10"
-          [selected]="selected" [selectionType]="'checkbox'" (activate)="onActivate($event)"
-          (select)='onSelect($event)'>
-          <!-- Row Detail Template -->
-          <ngx-datatable-row-detail [rowHeight]="155" #myDetailRow style="cursor: auto;">
-            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-                <div class="example-element-detail" fxLayoutGap="4px">
-                    <div fxFlex="48%" fxFlexOffset="63px" class="tags fancyscroll">
-                        <div>
-                            <p><strong>Phone:</strong> {{row['patient_mobile']}}</p>
-                            <p><strong>Email:</strong> {{row['patient_email']}}</p>
-                            <p *ngFor="let item of row['customer_id_card']"><strong>{{item.id_card_type}}:</strong> {{item.id_number}}</p>
-                        </div>
-                    </div>
-                    <div fxFlex="48%" class="tags fancyscroll">
-                        <div fxLayout="row wrap">
-                        <div class="tag-div"  *ngFor="let item of row['tags']"> 
-                            <div class="tag-text" >{{item.tag_name}}</div>
-                        </div>
-                        </div>
-                        <mat-chip-list>
-                            <button type="button" class="ADD-TAG pointer" (click)="AddNewTag(row)">
-                                <img src="assets/icon/plus-math.svg" alt="Add New" class="plus-math add-tag-icon">
-                                ADD TAG
-                            </button>
-                        </mat-chip-list>
-                    </div>
-                </div>
-            </ng-template>
-        </ngx-datatable-row-detail>
-          <ngx-datatable-column name="" [sortable]="false" [draggable]="false" [resizeable]="false" [flexGrow]="1"  [maxWidth]="70" [minWidth]="50">
-            <ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
-              <mat-checkbox color="primary" class="all-select-checkbox" (change)="selectFn(!allRowsSelected)"
-                [checked]="allRowsSelected" [indeterminate]="!allRowsSelected && selected.length>0">
-              </mat-checkbox>
-            </ng-template>
-            <ng-template ngx-datatable-cell-template let-row="row" let-expanded="expanded" let-value="value"
-              let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
-              <div class="checkbox-column">
-                <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded"
-                  [class.datatable-icon-down]="expanded" title="Expand/Collapse Row" class="ngx-expand-arrow"></a>
-                <mat-checkbox color="primary" (click)="$event.stopPropagation();" (change)="onCheckboxChangeFn($event);"
-                  [checked]="isSelected">
-                </mat-checkbox>
-              </div>
-            </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column name="Customer Name" prop="customer_name" [resizeable]="false" [flexGrow]="3">
-            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-              <span>{{row['customer_name']}}</span>
-            </ng-template>
-          </ngx-datatable-column>
+	<div fxFlex="2%"></div>
+	<div fxFlex="96%">
+		<div fxLayout="column" fxLayoutGap="20px">
+			<div class="" fxLayout="row" fxLayoutWrap fxLayoutAlign="center">
+				<div class="search-input" fxFlex="90%" fxFlex.md="80%" fxFlex.lg="80%" fxFlex.sm="65%" fxFlex.xs="65%">
+					<img alt="Search" class="Search-icon" src="../../assets/icon/search.png" />
+					<input class="Search" (keyup)="applyFilter($event.target.value)" placeholder="Search name..." />
+					<span class="result-count">{{ rows?.length }} Results</span>
+				</div>
+				<div class="search-button pointer" (click)="ApplyMultipleFilter()" fxFlex="10%" fxFlex.md="20%" fxFlex.lg="20%" fxFlex.sm="35%" fxFlex.xs="35%">
+					<div fxFlex="70%" class="text">Filter by</div>
+					<div fxFlex="30%" class="icon">
+						<mat-icon>keyboard_arrow_down</mat-icon>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div fxLayout="column" class="main-container" *ngIf="rows?.length > 0">
+			<mat-card class="list-bulk-action-header">
+				<div _ngcontent-c41="" class="button-row">
+					<button mat-button mat-stroked-button [disabled]="selected.length < 1" class="mat-add-tag-btn" type="button" (click)="AddNewTag('ALL')">
+						ADD TAGS
+					</button>
+				</div>
+			</mat-card>
+			<div class="list-detail-content">
+				<ngx-datatable
+					#myTable
+					class="material expandable fancyscroll employee-list-table"
+					[ngStyle]="{ height: dynamicHeight }"
+					[headerHeight]="50"
+					[externalPaging]="false"
+					[footerHeight]="0"
+					[columnMode]="'flex'"
+					[rowHeight]="getRowHeight"
+					[scrollbarV]="true"
+					[rows]="rows"
+					[limit]="10"
+					[selected]="selected"
+					[selectionType]="'checkbox'"
+					(activate)="onActivate($event)"
+					(select)="onSelect($event)"
+					(scroll)="onScroll($event.offsetY)"
+				>
+					<!-- Row Detail Template -->
+					<ngx-datatable-row-detail [rowHeight]="155" #myDetailRow style="cursor: auto">
+						<ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+							<div class="example-element-detail" fxLayoutGap="4px">
+								<div fxFlex="48%" fxFlexOffset="63px" class="tags fancyscroll">
+									<div>
+										<p><strong>Phone:</strong> {{ row["patient_mobile"] }}</p>
+										<p><strong>Email:</strong> {{ row["patient_email"] }}</p>
+										<p *ngFor="let item of row['customer_id_card']">
+											<strong>{{ item.id_card_type }}:</strong> {{ item.id_number }}
+										</p>
+									</div>
+								</div>
+								<div fxFlex="48%" class="tags fancyscroll">
+									<div fxLayout="row wrap">
+										<div class="tag-div" *ngFor="let item of row['tags']">
+											<div class="tag-text">{{ item.tag_name }}</div>
+										</div>
+									</div>
+									<mat-chip-list>
+										<button type="button" class="ADD-TAG pointer" (click)="AddNewTag(row)">
+											<img src="assets/icon/plus-math.svg" alt="Add New" class="plus-math add-tag-icon" />
+											ADD TAG
+										</button>
+									</mat-chip-list>
+								</div>
+							</div>
+						</ng-template>
+					</ngx-datatable-row-detail>
+					<ngx-datatable-column name="" [sortable]="false" [draggable]="false" [resizeable]="false" [flexGrow]="1" [maxWidth]="70" [minWidth]="50">
+						<ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+							<mat-checkbox
+								color="primary"
+								class="all-select-checkbox"
+								(change)="selectFn(!allRowsSelected)"
+								[checked]="allRowsSelected"
+								[indeterminate]="!allRowsSelected && selected.length > 0"
+							>
+							</mat-checkbox>
+						</ng-template>
+						<ng-template
+							ngx-datatable-cell-template
+							let-row="row"
+							let-expanded="expanded"
+							let-value="value"
+							let-isSelected="isSelected"
+							let-onCheckboxChangeFn="onCheckboxChangeFn"
+						>
+							<div class="checkbox-column">
+								<a
+									href="javascript:void(0)"
+									[class.datatable-icon-right]="!expanded"
+									[class.datatable-icon-down]="expanded"
+									title="Expand/Collapse Row"
+									class="ngx-expand-arrow"
+								></a>
+								<mat-checkbox color="primary" (click)="$event.stopPropagation()" (change)="onCheckboxChangeFn($event)" [checked]="isSelected"> </mat-checkbox>
+							</div>
+						</ng-template>
+					</ngx-datatable-column>
+					<ngx-datatable-column name="Customer Name" prop="customer_name" [resizeable]="false" [flexGrow]="3">
+						<ng-template
+							let-row="row"
+							let-value="value"
+							ngx-datatable-cell-template
+							fxFlex="10%"
+							fxFlex.md="20%"
+							fxFlex.lg="20%"
+							fxFlex.sm="35%"
+							fxFlex.xs="35%"
+						>
+							<div fxFlex="70%" class="text">{{ row["customer_name"] }}</div>
 
-          <ngx-datatable-column name="City" prop="city" [resizeable]="false" [flexGrow]="2">
-            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-              <span>{{row['city']}}</span>
-            </ng-template>
-          </ngx-datatable-column>
+							<div fxFlex="30%" *ngIf="row.queue_status == 1">
+								<span class="material-icons active-queue" [ngStyle]="{ color: 'green' }">fiber_manual_record</span>
+							</div>
+							<div fxFlex="30%" *ngIf="row.queue_status == 0">
+								<span class="material-icons inactive-queue" [ngStyle]="{ color: 'grey' }">fiber_manual_record</span>
+							</div>
+						</ng-template>
+					</ngx-datatable-column>
 
-          <ngx-datatable-column name="Date of birth" prop="dob" [resizeable]="false" [flexGrow]="2.5">
-            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-              <span>{{row['dob']}}</span>
-            </ng-template>
-          </ngx-datatable-column>
+					<ngx-datatable-column name="City" prop="city" [resizeable]="false" [flexGrow]="2">
+						<ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+							<span>{{ row["city"] }}</span>
+						</ng-template>
+					</ngx-datatable-column>
 
-          <ngx-datatable-column name="Gender" prop="gender" [resizeable]="false" [flexGrow]="1.5">
-            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-              <span *ngIf="row['gender'] == 'M'">Male</span>
-              <span *ngIf="row['gender'] == 'F'">Female</span>
-              <span *ngIf="row['gender'] == 'X'">Other</span>
-            </ng-template>
-          </ngx-datatable-column>
+					<ngx-datatable-column name="Date of birth" prop="dob" [resizeable]="false" [flexGrow]="2.5">
+						<ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+							<span>{{ row["dob"] }}</span>
+						</ng-template>
+					</ngx-datatable-column>
 
-          <ngx-datatable-column name="Total visits" prop="total_visit" [resizeable]="false" [flexGrow]="2">
-            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-              <span>{{row['total_visit']}}</span>
-            </ng-template>
-          </ngx-datatable-column>
+					<ngx-datatable-column name="Gender" prop="gender" [resizeable]="false" [flexGrow]="1.5">
+						<ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+							<span *ngIf="row['gender'] == 'M'">Male</span>
+							<span *ngIf="row['gender'] == 'F'">Female</span>
+							<span *ngIf="row['gender'] == 'X'">Other</span>
+						</ng-template>
+					</ngx-datatable-column>
 
-          <ngx-datatable-column name="Total Sales" prop="total_spent" [resizeable]="false" [flexGrow]="2">
-            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-              <span>{{row['total_spent'] | currency }}</span>
-            </ng-template>
-          </ngx-datatable-column>
+					<ngx-datatable-column name="Total visits" prop="total_visit" [resizeable]="false" [flexGrow]="2">
+						<ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+							<span>{{ row["total_visit"] }}</span>
+						</ng-template>
+					</ngx-datatable-column>
 
+					<ngx-datatable-column name="Total Sales" prop="total_spent" [resizeable]="false" [flexGrow]="2">
+						<ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+							<span>{{ row["total_spent"] | currency }}</span>
+						</ng-template>
+					</ngx-datatable-column>
 
-          <ngx-datatable-column name="Average $/Visit" prop="avg_visit" [resizeable]="false" [flexGrow]="2.5" >
-            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-              <span>{{row['avg_visit'] | currency }}</span>
-            </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column name="Action" [sortable]="false" headerClass="display-none"
-            [resizeable]="false" [flexGrow]="1.5" [maxWidth]="75" [minWidth]="50">
-            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-              <span class="align-end" (click)="$event.stopPropagation();" mat-icon-button [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
-              </span>
-              <mat-menu #menu="matMenu">
-                <button [disabled]='0' mat-menu-item>
-                  <span>View Sales History</span>
-                </button>
-                <button mat-menu-item (click)="customerPreferredProducts(row.patient_id)">
-                  <span>View Preffered Products</span>
-                </button>
-                <button [disabled]='0' mat-menu-item>
-                  <span>Send Email</span>
-                </button>
-                <button [disabled]='0' mat-menu-item>
-                  <span>Request Account Removal</span>
-                </button>
-              </mat-menu>
-            </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-footer>
-            <ng-template ngx-datatable-footer-template></ng-template>
-          </ngx-datatable-footer>
-        </ngx-datatable>
-      </div>
-    </div>
-    <div fxLayout="column" *ngIf="rows.length==0 && !inProgress" style="margin-top: 60px;">
-      <div class="center">
-        <div>
-          <img alt="No result found" src="../../assets/images/sad.svg" class="sad">
-        </div>
-        <div>
-          <span class="Sorry-no-results-fo">Sorry, no results found</span>
-        </div>
-        <div *ngIf="(!Users ||Users.length > 0) && !inProgress">
-          <span class="Please-try-a-differe">Please try a different keyword</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row-selecetd-count" *ngIf="selected.length>0">
-    <span>{{selected.length}} Rows Selected</span>
-  </div>
+					<ngx-datatable-column name="Average $/Visit" prop="avg_visit" [resizeable]="false" [flexGrow]="2.5">
+						<ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+							<span>{{ row["avg_visit"] | currency }}</span>
+						</ng-template>
+					</ngx-datatable-column>
+
+					<ngx-datatable-column
+						name="Action"
+						[sortable]="false"
+						headerClass="display-none"
+						[resizeable]="false"
+						[flexGrow]="1.5"
+						[maxWidth]="75"
+						[minWidth]="50"
+					>
+						<ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+							<span class="align-end" (click)="$event.stopPropagation()" mat-icon-button [matMenuTriggerFor]="menu">
+								<mat-icon>more_vert</mat-icon>
+							</span>
+							<mat-menu #menu="matMenu">
+								<button mat-menu-item [routerLink]="['/customer', row['patient_id'], 'view']">
+									<span>View Customer</span>
+								</button>
+								<button *ngIf="row.queue_status === 0" (click)="handleUpdateQueue(row)" mat-menu-item>
+									<span>Add to Queue</span>
+								</button>
+								<button *ngIf="row.queue_status === 1" (click)="handleUpdateQueue(row)" mat-menu-item>
+									<span>Remove to Queue</span>
+								</button>
+								<button [disabled]="0" mat-menu-item>
+									<span>View Sales History</span>
+								</button>
+								<button mat-menu-item (click)="customerPreferredProducts(row.patient_id)">
+									<span>View Preffered Products</span>
+								</button>
+								<button [disabled]="0" mat-menu-item>
+									<span>Send Email</span>
+								</button>
+								<button [disabled]="0" mat-menu-item>
+									<span>Request Account Removal</span>
+								</button>
+							</mat-menu>
+						</ng-template>
+					</ngx-datatable-column>
+
+					<ngx-datatable-footer>
+						<ng-template ngx-datatable-footer-template></ng-template>
+					</ngx-datatable-footer>
+				</ngx-datatable>
+			</div>
+		</div>
+		<div fxLayout="column" *ngIf="rows?.length == 0 && !inProgress" style="margin-top: 60px">
+			<div class="center">
+				<div>
+					<img alt="No result found" src="../../assets/images/sad.svg" class="sad" />
+				</div>
+				<div>
+					<span class="Sorry-no-results-fo">Sorry, no results found</span>
+				</div>
+				<div *ngIf="(!Users || Users.length > 0) && !inProgress">
+					<span class="Please-try-a-differe">Please try a different keyword</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row-selecetd-count" *ngIf="selected.length > 0">
+		<span>{{ selected.length }} Rows Selected</span>
+	</div>
 </div>

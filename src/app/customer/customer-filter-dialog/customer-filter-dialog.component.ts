@@ -32,6 +32,9 @@ export class CustomerFilterDialogComponent implements OnInit {
     'This Month': [moment().startOf('month'), moment().endOf('month')],
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
+  public queues_array: any  = []; 
+  
+   
   //datepicker
   constructor(public dialogRef: MatDialogRef<CustomerFilterDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -44,6 +47,22 @@ export class CustomerFilterDialogComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.queues_array = [
+    { 
+      name : 'All',
+      value: "2"
+    },
+    { 
+      name : 'In Queue',
+      value: "1"
+    },
+    { 
+      name : 'Not in Queue',
+      value: "0"
+    },
+  ]
+    
     //Close dialog on route change
     this.router.events.subscribe(() => {
       this.dialogRef.close();
@@ -54,6 +73,7 @@ export class CustomerFilterDialogComponent implements OnInit {
         selected: this.data.data.selected,
         selected_transaction: this.data.data.selected_transaction,
         tags: JSON.parse(this.data.data.tags),
+        queue_status: this.queues_array[0].value,
         from: this.data.data.from,
         to: this.data.data.to,
         start_txn_date: this.data.data.start_txn_date,
@@ -69,6 +89,7 @@ export class CustomerFilterDialogComponent implements OnInit {
       selected: { start: moment().format('DD/MM/YYYY'), end: moment().format('DD/MM/YYYY') },
       selected_transaction: { start: moment().format('DD/MM/YYYY'), end: moment().format('DD/MM/YYYY') },
       tags: [[]],
+      queue_status: this.queues_array[0].value,
       from: [''],
       to: [''],
       start_txn_date: [''],
@@ -105,6 +126,9 @@ export class CustomerFilterDialogComponent implements OnInit {
     if (transaction_start_date == transaction_end_date) {
       if (this.form.controls.selected_transaction.value.end)
         transaction_end_date = moment(this.form.controls.selected_transaction.value.end, 'DD/MM/YYYY').add(1, 'day').format('YYYY-MM-DD');
+    }
+    if(this.form.controls.queue_status.value > 1){
+      delete this.form.controls.queue_status
     }
     this.form.controls.start_txn_date.setValue(transaction_start_date);
     this.form.controls.end_txn_date.setValue(transaction_end_date);
