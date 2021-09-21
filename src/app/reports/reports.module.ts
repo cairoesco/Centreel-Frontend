@@ -27,6 +27,8 @@ import { ReconcileHistoryComponent } from "./reconcile-history/reconcile-history
 import { InventoryAuditComponent } from "./inventory-audit/inventory-audit.component";
 import { PrintableMenuComponent } from "./printable-menu/printable-menu.component";
 import { DailyInterimComponent } from "./daily-interim/dailyinterim.component";
+import { EmployeeSalesComponent  } from "./employee-sales/employee-sales.component";
+
 @NgModule({
   imports: [
     CommonModule,
@@ -61,7 +63,8 @@ import { DailyInterimComponent } from "./daily-interim/dailyinterim.component";
     ReconcileHistoryComponent,
     InventoryAuditComponent,
     PrintableMenuComponent,
-    DailyInterimComponent
+    DailyInterimComponent,
+    EmployeeSalesComponent
   ],
   providers: [ReportService],
   entryComponents: [

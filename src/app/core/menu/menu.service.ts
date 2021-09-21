@@ -83,6 +83,14 @@ const MENUITEMS = [
     method: 'index'
   },
   {
+    state: 'tag-management',
+    name: 'Tag Management',
+    type: 'link',
+    icon: 'menu-employee-svg',
+    module: 'users',
+    method: 'index'
+  },
+  {
     state: 'customer',
     name: 'CUSTOMER',
     type: 'link',
@@ -130,7 +138,9 @@ const MENUITEMS = [
       // { state: 'cashout', name: 'Cash Out', module: 'reports', method: 'sales' },
       { state: 'closeout', name: 'Closeout', module: 'reports', method: 'sales' },
       { state: 'customsales', name: 'Custom sales', module: 'reports', method: 'sales' },
+      { state: 'cogsreport', name: 'Cogs Report', module: 'reports', method: 'sales' },
       { state: 'dailyinterim', name: 'Daily interim', module: 'reports', method: 'sales' },
+      { state: 'employee-sales', name: 'Employee Sales', module: 'reports', method: 'sales' },
       // { state: 'monthly-report', name: 'Monthly Report', module: 'reports', method: 'sales' },
       { state: 'inventory', name: 'Inventory Report', module: 'reports', method: 'sales' },
       { state: 'inventory-audit', name: 'Inventory Audit Report', module: 'reports', method: 'sales' },
@@ -193,9 +203,9 @@ const MENUITEMS_FRANCHISE = [
     type: 'sub',
     icon: 'report',
     module: 'reports',
-    method: 'rvc_report',
+    method: 'sales',
     children: [
-      { state: 'closeout', name: 'Closeout', module: 'reports', method: 'rvc_report' },
+      { state: 'closeout', name: 'Closeout', module: 'reports', method: 'sales' },
       // { state: 'customsales', name: 'Custom sales', module: 'reports', method: 'sales' },
       // { state: 'dailyinterim', name: 'Daily interim', module: 'reports', method: 'sales' },
       // { state: 'employee-sales', name: 'Employee Sales', module: 'reports', method: 'sales' },
@@ -251,7 +261,7 @@ export class MenuService {
   constructor(public api: ApiService, public utility: UtilsServiceService, public snackBar: MatSnackBar) { }
 
   getAll(): Menu[] {
-    const session = this.utility.getSessionData('currentUser')
+   const session = this.utility.getSessionData('currentUser')
     return session?.user_role.includes("Franchisee") ? MENUITEMS_FRANCHISE : MENUITEMS;
   }
 
@@ -259,6 +269,7 @@ export class MenuService {
     let menus = [];
     this.api.get('permissions')
       .subscribe((response: any) => {
+       
         let all_menu = this.getAll();
         all_menu.forEach(m => {
           if (this.isPermissible(m.module, m.method, response.data)) {

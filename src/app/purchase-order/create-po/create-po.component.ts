@@ -119,7 +119,6 @@ export class CreatePoComponent implements OnInit {
     this.fileUploader();
     this.utility.indexofTab = 0;
     // @ts-ignore
-    // console.log(this.router, 'line 124')
     if (this.router.getCurrentNavigation().extras && this.router.getCurrentNavigation().extras.target) {
       this.importSheet = true;
       this.uploadFile(this.router.getCurrentNavigation().extras);
