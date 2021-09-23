@@ -121,9 +121,9 @@ export class CreatePoComponent implements OnInit {
     // @ts-ignore
     // console.log(this.router, 'line 124')
     if (
-      this.router.getCurrentNavigation().extras
+      this.router.getCurrentNavigation().extras &&
       // && this.router.getCurrentNavigation() !== null
-      // && this.router.getCurrentNavigation().extras.target
+      this.router.getCurrentNavigation().extras.target
     ) {
       this.importSheet = true;
       this.uploadFile(this.router.getCurrentNavigation().extras);
