@@ -1170,7 +1170,9 @@ export class ViewProductComponent implements OnInit {
     let userData = this.utility.getSessionData("currentUser");
     this.isAdmin =
       userData.user_role.indexOf("superadmin") != -1 ||
-      userData.user_role.indexOf("chain_manager") != -1;
+      userData.user_role.indexOf("chain_manager") != -1 ||
+      userData.user_role.indexOf("store_manager") != -1  ||
+      userData.user_role.indexOf("admin") != -1  ;
     this.isAdminRole = userData.user_role.indexOf("admin") != -1;
     this.getProductById();
     this.viewOnly();
