@@ -45,6 +45,9 @@ export class ReportService {
   getRVCReport(data) {
     return this.webApi.get("reports/rvc", data);
   }
+  getDailyInterimReport(data) {
+    return this.webApi.get("reports/daily/index", data);
+  }
   getCashoutReport(data) {
     return this.webApi.get("reports/cashout", data);
   }
