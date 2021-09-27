@@ -16,6 +16,7 @@ import { InventoryOnHandComponent } from "./inventory-on-hand/inventory-on-hand.
 import { ReconcileHistoryComponent } from "./reconcile-history/reconcile-history.component";
 import { InventoryAuditComponent } from "./inventory-audit/inventory-audit.component";
 import { PrintableMenuComponent } from "./printable-menu/printable-menu.component";
+import { DailyInterimComponent } from "./daily-interim/dailyinterim.component";
 
 export const ReportsRoutes: Routes = [
   {
@@ -70,6 +71,11 @@ export const ReportsRoutes: Routes = [
         path: "customsales",
         component: CustomsalesComponent,
         data: { title: "Custom Sales Report" },
+      },
+      {
+        path: "dailyinterim",
+        component: DailyInterimComponent,
+        data: { title: "Daily Interim Report" },
       },
       {
         path: "tax",
