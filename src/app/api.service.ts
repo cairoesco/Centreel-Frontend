@@ -33,6 +33,10 @@ export class ApiService {
         return this.http.post<any[]>(API_URL + actionUrl, itemName);
     }
 
+    public put(actionUrl: string, itemName: any): Observable<any[]> {
+        return this.http.put<any[]>(API_URL + actionUrl, itemName);
+    }
+    
     public deletes(actionUrl: string, id: number): Observable<any[]> {
         return this.http.delete<any[]>(API_URL + actionUrl + '/' + id);
     }

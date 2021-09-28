@@ -1,0 +1,80 @@
+//************ user profile image hover effect *************//
+#user-hover-img {
+  top: 0;
+  display: none;
+  height: 170px;
+  width: 170px;
+  // padding: 10px;
+  margin-right: 10px;
+  background-size: cover !important;
+  vertical-align: -webkit-baseline-middle;
+  position: absolute;
+  background-color: rgba(40, 177, 39, 0.37);
+}
+//************* Employee image related class ***********//
+#emp_img {
+  min-height: 170px !important;
+  min-width: 170px !important;
+  border-radius: 3px;
+}
+.image-desplay {
+  width: 125px;
+  max-height: 160px;
+  overflow: visible;
+  position: relative;
+}
+.user-hover-div {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  background-size: cover !important;
+}
+.user-image-div {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  object-fit: contain;
+}
+.user-padding-icon {
+  display: none;
+  margin: 7% auto;
+  color: #ffffff;
+  font-size: 65px;
+  padding: 40px 37px 0px 0px;
+}
+.user-hover-div:hover #user-hover-img {
+  display: block;
+}
+.user-hover-div:hover .user-padding-icon {
+  display: block;
+}
+
+.email-verify{
+  padding-top:19px;
+}
+ 
+a.resend-link-hover {
+  color: red;
+  text-decoration: none;
+}
+
+a.resend-link-hover:hover {
+  text-decoration: underline;
+}
+.shift-days{
+  padding-bottom: 10px;
+}
+.shift-module{
+  padding: 37px 27px !important;
+}
+.general-error{
+  color: #e74c3c;
+  padding: 5px 0px 0px 5px;
+}
+.shift-time-button{
+  text-align: right;
+}
+.shift-list{
+  padding: 0px !important;
+  margin-top:8px !important;
+}
