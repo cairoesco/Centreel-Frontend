@@ -55,7 +55,7 @@ export class AddDiscountComponent implements OnInit {
     this.discountForm = this.fb.group({
       store_id: ['', [Validators.required]],
       discount_title: ['', [Validators.required]],
-      value: ['', [Validators.required, Validators.min(1)]],
+      value: ['', [Validators.required]],
       discount_type: ['', [Validators.required]],
       parameters: [[], [Validators.required]],
 
@@ -66,22 +66,9 @@ export class AddDiscountComponent implements OnInit {
     this.api.GetAddDiscountData()
       .subscribe((response: any) => {
         if (response.success) {
-          const tempDiscountTypes = [];
-          if(response.data.discounts_types.length > 0){
-            const tempData =response.data.discounts_types.sort();
-            for(let i in tempData){
-
-              const obj = {
-                item : tempData[i].charAt(0).toUpperCase() + tempData[i].slice(1),
-                value: tempData[i]
-              }
-              tempDiscountTypes.push(obj)
-            }
-          }
-
           this.rawDetail = response.data;
-          this.stores = response.data.stores.sort();
-          this.discount_types = tempDiscountTypes;
+          this.stores = response.data.stores;
+          this.discount_types = response.data.discounts_types;
           this.tags = response.data.tags;
           this.categories = response.data.categories;
         }
@@ -129,7 +116,6 @@ const payload = {
 
     close(){
       this.discountForm.reset();
-      this.discountDialogRef.close()
     }
 
 }
