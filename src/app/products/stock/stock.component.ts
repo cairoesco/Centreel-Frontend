@@ -154,7 +154,6 @@ export class StockComponent {
               item.stock.dataHeaderChild = response.data.header.warehouses;
               this.ChildTableDataBind();
               this.showExpandLoading = false;
-             
             }
           })
     )
@@ -373,9 +372,10 @@ export class StockComponent {
   TransferStock(data, column, index, row_index) {
 
     // let { product_name } = this.expandedElement;
-    let { product_name } = this.expandedRow;
+    let { product_name, product_id } = this.expandedRow;
     const dialogRef = this.dialog.open(TransferStockComponent, {
-      data: { data: data, index: index, product_unit: this.product_unit, product_name: product_name, storage_name: column.header, header: this.dataHeaderChild, productId: this.productId }
+      data: { data: data, index: index, product_unit: this.product_unit, product_name: product_name, storage_name: column.header, header: this.dataHeaderChild, productId: product_id }
+      // data: { data: data, index: index, product_unit: this.product_unit, product_name: product_name, storage_name: column.header, header: this.dataHeaderChild, productId: this.productId }
     });
 
     dialogRef.afterClosed().subscribe(result => {
