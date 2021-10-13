@@ -10,9 +10,18 @@ export class CustomerService {
     GetCustomerList(params) {
         return this.webApi.get('patients', params)
     }
-    getRawDetail(){
-        return this.webApi.get('patients/create')        
+    AddCustomer(params) {
+        return this.webApi.post('patients', params)
     }
+    getRawDetail() {
+        return this.webApi.get('users/create');
+    }
+    getLocationList(type, parent_id) {
+        return this.webApi.get('location?location_type=' + type + '&parent_id=' + parent_id);
+    }
+    // getRawDetail(){
+    //     return this.webApi.get('patients/create')        
+    // }
 
     getCustomerPreferredProductList(id) {
         return this.webApi.get('patients/'+id+'/product')
