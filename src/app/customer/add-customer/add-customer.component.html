@@ -313,8 +313,10 @@
                           <div fxFlex="50%">
                             <mat-form-field fxFlex='100%'>
                               <mat-select placeholder="ID Type*" formControlName="id_card_type" [disableOptionCentering]="true">
+
                                 <mat-option *ngFor="let cardType of cardTypeArr" [value]="cardType.id_card_type_id">
                                   {{cardType.id_card_type}}
+
                                 </mat-option>
                               </mat-select>
                               <mat-error *ngIf="form.controls['id_card_type'].hasError('required')"
