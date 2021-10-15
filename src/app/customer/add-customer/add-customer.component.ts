@@ -373,6 +373,7 @@ export class AddCustomerComponent implements OnInit {
           let user_role_id = this.currentUserDetail.role_id[0];
           this.store_id = response.data.stores[0].store_id;
           this.chain_id = response.data.stores[0].chain_id;
+          this.cardTypeArr = response.data.id_card_types;
           this.rawDetail.roles = _.filter(response.data.roles, function (o) { return o.role_id > user_role_id; });
         }
       });
@@ -394,40 +395,8 @@ export class AddCustomerComponent implements OnInit {
         gender_id: 2
       },
     ];
-    this.cardTypeArr = [
-      {
-        value: 'EUDL',
-        label: 'EUDL'
-      },
-      {
-        value: 'USDL',
-        label: 'USDL'
-      },
-      {
-        value: 'MRTD',
-        label: 'MRTD'
-      },
-      {
-        value: 'myKad',
-        label: 'myKad'
-      },
-      {
-        value: 'drivingLicense',
-        label: 'Driving License'
-      },
-      {
-        value: 'EUDrivingLicense',
-        label: 'European Driving Licence'
-      },
-      {
-        value: 'serviceCard',
-        label: 'Service Card'
-      },
-      {
-        value: 'provincialID',
-        label: 'Provincial ID'
-      },
-    ];
+
+
   }
   ngDoCheck() {
     this.innerHeight = window.innerHeight - 192;
