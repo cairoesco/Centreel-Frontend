@@ -1,0 +1,66 @@
+<h1 mat-dialog-title>Add New Store</h1>
+<form [formGroup]="addStore" (ngSubmit)="onSubmit()">
+<div mat-dialog-content>
+  <div fxLayout="row wrap">
+    <div class="mb-1">
+      <mat-form-field style="width:350px">
+        <input matInput placeholder="Store Name">
+      </mat-form-field>
+      &nbsp;
+      <mat-form-field style="width:140px">
+        <input matInput placeholder="Store Id" value="0021296" disabled>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div fxLayout="row wrap">
+    <div class="mb-1">
+      <mat-form-field style="width:500px">
+        <input matInput placeholder="Province" >
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div fxLayout="row wrap">
+    <div class="mb-1">
+      <mat-form-field style="width:500px">
+        <input matInput placeholder="Address Line 1" >
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div fxLayout="row wrap">
+    <div class="mb-1">
+      <mat-form-field style="width:500px">
+        <input matInput placeholder="Apartment, Suite, Unit, Building, Floor " >
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div fxLayout="row wrap">
+    <div class="mb-1">
+      <mat-form-field style="width:160px">
+        <input matInput placeholder="city" >
+      </mat-form-field>
+      &nbsp;
+      <mat-form-field style="width:160px">
+        <mat-select placeholder="Province/State" [disableOptionCentering]="true">
+          <mat-option value="INDIA">INDIA</mat-option>
+          <mat-option value="USA">USA</mat-option>
+          <mat-option value="UK">UK</mat-option>
+        </mat-select>
+      </mat-form-field>
+      &nbsp;
+      <mat-form-field style="width:160px">
+        <input matInput placeholder="Postal Code" >
+      </mat-form-field>
+    </div>
+  </div>
+
+</div>
+<div mat-dialog-actions class="center">
+  <button mat-button [mat-dialog-close]="" cdkFocusInitial>ADD STORE</button>
+  <button mat-button [mat-dialog-close]="">CANCEL</button>
+</div>
+
+</form>
