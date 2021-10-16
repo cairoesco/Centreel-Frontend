@@ -307,9 +307,11 @@ export class AddCustomerComponent implements OnInit {
       customer_nickname: [''],
       dob: [''],
       gender: ['', [Validators.required]],
-      country_id: ['', [Validators.required]],
-      state_id: ['', [Validators.required]],
-      city_id: ['', [Validators.required]],
+
+      country_id: [''],
+      state_id: [''],
+      city_id: [''],
+
       patient_mobile: ['', Validators.compose([Validators.required, Validators.minLength(7)])],
       patient_email: ['', Validators.compose([Validators.required, CustomValidators.email])],
       id_card_type: [''],
@@ -373,7 +375,9 @@ export class AddCustomerComponent implements OnInit {
           let user_role_id = this.currentUserDetail.role_id[0];
           this.store_id = response.data.stores[0].store_id;
           this.chain_id = response.data.stores[0].chain_id;
-          this.cardTypeArr = response.data.id_card_types;
+
+          this.cardTypeArr = response.data.id_card_types
+
           this.rawDetail.roles = _.filter(response.data.roles, function (o) { return o.role_id > user_role_id; });
         }
       });
@@ -395,7 +399,6 @@ export class AddCustomerComponent implements OnInit {
         gender_id: 2
       },
     ];
-
 
   }
   ngDoCheck() {
