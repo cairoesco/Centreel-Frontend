@@ -188,35 +188,44 @@
                           <div fxFlex="50%">
                             <mat-form-field fxFlex="100%">
                               <mat-select placeholder="Country" formControlName="country_id"
+
                                 (selectionChange)="getStateList('state',$event.value)" [disableOptionCentering]="true">
                                 <mat-option>Select Country</mat-option>
                                 <mat-option *ngFor="let country of rawDetail?.country" [value]="country.location_id">
                                   {{country.location_name}}
                                 </mat-option>
                               </mat-select>
+
                               <!-- <mat-error *ngIf="form.controls['country_id'].hasError('required')">Please select country
                               </mat-error> -->
+
                             </mat-form-field>
                           </div>
   
                           <div fxFlex="50%">
                             <mat-form-field fxFlex="100%">
+
                               <mat-select placeholder="Province" formControlName="state_id"
+
                                 (selectionChange)="getCityList('city',$event.value)" [disableOptionCentering]="true">
                                 <mat-option>Select Province</mat-option>
                                 <mat-option *ngFor="let state of stateList" [value]="state.location_id">
                                   {{state.location_name}}
                                 </mat-option>
                               </mat-select>
+
                               <!-- <mat-error *ngIf="form.controls['state_id'].hasError('required')">Please select province
                               </mat-error> -->
+
                             </mat-form-field>
                           </div>
   
                           <div fxFlex="50%">
                           
                               <mat-form-field fxFlex="100%">
+
                                 <mat-select placeholder="City" formControlName="city_id" [disableOptionCentering]="true">
+
                                   <mat-option>Select City</mat-option>
                                   <mat-option *ngFor="let city of cityList" [value]="city.location_id">
                                     {{city.location_name}}
@@ -224,6 +233,7 @@
                                 </mat-select>
                                 <!-- <mat-error *ngIf="form.controls['city_id'].hasError('required')">Please select city
                                 </mat-error> -->
+
                               </mat-form-field>
                           
   
@@ -313,8 +323,10 @@
                           <div fxFlex="50%">
                             <mat-form-field fxFlex='100%'>
                               <mat-select placeholder="ID Type*" formControlName="id_card_type" [disableOptionCentering]="true">
+
                                 <mat-option *ngFor="let cardType of cardTypeArr" [value]="cardType.id_card_type_id">
                                   {{cardType.id_card_type}}
+
                                 </mat-option>
                               </mat-select>
                               <mat-error *ngIf="form.controls['id_card_type'].hasError('required')"
