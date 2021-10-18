@@ -56,7 +56,7 @@ export class AddProductComponent implements OnInit {
   public rawDetail;
   public categoryList;
   //public unitMeasurement = [{ slug: "ml", unit_name: "Milliliter" }, { slug: "pcs", unit_name: "Pieces" },]
-  public unitMeasurement = [{ slug: "pcs", unit_name: "Pieces" },]
+  public unitMeasurement = [{ slug: "pcs", unit_name: "Pieces" },{ slug: "gm", unit_name: "Grams"}]
   public CannabisDryWeightUnit = [{ slug: "gm", unit_name: "Grams" }]
   public cityList: any;
   public isGreaterThc: any;
