@@ -37,6 +37,8 @@ export class StoreSettingComponent implements OnInit {
       idle_time: ['', [Validators.required]],
       cannabis_discount: ['', [Validators.required]],
       non_cannabis_discount_by_staff: ['', [Validators.required]],
+      cannabis_discount_by_manager: ['', [Validators.required]],
+      non_cannabis_discount_by_manager: ['', [Validators.required]],
       order_checkout_pin_verify: ['0'],
       store_close_notify: ['0'],
       store_close_notify_time: ['0'],
@@ -271,6 +273,8 @@ export class StoreSettingComponent implements OnInit {
         response.data[0].dry_weight_limit = ""+response.data[0].dry_weight_limit //dry weight
         response.data[0].cannabis_discount = ""+response.data[0].flower_discount
         response.data[0].non_cannabis_discount_by_staff = ""+response.data[0].paraphernalia_discount_by_staff
+        response.data[0].cannabis_discount_by_manager = ""+response.data[0].flower_discount_by_manager
+        response.data[0].non_cannabis_discount_by_manager = ""+response.data[0].paraphernalia_discount_by_manager
         response.data[0].cannabis_customer_require = +response.data[0].flower_customer_require
         response.data[0].non_cannabis_customer_require = +response.data[0].paraphernalia_customer_require
 

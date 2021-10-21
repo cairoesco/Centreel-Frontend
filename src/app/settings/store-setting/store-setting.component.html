@@ -94,7 +94,7 @@
                     </div>
                     <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
                       <div class="mb-1 store-label" fxFlex="70" fxFlex.md="75" fxFlex.sm="75" fxFlex.xs="100%">
-                        <label>Cannabis discount</label>
+                        <label>Cannabis discount by staff</label>
                       </div>
                       <div class="mb-1 setting-inputs setting-align-right" fxFlex="30" fxFlex.md="25" fxFlex.sm="25"
                         fxFlex.xs="100%">
@@ -122,6 +122,40 @@
                           <span matSuffix>%</span>
                           <mat-error *ngIf="posForm.controls['non_cannabis_discount_by_staff'].hasError('required') ">
                             Please enter non cannabis discount</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-1 store-label" fxFlex="70" fxFlex.md="75" fxFlex.sm="75" fxFlex.xs="100%">
+                        <label>Cannabis discount by manager</label>
+                      </div>
+                      <div class="mb-1 setting-inputs setting-align-right" fxFlex="30" fxFlex.md="25" fxFlex.sm="25"
+                        fxFlex.xs="100%">
+                        <mat-form-field class="example-full-width" fxFlex="100">
+                          <input matInput formControlName="cannabis_discount_by_manager" autocomplete="off"
+                            onKeyUp="if(this.value==100.){this.value=100};while(this.value>100){this.value = this.value.slice(0, -1)};"
+                            (keypress)="utility.numberAndDotOnly($event,this.posForm.controls['cannabis_discount_by_manager'].value)">
+                          <span matSuffix>%</span>
+                          <mat-error *ngIf="posForm.controls['cannabis_discount_by_manager'].hasError('required') ">
+                            Please enter cannabis discount by manager</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-1 store-label" fxFlex="70" fxFlex.md="75" fxFlex.sm="75" fxFlex.xs="100%">
+                        <label>Non Cannabis discount by manager</label>
+                      </div>
+                      <div class="mb-1 setting-inputs setting-align-right" fxFlex="30" fxFlex.md="25" fxFlex.sm="25"
+                        fxFlex.xs="100%">
+                        <mat-form-field class="example-full-width" fxFlex="100">
+                          <input matInput formControlName="non_cannabis_discount_by_manager" autocomplete="off"
+                            onKeyUp="if(this.value==100.){this.value=100};while(this.value>100){this.value = this.value.slice(0, -1)};"
+                            (keypress)="utility.numberAndDotOnly($event,this.posForm.controls['non_cannabis_discount_by_manager'].value)">
+                          <span matSuffix>%</span>
+                          <mat-error *ngIf="posForm.controls['non_cannabis_discount_by_manager'].hasError('required') ">
+                            Please enter non cannabis discount by manager</mat-error>
                         </mat-form-field>
                       </div>
                     </div>
