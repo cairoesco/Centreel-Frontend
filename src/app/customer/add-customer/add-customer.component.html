@@ -1,0 +1,372 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+
+    <mat-card class="header-main-content">
+      <div fxLayout="row">
+        <div fxFlex="25%" class="breadcrumb-content">
+          <mat-icon [routerLink]="['/customer']" class="material-icons">
+            keyboard_arrow_left
+          </mat-icon>
+          <label class="lable">
+            <a class="label" [routerLink]="['/customer']">Customers</a>
+          </label>
+        </div>
+        <div fxFlex="50%" class="breadcrumb-header-content">
+          Create Customer
+        </div>
+        <div fxFlex="25%" class="breadcrumb-btn-content">
+          <mat-bar-button [options]="barButtonOptions">
+            <button mat-button matSuffix mat-stroked-button class="add-new-btn" type="submit">
+              <a class="add-new-label">SAVE ALL</a>
+            </button>
+          </mat-bar-button>
+        </div>
+      </div>
+    </mat-card>
+  
+    <mat-tab-group [selectedIndex]="utility.indexofTab" class="custom-tab">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <p (click)="utility.scrollTo('section1')">CUSTOMER INFORMATION</p>
+        </ng-template>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <p (click)="utility.scrollTo('section2')">CONTACT INFORMATION</p>
+        </ng-template>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <p (click)="utility.scrollTo('section3')">ID CARD DETAILS</p>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  
+    <div class="main-div-container">
+      <div fxLayout="row">
+        <div fxFlex="100" class="scroll-container fancyscroll" id="parentDiv" scrollSpy [spiedTags]="['DIV']"
+          (sectionChange)="utility.onScrollContent($event)" [style.height.px]="innerHeight">
+  
+          <div id="section1">
+            <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+              fxLayoutAlign="center">
+              
+              <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+              </div>
+              <div fxFlex="100" fxFlex.sm="100" fxFlex.md="100">
+                <!-- main content -->
+                <div class="">
+                  <h2 layout-margin>Customer Information</h2>
+                  <mat-card class="mat-content-padding body-card-block card_container">
+                    <mat-card-title>
+                      <h3>Personal Information</h3>
+                    </mat-card-title>
+                    <mat-card-content>
+  
+                      <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+                        fxLayoutAlign="center">
+  
+                        <!-- <div class="mb-1" fxFlex="calc(100% - 200px)"> -->
+  
+                          <div fxFlex="50%">
+                            <mat-form-field fxFlex='100%'>
+                              <input matInput placeholder="First name*" formControlName="patient_fname"
+                                autocomplete="off">
+  
+                              <mat-error *ngIf="form.controls['patient_fname'].hasError('required')"
+                                class="mat-text-warn">
+                                Please enter your first name
+                              </mat-error>
+                              <mat-error
+                                *ngIf="form.controls['patient_fname'].hasError('minlength') && form.controls['patient_fname'].touched"
+                                class="mat-text-warn">Your first name must be at least 5 characters long</mat-error>
+                              <mat-error
+                                *ngIf="form.controls['patient_fname'].hasError('maxlength') && form.controls['patient_fname'].touched"
+                                class="mat-text-warn">Your first name cannot exceed 16 characters</mat-error>
+                            </mat-form-field>
+                          </div>
+  
+                          <div fxFlex="50%">
+                            <mat-form-field fxFlex='100%'>
+                              <input matInput placeholder="Middle name" formControlName="middle_name" autocomplete="off">
+                            </mat-form-field>
+                          </div>
+                          </div>
+  
+                          <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+                          fxLayoutAlign="center">
+  
+                         
+  
+                          <div fxFlex="50%">
+                            <mat-form-field fxFlex='100%'>
+                              <input matInput placeholder="Last name*" formControlName="patient_lname" autocomplete="off">
+  
+                              <mat-error *ngIf="form.controls['patient_lname'].hasError('required')"
+                                class="mat-text-warn">
+                                Please enter your last name</mat-error>
+                              <mat-error
+                                *ngIf="form.controls['patient_lname'].hasError('minlength') && form.controls['patient_lname'].touched"
+                                class="mat-text-warn">Your Last name must be at least 5 characters long</mat-error>
+                              <mat-error
+                                *ngIf="form.controls['patient_lname'].hasError('maxlength') && form.controls['patient_lname'].touched"
+                                class="mat-text-warn">Your Last name cannot exceed 16 characters</mat-error>
+                            </mat-form-field>
+                          </div>
+                          
+                          <div fxFlex="50%">
+                            <mat-form-field fxFlex="100%">
+                              <input matInput placeholder="Nickname" formControlName="customer_nickname"
+                                autocomplete="off">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        
+                        
+  
+                      <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+                        fxLayoutAlign="center">
+                        <div  fxFlex="50%">
+                          <mat-form-field fxFlex="100%">
+                            <input matInput [matDatepicker]="picker" [max]="maxDate" (focus)="picker.open()"
+                              [readonly]="true" (click)="picker.open()" placeholder="Date of Birth*" formControlName="dob"
+                              autocomplete="off">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error *ngIf="form.controls['dob'].hasError('required')" class="mat-text-warn">Please
+                              select your date of birth</mat-error>
+                          </mat-form-field>
+                        </div>
+                      <!-- </div> -->
+  
+                      <!-- <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+                        fxLayoutAlign="center"> -->
+                        <div  fxFlex="50%">
+                          <mat-form-field fxFlex="100%">
+                            <mat-select placeholder="Gender*" formControlName="gender" [disableOptionCentering]="true">
+                              <mat-option *ngFor="let gender of genderArr" [value]="gender.gender_id">
+                                {{gender.gender}}
+                              </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="form.controls['gender'].hasError('required')">Please select a gender
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                      </div>
+  
+                    
+  
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>
+              <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+              </div>
+            </div>
+          </div>
+  
+          <div id="section2">
+            <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+              fxLayoutAlign="center">
+              <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+              </div>
+              <div fxFlex="100" fxFlex.sm="100" fxFlex.md="100">
+                <!-- Contact Information section -->
+                <div class="">
+                  <h2 layout-margin>Customer Information</h2>
+                  <mat-card class="mat-content-padding body-card-block card_container">
+  
+                    <mat-card-title>
+                      <h3>Contact Information</h3>
+                    </mat-card-title>
+  
+                    <mat-card-content>
+                      <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+                        fxLayoutAlign="center">
+  
+                        <!-- <div class="mb-1" fxFlex="calc(100% - 200px)"> -->
+                         
+                          <div fxFlex="50%">
+                            <mat-form-field fxFlex="100%">
+                              <mat-select placeholder="Country" formControlName="country_id"
+
+                                (selectionChange)="getStateList('state',$event.value)" [disableOptionCentering]="true">
+                                <mat-option>Select Country</mat-option>
+                                <mat-option *ngFor="let country of rawDetail?.country" [value]="country.location_id">
+                                  {{country.location_name}}
+                                </mat-option>
+                              </mat-select>
+
+                              <!-- <mat-error *ngIf="form.controls['country_id'].hasError('required')">Please select country
+                              </mat-error> -->
+
+                            </mat-form-field>
+                          </div>
+  
+                          <div fxFlex="50%">
+                            <mat-form-field fxFlex="100%">
+
+                              <mat-select placeholder="Province" formControlName="state_id"
+
+                                (selectionChange)="getCityList('city',$event.value)" [disableOptionCentering]="true">
+                                <mat-option>Select Province</mat-option>
+                                <mat-option *ngFor="let state of stateList" [value]="state.location_id">
+                                  {{state.location_name}}
+                                </mat-option>
+                              </mat-select>
+
+                              <!-- <mat-error *ngIf="form.controls['state_id'].hasError('required')">Please select province
+                              </mat-error> -->
+
+                            </mat-form-field>
+                          </div>
+  
+                          <div fxFlex="50%">
+                          
+                              <mat-form-field fxFlex="100%">
+
+                                <mat-select placeholder="City" formControlName="city_id" [disableOptionCentering]="true">
+
+                                  <mat-option>Select City</mat-option>
+                                  <mat-option *ngFor="let city of cityList" [value]="city.location_id">
+                                    {{city.location_name}}
+                                  </mat-option>
+                                </mat-select>
+                                <!-- <mat-error *ngIf="form.controls['city_id'].hasError('required')">Please select city
+                                </mat-error> -->
+
+                              </mat-form-field>
+                          
+  
+                          </div>
+  
+                          </div>
+  
+                          <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+                          fxLayoutAlign="center">
+  
+                          <div fxFlex="50%">
+                            <mat-form-field fxFlex="100%">
+                              <input matInput placeholder="Phone Number*" formControlName="patient_mobile"
+                                (keypress)="utility.numberOnly($event)" maxlength="11" autocomplete="off">
+                              <mat-error *ngIf="form.controls['patient_mobile'].hasError('required')"
+                                class="mat-text-warn">
+                                Please enter your phone number
+                              </mat-error>
+                              <mat-error *ngIf="form.controls['patient_mobile'].hasError('minlength')"
+                                class="mat-text-warn">
+                                Please enter your valid phone number
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+  
+                          <div fxFlex="50%">
+                            <mat-form-field fxFlex="100%">
+                              <input matInput placeholder="Email*" formControlName="patient_email" type="email"
+                                autocomplete="off">
+                              <mat-error *ngIf="form.controls['patient_email'].hasError('required')"
+                                class="mat-text-warn">
+                                Please enter your email address
+                              </mat-error>
+                              <mat-error
+                                *ngIf="form.controls['patient_email'].errors?.patient_email && form.controls['patient_email'].touched"
+                                class="mat-text-warn">
+                                Please enter your valid email address
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <!-- </div> -->
+                        <!-- </div> -->
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>
+              <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+              </div>
+            </div>
+          </div>
+  
+          <div id="section3">
+            <!-- license information -->
+            <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+              fxLayoutAlign="center">
+              <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+              </div>
+              <div fxFlex="100" fxFlex.sm="100" fxFlex.md="100">
+                <div class="">
+                  <h2 layout-margin>ID Card Details</h2>
+  
+                  <mat-card class="mat-content-padding body-card-block card_container">
+                    <mat-card-title>
+                      <h3>Card Details</h3>
+                    </mat-card-title>
+                    <mat-card-content>
+  
+                      <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+                        fxLayoutAlign="center">
+  
+                        <!-- <div class="mb-1" fxFlex="calc(100% - 200px)"> -->
+                          <div fxFlex="50%">
+                            <mat-form-field fxFlex='100%'>
+                              <input matInput placeholder="ID#*" formControlName="id_number" autocomplete="off">
+  
+                              <mat-error *ngIf="form.controls['id_number'].hasError('required')"
+                                class="mat-text-warn">
+                                Please enter ID number
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                          
+  
+                          
+  
+                          <div fxFlex="50%">
+                            <mat-form-field fxFlex='100%'>
+                              <mat-select placeholder="ID Type*" formControlName="id_card_type" [disableOptionCentering]="true">
+
+                                <mat-option *ngFor="let cardType of cardTypeArr" [value]="cardType.id_card_type_id">
+                                  {{cardType.id_card_type}}
+
+                                </mat-option>
+                              </mat-select>
+                              <mat-error *ngIf="form.controls['id_card_type'].hasError('required')"
+                                class="mat-text-warn">
+                                Please enter ID card type
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+  
+  
+  
+  
+                          <div fxFlex="50%">
+                            <mat-form-field fxFlex='100%'>
+                              <input matInput placeholder="ID Status*" formControlName="source" autocomplete="off">
+  
+                              <mat-error *ngIf="form.controls['source'].hasError('required')"
+                                class="mat-text-warn">
+                                Please enter ID status
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                        <!-- </div> -->
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+  
+  
+  
+  
+                </div>
+              </div>
+              <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+              </div>
+            </div>
+            <!-- license inforamtion -->
+  
+            <!-- Store Assignment information -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
