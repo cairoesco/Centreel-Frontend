@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { CustomerRoutingModule } from './customer-routing.module';
 import { CustomerComponent } from './customer.component';
 import { CustomerFilterDialogComponent } from './customer-filter-dialog/customer-filter-dialog.component';
@@ -14,6 +15,7 @@ import {AddCustomerComponent} from './add-customer/add-customer.component';
   imports: [SharedModule,
     CommonModule,
     CustomerRoutingModule,
+    AutocompleteLibModule,
     NgxDaterangepickerMd.forRoot({
       applyLabel: 'ok',
       separator: ' To '
