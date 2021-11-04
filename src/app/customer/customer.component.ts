@@ -56,8 +56,11 @@ export class CustomerComponent implements OnInit {
           this.rows = this.Users;
           this.dynamicHeight = this.rows.length < 12 ? ((this.rows.length + 1) * 48 + 140) + "px" : '';
           this.temp = this.Users;
+          console.log(this.rows, ' this.rows  this.rows  this.rows  this.rows  this.rows  this.rows')
+          console.log(response.data, ' response.data  response.data  response.data  response.data  response.data  response.data')
         }
       });
+     
   }
 
   applyFilter(filterValue: string) {

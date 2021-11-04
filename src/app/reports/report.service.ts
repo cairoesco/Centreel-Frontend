@@ -15,6 +15,10 @@ export class ReportService {
   exportReport(url, data) {
     return this.webApi.getExportPDF("reports/" + url, data);
   }
+
+  exportEmployeeSalesReport(url) {
+    return this.webApi.getExportPDF("reports/" + url,);
+  }
   getStores() {
     return this.webApi.get("store/settings/create");
   }
@@ -138,6 +142,10 @@ export class ReportService {
   /* Printable menu report */
   getPrintableMenuReport(data) {
     return this.webApi.get("reports/inventoryPrintableMenu?" + data);
+  }
+
+  getEmployeeSalesReport(data) {
+    return this.webApi.get("reports/employeeSales?" + data);
   }
   printableMenu_exportReport(data) {
     return this.webApi.getExportPDF("reports/export/inventoryPrintableMenu?" + data);

@@ -17,6 +17,7 @@ import { ReconcileHistoryComponent } from "./reconcile-history/reconcile-history
 import { InventoryAuditComponent } from "./inventory-audit/inventory-audit.component";
 import { PrintableMenuComponent } from "./printable-menu/printable-menu.component";
 import { DailyInterimComponent } from "./daily-interim/dailyinterim.component";
+import { EmployeeSalesComponent } from "./employee-sales/employee-sales.component";
 
 export const ReportsRoutes: Routes = [
   {
@@ -106,6 +107,11 @@ export const ReportsRoutes: Routes = [
         path: "printable-menu",
         component: PrintableMenuComponent,
         data: { title: "Printable Menu Report" },
+      },
+      {
+        path: "employee-sales",
+        component: EmployeeSalesComponent,
+        data: { title: "Employee Sales Report" },
       },
     ],
   },
