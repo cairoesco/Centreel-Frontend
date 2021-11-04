@@ -9,9 +9,25 @@
           <a class="label" [routerLink]="['/customer']">Customers</a>
         </label>
       </div>
-      <div fxFlex="50%" class="breadcrumb-header-content">Create Customer</div>
+      <div fxFlex="50%" class="breadcrumb-header-content">View Customer</div>
       
-      <div fxFlex="25%" class="breadcrumb-btn-content">
+      <!-- <div fxFlex="25%" class="breadcrumb-btn-content button_wrapper">
+
+        <mat-bar-button [options]="barEditButtonOptions">
+          <button
+            (click)="handleIsEditing()"
+            mat-button
+            matSuffix
+            mat-stroked-button
+            class="add-new-btn"
+            type="button"
+          >
+            <a class="add-new-label">Edit</a>
+          </button>
+        </mat-bar-button>
+      </div> -->
+
+      <div fxFlex="25%" class="breadcrumb-btn-content button_wrapper">
         <mat-bar-button [options]="barButtonOptions">
           <button
             mat-button
@@ -24,6 +40,7 @@
           </button>
         </mat-bar-button>
       </div>
+
     </div>
   </mat-card>
 
@@ -69,7 +86,15 @@
             <div fxFlex="100" fxFlex.sm="100" fxFlex.md="100">
               <!-- main content -->
               <div class="">
-                <h2 layout-margin>Customer Information</h2>
+                <h2 layout-margin>Customer Information
+                  <span fxFlex></span>
+                  <button class="btn-edit" *ngIf="!customerInfo" (click)="isEditable()">
+                    <mat-icon class="material-icons pointer">edit</mat-icon>
+                  </button>
+                  <button class="btn-edit" *ngIf="customerInfo" (click)="viewOnly()">
+                    <mat-icon class="material-icons pointer">visibility</mat-icon>
+                  </button>
+                </h2>
                 <mat-card
                   class="mat-content-padding body-card-block card_container"
                 >
@@ -90,6 +115,7 @@
                       <div fxFlex="50%">
                         <mat-form-field fxFlex="100%">
                           <input
+                            disabled="!isEditing"
                             matInput
                             placeholder="First name*"
                             formControlName="patient_fname"
@@ -243,6 +269,7 @@
                       <div fxFlex="50%">
                         <mat-form-field fxFlex="100%">
                           <mat-select
+                            [(value)] = "defaultGender"
                             placeholder="Gender*"
                             formControlName="gender"
                             [disableOptionCentering]="true"
@@ -283,7 +310,7 @@
             <div fxFlex="55" fxFlex.sm="55" fxFlex.md="55">
               <!-- Contact Information section -->
               <div class="">
-                <h2 layout-margin>Customer Information</h2>
+                <h2 layout-margin>Contact Information</h2>
                 <mat-card
                   class="mat-content-padding body-card-block card_container"
                 >
@@ -313,6 +340,7 @@
                           (inputFocused)="onFocused($event)"
                           [itemTemplate]="itemTemplate"
                           [notFoundTemplate]="notFoundTemplate"
+                         
                         >
                         </ng-autocomplete>
 
@@ -418,7 +446,7 @@
                     </div>
 
                     <div
-                      class=""
+                      class="space-top"
                       fxLayout="row"
                       fxLayout.xs="column"
                       fxLayoutWrap

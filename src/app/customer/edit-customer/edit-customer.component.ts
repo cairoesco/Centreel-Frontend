@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { CustomValidators } from 'ng2-validation';
@@ -17,9 +17,9 @@ import * as _ from 'lodash';
 import { MatProgressButtonOptions } from 'mat-progress-buttons';
 
 @Component({
-  selector: 'app-add-customer',
-  templateUrl: './add-customer.component.html',
-  styleUrls: ['./add-customer.component.scss'],
+  selector: 'app-edit-customer',
+  templateUrl: './edit-customer.component.html',
+  styleUrls: ['./edit-customer.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
@@ -27,7 +27,7 @@ import { MatProgressButtonOptions } from 'mat-progress-buttons';
     { provide: DateAdapter, useClass: MomentDateAdapter }
   ],
 })
-export class AddCustomerComponent implements OnInit {
+export class EditCustomerComponent implements OnInit {
   
   filteredCountryOptions: Observable<any>;
   public countryFilterKeyword = 'location_name';
@@ -75,8 +75,13 @@ export class AddCustomerComponent implements OnInit {
   public countryArr: any;
   public store_id: any;
   public chain_id: any;
+  public defaultGender: any;
   public priceOptions = { prefix: '$ ', thousands: ',', decimal: '.', align: 'left', nullable: true, allowZero: false }
   currentUserDetail: any;
+
+  public isEditing: boolean = false;
+
+  public customerInfo: boolean = false;
 
   employment_minDate = new Date(2000, 0, 1);
   employment_maxDate = new Date();
@@ -84,6 +89,16 @@ export class AddCustomerComponent implements OnInit {
   barButtonOptions: MatProgressButtonOptions = {
     active: false,
     text: 'SAVE ALL',
+    barColor: 'primary',
+    raised: true,
+    stroked: false,
+    mode: 'indeterminate',
+    value: 0,
+    disabled: false
+  }
+  barEditButtonOptions: MatProgressButtonOptions = {
+    active: false,
+    text: 'EDIT',
     barColor: 'primary',
     raised: true,
     stroked: false,
@@ -110,7 +125,8 @@ export class AddCustomerComponent implements OnInit {
     public refVar: ChangeDetectorRef,
     private api: CustomerService,
     public utility: UtilsServiceService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
     this.fileUploader();
     this.utility.indexofTab = 0;
@@ -331,9 +347,11 @@ export class AddCustomerComponent implements OnInit {
       zipcode: '',
       discount: '',
       id_cards: ''
-
-
     });
+  }
+
+  handleIsEditing(){
+    this.isEditing = !this.isEditing
   }
 
   storeDetail(event, store, index) {
@@ -402,8 +420,7 @@ export class AddCustomerComponent implements OnInit {
     return country ? country.location_name : undefined;
   }
   ngOnInit() {
-    this.addCustomerForm();
-    this.getRawDetails();
+    // this.getRawDetails();
     this.genderArr = [
       {
         gender: 'Male',
@@ -418,6 +435,49 @@ export class AddCustomerComponent implements OnInit {
         gender_id: 2
       },
     ];
+
+    this.activatedRoute.params.subscribe((params: Params) => {
+      console.log(params, 'params params params')
+      if (params?.id){
+        this.api.getRawDetail()
+          .subscribe((response: any) => {
+            if (response.success) {
+               this.store_id = response.data.stores[0].store_id;
+               this.api.getCustomer(params?.id,  this.store_id)
+               .subscribe(( response: any) => {
+                 console.log(response, 'get customer response get customer response');
+                  if(Object.keys(response.data).length > 0){
+                    this.form.get('patient_fname').setValue(response.data.patient_fname);
+                    this.form.get('patient_lname').setValue(response.data.patient_lname);
+                    this.form.get('customer_nickname').setValue(response.data.customer_nickname);
+                    this.form.get('customer_nickname').setValue(response.data.customer_nickname);
+                    this.form.get('middle_name').setValue(response.data.middle_name);
+                    this.form.get('patient_mobile').setValue(response.data.patient_mobile);
+                    this.form.get('patient_email').setValue(response.data.patient_email);
+
+
+                    const tempGender =  this.genderArr.find(gender => gender.gender_id == response.data.gender)
+                    console.log(tempGender, 'tempGender tempGender tempGender tempGender')
+                    this.defaultGender = tempGender.gender_id;
+                    this.form.get('id_number').setValue(response.data.id_cards[0].id_number);
+                    this.form.get('source').setValue(response.data.id_cards[0].source);
+                
+                    this.viewOnly();
+                    // if(tempGender){
+                    //   this.form.get('gender').setValue(tempGender)
+                    // }
+                    
+                  }
+                 
+
+                
+               })
+            }
+          })
+        
+      }
+    });
+    this.addCustomerForm();
   }
   ngDoCheck() {
     this.innerHeight = window.innerHeight - 192;
@@ -601,4 +661,14 @@ export class AddCustomerComponent implements OnInit {
     console.log(event.target.value, 'event from onfocused event function')
   }
   /* canDeactivate code */
+
+  viewOnly(){
+    this.customerInfo = false;
+    this.form.disable();
+  }
+  isEditable(){
+    this.viewOnly();
+    this.customerInfo = true;
+    this.form.enable();
+  }
 }

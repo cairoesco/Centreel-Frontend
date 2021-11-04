@@ -19,9 +19,9 @@ export class CustomerService {
     getLocationList(type, parent_id) {
         return this.webApi.get('location?location_type=' + type + '&parent_id=' + parent_id);
     }
-    // getRawDetail(){
-    //     return this.webApi.get('patients/create')        
-    // }
+    getCustomer(patient_id, store_id){
+        return this.webApi.get(`patients/${patient_id}?store_id=${store_id}`)        
+    }
 
     getCustomerPreferredProductList(id) {
         return this.webApi.get('patients/'+id+'/product')
