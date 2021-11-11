@@ -138,29 +138,29 @@ getRawDetails() {
   }
 
 
-  getRawDetails() {
-    this.api.GetDiscountFilterData()
-      .subscribe((response: any) => {
-        if (response.success) {
-          const tempDiscountTypes = [];
-          if(response.data.discounts_types.length > 0){
-            const tempData = response.data.discounts_types.sort();
-            for(let i in tempData){
+  // getRawDetails() {
+  //   this.api.GetDiscountFilterData()
+  //     .subscribe((response: any) => {
+  //       if (response.success) {
+  //         const tempDiscountTypes = [];
+  //         if(response.data.discounts_types.length > 0){
+  //           const tempData = response.data.discounts_types.sort();
+  //           for(let i in tempData){
 
-              const obj = {
-                item : tempData[i].charAt(0).toUpperCase() + tempData[i].slice(1),
-                value: tempData[i]
-              }
-              tempDiscountTypes.push(obj)
-            }
-          }
-          this.rawDetail = response.data;
-          this.stores = response.data.stores;
-          this.discount_types = tempDiscountTypes;
-          this.discount_value = response.data.discount_values;
-        }
-      });
-  }
+  //             const obj = {
+  //               item : tempData[i].charAt(0).toUpperCase() + tempData[i].slice(1),
+  //               value: tempData[i]
+  //             }
+  //             tempDiscountTypes.push(obj)
+  //           }
+  //         }
+  //         this.rawDetail = response.data;
+  //         this.stores = response.data.stores;
+  //         this.discount_types = tempDiscountTypes;
+  //         this.discount_value = response.data.discount_values;
+  //       }
+  //     });
+  // }
 
   close(){
     this.applyFilter();

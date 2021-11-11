@@ -1,0 +1,44 @@
+.user-filter-dialog{
+    .filter-block{
+        &:first-child{
+            .title{
+                margin-top: 10px;   
+            }
+        }
+        .title{
+            margin-bottom: 10px;
+            margin-top: 26px;
+        }   
+        .mat-header-name, .mat-checkbox{
+            font-weight: normal !important; 
+        }
+        .checkbox-block{
+            padding-bottom: 10px !important;
+            margin-right: 0px !important;
+        }
+        .filter-checkbox{
+            ::ng-deep .mat-checkbox-inner-container{
+                margin-top: 0;
+                margin-bottom: 0;
+                margin-right: 11px;
+            }
+            ::ng-deep .mat-checkbox-label{
+                white-space: normal;
+                font-family: Roboto;
+                font-size: 14px;
+                font-weight: 300;
+                font-style: normal;
+                font-stretch: normal;
+                line-height: normal;
+                letter-spacing: 0.4px;
+                color: #272727;
+                position: relative;
+                top: -3px;
+            }
+        }
+    }
+   
+}
+.user-filter-dialog-title{
+    margin: 0 0 10px !important;
+}
