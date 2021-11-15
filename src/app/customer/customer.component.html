@@ -25,7 +25,7 @@
         <div class="search-input" fxFlex="90%" fxFlex.md="80%" fxFlex.lg="80%" fxFlex.sm="65%" fxFlex.xs="65%">
           <img alt="Search" class="Search-icon" src="../../assets/icon/search.png">
           <input class="Search" (keyup)="applyFilter($event.target.value)" placeholder="Search name...">
-          <span class="result-count">{{rows.length}} Results</span>
+          <span class="result-count">{{rows?.length}} Results</span>
         </div>
         <div class="search-button pointer" (click)="ApplyMultipleFilter()" fxFlex="10%" fxFlex.md="20%" fxFlex.lg="20%"
           fxFlex.sm="35%" fxFlex.xs="35%">
@@ -36,7 +36,7 @@
         </div>
       </div>
     </div>
-    <div fxLayout="column" class="main-container" *ngIf="rows.length > 0">
+    <div fxLayout="column" class="main-container" *ngIf="rows?.length > 0">
       <mat-card class="list-bulk-action-header">
         <div _ngcontent-c41="" class="button-row">
           <button mat-button mat-stroked-button [disabled]="selected.length<1" class="mat-add-tag-btn" type="button"
@@ -50,7 +50,7 @@
           [ngStyle]="{'height':dynamicHeight}" [headerHeight]="50" [externalPaging]="false" [footerHeight]="0"
           [columnMode]="'flex'" [rowHeight]="getRowHeight" [scrollbarV]="true" [rows]='rows' [limit]="10"
           [selected]="selected" [selectionType]="'checkbox'" (activate)="onActivate($event)"
-          (select)='onSelect($event)'>
+          (select)='onSelect($event)'  (scroll)="onScroll($event.offsetY)">
           <!-- Row Detail Template -->
           <ngx-datatable-row-detail [rowHeight]="155" #myDetailRow style="cursor: auto;">
             <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
@@ -158,7 +158,7 @@
         </ngx-datatable>
       </div>
     </div>
-    <div fxLayout="column" *ngIf="rows.length==0 && !inProgress" style="margin-top: 60px;">
+    <div fxLayout="column" *ngIf="rows?.length==0 && !inProgress" style="margin-top: 60px;">
       <div class="center">
         <div>
           <img alt="No result found" src="../../assets/images/sad.svg" class="sad">

@@ -1,4 +1,4 @@
-import { Component, ViewChild, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, ChangeDetectorRef, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TagComponent } from '../dialog/tag/tag.component'
 import { CustomerService } from './customer.service'
@@ -24,16 +24,40 @@ export class CustomerComponent implements OnInit {
   public temp: any = [];
   public expandedall: boolean = false;
   public dynamicHeight = "";
+  public totalCount = 0;
+  public pageSize: any = 20;
+  public pageIndex: any = 0;
+
+  readonly headerHeight = 50;
+  readonly rowHeight = 50;
+
   @ViewChild('myTable') table: any;
   constructor(public dialog: MatDialog,
     private customerService: CustomerService,
     private utils: UtilsServiceService,
+    private el: ElementRef,
     public refVar: ChangeDetectorRef) {
   }
+
   ngOnInit() {
     this.GetUsers();
   }
 
+  /******************* LIST CUSTOMERS *******************/
+  
+  scrollEnable : boolean = false;
+  onScroll(offsetY: number) {
+    if(this.rows.length !== this.totalCount){
+    const viewHeight = this.el.nativeElement.getBoundingClientRect().height - this.headerHeight;
+    if((offsetY + viewHeight) >= (this.rows.length * this.rowHeight)){
+      if(!this.scrollEnable){
+        this.scrollEnable = true;
+        this.pageIndex = this.pageIndex + 1;
+        this.GetUsers()
+      }
+    }
+  }
+  }
   GetUsers(params?) {
     this.inProgress = true;
     if (!params)
@@ -48,16 +72,18 @@ export class CustomerComponent implements OnInit {
         }
       })
     }
+    params.pageSize = this.pageSize
+    params.pageIndex = this.pageIndex
     this.customerService.GetCustomerList(params)
       .subscribe((response: any) => {
         this.inProgress = false;
         if (response.success) {
-          this.Users = response.data.data;
-          this.rows = this.Users;
+          this.Users = response.data;
+          this.totalCount = response.total_count;
+          // this.Users = response.data.data;
+          this.rows = [...this.rows, ...this.Users];
           this.dynamicHeight = this.rows.length < 12 ? ((this.rows.length + 1) * 48 + 140) + "px" : '';
           this.temp = this.Users;
-          console.log(this.rows, ' this.rows  this.rows  this.rows  this.rows  this.rows  this.rows')
-          console.log(response.data, ' response.data  response.data  response.data  response.data  response.data  response.data')
         }
       });
      
@@ -178,6 +204,9 @@ export class CustomerComponent implements OnInit {
       });
     }
  
+
+
+
 }
 
 
