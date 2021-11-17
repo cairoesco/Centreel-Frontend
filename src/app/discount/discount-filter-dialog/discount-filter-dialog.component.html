@@ -12,7 +12,7 @@
       <mat-form-field>
         <mat-label>Select Store</mat-label>
         
-        <mat-select formControlName="store_id" [disableOptionCentering]="true">
+        <mat-select formControlName="store_id" (selectionChange)="setSelectedChanges($event)" [disableOptionCentering]="true">
           <mat-option *ngFor="let store of stores; let i=index" [value]="store.store_id">
             {{store.name}}
           </mat-option>
@@ -22,7 +22,7 @@
 
       <mat-form-field>
         <mat-label>Discount Type</mat-label>
-        <mat-select formControlName="type" [disableOptionCentering]="true">
+        <mat-select formControlName="type" [disableOptionCentering]="true" (selectionChange)="setSelectedChanges($event)">
         <mat-option *ngFor="let value of discount_types; let i=index" [value]="value.value">{{value.item}}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -31,7 +31,7 @@
 
       <mat-form-field>
         <mat-label>Status</mat-label>
-        <mat-select formControlName="status" [disableOptionCentering]="true">
+        <mat-select formControlName="status" [disableOptionCentering]="true" (selectionChange)="setSelectedChanges($event)">
           <mat-option *ngFor="let value of discount_status" [value]="value.value">
             {{value.item}}
           </mat-option>
@@ -40,8 +40,8 @@
 
       <mat-form-field>
         <mat-label>Discount value</mat-label>
-        <mat-select formControlName="values" multiple [disableOptionCentering]="true">
-          <mat-option *ngFor="let value of discount_value" [value]="value.value">
+        <mat-select formControlName="values" multiple [disableOptionCentering]="true" (selectionChange)="setSelectedChanges($event)">
+          <mat-option *ngFor="let value of discount_value" [value]="value.value[0]">
             {{value.item}}
           </mat-option>
         </mat-select>

@@ -26,6 +26,12 @@ export class DiscountComponent {
   public temp: any = [];
   public expandedall: boolean = false;
   public dynamicHeight = "";
+
+  public temp_storeID: any;
+  public temp_discountType: any;
+  public temp_status: any;
+  public temp_discountValue: any;
+
   @ViewChild('myTable') table: any;
   constructor(public dialog: MatDialog,
     private discountService: DiscountService,
@@ -131,8 +137,9 @@ export class DiscountComponent {
         filterObject['store_id'] = result.store_id?JSON.stringify(result.store_id):'';
         filterObject['type'] = result.type?JSON.stringify(result.type):'';
         filterObject['values'] = result.values?JSON.stringify(result.values):'';
+        filterObject['status'] = result.status?JSON.stringify(result.status):'';
+
         this.filter_data = result;
-        
         this.discountService.GetDiscountFilterList(filterObject)
           .subscribe((response: any) => {
             this.inProgress = false;
