@@ -23,12 +23,18 @@ export class DiscountFilterDialogComponent implements OnInit {
   allcategories: string[] = [];
   specialPrice: string[] = [];
   form_obj: any = new Object();
+  temp_form_obj: any = new Object();
 
   public rawDetail: any;
   public stores: any = [];
   public discount_types: any;
   public discount_value: any;
   public discount_status: any;
+
+  public temp_storeID: any;
+  public temp_discountType: any = [];
+  public temp_status: any = [];
+  public temp_discountValue: any = [];
 
   constructor(
     private api: DiscountService,
@@ -77,6 +83,10 @@ getRawDetails() {
               }
               tempDiscountTypes[0].value.push(tempData[i]);
               tempDiscountTypes.push(obj)
+              if(!this.temp_discountType){
+                this.temp_discountType.push(obj.value)
+              }
+             
             }
           }
           if(response.data.discount_values.length > 0){
@@ -89,6 +99,10 @@ getRawDetails() {
               }
               // tempDiscountValues[0].value.push(tempValueData[i]);
               tempDiscountValues.push(obj)
+              if(!this.temp_discountValue){
+                this.temp_discountValue.push(obj.value)
+              }
+             
             }
           }
           if(response.data.discount_statuses.length > 0){
@@ -100,6 +114,10 @@ getRawDetails() {
               }
               tempDiscountStatus[0].value.push(tempStatusData[i]);
               tempDiscountStatus.push(obj)
+              if(!this.temp_status){
+                this.temp_status.push(obj.value)
+              }
+             
             }
           }
           this.rawDetail = response.data;
@@ -109,14 +127,23 @@ getRawDetails() {
           this.discount_types = tempDiscountTypes;
           this.discount_value = tempDiscountValues;
           this.discount_status = tempDiscountStatus;
-
-          
-         
-          this.filterForm.controls.store_id.setValue(this.stores[0].store_id)
-         this.filterForm.controls.type.setValue(this.discount_types[0].value)
-          // this.filterForm.controls.values.setValue(this.discount_value[0].value)
-          this.filterForm.controls.status.setValue(this.discount_status[0].value)
         
+          // setting default filter parameters with previously selected parameters
+         if(!this.temp_storeID){
+          this.temp_storeID = [this.stores[0].store_id]
+         }
+        
+
+
+          this.filterForm.controls.store_id.setValue(this.stores[0].store_id)
+          this.filterForm.controls.type.setValue(this.discount_types[0].value)
+          if(this.temp_discountValue){
+            this.filterForm.controls.values.setValue(this.temp_discountValue[0]?.value)
+          } else {
+            this.filterForm.controls.values.setValue(this.discount_value[0].value)
+          }
+          
+          this.filterForm.controls.status.setValue(this.discount_status[0].value)
         }
       });
   }
@@ -134,6 +161,17 @@ getRawDetails() {
     if (!( (this.form_obj.values) && (this.form_obj.values.length) > 0)) {
       delete this.form_obj.values;
     }
+    if (!( (this.form_obj.status) && (this.form_obj.status.length) > 0)) {
+      delete this.form_obj.status;
+    }
+
+    if(Object.keys(this.form_obj).length < 1){
+      this.form_obj.store_id = this.temp_storeID;
+      this.form_obj.type = this.temp_discountType;
+      this.form_obj.values = this.temp_discountValue;
+      this.form_obj.status = this.temp_status
+    }
+    
     this.dialogRef.close(this.form_obj);
   }
 
@@ -178,5 +216,24 @@ getRawDetails() {
   // return obj[name]
     //  console.log({name}, "check for the type here line 149")
     //  console.log(this.filterForm.controls.type.value, 'this.filterForm.controls.type.value.type, this.filterForm.controls.type')
+  }
+
+  setSelectedChanges(evt){
+    switch (evt?.source?.ngControl.name) {
+      case 'store_id':
+        this.temp_storeID = evt.value
+        break;
+      case 'type':
+        this.temp_discountType = evt.value
+        break;
+      case 'status':
+        this.temp_status = evt.value
+        break;
+      case 'values':
+        this.temp_discountValue = evt.value
+        break;
+      default:
+        break;
+    }
   }
 }
