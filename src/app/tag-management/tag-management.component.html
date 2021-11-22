@@ -1,0 +1,102 @@
+<mat-card class="header-main-content">
+  <div fxLayout="row">
+    <div fxFlex="25%" class="breadcrumb-content">
+    </div>
+    <div fxFlex="50%" class="breadcrumb-header-content">
+      Tag Management
+    </div>
+    <div fxFlex="25%" class="breadcrumb-btn-content">
+          <button class="add-new-btn" [routerLink]="['create']" type="button">
+              <a class="add-new-label">
+                  <img src="assets/icon/plus-math.svg" alt="Add New" class="plus-math">
+                  ADD NEW
+              </a>
+          </button>
+      </div>
+  </div>
+</mat-card>
+<mat-progress-bar mode="indeterminate" *ngIf="inProgress"></mat-progress-bar>
+<div style="padding-top: 20px">
+  <div fxFlex="2%">
+  </div>
+  <div fxFlex="95%">
+    <div fxLayout="column" fxLayoutGap="20px">
+      <div class="" fxLayout="row" fxLayoutWrap fxLayoutAlign="center">
+        <div class="search-input" fxFlex="90%" fxFlex.md="80%" fxFlex.lg="80%" fxFlex.sm="65%" fxFlex.xs="65%">
+          <img alt="Search" class="Search-icon" src="../../assets/icon/search.png">
+          <input class="Search" (keyup)="applyFilter($event.target.value)" placeholder="Search tag name...">
+          <span class="result-count">{{rows?.length}} Results</span>
+        </div>
+        <div class="search-button pointer" (click)="ApplyMultipleFilter()" fxFlex="10%" fxFlex.md="20%" fxFlex.lg="20%"
+          fxFlex.sm="35%" fxFlex.xs="35%">
+          <div fxFlex="70%" class="text"> Filter by </div>
+          <div fxFlex="30%" class="icon">
+            <mat-icon>keyboard_arrow_down</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column" class="main-container" *ngIf="rows?.length > 0">
+      <div class="list-detail-content">
+        <ngx-datatable #myTable class='material expandable fancyscroll employee-list-table'
+          [ngStyle]="{'height':dynamicHeight}" [headerHeight]="50" [externalPaging]="false" [footerHeight]="0"
+          [columnMode]="'flex'" [rowHeight]="getRowHeight" [scrollbarV]="true" [rows]='rows' [limit]="10"
+          [selected]="selected" [selectionType]="'checkbox'" 
+          (select)='onSelect($event)' >
+        
+          <ngx-datatable-column name="Tag Name" prop="tag_name" [resizeable]="false" [flexGrow]="2">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <span>{{row['tag_name']}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Source" prop="type" [resizeable]="false" [flexGrow]="2">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <span>{{row['type']}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Status" prop="status" [resizeable]="false" [flexGrow]="2">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <span>{{row['status']}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Action" [sortable]="false" headerClass="display-none"
+            [resizeable]="false" [flexGrow]="2">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <span (click)="$event.stopPropagation();" mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </span>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item [routerLink]="['/customer', row['patient_id'], 'view']">
+                  <span>View Customer</span>
+                </button>
+              </mat-menu>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-footer>
+            <ng-template ngx-datatable-footer-template></ng-template>
+          </ngx-datatable-footer>
+        </ngx-datatable>
+      </div>
+    </div>
+    <div fxLayout="column" *ngIf="rows?.length==0 && !inProgress" style="margin-top: 60px;">
+      <div class="center">
+        <div>
+          <img alt="No result found" src="../../assets/images/sad.svg" class="sad">
+        </div>
+        <div>
+          <span class="Sorry-no-results-fo">Sorry, no results found</span>
+        </div>
+        <div *ngIf="(!Users ||Users.length > 0) && !inProgress">
+          <span class="Please-try-a-differe">Please try a different keyword</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row-selecetd-count" *ngIf="selected.length>0">
+    <span>{{selected.length}} Rows Selected</span>
+  </div>
+</div>
