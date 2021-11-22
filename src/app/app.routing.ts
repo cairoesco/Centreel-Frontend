@@ -21,6 +21,11 @@ export const AppRoutes: Routes = [{
     loadChildren: () => import('./discount/discount.module').then(m => m.DiscountModule),
     data: { title: 'Discount', breadcrumb: {name:'Discount',url:"discounts"}  }
   },
+  {
+    path: 'tag-management',
+    loadChildren: () => import('./tag-management/tag-management.module').then(m => m.TagManagementModule),
+    data: { title: 'Tag Management', breadcrumb: {name:'Tag Management',url:"tag-management"}  }
+  },
   // Purchase order routing
   {
     path: 'purchaseorder',

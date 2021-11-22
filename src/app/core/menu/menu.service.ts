@@ -82,6 +82,14 @@ const MENUITEMS = [
     method: 'index'
   },
   {
+    state: 'tag-management',
+    name: 'Tag Management',
+    type: 'link',
+    icon: 'menu-employee-svg',
+    module: 'users',
+    method: 'index'
+  },
+  {
     state: 'customer',
     name: 'CUSTOMER',
     type: 'link',
