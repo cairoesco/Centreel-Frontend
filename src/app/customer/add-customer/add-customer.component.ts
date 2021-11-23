@@ -62,6 +62,7 @@ export class AddCustomerComponent implements OnInit {
   public tags: boolean = false;
   public licenceInfo: boolean = false;
   public storeInfo: boolean = false;
+  public showExtraCardInfo: boolean = false;
   public cityList: any;
   public rawDetail: any;
   public uploadedDocName: any = "";
@@ -70,6 +71,7 @@ export class AddCustomerComponent implements OnInit {
   public to: any;
   public shift_error: string;
   public genderArr: any;
+  public patientTypeArr: any;
   public cardTypeArr: any;
   public IDCardArr: any;
   public countryArr: any;
@@ -231,7 +233,6 @@ export class AddCustomerComponent implements OnInit {
       this.barButtonOptions.text = "Saving Data...";
       this.barButtonOptions.active = true;
       this.barButtonOptions.disabled = true;
-      console.log(this.form.value, 'this.form.value this.form.value');
       this.api.AddCustomer(this.form.value)
         .subscribe((response: any) => {
           if (response.success) {
@@ -312,11 +313,12 @@ export class AddCustomerComponent implements OnInit {
       middle_name: [''],
       customer_nickname: [''],
       dob: [''],
-      gender: ['', [Validators.required]],
-      country_id: ['', [Validators.required]],
-      state_id: ['', [Validators.required]],
-      city_id: ['', [Validators.required]],
-      patient_mobile: ['', Validators.compose([Validators.required, Validators.minLength(7)])],
+      gender: [''],
+      country_id: [''],
+      state_id: [''],
+      city_id: [''],
+      patient_mobile: [''],
+      patient_type: [''],
       patient_email: ['', Validators.compose([Validators.required, CustomValidators.email])],
       id_card_type: [''],
       id_number: [''],
@@ -330,9 +332,9 @@ export class AddCustomerComponent implements OnInit {
       notes: '',
       zipcode: '',
       discount: '',
-      id_cards: ''
-
-
+      id_cards: '',
+      caregiver_license_number: '',
+      patient_license_number: '',
     });
   }
 
@@ -418,9 +420,33 @@ export class AddCustomerComponent implements OnInit {
         gender_id: 2
       },
     ];
+    this.patientTypeArr = [
+      {
+        patient_type: 'Consumer',
+        patient_type_id: 0
+      },
+      {
+        patient_type: 'Caregiver',
+        patient_type_id: 1
+      },
+      {
+        patient_type: 'Patient',
+        patient_type_id: 2
+      },
+    ];
   }
   ngDoCheck() {
     this.innerHeight = window.innerHeight - 192;
+  }
+
+  handleShowExtraCardInfo(evt){
+    console.log(evt, 'evt evt evt evt evt')
+    if(evt == 1){
+      this.showExtraCardInfo = true;
+    } else {
+      this.showExtraCardInfo = false;
+    }
+    
   }
 
   /* Shift Timing */
