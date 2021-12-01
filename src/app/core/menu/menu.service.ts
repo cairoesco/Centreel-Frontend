@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../../api.service';
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { UtilsServiceService } from '../../shared/services/utils-service.service';
 
 export interface BadgeItem {
   type: string;
@@ -186,21 +187,88 @@ const MENUITEMS = [
 
 ];
 
+const MENUITEMS_FRANCHISE = [
+  {
+    state: '/',
+    name: 'HOME',
+    type: 'link',
+    icon: 'menu-home-svg',
+    module: 'dashboard',
+    method: 'index'
+  },
+  {
+    state: 'reports',
+    name: 'Reports',
+    type: 'sub',
+    icon: 'report',
+    module: 'reports',
+    method: 'sales',
+    children: [
+      { state: 'closeout', name: 'Closeout', module: 'reports', method: 'sales' },
+      // { state: 'customsales', name: 'Custom sales', module: 'reports', method: 'sales' },
+      // { state: 'dailyinterim', name: 'Daily interim', module: 'reports', method: 'sales' },
+      // { state: 'employee-sales', name: 'Employee Sales', module: 'reports', method: 'sales' },
+      // { state: 'inventory', name: 'Inventory Report', module: 'reports', method: 'sales' },
+      // { state: 'inventory-audit', name: 'Inventory Audit Report', module: 'reports', method: 'sales' },
+      // { state: 'orders', name: 'Orders', module: 'reports', method: 'sales' },
+      // { state: 'printable-menu', name: 'Printable Menu', module: 'reports', method: 'sales' },
+      // { state: 'reconcilehistory', name: 'Reconcile History', module: 'reports', method: 'sales' },
+      // { state: 'refund-report', name: 'Refund Report', module: 'reports', method: 'sales' },
+      // { state: 'sales', name: 'Sales Per Category', module: 'reports', method: 'sales' },
+      // { state: 'stocktransfer', name: 'Stock Transfer', module: 'reports', method: 'sales' },
+      // { state: 'tax', name: 'Tax', module: 'reports', method: 'sales' },
+      // { state: 'timesheet', name: 'Timesheet', module: 'reports', method: 'sales' },
+      // { state: 'timetracking', name: 'Time Tracking', module: 'reports', method: 'sales' },
+      // { state: 'topselling', name: 'Top Selling', module: 'reports', method: 'sales' },
+      // { state: 'waste', name: 'Waste', module: 'reports', method: 'sales' },
+    ]
+  },
+  // {
+  //   state: 'incident-report',
+  //   name: 'Incident Report',
+  //   type: 'link',
+  //   icon: 'report',
+  //   module: 'reports',
+  //   method: 'sales'
+  // },
+  // {
+  //   state: 'settings',
+  //   name: 'Settings',
+  //   type: 'link',
+  //   icon: 'settings',
+  //   module: 'reports',
+  //   method: 'sales'
+  // },
+  // {
+  //   state: 'compliance-report',
+  //   name: 'Compliance Report',
+  //   type: 'link',
+  //   icon: 'settings',
+  //   // module: 'vendors',
+  //   // method: 'index'
+  //   module: 'reports',
+  //   method: 'sales'
+  // },
+
+];
+
 @Injectable()
 export class MenuService {
 
   menus: Menu[] = [];
 
-  constructor(public api: ApiService, public snackBar: MatSnackBar) { }
+  constructor(public api: ApiService, public utility: UtilsServiceService, public snackBar: MatSnackBar) { }
 
   getAll(): Menu[] {
-    return MENUITEMS;
+   const session = this.utility.getSessionData('currentUser')
+    return session?.user_role.includes("Franchisee") ? MENUITEMS_FRANCHISE : MENUITEMS;
   }
 
   getAclMenu(): void {
     let menus = [];
     this.api.get('permissions')
       .subscribe((response: any) => {
+       
         let all_menu = this.getAll();
         all_menu.forEach(m => {
           if (this.isPermissible(m.module, m.method, response.data)) {
