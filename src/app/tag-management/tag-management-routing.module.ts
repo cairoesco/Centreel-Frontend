@@ -17,7 +17,7 @@ const routes: Routes =
    {
     path: ':id/view', component: EditTagManagementComponent,
    // canActivate: [AuthGuardService],
-    data: { title: 'View Customer', breadcrumb: {name:'View Customer',url:":id/view"} }
+    data: { title: 'View Tag', breadcrumb: {name:'View Tag',url:":id/view"} }
   }
 ];
 

@@ -44,37 +44,33 @@
           [selected]="selected" [selectionType]="'checkbox'" 
           (select)='onSelect($event)' >
         
-          <ngx-datatable-column name="Tag Name" prop="tag_name" [resizeable]="false" [flexGrow]="2">
+          <ngx-datatable-column name="Tag Name" prop="tag_name" [resizeable]="false" [flexGrow]="1">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
               <span>{{row['tag_name']}}</span>
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Source" prop="type" [resizeable]="false" [flexGrow]="2">
+          <ngx-datatable-column name="Source" prop="type" [resizeable]="false" [flexGrow]="1">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
               <span>{{row['type']}}</span>
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Status" prop="status" [resizeable]="false" [flexGrow]="2">
+          <ngx-datatable-column name="Status" prop="status" [resizeable]="false" [flexGrow]="1">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-              <span>{{row['status']}}</span>
+              <mat-slide-toggle color="primary" [checked]="row['status'] == 1"
+                  (click)="$event.stopPropagation();" (change)="changeTagStatus(row,$event)">
+              </mat-slide-toggle>
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Action" [sortable]="false" headerClass="display-none"
-            [resizeable]="false" [flexGrow]="2">
+          <ngx-datatable-column name="View" [sortable]="false" [resizeable]="false"  [flexGrow]="1" >
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-              <span (click)="$event.stopPropagation();" mat-icon-button [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
-              </span>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item [routerLink]="['/customer', row['patient_id'], 'view']">
-                  <span>View Customer</span>
+                <button mat-icon-button [routerLink]="['/tag-management', row['id'], 'view']" [state]="{ row: row }">
+                    <mat-icon>visibility</mat-icon>
                 </button>
-              </mat-menu>
             </ng-template>
-          </ngx-datatable-column>
+        </ngx-datatable-column>
 
           <ngx-datatable-footer>
             <ng-template ngx-datatable-footer-template></ng-template>

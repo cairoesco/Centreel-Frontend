@@ -7,6 +7,18 @@ export class TagManagementService {
     getTags() {
         return this.webApi.get('tags')
     }
+    editTagStatus(id, params){
+        return this.webApi.post(`tags/${id}/status`, params)
+    }
+    updateTag(params){
+        return this.webApi.post(`tags/update`, params)
+    }
+    getTagEntities(id){
+        return this.webApi.get(`tags/${id}/edit`)
+    }
+    getAllEntities(params){
+        return this.webApi.post(`tags/sourceData?type=${params}`, params)
+    }
     // GetCustomerList(params) {
     //     return this.webApi.get('patients', params)
     // }

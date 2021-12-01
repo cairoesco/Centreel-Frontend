@@ -43,38 +43,8 @@ export class TagManagementComponent implements OnInit {
     this.GetAllTags();
   }
 
-  /******************* LIST TAGS *******************/
-  
-  // scrollEnable : boolean = false;
-  // onScroll(offsetY: number) {
-  //   if(this.rows.length !== this.totalCount){
-  //   const viewHeight = this.el.nativeElement.getBoundingClientRect().height - this.headerHeight;
-  //   if((offsetY + viewHeight) >= (this.rows.length * this.rowHeight)){
-  //     if(!this.scrollEnable){
-  //       this.scrollEnable = true;
-  //       this.pageIndex = this.pageIndex + 1;
-  //       this.GetAllTags()
-  //     }
-  //   }
-  // }
-  // }
-
   GetAllTags() {
     this.inProgress = true;
-    // if (!params)
-    //   params = { platform: 'web' };
-    // else {
-    //   Object.keys(params).forEach(key => {
-    //     if (params[key] instanceof Object) {
-    //       params[key] = JSON.stringify(params[key]);
-    //     }
-    //     if (!params[key] || params[key] == "" || params[key] == "null") {
-    //       delete params[params[key]];
-    //     }
-    //   })
-    // }
-    // params.pageSize = this.pageSize
-    // params.pageIndex = this.pageIndex
     this.tagManagementService.getTags()
       .subscribe((response: any) => {
         this.inProgress = false;
@@ -124,55 +94,18 @@ export class TagManagementComponent implements OnInit {
     return 48;
   }
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  // onSelect({ selected }) {
-  //   this.selected.splice(0, this.selected.length);
-  //   this.selected.push(...selected);
-  // }
+  changeTagStatus(tag, evt){
+    const payload = {
+      status : evt.checked ? 1 : 0
+    }
+    this.tagManagementService.editTagStatus(tag.id, payload)
+      .subscribe((response: any) => {
+        if (response.success) {
+         this.GetAllTags();
+        }
+      });
+  }
 
-  //******************************** Add new tag popup ************************ */
-  // AddNewTag(customerDetail): void {
-  //   if ((customerDetail == 'ALL' && this.selected.length > 0) || Boolean(customerDetail.patient_id)) {
-  //     let ids = this.selected.map(({ patient_id: id, patient_id, ...rest }) => ({ id, patient_id, ...rest }));
-  //     const dialogRef = this.dialog.open(TagComponent, {
-  //       width: '550px',
-  //       disableClose: true,
-  //       data: { name: this.name, ids: ids, type: 'customer' }
-  //     });
-  //     dialogRef.afterClosed().subscribe(result => {
-  //       if (Boolean(result) && result.length > 0) {
-  //         let reference_ids = [];
-  //         if (customerDetail == 'ALL') {
-  //           ids.forEach(({ patient_id }) => (reference_ids.push(patient_id)));
-  //         } else {
-  //           reference_ids.push(customerDetail.patient_id)
-  //         }
-  //         const tagData = new FormData();
-  //         tagData.append("tags", JSON.stringify(result))
-  //         tagData.append("reference_ids", JSON.stringify(reference_ids))
-  //         tagData.append("type", "customer")
-
-  //         this.tagManagementService.addTages(tagData)
-  //           .subscribe((response: any) => {
-  //             this.utils.showSnackBar(response.message);
-  //             result.forEach(tag_name => {
-  //               reference_ids.forEach(id => {
-  //                 if (!Boolean(_.find(_.find(this.rows, function (o) { return o.patient_id == id; }).tags, function (o) { return o.tag_name.toLowerCase() == tag_name.toLowerCase(); }))) {
-  //                   _.find(this.rows, function (o) { return o.patient_id == id; }).tags.push({ id: 0, tag_name: tag_name })
-  //                 }
-  //               });
-  //             })
-  //             this.selected = [];
-  //           });
-  //       }
-  //     });
-  //   }
-  // }
-  //******************************** End new tag add  *******************************/
-
-
-
-  //******************************** Filter popup start **************************/
   public filterData: any;
   ApplyMultipleFilter(): void {
     const dialogRef = this.dialog.open(TagManagementFilterDialogComponent, {
@@ -192,20 +125,6 @@ export class TagManagementComponent implements OnInit {
       }
     });
   }
-
-
-     //******************************** Filter popup start **************************/
-    //  customerPreferredProducts(patient_id) {
-    //   const dialogRef = this.dialog.open(PreferredProductDialogComponent, {
-    //     width: '40%',
-    //     data: { data: patient_id }
-    //   });
-    //   dialogRef.afterClosed().subscribe((result: any) => {
-    //   });
-    // }
- 
-
-
 
 }
 

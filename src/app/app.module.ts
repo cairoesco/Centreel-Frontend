@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from "@angular/material/form-field";
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -70,7 +72,10 @@ export function createTranslateLoader(http: HttpClient) {
     LoadingBarRouterModule,
     BidiModule,
     SharedModule,
-    SignaturePadModule
+    SignaturePadModule,
+
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     AuthGuardService,

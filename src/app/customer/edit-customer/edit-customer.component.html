@@ -288,6 +288,35 @@
                         </mat-form-field>
                       </div>
                     </div>
+
+                    <div
+                    class=""
+                    fxLayout="row"
+                    fxLayout.xs="column"
+                    fxLayoutWrap
+                    fxLayoutGap="5%"
+                    fxLayoutAlign="center"
+                  >
+                    
+                    <div fxFlex="50%">
+                      <mat-form-field fxFlex="100%">
+                        <mat-select
+                          placeholder="Patient Type"
+                          formControlName="patient_type"
+                          [disableOptionCentering]="true"
+                          (selectionChange)="handleShowExtraCardInfo($event.value)"
+                        >
+                          <mat-option
+                            *ngFor="let patientType of patientTypeArr"
+                            [value]="patientType.patient_type_id"
+                          >
+                            {{ patientType.patient_type }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
                   </mat-card-content>
                 </mat-card>
               </div>
@@ -559,7 +588,7 @@
                       fxLayoutAlign="center"
                     >
                       <!-- <div class="mb-1" fxFlex="calc(100% - 200px)"> -->
-                      <div fxFlex="50%">
+                      <div fxFlex="30%">
                         <mat-form-field fxFlex="100%">
                           <input
                             matInput
@@ -579,7 +608,7 @@
                         </mat-form-field>
                       </div>
 
-                      <div fxFlex="50%">
+                      <div fxFlex="30%">
                         <mat-form-field fxFlex="100%">
                           <mat-select
                             placeholder="ID Type*"
@@ -604,7 +633,7 @@
                         </mat-form-field>
                       </div>
 
-                      <div fxFlex="50%">
+                      <div fxFlex="30%">
                         <mat-form-field fxFlex="100%">
                           <input
                             matInput
@@ -621,8 +650,62 @@
                           </mat-error>
                         </mat-form-field>
                       </div>
-                      <!-- </div> -->
                     </div>
+
+                      <div
+                      class=""
+                      fxLayout="row"
+                      fxLayout.xs="column"
+                      fxLayoutWrap
+                      fxLayoutGap="0.5%"
+                      fxLayoutAlign="center"
+
+                      *ngIf="showExtraCardInfo"
+                    >
+                      <div fxFlex="45%">
+                        <mat-form-field fxFlex="100%">
+                          <input
+                            matInput
+                            placeholder="Caregiver license number"
+                            formControlName="caregiver_license_number"
+                            autocomplete="off"
+                          />
+
+                          <!-- <mat-error
+                            *ngIf="
+                              form.controls['caregiver_license_number'].hasError('required')
+                            "
+                            class="mat-text-warn"
+                          >
+                            Please enter ID number
+                          </mat-error> -->
+                        </mat-form-field>
+                      </div>
+                     
+                      <div fxFlex="45%">
+                        <mat-form-field fxFlex="100%">
+                          <input
+                            matInput
+                            placeholder="Patient license number"
+                            formControlName="patient_license_number"
+                            autocomplete="off"
+                          />
+
+                          <!-- <mat-error
+                            *ngIf="
+                              form.controls['caregiver_license_number'].hasError('required')
+                            "
+                            class="mat-text-warn"
+                          >
+                            Please enter ID number
+                          </mat-error> -->
+                        </mat-form-field>
+                      </div>
+
+                     </div>
+
+                      <!-- </div> -->
+                    
                   </mat-card-content>
                 </mat-card>
               </div>
