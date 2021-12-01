@@ -139,6 +139,7 @@
               <span>{{row['avg_visit'] | currency }}</span>
             </ng-template>
           </ngx-datatable-column>
+
           <ngx-datatable-column name="Action" [sortable]="false" headerClass="display-none"
             [resizeable]="false" [flexGrow]="1.5" [maxWidth]="75" [minWidth]="50">
             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
@@ -152,6 +153,7 @@
               </mat-menu>
             </ng-template>
           </ngx-datatable-column>
+
           <ngx-datatable-footer>
             <ng-template ngx-datatable-footer-template></ng-template>
           </ngx-datatable-footer>

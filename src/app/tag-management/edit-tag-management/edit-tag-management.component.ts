@@ -1,7 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation, ElementRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
-import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { CustomValidators } from 'ng2-validation';
 import { TagComponent } from '../../dialog/tag/tag.component'
 import { MatDialog } from '@angular/material/dialog';
@@ -28,64 +30,42 @@ import { MatProgressButtonOptions } from 'mat-progress-buttons';
   ],
 })
 export class EditTagManagementComponent implements OnInit {
-  
-  filteredCountryOptions: Observable<any>;
-  public countryFilterKeyword = 'location_name';
 
+  @ViewChild('tagEntityInput') tagEntityInput: ElementRef<HTMLInputElement>;
+ 
+  console = console;
+
+  currentUserDetail: any;
   public innerHeight: any;
-  public type: string = 'component';
-  public selected = false;
+  public inProgress: boolean = false;
   public indexofTab = 0;
-  public uploadDocForm: FormGroup;
-  public shiftForm: FormGroup;
-  public form: FormGroup;
-  public generalInfosForm: FormGroup;
-  public tagsForm: FormGroup;
-  public licenceForm: FormGroup;
-  public storeForm: FormGroup;
-  public addStore: FormGroup;
-  public imageSrc: any = '/assets/images/default-image.png';
-  public heightOfY;
-  public deleteFileArray = [];
-  public arrayOfFiles = [];
-  public filesOfarray = [];
   public selectable: boolean = true;
   public removable: boolean = true;
   public removeTagArray = [];
-  public tagName: string = "tag entry";
-  public index: any = 'ALL';
   public tagArray: any = [];
   public ArrayOfTags: any = [];
-  public stateList: any;
-  public isActive;
-  public generalInfo: boolean = false;
   public tags: boolean = false;
-  public licenceInfo: boolean = false;
-  public storeInfo: boolean = false;
-  public cityList: any;
-  public rawDetail: any;
-  public uploadedDocName: any = "";
-  public dynamicHeight = "";
-  public from: any;
-  public to: any;
-  public shift_error: string;
-  public genderArr: any;
-  public cardTypeArr: any;
-  public IDCardArr: any;
-  public countryArr: any;
   public store_id: any;
   public chain_id: any;
-  public defaultGender: any;
-  public priceOptions = { prefix: '$ ', thousands: ',', decimal: '.', align: 'left', nullable: true, allowZero: false }
-  currentUserDetail: any;
-
+  public defaultStatus: any;
   public isEditing: boolean = false;
-
+  public isEditingEntity: boolean = false;
+  public addNewEntry: boolean = false;
   public customerInfo: boolean = false;
+  public TagStatusArray: any = [];
+  public tempEntityArray: any = [];
+  public selectedTag: any = [];
+  public tagForm: FormGroup;
+  public index: any = 'ALL';
+  public rawDetail: any;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  tagEntities: string[] = [];
+  allTagEntities: any = [];
+  tagEntityCtrl = new FormControl();
+  filteredTagEntities: Observable<string[]>;
 
-  employment_minDate = new Date(2000, 0, 1);
-  employment_maxDate = new Date();
-  
+  state$: Observable<object>;
+
   barButtonOptions: MatProgressButtonOptions = {
     active: false,
     text: 'SAVE ALL',
@@ -116,149 +96,56 @@ export class EditTagManagementComponent implements OnInit {
     value: 0,
     disabled: false
   }
-  maxDate = new Date(new Date().getFullYear() - 18, new Date().getMonth(), new Date().getDate());
-  certification_Expiry_MinDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
-
+  barSaveTagButtonOptions: MatProgressButtonOptions = {
+    active: false,
+    text: 'SAVE CHANGES',
+    barColor: 'primary',
+    raised: true,
+    stroked: false,
+    mode: 'indeterminate',
+    value: 0,
+    disabled: false
+  }
+  barAddTagEntitiesButtonOptions: MatProgressButtonOptions = {
+    active: false,
+    text: 'ADD ENTITIES',
+    barColor: 'primary',
+    raised: true,
+    stroked: false,
+    mode: 'indeterminate',
+    value: 0,
+    disabled: false
+  }
+ 
   constructor(
     private fb: FormBuilder,
     public dialog: MatDialog,
     public refVar: ChangeDetectorRef,
     private api: TagManagementService,
     public utility: UtilsServiceService,
+    private tagManagementService: TagManagementService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-    this.fileUploader();
+  
     this.utility.indexofTab = 0;
     this.currentUserDetail = this.utility.getSessionData('currentUser');
-  }
-
-  /**************************** Files Upload********************************** */
-  uploader: FileUploader;
-  hasBaseDropZoneOver: boolean;
-  hasAnotherDropZoneOver: boolean;
-  response: string;
-  fileUploader() {
-    this.uploader = new FileUploader({
-      disableMultipart: true,
-      formatDataFunctionIsAsync: true,
-      formatDataFunction: async item => {
-        return new Promise((resolve, reject) => {
-          resolve({
-            name: item._file.name,
-            length: item._file.size,
-            contentType: item._file.type,
-            date: new Date()
-          });
-        });
-      }
-    });
-    this.hasBaseDropZoneOver = false;
-    this.hasAnotherDropZoneOver = false;
-    this.response = '';
-  }
-  /*************** Delete File ********************* */
-  deleteFile(index) {
-    if (index !== -1) {
-      this.arrayOfFiles.splice(index, 1);
-      this.filesOfarray.splice(index, 1);
-      this.form.get('file_input').setValue('');
-    }
-  }
-  public fileDragged() {
-    this.uploader.queue.forEach(element => {
-      this.arrayOfFiles.push({ id: 0, original_name: element.file.name });
-      this.filesOfarray.push(element.file.rawFile);
-    });
-    this.uploader.clearQueue()
-  }
-  public fileOverBase(e: any): void {
-    this.hasBaseDropZoneOver = e;
-    this.fileDragged();
-  }
-  public isFormSubmitted: boolean = false;
-  uploadFile() {  
-    Object.keys(this.uploadDocForm.controls).forEach(key => {
-      this.uploadDocForm.controls[key].markAsTouched();
-    })
-    this.isFormSubmitted = true;
-    if (this.uploadDocForm.valid) {
-      let uploadDocData = this.uploadDocForm.get('document_type_data').value
-      this.uploadDocForm.get('document_type').setValue(uploadDocData.id_card_type_id);
-      this.arrayOfFiles.push(this.uploadDocForm.value);
-      this.filesOfarray.push(this.tempFile);
-      this.uploadedDocName = "";
-      this.isFormSubmitted = false;
-      this.uploadDocForm.reset();
-    }
-
-    else
-      return
-  }
-  public tempFile: any;
-  onDocumentChange(event) {
-    this.tempFile = event.target.files[0];
-    this.uploadedDocName = event.target.files[0].name;
-  }
-  onFileChange(event) {
-    if (event.target.files.length > 0) {
-      let image = event.target.files[0];
-      if (["image/jpeg", "image/jpg", "image/png", 'image/gif'].indexOf(image.type) > -1) {
-        const reader = new FileReader();
-        reader.onload = e => this.imageSrc = reader.result;
-        reader.readAsDataURL(image);
-        this.refVar.detectChanges();
-        this.form.get('employee_image').setValue(image);
-      }
-      else {
-        this.utility.showSnackBar("Unsupported file format", { panelClass: 'error' });
-      }
-      this.form.get('image').setValue('');
-    }
-  }
-  /**************************** Files Upload End********************************** */
 
 
+    this.filteredTagEntities = this.tagEntityCtrl.valueChanges.pipe(
+      startWith(null),
+      map((tagEntity: string | null) => (tagEntity ? this._filter(tagEntity) : this.allTagEntities.slice())),
+    );
+ 
+  }
+  
 
-  /************************ Add Employee Section ************************************/
   onSubmit() {
-    let date = this.form.get('dob').value;
-    let formatedDate = _moment(date).format("YYYY-MM");
-    this.form.get('dob').setValue(formatedDate);
-
-    this.form.get('store_id').setValue(this.store_id);
-    this.form.get('chain_id').setValue(this.chain_id);
-
-    const cardObj = [
-    {
-      id_card_type: this.form.value.id_card_type,
-      id_number: this.form.value.id_number,
-      source: this.form.value.source,
-      id: '',
-    }
-    ];
-    this.form.get('id_cards').setValue(JSON.stringify(cardObj));
-
-
     const formData = new FormData();
-    formData.append("chain_id", this.rawDetail.chains[0].chain_id);
-    
-    if (this.form.valid) {
+    if (this.tagForm.valid) {
       this.barButtonOptions.text = "Saving Data...";
       this.barButtonOptions.active = true;
-      this.barButtonOptions.disabled = true;
-      console.log(this.form.value, 'this.form.value this.form.value');
-      // this.api.AddCustomer(this.form.value)
-      //   .subscribe((response: any) => {
-      //     if (response.success) {
-      //       this.utility.showSnackBar(response.message);
-      //       this.router.navigateByUrl('customer');
-      //     }
-      //   }, error => {
-      //     this.barButtonOptions.text = "SAVE ALL";
-      //     this.barButtonOptions.active = false;
-      //     this.barButtonOptions.disabled = false;
-      //   });
+      this.barButtonOptions.disabled = true;     
     }else{
       this.utility.scrollToError();
     }
@@ -276,399 +163,187 @@ export class EditTagManagementComponent implements OnInit {
       this.tagArray.splice(index, 1);
     }
   }
+
   //******* Add new tag popup **************  */
   AddNewTag(): void {
-    const dialogRef = this.dialog.open(TagComponent, {
-      width: '550px',
-      disableClose: true,
-      data: { name: this.tagName, type: 'user' }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (Boolean(result) && result.length > 0) {
-        result.forEach(tag_name => {
-          if (!Boolean(_.find(this.tagArray, function (o) { return o.tag_name.toLowerCase() == tag_name.toLowerCase(); }))) {
-            this.tagArray.push({ id: 0, tag_name: tag_name })
-            this.ArrayOfTags.push(tag_name)
-          }
-        })
-      }
+    // const dialogRef = this.dialog.open(TagComponent, {
+    //   width: '550px',
+    //   disableClose: true,
+    //   data: { name: this.tagName, type: 'user' }
+    // });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (Boolean(result) && result.length > 0) {
+    //     result.forEach(tag_name => {
+    //       if (!Boolean(_.find(this.tagArray, function (o) { return o.tag_name.toLowerCase() == tag_name.toLowerCase(); }))) {
+    //         this.tagArray.push({ id: 0, tag_name: tag_name })
+    //         this.ArrayOfTags.push(tag_name)
+    //       }
+    //     })
+    //   }
 
-    });
+    // });
   }
-  //******* End new tag add  ******************/
-
-  /***************** Form Group *****************************/
-
-  //********* Add new ID card *************/
-    addNewIDCard() {
-      const newIDCardObj = {
-        id_card_type: '',
-        id_number: '',
-        id: '',
-        source: ''
-      }
-      this.IDCardArr.push(newIDCardObj)
-    }
-  /*************End Add new ID card **********/
-
-  //********* remove ID card *************/
-    removeIDCard() {
-     if(this.IDCardArr?.length > 1){
-      this.IDCardArr.pop()
-     }
-      
-    }
-  /*************End remove ID card **********/
-
-  addCustomerForm() {
-    
-    this.form = this.fb.group({
-      patient_fname: ['', [Validators.required, Validators.maxLength(16)]],
-      patient_lname: ['', [Validators.required, Validators.maxLength(16)]],
-      middle_name: [''],
-      customer_nickname: [''],
-      dob: [''],
-      gender: ['', [Validators.required]],
-      country_id: ['', [Validators.required]],
-      state_id: ['', [Validators.required]],
-      city_id: ['', [Validators.required]],
-      patient_mobile: ['', Validators.compose([Validators.required, Validators.minLength(7)])],
-      patient_email: ['', Validators.compose([Validators.required, CustomValidators.email])],
-      id_card_type: [''],
-      id_number: [''],
-      id: [''],
-      source: ['Manual'],
-      store_id: '',
-      chain_id: '',
-      password: '',
-      address: '',
+  
+  getTagForm() {
+    this.tagForm = this.fb.group({
+      tag_name: '',
+      source: [{value: '', disabled:true}],
       status: '',
-      notes: '',
-      zipcode: '',
-      discount: '',
-      id_cards: ''
+      entities: '',   
     });
+    // this.tagForm.controls['source'].disable()
   }
 
+  viewOnly(){
+    this.isEditing = false;
+    this.tagForm.disable();
+    this.barSaveTagButtonOptions.disabled = true;
+  }
+  isEditable(){
+    this.isEditing = true;
+    this.tagForm.enable();
+    this.barSaveTagButtonOptions.disabled = false;
+  }
+
+  handleAddNewEntry(status){
+      this.addNewEntry = status
+  }
   handleIsEditing(){
     this.isEditing = !this.isEditing
   }
 
-  storeDetail(event, store, index) {
-    const control: any = this.form.get('store_details');
-    if (event.isUserInput) {
-      if (event.source._selected) {
-        control.push(this.addStoreDetail(store));
-      } else {
-        const tempData: any = this.form.get('store_details');
-        tempData.removeAt(index);
-      }
+  handleOnSubmitGeneralEdit(){
+    this.inProgress = true;
+   const entities = [];
+   this.tempEntityArray.map(entity => entities.push(entity?.variant_id.toString()));
+    const payload = {
+      // id of the tag
+      tag_ids: this.selectedTag.id, 
+      // variant ids or user id for employers tag
+      reference_ids: this.selectedTag.type === 'variant' ? entities : this.selectedTag.user_id,
+      // tagname
+      tags:  [this.tagForm.get('tag_name').value], 
+      status: this.tagForm.get('status').value,
+      type: this.selectedTag.type
     }
+    console.log({ payload })
+    this.tagManagementService.updateTag(payload).subscribe((response: any) => {
+      if (response.success) {
+        console.log(response.data, 'response.data response.data response.data response.data')
+        this.activatedRoute.params.subscribe((params: Params) => {
+          if (params?.id){
+             this.GetTag(params?.id);
+             this.GetTagEntities(params?.id);
+          }
+        });
+      }
+    })
   }
-  private addStoreDetail(data) {
-    return this.fb.group({
-      store_id: [data.store_id],
-      store_name: [data.name],
-      salary: [0]
-    });
-  }
-  getStateList(type, parent) {
-    this.form.get('country_id').setValue(parent);
-    // this.api.getLocationList(type, parent)
-    //   .subscribe((response: any) => {
-    //     if (response.success) {
-    //       this.stateList = response.data;
-    //     }
-    //   });
-  }
-  getCityList(type, parent) {
-    this.form.get('state_id').setValue(parent);
-    // this.api.getLocationList(type, parent)
-    //   .subscribe((response: any) => {
-    //     if (response.success) {
-    //       this.cityList = response.data;
-    //     }
-    //   });
-  }
-  getRawDetails() {
-    // this.api.getRawDetail()
-    //   .subscribe((response: any) => {
+  
+  GetTag(id){
+    this.inProgress = true;
+    this.tagManagementService.getTags().subscribe((response: any) => {
+      if (response.success) {
+        const tempSelectedTag = response.data.find(tag => tag.id == id);
+        this.selectedTag = tempSelectedTag;
+        if(tempSelectedTag){
+          this.tagForm.get('tag_name').setValue(tempSelectedTag.tag_name);
+          this.tagForm.get('source').setValue(tempSelectedTag.type);
+          this.tagForm.get('status').setValue(tempSelectedTag.status);
 
-    //     if (response.success) {
-    //       this.rawDetail = response.data;
-    //       this.countryArr = response.data.country;
-    //       this.cardTypeArr = response.data.id_card_types;
-    //       let user_role_id = this.currentUserDetail.role_id[0];
-    //       this.store_id = response.data.stores[0].store_id;
-    //       this.chain_id = response.data.stores[0].chain_id;
-    //       this.rawDetail.roles = _.filter(response.data.roles, function (o) { return o.role_id > user_role_id; });
-    //     }
-    //   });
-  }
-  dropdownFilters() {
-    this.filteredCountryOptions = this.form.controls['country_id'].valueChanges
-      .pipe(
-        startWith(''),
-        map(val => this.countryFilter(val))
-      );
-  }
-  countryFilter(val){
-    console.log(val, 'value from country filter')
+          this.GetAllEntities(tempSelectedTag.type);
+        }
+
+        this.inProgress = false;
+        this.viewOnly();
+      }
+    })
   }
 
-  countryDisplay(country?: any): string | undefined {
-    return country ? country.location_name : undefined;
+  GetTagEntities(id){
+    this.inProgress = true;
+    this.tagManagementService.getTagEntities(id).subscribe((response: any) => {
+      if (response.success) {
+        for (const entity of response.data){
+          this.tempEntityArray.push(entity);
+         
+        }
+      }
+      this.inProgress = false;
+    })
   }
+
+  GetAllEntities(type){
+    this.inProgress = true;
+    this.tagManagementService.getAllEntities(type).subscribe((response: any) => {
+      if (response.success) {
+        this.allTagEntities =  response.data;
+        
+      }
+      this.inProgress = false;
+    })
+  }
+
   ngOnInit() {
-    // this.getRawDetails();
-    this.genderArr = [
+    this.TagStatusArray = [
       {
-        gender: 'Male',
-        gender_id: 0
+        status: 'Inactive',
+        status_id: 0
       },
       {
-        gender: 'Female',
-        gender_id: 1
-      },
-      {
-        gender: 'Others',
-        gender_id: 2
+        status: 'Active',
+        status_id: 1
       },
     ];
 
     this.activatedRoute.params.subscribe((params: Params) => {
-      console.log(params, 'params params params')
       if (params?.id){
-        // this.api.getRawDetail()
-        //   .subscribe((response: any) => {
-        //     if (response.success) {
-        //        this.store_id = response.data.stores[0].store_id;
-        //        this.api.getCustomer(params?.id,  this.store_id)
-        //        .subscribe(( response: any) => {
-        //          console.log(response, 'get customer response get customer response');
-        //           if(Object.keys(response.data).length > 0){
-        //             this.form.get('patient_fname').setValue(response.data.patient_fname);
-        //             this.form.get('patient_lname').setValue(response.data.patient_lname);
-        //             this.form.get('customer_nickname').setValue(response.data.customer_nickname);
-        //             this.form.get('customer_nickname').setValue(response.data.customer_nickname);
-        //             this.form.get('middle_name').setValue(response.data.middle_name);
-        //             this.form.get('patient_mobile').setValue(response.data.patient_mobile);
-        //             this.form.get('patient_email').setValue(response.data.patient_email);
-
-
-        //             const tempGender =  this.genderArr.find(gender => gender.gender_id == response.data.gender)
-        //             console.log(tempGender, 'tempGender tempGender tempGender tempGender')
-        //             this.defaultGender = tempGender.gender_id;
-        //             this.form.get('id_number').setValue(response.data.id_cards[0].id_number);
-        //             this.form.get('source').setValue(response.data.id_cards[0].source);
-                
-        //             this.viewOnly();
-        //             // if(tempGender){
-        //             //   this.form.get('gender').setValue(tempGender)
-        //             // }
-                    
-        //           }
-                 
-
-                
-        //        })
-        //     }
-        //   })
-        
+         this.GetTag(params?.id);
+         this.GetTagEntities(params?.id);
       }
     });
-    this.addCustomerForm();
+    this.getTagForm();
+    
   }
   ngDoCheck() {
     this.innerHeight = window.innerHeight - 192;
   }
 
-  /* Shift Timing */
-  
-  /* validation for start time and end time not same and to time greater than start time */
-  checkTimes(group: FormGroup) { 
-    let stime = group.controls.start_time.value;
-    let etime = group.controls.end_time.value;
-    if(stime && etime){  
-      return stime >= etime ? { Same: true } : null; 
+  remove(tagEntity: string): void {
+    console.log(tagEntity, 'tagEntity tagEntity tagEntity')
+    console.log(this.tempEntityArray, 'this.tempEntityArray this.tempEntityArray this.tempEntityArray')
+    const index = this.tempEntityArray.indexOf(tagEntity);
+
+    if (index >= 0) {
+      this.tempEntityArray.splice(index, 1);
     }
+    console.log(this.tempEntityArray, 'this.tempEntityArray this.tempEntityArray this.tempEntityArray')
   }
 
-  from_time = ['00:00','00:15','00:30','00:45','01:00','01:15','01:30','01:45','02:00','02:15','02:30','02:45','03:00','03:15','03:30','03:45','04:00','04:15','04:30','04:45','05:00','05:15','05:30','05:45','06:00','06:15','06:30','06:45','07:00','07:15','07:30','07:45','08:00','08:15','08:30','08:45','09:00','09:15','09:30','09:45','10:00','10:15','10:30','10:45','11:00','11:15','11:30','11:45','12:00','12:15','12:30','12:45','13:00','13:15','13:30','13:45','14:00','14:15','14:30','14:45','15:00','15:15','15:30','15:45','16:00','16:15','16:30','16:45','17:00','17:15','17:30','17:45','18:00','18:15','18:30','18:45','19:00','19:15','19:30','19:45','20:00','20:15','20:30','20:45','21:00','21:15','21:30','21:45','22:00','22:15','22:30','22:45','23:00','23:15','23:30','23:45','24:00'];
-  to_time = ['00:15','00:30','00:45','01:00','01:15','01:30','01:45','02:00','02:15','02:30','02:45','03:00','03:15','03:30','03:45','04:00','04:15','04:30','04:45','05:00','05:15','05:30','05:45','06:00','06:15','06:30','06:45','07:00','07:15','07:30','07:45','08:00','08:15','08:30','08:45','09:00','09:15','09:30','09:45','10:00','10:15','10:30','10:45','11:00','11:15','11:30','11:45','12:00','12:15','12:30','12:45','13:00','13:15','13:30','13:45','14:00','14:15','14:30','14:45','15:00','15:15','15:30','15:45','16:00','16:15','16:30','16:45','17:00','17:15','17:30','17:45','18:00','18:15','18:30','18:45','19:00','19:15','19:30','19:45','20:00','20:15','20:30','20:45','21:00','21:15','21:30','21:45','22:00','22:15','22:30','22:45','23:00','23:15','23:30','23:45','24:00'];
-  ShiftTimings(shiftDays) {
-    let arr = new FormArray([])
-    shiftDays.forEach(data => {
-      arr.push(this.fb.group({
-        day_of_week: [data.day_of_week],
-        name: [data.name],
-        start_time: ['00:00'],
-        end_time: ['00:00'],
-        store_id: [data.store_id],
-        isSelected: [false]
-      }));
-    })
-    return arr;
-  }
-
-  shiftDays = [
-    { "day_of_week": 1, "name": "Sunday", "start_time": "", "end_time": "", "store_id":"", isSelected: false },
-    { "day_of_week": 2, "name": "Monday", "start_time": "", "end_time": "", "store_id":"", isSelected: false },
-    { "day_of_week": 3, "name": "Tuesday", "start_time": "", "end_time": "", "store_id":"", isSelected: false },
-    { "day_of_week": 4, "name": "Wednesday", "start_time": "", "end_time": "", "store_id":"", isSelected: false },
-    { "day_of_week": 5, "name": "Thursday", "start_time": "", "end_time": "", "store_id":"", isSelected: false },
-    { "day_of_week": 6, "name": "Friday", "start_time": "", "end_time": "", "store_id":"", isSelected: false },
-    { "day_of_week": 7, "name": "Saturday", "start_time": "", "end_time": "", "store_id":"", isSelected: false },
-  ]
-
-  shiftTime: any = []
-  public shiftFormsubmit: boolean = false;
-  public checkedDays: any;
-  public err: boolean = true;
-  public records: boolean = false;
-  AddShiftTime() {
-    this.shiftFormsubmit = true;
-    this.records = false;
-    this.from = this.shiftForm.controls['start_time'].value;
-    this.to = this.shiftForm.controls['end_time'].value;
-    this.checkedDays = Boolean(_.find(this.shiftForm.controls['shift'].value,(data:any)=> data.isSelected));
-
-    if (this.shiftForm.valid) {
-    this.shiftForm.controls['shift'].value.map(item => item).filter(item => {
-      if (item.isSelected) {
-        
-        item.start_time = this.shiftForm.controls['start_time'].value
-        item.end_time = this.shiftForm.controls['end_time'].value
-        item.store_id = this.shiftForm.controls['store_id'].value.store_id
-        item.store_name = this.shiftForm.controls['store_id'].value.name
-
-        this.err = true;
-        if (this.shiftTime.find(data => data.day_of_week == item.day_of_week)) {
-          this.shiftTime.map(data => {
-            if (data.day_of_week == item.day_of_week) {
-              if(data.store_id == item.store_id){
-                /* update the time */
-                data.start_time = item.start_time;
-                data.end_time = item.end_time;
-                data.store_id = item.store_id;
-                data.store_name = item.store_name;
-                this.shiftFormsubmit = false;
-                this.records = true;
-                //this.shiftForm.reset();
-                this.err = false;
-                /* update the time */
-                
-              }else{
-                if(data.start_time == item.start_time){
-                  if(data.end_time == item.end_time){
-                    this.shift_error = 'Employee is already occupied for this time with another Store!!';
-                    this.err = false;
-                  }else{
-                    this.shift_error = 'Employee is already occupied for this  start time with another Store!!';
-                    this.err = false;
-                  }
-                }else{
-                  if(data.end_time == item.end_time){
-                    this.shift_error = 'The end time is already selected for another store';
-                    this.err = false;
-                  }else{
-                    if(item.start_time < data.end_time){
-                      if(item.start_time > data.start_time){
-                        this.shift_error = 'Invalid range selected';
-                        this.err = false;
-                      }else if(item.start_time < data.start_time){
-                        
-                        if(item.end_time > data.start_time){
-                          this.shift_error = 'Invalid range selected';
-                          this.err = false;
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          })
-          /* push data to array */
-          if(this.err){
-            this.shiftTime.push(item);
-            this.dynamicHeight = this.shiftTime.length < 12 ? ((this.shiftTime.length + 1) * 48 + 10) + "px" : '';
-            this.shift_error = "";
-            this.shiftFormsubmit = false;
-            //this.shiftForm.reset();
-            this.records = true;
-            this.shiftForm.controls['shift'].setValue(this.shiftDays);
-          }
-          /* push data to array */
-        }
-        else {
-          this.shiftTime.push(item)
-          this.dynamicHeight = this.shiftTime.length < 12 ? ((this.shiftTime.length + 1) * 48 + 10) + "px" : '';
-          this.shiftFormsubmit = false;
-          this.shift_error = "";
-          this.records = true;
-        }
+  selected(event: MatAutocompleteSelectedEvent): void {
+    const selectedEntity = this.allTagEntities.find(entity => entity.variant_name == event.option.value);
+    this.tagEntityCtrl.setValue(null);
+    if(selectedEntity){
+      const entityExists = this.tempEntityArray.find(entity => entity.variant_id == selectedEntity.variant_id)
+      if(entityExists){
+        return
       }
-    })
-    this.shiftTime = [...this.shiftTime];
-    //this.shiftFormsubmit = false;
-    //this.shiftForm.reset();
-    // this.shiftForm.controls['start_time'].setValue('')
-    // this.shiftForm.controls['end_time'].setValue('')
-    if(this.records){
-      this.shiftForm.reset();
+      const tempObj = {
+        tag_id: this.selectedTag.id,
+        tag_name: this.selectedTag.tag_name,
+        variant_id: selectedEntity.variant_id,
+        variant_name : selectedEntity.variant_name,
+        type: this.selectedTag.type,
+      }
+      this.tempEntityArray.push(tempObj)
+    } 
+
+  }
+
+  private _filter(value: string): string[] {
+    if(typeof value == 'string'){
+    const filterValue = value?.toLowerCase();
+    return this.allTagEntities.filter(tagEntity => tagEntity['variant_name'].toLowerCase().includes(filterValue));
     }
-    this.shiftForm.controls['shift'].setValue(this.shiftDays);
-    }
-  }
-
-  DeleteStoreTime(index) {
-    this.shiftTime.splice(index, 1);
-    this.shiftTime = [...this.shiftTime];
-    this.dynamicHeight = this.shiftTime.length < 12 ? ((this.shiftTime.length + 1) * 48 + 10) + "px" : '';
-  }
-  /* Shift Timing */
-
-  /* canDeactivate code */
-  async canDeactivate() {
-    var result_dt = await this.getConfirmData();
-    if (Boolean(result_dt)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  async getConfirmData(): Promise<any> {
-
-    let filled_data = 0;
-    if(this.form.dirty){
-      filled_data = 1;
-    }
-
-    if (filled_data && !this.form.valid) {
-      return this.utility.confirmDialog({ title: 'Please confirm the action', message: 'Are you sure you\'d like to leave the page? You\'ll lose all your progress?', okButton: 'LEAVE', cancelButton: 'CANCEL' }).toPromise();
-    } else {
-      return true;
-    }
-  }
-
-  selectEvent(event){
-    this.form.get('city_id').setValue(event);
-  }
-
-  onFocused(event){
-    console.log(event.target.value, 'event from onfocused event function')
-  }
-  /* canDeactivate code */
-
-  viewOnly(){
-    this.customerInfo = false;
-    this.form.disable();
-  }
-  isEditable(){
-    this.viewOnly();
-    this.customerInfo = true;
-    this.form.enable();
   }
 }

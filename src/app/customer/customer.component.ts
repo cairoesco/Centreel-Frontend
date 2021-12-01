@@ -76,6 +76,7 @@ export class CustomerComponent implements OnInit {
     params.pageIndex = this.pageIndex
     this.customerService.GetCustomerList(params)
       .subscribe((response: any) => {
+
         this.inProgress = false;
         if (response.success) {
           this.Users = response.data;

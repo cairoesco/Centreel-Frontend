@@ -62,6 +62,7 @@ export class EditCustomerComponent implements OnInit {
   public tags: boolean = false;
   public licenceInfo: boolean = false;
   public storeInfo: boolean = false;
+  public showExtraCardInfo: boolean = false;
   public cityList: any;
   public rawDetail: any;
   public uploadedDocName: any = "";
@@ -70,6 +71,7 @@ export class EditCustomerComponent implements OnInit {
   public to: any;
   public shift_error: string;
   public genderArr: any;
+  public patientTypeArr: any;
   public cardTypeArr: any;
   public IDCardArr: any;
   public countryArr: any;
@@ -419,6 +421,15 @@ export class EditCustomerComponent implements OnInit {
   countryDisplay(country?: any): string | undefined {
     return country ? country.location_name : undefined;
   }
+  handleShowExtraCardInfo(evt){
+    console.log(evt, 'evt evt evt evt evt')
+    if(evt == 1){
+      this.showExtraCardInfo = true;
+    } else {
+      this.showExtraCardInfo = false;
+    }
+    
+  }
   ngOnInit() {
     // this.getRawDetails();
     this.genderArr = [
@@ -433,6 +444,21 @@ export class EditCustomerComponent implements OnInit {
       {
         gender: 'Others',
         gender_id: 2
+      },
+    ];
+
+    this.patientTypeArr = [
+      {
+        patient_type: 'Consumer',
+        patient_type_id: 0
+      },
+      {
+        patient_type: 'Caregiver',
+        patient_type_id: 1
+      },
+      {
+        patient_type: 'Patient',
+        patient_type_id: 2
       },
     ];
 

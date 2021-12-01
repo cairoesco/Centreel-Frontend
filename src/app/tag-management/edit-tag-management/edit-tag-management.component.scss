@@ -76,3 +76,17 @@
   justify-content: space-around;
 
 }
+
+.removeChipButton{ 
+  position: relative;
+}
+
+.removeChipButtonIcon{
+  position: absolute;
+  top: -5px;
+  left: -5px;
+}
+
+.margintop {
+  margin-top: 10px
+}
