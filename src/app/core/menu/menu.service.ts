@@ -205,7 +205,7 @@ const MENUITEMS_FRANCHISE = [
     method: 'sales',
     children: [
       { state: 'closeout', name: 'Closeout', module: 'reports', method: 'sales' },
-      { state: 'customsales', name: 'Custom sales', module: 'reports', method: 'sales' },
+      // { state: 'customsales', name: 'Custom sales', module: 'reports', method: 'sales' },
       // { state: 'dailyinterim', name: 'Daily interim', module: 'reports', method: 'sales' },
       // { state: 'employee-sales', name: 'Employee Sales', module: 'reports', method: 'sales' },
       // { state: 'inventory', name: 'Inventory Report', module: 'reports', method: 'sales' },
