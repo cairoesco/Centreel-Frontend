@@ -22,7 +22,8 @@ export class InventoryAuditComponent implements OnInit {
   maxDate = moment();
   localconfi: any = { applyLabel: 'ok', separator: ' To ', format: 'DD/MM/YYYY', direction: 'ltr', weekLabel: 'W', cancelLabel: 'Cancel', customRangeLabel: 'Custom range', daysOfWeek: moment.weekdaysMin(), monthNames: moment.monthsShort(), firstDay: moment.localeData().firstDayOfWeek() };
   public dynamicHeight = "";
-  public product_type = [{product_type_slug:'all', product_name: 'All'},{product_type_slug:'cannabis', product_name: 'Cannabis'},{product_type_slug:'non cannabis', product_name: 'Non-Cannabis'},]
+  public product_type = [{product_type_slug:'all', product_name: 'All'},{product_type_slug:'cannabis', product_name: 'Cannabis'},{product_type_slug:'non cannabis', product_name: 'Non-Cannabis'},];
+  public out_of_stock_array = [{value: "1", item: 'Not out of stock'}, {value: "0", item: 'Out of stock'}]
   public export_date: any;
   public date_time: any;
 
@@ -36,10 +37,12 @@ export class InventoryAuditComponent implements OnInit {
    }
 
   ngOnInit() {
+
     this.getFilterData();
     this.reconcile = this.formBuilder.group({
       store_id: [''], 
       product_type: ['cannabis'], 
+      out_of_stock: "0", 
       selected: { start: moment().format('DD/MM/YYYY HH:mm:ss'), end: moment().format('DD/MM/YYYY') }
     });
     this.onChanges();
@@ -47,12 +50,14 @@ export class InventoryAuditComponent implements OnInit {
 
   /* onchange event */
   public param_dt: any;
+  public param_stock: any;
   onChanges() {
     this.inProgress = true;
     // var TZ = this.utils.getTimeZone(); //timezone
     this.reconcile.valueChanges.subscribe(val => {
 
       this.param_dt = '';
+      this.param_stock = '';
       if ( (val.store_id) && (val.store_id) > 0) {
         this.formobj.store_id = JSON.stringify(val.store_id);
       } else {
@@ -66,7 +71,15 @@ export class InventoryAuditComponent implements OnInit {
       } else {
         delete this.formobj.type;
       }
-      let params = 'store_id=' + this.formobj.store_id + this.param_dt; 
+      /* for out of stock */
+      if ((val.out_of_stock)) {
+        console.log(val.out_of_stock)
+        this.formobj.out_of_stock = (val.out_of_stock);
+        this.param_stock =  '&out_of_stock=' + this.formobj.out_of_stock;
+      } else {
+        delete this.formobj.out_of_stock;
+      }
+      let params = 'store_id=' + this.formobj.store_id + this.param_dt + this.param_stock; 
       this.date_time = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
       this.export_date = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('MMMDDYYYY');
       // this.reportService.getReconcileHistoryReport(this.formobj)
