@@ -34,7 +34,7 @@
         <div _ngcontent-c41="" class="button-row">
           <form [formGroup]="reconcile">
             <div class="" fxLayout="row" fxLayoutGap="4%" fxLayoutAlign="left">
-              <div fxFlex="48%">
+              <div fxFlex="30%">
                 <mat-form-field fxFlex="100%">
                   <mat-select [formControl]="reconcile.controls['store_id']" placeholder="Store"
                       [disableOptionCentering]="true">
@@ -43,11 +43,20 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-              <div class="" fxFlex="48%">
+              <div class="" fxFlex="30%">
                 <mat-form-field fxFlex="100%">
                   <mat-select placeholder="Product Type" [disableOptionCentering]="true" [formControl]="reconcile.controls['product_type']">
                     <mat-option *ngFor="let item of product_type" [value]="item.product_type_slug">
                       {{item.product_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="" fxFlex="30%">
+                <mat-form-field fxFlex="100%">
+                  <mat-select placeholder="Out of Stock" [disableOptionCentering]="true" [formControl]="reconcile.controls['out_of_stock']">
+                    <mat-option *ngFor="let item of out_of_stock_array" [value]="item.value">
+                      {{item.item}}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
