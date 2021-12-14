@@ -27,6 +27,13 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-form-field>
+        <mat-label>Parameter Value</mat-label>
+        <mat-select formControlName="parameters" multiple [disableOptionCentering]="true" (selectionChange)="setSelectedChanges($event)">
+        <mat-option *ngFor="let value of parameter_values; let i=index" [value]="value.value">{{value.item}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <!-- (click)="storeTempValue('type')" -->
 
       <mat-form-field>

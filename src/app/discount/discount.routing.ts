@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DiscountComponent } from './discount.component';
 
 // import { AddDiscountComponent } from "./add-discount/add-discount.component";
-// import { EditDiscountComponent} from "./edit-discount/edit-discount.component";
+import { EditDiscountComponent } from "./edit-discount/edit-discount.component";
 
 import { AuthGuardService } from '../session/authguard.service';
 import { CanDeactivateGuard } from '../shared/guard/can-deactivate.guard';
@@ -18,11 +18,11 @@ const routes: Routes =
     //    canDeactivate: [CanDeactivateGuard],
     //    data: { title: 'Create Discount', breadcrumb: {name:'Create Discount',url:"create"} }
     // }, 
-    // {
-    //   path: ':id/view',component: EditDiscountComponent,
-    //   canActivate: [AuthGuardService],
-    //   data: { title: 'View Discount', breadcrumb: {name:'View Discount',url:":id/view"} }
-    // }
+    {
+      path: ':id/view',component: EditDiscountComponent,
+      // canActivate: [AuthGuardService],
+      data: { title: 'View Discount', breadcrumb: {name:'View Discount',url:":id/view"} }
+    }
 
 ];
 

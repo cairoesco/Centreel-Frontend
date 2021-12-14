@@ -34,6 +34,11 @@ export const ReportsRoutes: Routes = [
         data: { title: "Closeout Report" },
       },
       {
+        path: "cogsreport",
+        component: CogsReportComponent,
+        data: { title: "Cogs Report" },
+      },
+      {
         path: "inventory",
         component: InventoryOnHandComponent,
         data: { title: "Inventory Report" },
