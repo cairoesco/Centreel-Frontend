@@ -14,6 +14,9 @@ export class DiscountService {
     DeleteDiscount(discountId) {
         return this.webApi.deletes('discounts', discountId)
     }
+    updateDiscount(discountId, payload){
+        return this.webApi.put(`discounts/${discountId}`, payload)
+    }
     AddNewDiscount(payload) {
         return this.webApi.post('discounts', payload)
     }

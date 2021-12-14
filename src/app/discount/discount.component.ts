@@ -51,9 +51,9 @@ export class DiscountComponent {
            this.discountService.GetDiscountList(response.data[0].store_id)
             .subscribe(( payload: any) => {
               if(payload.success){
-
               this.Discounts = payload.data;
               this.rows = this.Discounts;
+              console.log(this.rows)
               this.dynamicHeight = this.rows.length < 12 ? ((this.rows.length + 1) * 48 + 140) + "px" : '';
              this.temp = this.Discounts;
               }
@@ -133,11 +133,13 @@ export class DiscountComponent {
     });
     dialogRef.afterClosed().subscribe((result: any) => {
       if (Boolean(result)) {
+        console.log(result)
         let filterObject = new Object();
         filterObject['store_id'] = result.store_id?JSON.stringify(result.store_id):'';
         filterObject['type'] = result.type?JSON.stringify(result.type):'';
         filterObject['values'] = result.values?JSON.stringify(result.values):'';
         filterObject['status'] = result.status?JSON.stringify(result.status):'';
+        filterObject['parameters'] = result.parameters?JSON.stringify(result.parameters):'';
 
         this.filter_data = result;
         this.discountService.GetDiscountFilterList(filterObject)

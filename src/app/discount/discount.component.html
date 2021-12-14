@@ -75,6 +75,18 @@
                     </ngx-datatable-column>
 
 
+                    <ngx-datatable-column name="Minimum Quantity" prop="min_qty" [resizeable]="false" [flexGrow]="2">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{row['min_qty'] || 'null'}}
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Product Weight" prop="product_weight" [resizeable]="false" [flexGrow]="2">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{row['product_weight'] || 'null'}}
+                        </ng-template>
+                    </ngx-datatable-column>
+
                     <ngx-datatable-column name="Store Name" prop="storename" [resizeable]="false" [flexGrow]="4">
                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                             {{row['storeName']}}
@@ -96,7 +108,13 @@
                         </ng-template>
                     </ngx-datatable-column>
 
-
+                    <ngx-datatable-column name="View" [sortable]="false" [resizeable]="false"  [flexGrow]="2" >
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <button mat-icon-button [routerLink]="['/discounts', row['discount_id'], 'view']" [state]="{ row: row }">
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                        </ng-template>
+                    </ngx-datatable-column>
                     <!-- <ngx-datatable-column name="View" [sortable]="false" width="70" headerClass="display-none"
                         [resizeable]="false" [flexGrow]="0.5">
                         <ng-template ngx-datatable-header-template>
