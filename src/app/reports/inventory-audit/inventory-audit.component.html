@@ -54,7 +54,7 @@
               </div>
               <div class="" fxFlex="30%">
                 <mat-form-field fxFlex="100%">
-                  <mat-select placeholder="Out of Stock" [disableOptionCentering]="true" [formControl]="reconcile.controls['out_of_stock']">
+                  <mat-select placeholder="Stock" [disableOptionCentering]="true" [formControl]="reconcile.controls['out_of_stock']">
                     <mat-option *ngFor="let item of out_of_stock_array" [value]="item.value">
                       {{item.item}}
                     </mat-option>
