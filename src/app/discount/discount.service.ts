@@ -26,6 +26,9 @@ export class DiscountService {
     GetAddDiscountData() {
         return this.webApi.get(`discount/addDiscountdata`)
     }
+    GetProductDryWeightData(data) {
+        return this.webApi.get(`discount/getProductDryWeight?product_cat_id=${JSON.stringify(data)}`)
+    }
     /* for filter result */
     GetDiscountFilterData() {
         return this.webApi.get(`discount/getfilterdata`)

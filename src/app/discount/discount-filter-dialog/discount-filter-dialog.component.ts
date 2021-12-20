@@ -66,7 +66,6 @@ export class DiscountFilterDialogComponent implements OnInit {
 
 	getRawDetails() {
 		this.api.GetDiscountFilterData().subscribe((response: any) => {
-			console.log(response);
 			if (response.success) {
 				const tempDiscountTypes = [{ value: [], item: "All" }];
 				const tempDiscountValues = [];
@@ -165,8 +164,9 @@ export class DiscountFilterDialogComponent implements OnInit {
 
 	applyFilter() {
 		this.form_obj = this.filterForm.getRawValue();
+	
 		if (!(this.form_obj.store_id && this.form_obj.store_id.length > 0)) {
-			delete this.form_obj.store_id;
+			 this.form_obj.store_id = [this.temp_storeID];
 		}
 
 		if (!(this.form_obj.type && this.form_obj.type.length > 0)) {
@@ -193,43 +193,15 @@ export class DiscountFilterDialogComponent implements OnInit {
 		this.dialogRef.close(this.form_obj);
 	}
 
-	// getRawDetails() {
-	//   this.api.GetDiscountFilterData()
-	//     .subscribe((response: any) => {
-	//       if (response.success) {
-	//         const tempDiscountTypes = [];
-	//         if(response.data.discounts_types.length > 0){
-	//           const tempData = response.data.discounts_types.sort();
-	//           for(let i in tempData){
-
-	//             const obj = {
-	//               item : tempData[i].charAt(0).toUpperCase() + tempData[i].slice(1),
-	//               value: tempData[i]
-	//             }
-	//             tempDiscountTypes.push(obj)
-	//           }
-	//         }
-	//         this.rawDetail = response.data;
-	//         this.stores = response.data.stores;
-	//         this.discount_types = tempDiscountTypes;
-	//         this.discount_value = response.data.discount_values;
-	//       }
-	//     });
-	// }
-
 	close() {
 		this.applyFilter();
-		this.filterForm.reset();
+		// this.filterForm.reset();
 	}
 
 	storeTempValue(name) {
 		if (name === "type") {
 			this.filterForm.controls.type.setValue(this.filterForm.controls.type.value);
 		}
-
-		// return obj[name]
-		//  console.log({name}, "check for the type here line 149")
-		//  console.log(this.filterForm.controls.type.value, 'this.filterForm.controls.type.value.type, this.filterForm.controls.type')
 	}
 
 	setSelectedChanges(evt) {

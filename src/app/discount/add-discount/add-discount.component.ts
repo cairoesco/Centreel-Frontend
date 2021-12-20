@@ -6,6 +6,7 @@ import { DiscountService } from "../discount.service";
 import * as _moment from "moment";
 import { UtilsServiceService } from "../../shared/services/utils-service.service";
 import * as _ from "lodash";
+import { LEFT_ARROW } from "@angular/cdk/keycodes";
 
 @Component({
 	selector: "app-add-discount",
@@ -62,32 +63,6 @@ export class AddDiscountComponent implements OnInit {
 				value: 5,
 			},
 		];
-		this.productWeightArray = [
-			{
-				item: "None",
-				value: "None",
-			},
-			{
-				item: "1G",
-				value: "1G",
-			},
-			{
-				item: "3.5G",
-				value: "3.5G",
-			},
-			{
-				item: "7G",
-				value: "7G",
-			},
-			{
-				item: "14G",
-				value: "14G",
-			},
-			{
-				item: "28G",
-				value: "28G",
-			},
-		];
 		this.discountModeArray = [
 			{
 				value: "$",
@@ -100,7 +75,6 @@ export class AddDiscountComponent implements OnInit {
 		];
 		this.addDiscountForm();
 		this.getRawDetails();
-		if (this.data.fdata) this.discountForm.patchValue(this.data.fdata);
 	}
 
 	handleSelectDiscountType(type) {
@@ -114,7 +88,7 @@ export class AddDiscountComponent implements OnInit {
 			discount_title: ["", [Validators.required]],
 			value: ["", [Validators.required, Validators.min(1)]],
 			discount_type: ["", [Validators.required]],
-			discount_mode: ["", [Validators.required]],
+			discount_mode: ["$", [Validators.required]],
 			parameters: [[], [Validators.required]],
 			min_qty: ["", [Validators.required]],
 			product_Weight: ["", [Validators.required]],
@@ -141,6 +115,9 @@ export class AddDiscountComponent implements OnInit {
 				this.discount_types = tempDiscountTypes;
 				this.tags = response.data.tags;
 				this.categories = response.data.categories;
+				this.discountForm.patchValue({
+					store_id: this.stores[0].store_id,
+				});
 			}
 		});
 	}
@@ -188,5 +165,25 @@ export class AddDiscountComponent implements OnInit {
 	close() {
 		this.discountForm.reset();
 		this.discountDialogRef.close();
+	}
+
+	handleParameterChange(evt) {
+		if (!evt) {
+			this.form_obj = this.discountForm.getRawValue();
+			this.api.GetProductDryWeightData(this.form_obj.parameters).subscribe((response: any) => {
+				if (response.success) {
+					let temp_array = [{ item: "All", value: "all" }];
+					for (const weight in response.data.product_weight) {
+						const obj = {
+							item: response.data.product_weight[weight],
+							value: response.data.product_weight[weight],
+						};
+						temp_array.push(obj);
+					}
+					this.productWeightArray = temp_array;
+					temp_array = [];
+				}
+			});
+		}
 	}
 }
