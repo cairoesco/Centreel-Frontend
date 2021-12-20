@@ -35,7 +35,6 @@
 				<mat-error *ngIf="discountForm.controls['value'].hasError('min')" class="mat-text-warn"> Please enter a positive number </mat-error>
 			</mat-form-field>
 
-
 			<mat-form-field>
 				<mat-label>Discount Mode</mat-label>
 				<mat-select formControlName="discount_mode" [disableOptionCentering]="true">
@@ -68,7 +67,7 @@
 
 			<mat-form-field *ngIf="selectedDiscountType == 'category'">
 				<mat-label>Discount Parameters</mat-label>
-				<mat-select formControlName="parameters" multiple [disableOptionCentering]="true">
+				<mat-select formControlName="parameters" multiple (openedChange)="handleParameterChange($event)" [disableOptionCentering]="true">
 					<mat-option *ngFor="let category of categories; let i = index" [value]="category.product_category_id">
 						{{ category.product_category_name }}
 					</mat-option>
@@ -76,7 +75,7 @@
 				<mat-error *ngIf="discountForm.controls['parameters'].hasError('required')" class="mat-text-warn"> Please select one </mat-error>
 			</mat-form-field>
 
-			<mat-form-field>
+			<mat-form-field *ngIf="selectedDiscountType == 'category'">
 				<mat-label>Minimum Quantity</mat-label>
 				<mat-select formControlName="min_qty" [disableOptionCentering]="true">
 					<mat-option *ngFor="let value of minQtyArray; let i = index" [value]="value.value">
@@ -85,8 +84,8 @@
 				</mat-select>
 			</mat-form-field>
 
-			<mat-form-field>
-				<mat-label>Prdouct Weight</mat-label>
+			<mat-form-field *ngIf="selectedDiscountType == 'category' && productWeightArray.length > 0">
+				<mat-label>Product Weight</mat-label>
 				<mat-select formControlName="product_Weight" [disableOptionCentering]="true">
 					<mat-option *ngFor="let value of productWeightArray; let i = index" [value]="value.value">
 						{{ value.item }}
