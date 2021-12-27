@@ -150,6 +150,18 @@
                 <button mat-menu-item [routerLink]="['/customer', row['patient_id'], 'view']">
                   <span>View Customer</span>
                 </button>
+                <button [disabled]='0' mat-menu-item>
+                  <span>View Sales History</span>
+                </button>
+                <button mat-menu-item (click)="customerPreferredProducts(row.patient_id)">
+                  <span>View Preffered Products</span>
+                </button>
+                <button [disabled]='0' mat-menu-item>
+                  <span>Send Email</span>
+                </button>
+                <button [disabled]='0' mat-menu-item>
+                  <span>Request Account Removal</span>
+                </button>
               </mat-menu>
             </ng-template>
           </ngx-datatable-column>
