@@ -25,8 +25,10 @@ export class CustomerComponent implements OnInit {
   public expandedall: boolean = false;
   public dynamicHeight = "";
   public totalCount = 0;
-  public pageSize: any = 20;
-  public pageIndex: any = 0;
+  public pageSize: any = 30;
+  public page: any = 1;
+  public store_id: any;
+  public fetchNext: boolean = false;
 
   readonly headerHeight = 50;
   readonly rowHeight = 50;
@@ -40,19 +42,25 @@ export class CustomerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.GetUsers();
+    this.customerService.GetStores().subscribe((response: any) => {
+      this.store_id = response.data[0].store_id
+      this.GetUsers();
+    })
+   
   }
 
   /******************* LIST CUSTOMERS *******************/
   
   scrollEnable : boolean = false;
   onScroll(offsetY: number) {
+    
     if(this.rows.length !== this.totalCount){
     const viewHeight = this.el.nativeElement.getBoundingClientRect().height - this.headerHeight;
     if((offsetY + viewHeight) >= (this.rows.length * this.rowHeight)){
       if(!this.scrollEnable){
         this.scrollEnable = true;
-        this.pageIndex = this.pageIndex + 1;
+        if(!this.fetchNext) return;
+        this.page = this.page + 1;
         this.GetUsers()
       }
     }
@@ -72,17 +80,24 @@ export class CustomerComponent implements OnInit {
         }
       })
     }
-    params.pageSize = this.pageSize
-    params.pageIndex = this.pageIndex
+    params.per_page = this.pageSize
+    params.page = this.page
+    params.store_id = this.store_id
+    params.platform = 'web'
     this.customerService.GetCustomerList(params)
       .subscribe((response: any) => {
-
         this.inProgress = false;
         if (response.success) {
-          this.Users = response.data;
+          let userPayload;
+          if(params.isFiltered){
+            userPayload = [...response?.data?.data]
+          } else {
+            userPayload = [...this.rows, ...response?.data?.data]
+          }
+          this.fetchNext = response.data.next_page_url ? true : false;
+          this.Users = userPayload;
           this.totalCount = response.total_count;
-          // this.Users = response.data.data;
-          this.rows = [...this.rows, ...this.Users];
+          this.rows = userPayload;
           this.dynamicHeight = this.rows.length < 12 ? ((this.rows.length + 1) * 48 + 140) + "px" : '';
           this.temp = this.Users;
         }
@@ -91,17 +106,12 @@ export class CustomerComponent implements OnInit {
   }
 
   applyFilter(filterValue: string) {
-    const val = filterValue.toLowerCase();
-    // filter our data
-    const temp = this.temp.filter(function (d) {
-      return d.customer_name.toLowerCase().indexOf(val) !== -1 || !val;
-    });
-    // update the rows
-    this.rows = temp;
-    this.dynamicHeight = this.rows.length < 12 ? ((this.rows.length + 1) * 48 + 140) + "px" : '';
-    // Whenever the filter changes, always go back to the first page
-    if (this.rows.length > 0 && this.table)
-      this.table.offset = 0;
+    const val = filterValue;
+    const params = {
+      search: val,
+      isFiltered: true
+    }
+    val ? this.GetUsers(params) : this.GetUsers();
   }
 
   toggleExpandRow(row) {
@@ -189,6 +199,7 @@ export class CustomerComponent implements OnInit {
             delete result[key];
           }
         })
+        result.isFiltered = true
         this.GetUsers(result)
       }
     });

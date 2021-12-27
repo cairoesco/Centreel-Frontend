@@ -13,6 +13,10 @@ export class CustomerService {
     AddCustomer(params) {
         return this.webApi.post('patients', params)
     }
+
+    editCustomer(patient_id, params) {
+        return this.webApi.post(`patients/${patient_id}`, params)
+    }
     getRawDetail() {
         return this.webApi.get('users/create');
     }
@@ -25,6 +29,9 @@ export class CustomerService {
 
     getCustomerPreferredProductList(id) {
         return this.webApi.get('patients/'+id+'/product')
+    }
+    GetStores() {
+        return this.webApi.get('stores')
     }
 
 }
