@@ -9,6 +9,15 @@
 <form [formGroup]="discountForm" (ngSubmit)="addNewDiscount()">
 	<mat-dialog-content class="mat-typography">
 		<div fxLayout="row wrap" fxLayoutGap="20px">
+
+			<mat-form-field>
+				<mat-label>Discount Title</mat-label>
+				<input matInput placeholder="Discount Title*" formControlName="discount_title" autocomplete="off" />
+				<mat-error *ngIf="discountForm.controls['discount_title'].hasError('required')" class="mat-text-warn">
+					Please enter discount title or description
+				</mat-error>
+			</mat-form-field>
+
 			<mat-form-field>
 				<mat-label>Select Store</mat-label>
 				<mat-select formControlName="store_id" [disableOptionCentering]="true">
@@ -18,19 +27,10 @@
 				</mat-select>
 				<mat-error *ngIf="discountForm.controls['store_id'].hasError('required')" class="mat-text-warn"> Please select a store </mat-error>
 			</mat-form-field>
-			<mat-form-field>
-				<mat-label>Discount Title</mat-label>
-				<input matInput placeholder="Discount Title*" formControlName="discount_title" autocomplete="off" />
-
-				<mat-error *ngIf="discountForm.controls['discount_title'].hasError('required')" class="mat-text-warn">
-					Please enter discount title or description
-				</mat-error>
-			</mat-form-field>
-
+		
 			<mat-form-field>
 				<mat-label>Discount value</mat-label>
 				<input matInput placeholder="Discount Value*" type="number" min="0" formControlName="value" autocomplete="off" />
-
 				<mat-error *ngIf="discountForm.controls['value'].hasError('required')" class="mat-text-warn"> Please enter a specific value </mat-error>
 				<mat-error *ngIf="discountForm.controls['value'].hasError('min')" class="mat-text-warn"> Please enter a positive number </mat-error>
 			</mat-form-field>

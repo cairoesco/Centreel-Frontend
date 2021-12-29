@@ -115,22 +115,35 @@
 										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
 											<div fxFlex="50%">
 												<mat-form-field fxFlex="100%">
-													<input [readonly]="!addNewEntry" matInput placeholder="Discount Type*" formControlName="discount_type" autocomplete="off" />
+													<input [readonly]="true" matInput placeholder="Discount Type*" formControlName="discount_type" autocomplete="off" />
 												</mat-form-field>
 											</div>
 
-											<div fxFlex="50%">
+											<div *ngIf="discountType == 'category' " fxFlex="50%">
 												<mat-form-field fxFlex="100%">
 													<mat-select
-														[(value)]="defaultParameters"
 														placeholder="Parameters"
 														formControlName="parameters"
 														[disableOptionCentering]="true"
 														multiple
-														
 													>
-														<mat-option [disabled]="!addNewEntry" *ngFor="let param of DiscounParametersArray" [value]="param.cat_id">
-															{{ param.name }}
+														<mat-option  [disabled]="!addNewEntry" *ngFor="let param of allCategoryArray" [value]="param.product_category_id">
+															{{ param.product_category_name }}
+														</mat-option>
+													
+													</mat-select>
+												</mat-form-field>
+											</div>
+											<div *ngIf="discountType == 'tag' " fxFlex="50%">
+												<mat-form-field fxFlex="100%">
+													<mat-select
+														placeholder="Parameters"
+														formControlName="parameters"
+														[disableOptionCentering]="true"
+														multiple
+													>
+														<mat-option [disabled]="!addNewEntry" *ngFor="let param of allTagsArray" [value]="param.id">
+															{{ param.tag_name }}
 														</mat-option>
 													</mat-select>
 												</mat-form-field>
@@ -146,13 +159,27 @@
 
 											<div fxFlex="50%">
 												<mat-form-field fxFlex="100%">
-													<input [readonly]="!addNewEntry" matInput placeholder="Minimum Quantity" formControlName="min_qty" autocomplete="off" />
+													<mat-select
+														placeholder="Discount Mode"
+														formControlName="discount_mode"
+														[disableOptionCentering]="true"
+														
+													>
+														<mat-option [disabled]="!addNewEntry" *ngFor="let value of discountModeArray;" [value]="value.value">
+															{{ value.item  }}
+														</mat-option>
+													</mat-select>
 												</mat-form-field>
 											</div>
 										</div>
 
 										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
-											<div fxFlex="100%">
+											<div fxFlex="50%">
+												<mat-form-field fxFlex="100%">
+													<input [readonly]="!addNewEntry" matInput type="number" min="0" placeholder="Minimum Quantity" formControlName="min_qty" autocomplete="off" />
+												</mat-form-field>
+											</div>
+											<div *ngIf="discountType == 'category' " fxFlex="50%">
 												<mat-form-field fxFlex="100%">
 													<input [readonly]="!addNewEntry" matInput placeholder="Product Weight*" formControlName="product_weight" autocomplete="off" />
 												</mat-form-field>
