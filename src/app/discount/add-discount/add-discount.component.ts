@@ -64,10 +64,10 @@ export class AddDiscountComponent implements OnInit {
 			},
 		];
 		this.discountModeArray = [
-			{
-				value: "$",
-				item: "Amount ($)",
-			},
+			// {
+			// 	value: "$",
+			// 	item: "Amount ($)",
+			// },
 			{
 				item: "Percentage (%)",
 				value: "%",
