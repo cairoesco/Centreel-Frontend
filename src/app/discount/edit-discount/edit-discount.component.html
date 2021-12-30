@@ -51,9 +51,9 @@
 									</button>
 								</h2>
 								<mat-card class="mat-content-padding body-card-block card_container">
-									<mat-card-title>
+									<!-- <mat-card-title>
 										<h3>General</h3>
-									</mat-card-title>
+									</mat-card-title> -->
 									<mat-card-content>
 										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
 											<div fxFlex="75%">
@@ -108,9 +108,9 @@
 									</button>
 								</h2>
 								<mat-card class="mat-content-padding body-card-block card_container">
-									<mat-card-title>
+									<!-- <mat-card-title>
 										<h3>Condition</h3>
-									</mat-card-title>
+									</mat-card-title> -->
 									<mat-card-content>
 										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
 											<div fxFlex="50%">
@@ -181,7 +181,7 @@
 											</div>
 											<div *ngIf="discountType == 'category' " fxFlex="50%">
 												<mat-form-field fxFlex="100%">
-													<input [readonly]="!addNewEntry" matInput placeholder="Product Weight*" formControlName="product_weight" autocomplete="off" />
+													<input [readonly]="!addNewEntry" matInput type="number" min="0" placeholder="Product Weight*" formControlName="product_weight" autocomplete="off" />
 												</mat-form-field>
 											</div>
 										</div>

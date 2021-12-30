@@ -185,6 +185,7 @@ export class EditDiscountComponent implements OnInit {
 
 		this.discountService.updateDiscount(this.discount_id, payload).subscribe((response: any) => {
 			if (response.success) {
+				this.utility.showSnackBar(response.message);
 			}
 		});
 		this.inProgress = false;
@@ -239,10 +240,10 @@ export class EditDiscountComponent implements OnInit {
 			},
 		];
 		this.discountModeArray = [
-			{
-				value: "$",
-				item: "Amount ($)",
-			},
+			// {
+			// 	value: "$",
+			// 	item: "Amount ($)",
+			// },
 			{
 				value: "%",
 				item: "Percentage (%)",
