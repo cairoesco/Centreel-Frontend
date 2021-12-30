@@ -11,6 +11,9 @@ export class DiscountService {
     GetDiscountList(store_id) {
         return this.webApi.get(`discounts?store_id=${store_id}`)
     }
+    GetSingleDiscount(discount_id) {
+        return this.webApi.get(`discounts/${discount_id}`)
+    }
     DeleteDiscount(discountId) {
         return this.webApi.deletes('discounts', discountId)
     }
