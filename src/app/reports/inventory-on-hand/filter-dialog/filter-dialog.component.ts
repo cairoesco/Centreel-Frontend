@@ -29,7 +29,7 @@ export class FilterDialogComponent implements OnInit {
     public reportService: ReportService,
     public dialogRef: MatDialogRef<FilterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public fb: FormBuilder) {
     this.inventory_report = this.formBuilder.group({
-      product_type: ['non cannabis'],
+      product_type: ['all'],
       store_id: [this.data.fdata.store_id],
       has_stock: [false],
     });
@@ -57,7 +57,7 @@ export class FilterDialogComponent implements OnInit {
 
   close() {
     this.inventory_report.controls.store_id.setValue(this.storeList[0].store_id);
-    this.inventory_report.controls.product_type.setValue('non cannabis');
+    this.inventory_report.controls.product_type.setValue('all');
     this.inventory_report.controls.has_stock.setValue(false);
     this.applyFilter();
   }

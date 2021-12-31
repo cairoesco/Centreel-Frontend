@@ -33,10 +33,10 @@ export class InventoryOnHandComponent implements OnInit {
 
   ngOnInit() {
     this.inventory_report = this.formBuilder.group({
-      product_type: ['non cannabis'],
+      product_type: ['all'],
       store_id: [''],
-      is_club: [1],
-      has_stock: [false],
+      is_club: [],
+      has_stock: [1],
     });
     this.getStores();
   }
