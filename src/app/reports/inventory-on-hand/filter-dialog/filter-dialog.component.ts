@@ -31,7 +31,7 @@ export class FilterDialogComponent implements OnInit {
     this.inventory_report = this.formBuilder.group({
       product_type: ['all'],
       store_id: [this.data.fdata.store_id],
-      has_stock: [false],
+      has_stock: [1],
     });
   }
 
@@ -58,7 +58,7 @@ export class FilterDialogComponent implements OnInit {
   close() {
     this.inventory_report.controls.store_id.setValue(this.storeList[0].store_id);
     this.inventory_report.controls.product_type.setValue('all');
-    this.inventory_report.controls.has_stock.setValue(false);
+    this.inventory_report.controls.has_stock.setValue(1);
     this.applyFilter();
   }
 }
