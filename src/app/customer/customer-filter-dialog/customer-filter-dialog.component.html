@@ -47,6 +47,18 @@
         </mat-form-field>
       </div>
     </div>
+    <div fxLayout="row wrap" fxLayoutGap="5%">
+      <div fxFlex="47.5">
+        <mat-form-field fxFlex="100">
+          <mat-select placeholder="Queue" [multiple]="false" [disableOptionCentering]="true"
+            formControlName="queue_status">
+            <mat-option *ngFor="let queue of queues_array" [value]="queue.value">
+              {{queue.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
   </mat-dialog-content>
   <mat-dialog-actions align="start" class="mat-dialog-footer-custom">
     <button type="submit" class="ok-button" mat-raised-button color="primary">APPLY FILTERS</button>

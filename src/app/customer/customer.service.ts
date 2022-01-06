@@ -33,5 +33,12 @@ export class CustomerService {
     GetStores() {
         return this.webApi.get('stores')
     }
+    updateCustomerQueue(queue_status, customer_id, store_id) {
+        return this.webApi.post(`patients/${customer_id}/updateQueueStatus?queue_status=${queue_status}&store_id=${store_id}`, {})
+    }
+    filterCustomerQueue(params) {
+        return this.webApi.get(`patients`, params)
+    }
+
 
 }
