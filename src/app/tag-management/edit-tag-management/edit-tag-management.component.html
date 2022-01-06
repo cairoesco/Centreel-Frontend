@@ -1,0 +1,332 @@
+<form [formGroup]="tagForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+  <mat-card class="header-main-content">
+    <div fxLayout="row">
+      <div fxFlex="25%" class="breadcrumb-content">
+        <mat-icon [routerLink]="['/tag-management']" class="material-icons">
+          keyboard_arrow_left
+        </mat-icon>
+        <label class="lable">
+          <a class="label" [routerLink]="['/tag-management']">Tag Management</a>
+        </label>
+      </div>
+      <div fxFlex="50%" class="breadcrumb-header-content">View Tag</div>
+      
+      <!-- <div fxFlex="25%" class="breadcrumb-btn-content button_wrapper">
+        <mat-bar-button [options]="barButtonOptions">
+          <button
+            mat-button
+            matSuffix
+            mat-stroked-button
+            class="add-new-btn"
+            type="submit"
+          >
+            <a class="add-new-label">SAVE ALL</a>
+          </button>
+        </mat-bar-button>
+      </div> -->
+
+    </div>
+  </mat-card>
+
+  <mat-tab-group [selectedIndex]="utility.indexofTab" class="custom-tab">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utility.scrollTo('section1')">General</p>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utility.scrollTo('section2')">Entities</p>
+      </ng-template>
+    </mat-tab>
+    <!-- <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utility.scrollTo('section3')">ID CARD DETAILS</p>
+      </ng-template>
+    </mat-tab> -->
+  </mat-tab-group>
+
+  <div class="main-div-container">
+    <div fxLayout="row">
+      <div
+        fxFlex="100"
+        class="scroll-container fancyscroll"
+        id="parentDiv"
+        scrollSpy
+        [spiedTags]="['DIV']"
+        (sectionChange)="utility.onScrollContent($event)"
+        [style.height.px]="innerHeight"
+      >
+        <div id="section1">
+          <div
+            class="section-content"
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayoutWrap
+            fxLayoutGap="0.5%"
+            fxLayoutAlign="center"
+          >
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0"></div>
+            <div fxFlex="100" fxFlex.sm="100" fxFlex.md="100">
+              <!-- main content -->
+              <div class="">
+                <h2 layout-margin>General
+                  <span fxFlex></span>
+                  <button class="btn-edit" *ngIf="!isEditing" (click)="isEditable()">
+                    <mat-icon class="material-icons pointer">edit</mat-icon>
+                  </button>
+                  <button class="btn-edit" *ngIf="isEditing" (click)="viewOnly()">
+                    <mat-icon class="material-icons pointer">visibility</mat-icon>
+                  </button>
+                </h2>
+                <mat-card class="mat-content-padding body-card-block card_container">
+                  <mat-card-title>
+                    <h3>General</h3>
+                  </mat-card-title>
+                  <mat-card-content>
+                    <div
+                      class=""
+                      fxLayout="row"
+                      fxLayout.xs="column"
+                      fxLayoutWrap
+                      fxLayoutGap="0.5%"
+                      fxLayoutAlign="center"
+                    >
+
+                      <div fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input
+                            disabled="!isEditing"
+                            matInput
+                            placeholder="Tag Name*"
+                            formControlName="tag_name"
+                            autocomplete="off"
+                          />
+
+                          <mat-error
+                            *ngIf="
+                              tagForm.controls['tag_name'].hasError(
+                                'required'
+                              )
+                            "
+                            class="mat-text-warn"
+                          >
+                            Please enter your first name
+                          </mat-error>
+                          <mat-error
+                            *ngIf="
+                              tagForm.controls['tag_name'].hasError(
+                                'minlength'
+                              ) && tagForm.controls['tag_name'].touched
+                            "
+                            class="mat-text-warn"
+                            >Your first name must be at least 5 characters
+                            long</mat-error
+                          >
+                          <mat-error
+                            *ngIf="
+                              tagForm.controls['tag_name'].hasError(
+                                'maxlength'
+                              ) && tagForm.controls['tag_name'].touched
+                            "
+                            class="mat-text-warn"
+                            >Tag name cannot be empty</mat-error
+                          >
+                        </mat-form-field>
+                      </div>
+
+                      <div fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input
+                            matInput
+                            placeholder="Source"
+                            formControlName="source"
+                            autocomplete="off"
+                            disabled
+                            [readonly]="true"
+                          />
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div
+                      class=""
+                      fxLayout="row"
+                      fxLayout.xs="column"
+                      fxLayoutWrap
+                      fxLayoutGap="0.5%"
+                      fxLayoutAlign="center"
+                    >
+                      <div fxFlex="100%">
+                        <mat-form-field fxFlex="100%">
+                          <mat-select
+                          [(value)] = "defaultStatus"
+                          placeholder="Status*"
+                          formControlName="status"
+                          [disableOptionCentering]="true"
+                        >
+                          <mat-option *ngFor="let status of TagStatusArray" [value]="status.status_id">
+                            {{ status.status }}
+                          </mat-option>
+                        </mat-select>
+                          
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div
+                      class=""
+                      fxLayout="row"
+                      fxLayout.xs="column"
+                      fxLayoutWrap
+                      fxLayoutGap="5%"
+                      fxLayoutAlign="center"
+                    >
+                    <div fxFlex="80%" class="breadcrumb-btn-content button_wrapper" *ngIf="isEditing">
+                      <!-- <mat-bar-button [options]="barSaveTagButtonOptions"> -->
+                        <button
+                          mat-button
+                          matSuffix
+                          mat-stroked-button
+                          class="add-new-btn"
+                          type="button"
+                          (click)="handleOnSubmitGeneralEdit()"
+                        >
+                          <a class="add-new-label">SAVE CHANGES</a>
+                        </button>
+                      <!-- </mat-bar-button> -->
+                    </div>
+                    </div>
+
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20"></div>
+          </div>
+        </div>
+
+         <div id="section2">
+          <div
+            class="section-content"
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayoutWrap
+            fxLayoutGap="0.5%"
+            fxLayoutAlign="center"
+          >
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0"></div>
+
+            <div fxFlex="100" fxFlex.sm="100" fxFlex.md="100">
+            
+              <div class="">
+                <h2 layout-margin>Entities 
+                  <span fxFlex></span>
+                  <button class="btn-edit" *ngIf="!addNewEntry" (click)="handleAddNewEntry(true)">
+                    <mat-icon class="material-icons pointer">edit</mat-icon>
+                  </button>
+                  <button class="btn-edit" *ngIf="addNewEntry" (click)="handleAddNewEntry(false)">
+                    <mat-icon class="material-icons pointer">visibility</mat-icon>
+                  </button>
+                  
+                </h2>
+                <mat-card class="mat-content-padding body-card-block card_container">
+                  <mat-card-title>
+                    <h3>Entities</h3>
+                  </mat-card-title>
+
+                  <mat-card-content>
+                    <div
+                      class=""
+                      fxLayout="row"
+                      fxLayout.xs="column"
+                      fxLayoutWrap
+                      fxLayoutGap="0.5%"
+                      fxLayoutAlign="center"
+                    >
+
+                    <div fxFlex="100%" *ngIf="addNewEntry">
+                      <mat-form-field fxFlex="100%">
+                        <input
+                        matInput
+                        placeholder="New entity..."
+                        #tagEntityInput
+                        [formControl]="tagEntityCtrl"
+                        [matAutocomplete]="auto"
+                        [matChipInputFor]="chipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        (matChipInputTokenEnd)="add($event)" />
+
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                          <mat-option *ngFor="let tagEntity of filteredTagEntities | async" [value]="tagEntity.variant_name">
+                            {{tagEntity.variant_name}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field> 
+                    </div>
+                  </div>
+
+                  <div
+                      class=""
+                      fxLayout="row"
+                      fxLayout.xs="column"
+                      fxLayoutWrap
+                      fxLayoutGap="0.5%"
+                      fxLayoutAlign="center"
+                    >
+                    <div fxFlex="100%">
+                       
+                          <mat-chip-list #chipList aria-label="Tag Entity selection">
+                            <mat-chip
+                              *ngFor="let tagEntity of tempEntityArray"
+                              [selectable]="selectable"
+                              [removable]="addNewEntry"
+                              (removed)="remove(tagEntity)">
+                              {{tagEntity.variant_name}}
+                              <button class="removeChipButton" matChipRemove *ngIf="addNewEntry">
+                                <mat-icon class="removeChipButtonIcon">cancel</mat-icon>
+                              </button>
+                            </mat-chip>
+                           
+                          </mat-chip-list>
+                      </div>
+                    </div>   
+
+                  <div
+                      class="margintop"
+                      fxLayout="row"
+                      fxLayout.xs="column"
+                      fxLayoutWrap
+                      fxLayoutGap="5%"
+                      fxLayoutAlign="center"
+                    >
+                    <!-- <div fxFlex="80%" *ngIf="addNewEntry"> -->
+                       
+                      <div fxFlex="80%" class="breadcrumb-btn-content button_wrapper" *ngIf="addNewEntry">
+                        <!-- <mat-bar-button [options]="barAddTagEntitiesButtonOptions"> -->
+                          <button
+                            mat-button
+                            matSuffix
+                            mat-stroked-button
+                            class="add-new-btn"
+                            type="button"
+                            (click)="handleOnSubmitGeneralEdit()"
+                          >
+                            <a class="add-new-label">ADD ENTITIES</a>
+                          </button>
+                        <!-- </mat-bar-button> -->
+                    <!-- </div> -->
+                      </div>
+                    </div>                   
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20"></div>
+          </div>
+        </div> 
+      
+      </div>
+    </div>
+  </div>
+</form>

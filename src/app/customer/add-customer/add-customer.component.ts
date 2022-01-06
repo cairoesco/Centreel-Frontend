@@ -1,10 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { CustomValidators } from 'ng2-validation';
 import { TagComponent } from '../../dialog/tag/tag.component'
 import { MatDialog } from '@angular/material/dialog';
 import { FileUploader } from 'ng2-file-upload';
+import {map, startWith} from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import {  CustomerService } from '../customer.service';
 import * as _moment from 'moment';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -25,6 +28,9 @@ import { MatProgressButtonOptions } from 'mat-progress-buttons';
   ],
 })
 export class AddCustomerComponent implements OnInit {
+  
+  filteredCountryOptions: Observable<any>;
+  public countryFilterKeyword = 'location_name';
 
   public innerHeight: any;
   public type: string = 'component';
@@ -56,6 +62,7 @@ export class AddCustomerComponent implements OnInit {
   public tags: boolean = false;
   public licenceInfo: boolean = false;
   public storeInfo: boolean = false;
+  public showExtraCardInfo: boolean = false;
   public cityList: any;
   public rawDetail: any;
   public uploadedDocName: any = "";
@@ -64,8 +71,10 @@ export class AddCustomerComponent implements OnInit {
   public to: any;
   public shift_error: string;
   public genderArr: any;
+  public patientTypeArr: any;
   public cardTypeArr: any;
   public IDCardArr: any;
+  public countryArr: any;
   public store_id: any;
   public chain_id: any;
   public priceOptions = { prefix: '$ ', thousands: ',', decimal: '.', align: 'left', nullable: true, allowZero: false }
@@ -199,8 +208,6 @@ export class AddCustomerComponent implements OnInit {
 
   /************************ Add Employee Section ************************************/
   onSubmit() {
-    
-
     let date = this.form.get('dob').value;
     let formatedDate = _moment(date).format("YYYY-MM");
     this.form.get('dob').setValue(formatedDate);
@@ -306,13 +313,12 @@ export class AddCustomerComponent implements OnInit {
       middle_name: [''],
       customer_nickname: [''],
       dob: [''],
-      gender: ['', [Validators.required]],
-
+      gender: [''],
       country_id: [''],
       state_id: [''],
       city_id: [''],
-
-      patient_mobile: ['', Validators.compose([Validators.required, Validators.minLength(7)])],
+      patient_mobile: [''],
+      patient_type: [''],
       patient_email: ['', Validators.compose([Validators.required, CustomValidators.email])],
       id_card_type: [''],
       id_number: [''],
@@ -326,9 +332,9 @@ export class AddCustomerComponent implements OnInit {
       notes: '',
       zipcode: '',
       discount: '',
-      id_cards: ''
-
-
+      id_cards: '',
+      caregiver_license_number: '',
+      patient_license_number: '',
     });
   }
 
@@ -351,6 +357,7 @@ export class AddCustomerComponent implements OnInit {
     });
   }
   getStateList(type, parent) {
+    this.form.get('country_id').setValue(parent);
     this.api.getLocationList(type, parent)
       .subscribe((response: any) => {
         if (response.success) {
@@ -359,6 +366,7 @@ export class AddCustomerComponent implements OnInit {
       });
   }
   getCityList(type, parent) {
+    this.form.get('state_id').setValue(parent);
     this.api.getLocationList(type, parent)
       .subscribe((response: any) => {
         if (response.success) {
@@ -372,15 +380,28 @@ export class AddCustomerComponent implements OnInit {
 
         if (response.success) {
           this.rawDetail = response.data;
+          this.countryArr = response.data.country;
+          this.cardTypeArr = response.data.id_card_types;
           let user_role_id = this.currentUserDetail.role_id[0];
           this.store_id = response.data.stores[0].store_id;
           this.chain_id = response.data.stores[0].chain_id;
-
-          this.cardTypeArr = response.data.id_card_types
-
           this.rawDetail.roles = _.filter(response.data.roles, function (o) { return o.role_id > user_role_id; });
         }
       });
+  }
+  dropdownFilters() {
+    this.filteredCountryOptions = this.form.controls['country_id'].valueChanges
+      .pipe(
+        startWith(''),
+        map(val => this.countryFilter(val))
+      );
+  }
+  countryFilter(val){
+    console.log(val, 'value from country filter')
+  }
+
+  countryDisplay(country?: any): string | undefined {
+    return country ? country.location_name : undefined;
   }
   ngOnInit() {
     this.addCustomerForm();
@@ -399,10 +420,33 @@ export class AddCustomerComponent implements OnInit {
         gender_id: 2
       },
     ];
-
+    this.patientTypeArr = [
+      {
+        patient_type: 'Consumer',
+        patient_type_id: 0
+      },
+      {
+        patient_type: 'Caregiver',
+        patient_type_id: 1
+      },
+      {
+        patient_type: 'Patient',
+        patient_type_id: 2
+      },
+    ];
   }
   ngDoCheck() {
     this.innerHeight = window.innerHeight - 192;
+  }
+
+  handleShowExtraCardInfo(evt){
+    console.log(evt, 'evt evt evt evt evt')
+    if(evt == 1){
+      this.showExtraCardInfo = true;
+    } else {
+      this.showExtraCardInfo = false;
+    }
+    
   }
 
   /* Shift Timing */
@@ -573,6 +617,14 @@ export class AddCustomerComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  selectEvent(event){
+    this.form.get('city_id').setValue(event);
+  }
+
+  onFocused(event){
+    console.log(event.target.value, 'event from onfocused event function')
   }
   /* canDeactivate code */
 }
