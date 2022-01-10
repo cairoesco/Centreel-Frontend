@@ -86,8 +86,8 @@ export class CustomerFilterDialogComponent implements OnInit {
 
   initializeForm() {
     this.form = this.fb.group({
-      selected: { start: moment().format('DD/MM/YYYY'), end: moment().format('DD/MM/YYYY') },
-      selected_transaction: { start: moment().format('DD/MM/YYYY'), end: moment().format('DD/MM/YYYY') },
+      selected: "",
+      selected_transaction: "",
       tags: [[]],
       queue_status: this.queues_array[0].value,
       from: [''],
@@ -144,7 +144,8 @@ export class CustomerFilterDialogComponent implements OnInit {
       selected_transaction: '',
       platform: 'web',
       tags: [],
-      stores: []
+      stores: [],
+      queue_status: ""
     })
     // this.applyFilter();
   }

@@ -6,7 +6,8 @@ import * as _ from "lodash";
 import { UtilsServiceService } from "../shared/services/utils-service.service";
 import { CustomerFilterDialogComponent } from "./customer-filter-dialog/customer-filter-dialog.component";
 import { PreferredProductDialogComponent } from "./preferred-product-dialog/preferred-product-dialog.component";
-
+import { FormControl } from "@angular/forms";
+import { debounceTime } from "rxjs/operators";
 @Component({
 	selector: "app-customer",
 	templateUrl: "./customer.component.html",
@@ -47,6 +48,7 @@ export class CustomerComponent implements OnInit {
 		this.customerService.GetStores().subscribe((response: any) => {
 			this.store_id = response.data[0].store_id;
 			this.GetUsers();
+			this.onChanges();
 		});
 	}
 
@@ -102,16 +104,20 @@ export class CustomerComponent implements OnInit {
 		});
 	}
 
-	applyFilter(filterValue: string) {
-		const params = { 
-			store_id: this.store_id,
-			per_page: this.pageSize,
-			page: this.page,
-			platform: 'web',
-			search: filterValue
-		}
-    // const params = `store_id=${this.store_id}&per_page=${this.pageSize}&page=${this.page}&platform=web&search=${filterValue}`;
-    this.handleFilterCutomerQueue(params)
+	public search = new FormControl("");
+
+  onChanges(): void {
+		this.search.valueChanges.pipe(debounceTime(500)).subscribe((val) => {
+			const params = { 
+				store_id: this.store_id,
+				per_page: this.pageSize,
+				page: this.page,
+				platform: 'web',
+				search: this.search.value
+			}
+			this.handleFilterCutomerQueue(params)
+		})
+					
 	}
 
 	toggleExpandRow(row) {
