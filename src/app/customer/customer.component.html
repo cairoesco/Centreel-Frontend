@@ -20,7 +20,7 @@
 			<div class="" fxLayout="row" fxLayoutWrap fxLayoutAlign="center">
 				<div class="search-input" fxFlex="90%" fxFlex.md="80%" fxFlex.lg="80%" fxFlex.sm="65%" fxFlex.xs="65%">
 					<img alt="Search" class="Search-icon" src="../../assets/icon/search.png" />
-					<input class="Search" (keyup)="applyFilter($event.target.value)" placeholder="Search name..." />
+					<input class="Search" placeholder="Search name..." [formControl]="search" />
 					<span class="result-count">{{ rows?.length }} Results</span>
 				</div>
 				<div class="search-button pointer" (click)="ApplyMultipleFilter()" fxFlex="10%" fxFlex.md="20%" fxFlex.lg="20%" fxFlex.sm="35%" fxFlex.xs="35%">
