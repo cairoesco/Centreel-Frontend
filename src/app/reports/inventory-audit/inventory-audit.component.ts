@@ -45,6 +45,7 @@ export class InventoryAuditComponent implements OnInit {
 	];
 	public export_date: any;
 	public date_time: any;
+	public out_of_stock_selected: any
 
 	constructor(public reportService: ReportService, private formBuilder: FormBuilder, private snackBar: MatSnackBar, private utils: UtilsServiceService) {}
 
@@ -56,6 +57,7 @@ export class InventoryAuditComponent implements OnInit {
 			out_of_stock: "all",
 			selected: { start: moment().format("DD/MM/YYYY HH:mm:ss"), end: moment().format("DD/MM/YYYY") },
 		});
+		this.out_of_stock_selected = "all";
 		this.onChanges();
 	}
 
@@ -83,9 +85,11 @@ export class InventoryAuditComponent implements OnInit {
 			}
 			/* for out of stock */
 			if (val.out_of_stock) {
-				console.log(val.out_of_stock);
 				this.formobj.out_of_stock = val.out_of_stock;
-				this.param_stock = "&out_of_stock=" + this.formobj.out_of_stock;
+				if(val.out_of_stock !== "all"){
+					this.param_stock = "&out_of_stock=" + this.formobj.out_of_stock;
+				}
+				this.out_of_stock_selected  =  val.out_of_stock
 			} else {
 				delete this.formobj.out_of_stock;
 			}
@@ -111,7 +115,7 @@ export class InventoryAuditComponent implements OnInit {
 	/* download pdf */
 	getExportPDF() {
 		this.formobj.ext = "pdf";
-		let params = "store_id=" + this.formobj.store_id + "&ext=" + this.formobj.ext + "&date_time=" + this.date_time + this.param_dt;
+		let	params = "store_id=" + this.formobj.store_id + "&ext=" + this.formobj.ext + "&date_time=" + this.date_time + this.param_dt + this.param_stock;	
 
 		this.reportService.inventory_audit_exportReport(params).then((res: HttpResponse<any>) => {
 			this.reportService.downloadFile(res.body, "application/pdf", "Inventory Audit Report " + this.export_date);
@@ -122,7 +126,7 @@ export class InventoryAuditComponent implements OnInit {
 	/* download CSV */
 	getExportCSV(ext) {
 		this.formobj.ext = ext;
-		let params = "store_id=" + this.formobj.store_id + "&ext=" + this.formobj.ext + "&date_time=" + this.date_time + this.param_dt;
+		let params = "store_id=" + this.formobj.store_id + "&ext=" + this.formobj.ext + "&date_time=" + this.date_time + this.param_dt + this.param_stock;
 
 		this.reportService.inventory_audit_exportReport(params).then((res: HttpResponse<any>) => {
 			if (ext == "csv") {
