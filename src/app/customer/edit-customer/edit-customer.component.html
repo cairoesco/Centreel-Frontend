@@ -14,12 +14,12 @@
 	<mat-tab-group [selectedIndex]="utility.indexofTab" class="custom-tab">
 		<mat-tab>
 			<ng-template mat-tab-label>
-				<p (click)="utility.scrollTo('section1')">CUSTOMER INFORMATION</p>
+				<p (click)="utility.scrollTo('section1')">CONTACT INFORMATION</p>
 			</ng-template>
 		</mat-tab>
 		<mat-tab>
 			<ng-template mat-tab-label>
-				<p (click)="utility.scrollTo('section2')">CONTACT INFORMATION</p>
+				<p (click)="utility.scrollTo('section2')">CUSTOMER INFORMATION</p>
 			</ng-template>
 		</mat-tab>
 		<mat-tab>
@@ -40,14 +40,14 @@
 				(sectionChange)="utility.onScrollContent($event)"
 				[style.height.px]="innerHeight"
 			>
-				<div id="section1">
+				<div id="section1" class="">
 					<div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
 						<div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0"></div>
-						<div fxFlex="100" fxFlex.sm="100" fxFlex.md="100">
-							<!-- main content -->
+
+						<div fxFlex="57" fxFlex.sm="55" fxFlex.md="55">
 							<div class="">
 								<h2 layout-margin>
-									Customer Information
+									Contact Information
 									<span fxFlex></span>
 									<button class="btn-edit" *ngIf="editable" (click)="viewOnly()">
 										<mat-icon class="material-icons pointer">edit</mat-icon>
@@ -61,7 +61,7 @@
 										<h3>Personal Information</h3>
 									</mat-card-title>
 									<mat-card-content>
-										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
 											<!-- <div class="mb-1" fxFlex="calc(100% - 200px)"> -->
 
 											<div fxFlex="50%">
@@ -193,7 +193,7 @@
 								</mat-card>
 							</div>
 						</div>
-						<div fxFlex="40" fxFlex.sm="20" fxFlex.md="20"></div>
+						<div fxFlex="28" fxFlex.sm="20" fxFlex.md="20" class=""></div>
 					</div>
 				</div>
 
@@ -201,9 +201,9 @@
 					<div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
 						<div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0"></div>
 
-						<div fxFlex="55" fxFlex.sm="55" fxFlex.md="55">
+						<div fxFlex="57" fxFlex.sm="55" fxFlex.md="55">
 							<div class="">
-								<h2 layout-margin>Contact Information
+								<h2 layout-margin>Customer Information
 									<span fxFlex></span>
 									<button class="btn-edit" *ngIf="isContactInfoEditable" (click)="contactInfoViewOnly()">
 										<mat-icon class="material-icons pointer">edit</mat-icon>
@@ -214,10 +214,46 @@
 								</h2>
 								<mat-card class="mat-content-padding body-card-block card_container">
 									<mat-card-title>
-										<h3>Contact Information</h3>
+										<h3>Customer Information</h3>
 									</mat-card-title>
 
 									<mat-card-content>
+										<div class="space-top" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+											<div fxFlex="50%">
+												<mat-form-field fxFlex="100%">
+													<input
+														matInput
+														placeholder="Phone Number*"
+														formControlName="patient_mobile"
+														(keypress)="utility.numberOnly($event)"
+														maxlength="11"
+														autocomplete="off"
+														
+													/>
+													<mat-error *ngIf="form.controls['patient_mobile'].hasError('required')" class="mat-text-warn">
+														Please enter your phone number
+													</mat-error>
+													<mat-error *ngIf="form.controls['patient_mobile'].hasError('minlength')" class="mat-text-warn">
+														Please enter your valid phone number
+													</mat-error>
+												</mat-form-field>
+											</div>
+
+											<div fxFlex="50%">
+												<mat-form-field fxFlex="100%">
+													<input matInput placeholder="Email*" formControlName="patient_email" type="email" autocomplete="off" />
+													<mat-error *ngIf="form.controls['patient_email'].hasError('required')" class="mat-text-warn">
+														Please enter your email address
+													</mat-error>
+													<mat-error
+														*ngIf="form.controls['patient_email'].errors?.patient_email && form.controls['patient_email'].touched"
+														class="mat-text-warn"
+													>
+														Please enter your valid email address
+													</mat-error>
+												</mat-form-field>
+											</div>
+										</div>
 										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
 
 											<div fxFlex="30%">
@@ -267,42 +303,7 @@
 											</div>
 										</div>
 
-										<div class="space-top" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
-											<div fxFlex="50%">
-												<mat-form-field fxFlex="100%">
-													<input
-														matInput
-														placeholder="Phone Number*"
-														formControlName="patient_mobile"
-														(keypress)="utility.numberOnly($event)"
-														maxlength="11"
-														autocomplete="off"
-														
-													/>
-													<mat-error *ngIf="form.controls['patient_mobile'].hasError('required')" class="mat-text-warn">
-														Please enter your phone number
-													</mat-error>
-													<mat-error *ngIf="form.controls['patient_mobile'].hasError('minlength')" class="mat-text-warn">
-														Please enter your valid phone number
-													</mat-error>
-												</mat-form-field>
-											</div>
-
-											<div fxFlex="50%">
-												<mat-form-field fxFlex="100%">
-													<input matInput placeholder="Email*" formControlName="patient_email" type="email" autocomplete="off" />
-													<mat-error *ngIf="form.controls['patient_email'].hasError('required')" class="mat-text-warn">
-														Please enter your email address
-													</mat-error>
-													<mat-error
-														*ngIf="form.controls['patient_email'].errors?.patient_email && form.controls['patient_email'].touched"
-														class="mat-text-warn"
-													>
-														Please enter your valid email address
-													</mat-error>
-												</mat-form-field>
-											</div>
-										</div>
+										
 										<div
 										class=""
 										fxLayout="row"
@@ -329,7 +330,7 @@
 								</mat-card>
 							</div>
 						</div>
-						<div fxFlex="40" fxFlex.sm="20" fxFlex.md="20"></div>
+						<div fxFlex="28" fxFlex.sm="20" fxFlex.md="20"></div>
 					</div>
 				</div>
 
