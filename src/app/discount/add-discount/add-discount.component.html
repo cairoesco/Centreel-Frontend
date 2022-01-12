@@ -11,8 +11,8 @@
 		<div fxLayout="row wrap" fxLayoutGap="20px">
 
 			<mat-form-field>
-				<mat-label>Discount Title</mat-label>
-				<input matInput placeholder="Discount Title*" formControlName="discount_title" autocomplete="off" />
+				<mat-label>Discount Title*</mat-label>
+				<input matInput placeholder="Discount Title" formControlName="discount_title" autocomplete="off" />
 				<mat-error *ngIf="discountForm.controls['discount_title'].hasError('required')" class="mat-text-warn">
 					Please enter discount title or description
 				</mat-error>
@@ -29,7 +29,7 @@
 			</mat-form-field>
 		
 			<mat-form-field>
-				<mat-label>Discount value</mat-label>
+				<mat-label>Discount value*</mat-label>
 				<input matInput placeholder="Discount Value*" type="number" min="0" formControlName="value" autocomplete="off" />
 				<mat-error *ngIf="discountForm.controls['value'].hasError('required')" class="mat-text-warn"> Please enter a specific value </mat-error>
 				<mat-error *ngIf="discountForm.controls['value'].hasError('min')" class="mat-text-warn"> Please enter a positive number </mat-error>
@@ -46,7 +46,7 @@
 			</mat-form-field>
 
 			<mat-form-field>
-				<mat-label>Discount Type</mat-label>
+				<mat-label>Discount Type*</mat-label>
 				<mat-select formControlName="discount_type" (selectionChange)="handleSelectDiscountType($event.value)" [disableOptionCentering]="true">
 					<mat-option *ngFor="let value of discount_types; let i = index" [value]="value.value">
 						{{ value.item }}
@@ -56,7 +56,7 @@
 			</mat-form-field>
 
 			<mat-form-field *ngIf="selectedDiscountType == 'tag'">
-				<mat-label>Discount Parameters</mat-label>
+				<mat-label>Discount Parameters*</mat-label>
 				<mat-select formControlName="parameters" multiple [disableOptionCentering]="true">
 					<mat-option *ngFor="let tag of tags; let i = index" [value]="tag.id">
 						{{ tag.tag_name }}
