@@ -124,6 +124,22 @@ export class AddDiscountComponent implements OnInit {
 
 	addNewDiscount() {
 		this.form_obj = this.discountForm.getRawValue();
+		if(!this.form_obj.discount_title){
+			this.utility.showSnackBar('Please enter a valid discount title');
+		return
+		}
+		if(!this.form_obj.value){
+			this.utility.showSnackBar('Discount value is a mandatory field');
+		return
+		}
+		if(!this.form_obj.discount_type){
+			this.utility.showSnackBar('Please select a discount type');
+		return
+		}
+		if(!this.selectedDiscountType){
+			this.utility.showSnackBar('Discount parameter is a mandatory field');
+		return
+		}
 		const tag = [];
 		const cat = [];
 		for (const params of this.form_obj.parameters) {
