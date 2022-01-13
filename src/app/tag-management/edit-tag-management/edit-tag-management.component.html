@@ -258,8 +258,8 @@
                         (matChipInputTokenEnd)="add($event)" />
 
                         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                          <mat-option *ngFor="let tagEntity of filteredTagEntities | async" [value]="tagEntity.variant_name">
-                            {{tagEntity.variant_name}}
+                          <mat-option *ngFor="let tagEntity of filteredTagEntities | async" [value]="tagEntity.id">
+                            {{tagEntity.name}}
                           </mat-option>
                         </mat-autocomplete>
                       </mat-form-field> 
@@ -282,7 +282,7 @@
                               [selectable]="selectable"
                               [removable]="addNewEntry"
                               (removed)="remove(tagEntity)">
-                              {{tagEntity.variant_name}}
+                              {{tagEntity.name}}
                               <button class="removeChipButton" matChipRemove *ngIf="addNewEntry">
                                 <mat-icon class="removeChipButtonIcon">cancel</mat-icon>
                               </button>
