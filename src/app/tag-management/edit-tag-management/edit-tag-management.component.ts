@@ -215,21 +215,21 @@ export class EditTagManagementComponent implements OnInit {
   handleOnSubmitGeneralEdit(){
     this.inProgress = true;
    const entities = [];
-   this.tempEntityArray.map(entity => entities.push(entity?.variant_id.toString()));
+   this.tempEntityArray.map(entity => entities.push(entity?.id.toString()));
     const payload = {
       // id of the tag
       tag_ids: this.selectedTag.id, 
       // variant ids or user id for employers tag
-      reference_ids: this.selectedTag.type === 'variant' ? entities : this.selectedTag.user_id,
+      reference_ids: this.selectedTag.type === 'variant' ? JSON.stringify(entities) : this.selectedTag.user_id,
       // tagname
-      tags:  [this.tagForm.get('tag_name').value], 
+      tags:  JSON.stringify([this.tagForm.get('tag_name').value]), 
       status: this.tagForm.get('status').value,
       type: this.selectedTag.type
     }
-    console.log({ payload })
+    // return
     this.tagManagementService.updateTag(payload).subscribe((response: any) => {
       if (response.success) {
-        console.log(response.data, 'response.data response.data response.data response.data')
+        window.location.reload()
         this.activatedRoute.params.subscribe((params: Params) => {
           if (params?.id){
              this.GetTag(params?.id);
@@ -264,9 +264,10 @@ export class EditTagManagementComponent implements OnInit {
     this.inProgress = true;
     this.tagManagementService.getTagEntities(id).subscribe((response: any) => {
       if (response.success) {
+       
         for (const entity of response.data){
           this.tempEntityArray.push(entity);
-         
+          
         }
       }
       this.inProgress = false;
@@ -310,32 +311,30 @@ export class EditTagManagementComponent implements OnInit {
   }
 
   remove(tagEntity: string): void {
-    console.log(tagEntity, 'tagEntity tagEntity tagEntity')
-    console.log(this.tempEntityArray, 'this.tempEntityArray this.tempEntityArray this.tempEntityArray')
     const index = this.tempEntityArray.indexOf(tagEntity);
 
     if (index >= 0) {
       this.tempEntityArray.splice(index, 1);
     }
-    console.log(this.tempEntityArray, 'this.tempEntityArray this.tempEntityArray this.tempEntityArray')
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    const selectedEntity = this.allTagEntities.find(entity => entity.variant_name == event.option.value);
+    const selectedEntity = this.allTagEntities.find(entity => entity.id == event.option.value);
     this.tagEntityCtrl.setValue(null);
     if(selectedEntity){
-      const entityExists = this.tempEntityArray.find(entity => entity.variant_id == selectedEntity.variant_id)
-      if(entityExists){
-        return
+      const entityExists = this.tempEntityArray.find(entity => entity.id == selectedEntity.id)
+      if(!entityExists){
+         const tempObj = {
+            tag_id: this.selectedTag.id,
+           tag_name: this.selectedTag.tag_name,
+           id: selectedEntity.id,
+            name : selectedEntity.name,
+           type: this.selectedTag.type,
+         }
+         this.tempEntityArray.push(tempObj)
       }
-      const tempObj = {
-        tag_id: this.selectedTag.id,
-        tag_name: this.selectedTag.tag_name,
-        variant_id: selectedEntity.variant_id,
-        variant_name : selectedEntity.variant_name,
-        type: this.selectedTag.type,
-      }
-      this.tempEntityArray.push(tempObj)
+
+      
     } 
 
   }
@@ -343,7 +342,7 @@ export class EditTagManagementComponent implements OnInit {
   private _filter(value: string): string[] {
     if(typeof value == 'string'){
     const filterValue = value?.toLowerCase();
-    return this.allTagEntities.filter(tagEntity => tagEntity['variant_name'].toLowerCase().includes(filterValue));
+    return this.allTagEntities.filter(tagEntity => tagEntity['name'].toLowerCase().includes(filterValue));
     }
   }
 }

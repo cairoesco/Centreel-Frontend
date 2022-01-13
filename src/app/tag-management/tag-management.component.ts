@@ -5,6 +5,7 @@ import { TagManagementService } from './tag-management.service'
 import * as _ from 'lodash';
 import { UtilsServiceService } from '../shared/services/utils-service.service';
 import { TagManagementFilterDialogComponent } from './tag-management-filter-dialog/tag-management-filter-dialog.component';
+import { FormControl, FormGroup, FormBuilder } from "@angular/forms";
 // import { PreferredProductDialogComponent } from './preferred-product-dialog/preferred-product-dialog.component';
 
 @Component({
@@ -18,6 +19,7 @@ export class TagManagementComponent implements OnInit {
   public name: string;
   public Tags: any[] = [];
   public rows: any[] = [];
+  public sources: any[] = ["all"];
   public expanded: any = {};
   public timeout: any;
   public selected = [];
@@ -27,7 +29,10 @@ export class TagManagementComponent implements OnInit {
   public totalCount = 0;
   public pageSize: any = 20;
   public pageIndex: any = 0;
-
+  public form: FormGroup;
+  public fb: FormBuilder;
+  public selectedSource: any = ""
+  public filterParam: any = ""
   readonly headerHeight = 50;
   readonly rowHeight = 50;
 
@@ -39,16 +44,25 @@ export class TagManagementComponent implements OnInit {
     public refVar: ChangeDetectorRef) {
   }
 
+  // public sourceForm = new FormControl();
+
   ngOnInit() {
     this.GetAllTags();
   }
 
+
+  
   GetAllTags() {
     this.inProgress = true;
     this.tagManagementService.getTags()
       .subscribe((response: any) => {
         this.inProgress = false;
         if (response.success) {
+          for(const tag of response.data){
+            if(!this.sources.includes(tag.type)){
+              this.sources.push(tag.type)
+            }
+          }
           this.Tags = response.data;
           this.totalCount = response.total_count;
           this.rows = this.Tags;
@@ -61,16 +75,18 @@ export class TagManagementComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     const val = filterValue.toLowerCase();
-    // filter our data
-    const temp = this.temp.filter(function (d) {
-      return d.customer_name.toLowerCase().indexOf(val) !== -1 || !val;
-    });
-    // update the rows
-    this.rows = temp;
-    this.dynamicHeight = this.rows.length < 12 ? ((this.rows.length + 1) * 48 + 140) + "px" : '';
-    // Whenever the filter changes, always go back to the first page
-    if (this.rows.length > 0 && this.table)
-      this.table.offset = 0;
+    this.filterParam = val
+    this.fetchFilteredTags()
+    // // filter our data
+    // const temp = this.temp.filter(function (d) {
+    //   return d.customer_name.toLowerCase().indexOf(val) !== -1 || !val;
+    // });
+    // // update the rows
+    // this.rows = temp;
+    // this.dynamicHeight = this.rows.length < 12 ? ((this.rows.length + 1) * 48 + 140) + "px" : '';
+    // // Whenever the filter changes, always go back to the first page
+    // if (this.rows.length > 0 && this.table)
+    //   this.table.offset = 0;
   }
 
   toggleExpandRow(row) {
@@ -107,23 +123,39 @@ export class TagManagementComponent implements OnInit {
   }
 
   public filterData: any;
-  ApplyMultipleFilter(): void {
-    const dialogRef = this.dialog.open(TagManagementFilterDialogComponent, {
-      width: '40%',
-      data: { data: this.filterData }
-    });
-    //Call after delete confirm model close
-    dialogRef.afterClosed().subscribe((result: any) => {
-      if (result) {
-        this.filterData = result;
-        Object.keys(result).forEach(key => {
-          if (!Boolean(result[key])) {
-            delete result[key];
+  ApplyMultipleFilter(e): void {
+   
+      this.selectedSource = e;
+    
+    this.fetchFilteredTags();
+  }
+
+  fetchFilteredTags() {
+    this.inProgress = true;
+
+     
+    const params = {
+      type: this.selectedSource,
+      search: this.filterParam
+    }
+
+    this.tagManagementService.filterTag(params)
+      .subscribe((response: any) => {
+        this.inProgress = false;
+        if (response.success) {
+          for(const tag of response.data){
+            if(!this.sources.includes(tag.type)){
+              this.sources.push(tag.type)
+            }
           }
-        })
-        // this.GetUsers(result)
-      }
-    });
+          this.Tags = response.data;
+          this.totalCount = response.total_count;
+          this.rows = this.Tags;
+          this.dynamicHeight = this.rows.length < 12 ? ((this.rows.length + 1) * 48 + 140) + "px" : '';
+          this.temp = this.Tags;
+        }
+      });
+      this.inProgress = false;
   }
 
 }

@@ -19,6 +19,10 @@ export class TagManagementService {
     getAllEntities(params){
         return this.webApi.post(`tags/sourceData?type=${params}`, params)
     }
+    filterTag(params){
+        return this.webApi.get(`tags`, params)
+    }
+  
     // GetCustomerList(params) {
     //     return this.webApi.get('patients', params)
     // }
