@@ -19,7 +19,8 @@ export class TagManagementComponent implements OnInit {
   public name: string;
   public Tags: any[] = [];
   public rows: any[] = [];
-  public sources: any[] = ["all"];
+  public sources: any[] = ["All Sources"];
+  public default_sources = "All Sources";
   public expanded: any = {};
   public timeout: any;
   public selected = [];
@@ -135,7 +136,7 @@ export class TagManagementComponent implements OnInit {
 
      
     const params = {
-      type: this.selectedSource,
+      type: this.selectedSource == "All Sources" ? '' : this.selectedSource ,
       search: this.filterParam
     }
 

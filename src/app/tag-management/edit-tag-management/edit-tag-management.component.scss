@@ -72,8 +72,10 @@
 
 .button_wrapper {
   display: flex;
-  align-items: center;
-  justify-content: space-around;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: row;
+
 
 }
 

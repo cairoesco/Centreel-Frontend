@@ -182,7 +182,7 @@
                       fxLayoutGap="5%"
                       fxLayoutAlign="center"
                     >
-                    <div fxFlex="80%" class="breadcrumb-btn-content button_wrapper" *ngIf="isEditing">
+                    <div fxFlex="100%" class="breadcrumb-btn-content button_wrapper" *ngIf="isEditing">
                       <!-- <mat-bar-button [options]="barSaveTagButtonOptions"> -->
                         <button
                           mat-button
@@ -298,11 +298,11 @@
                       fxLayout.xs="column"
                       fxLayoutWrap
                       fxLayoutGap="5%"
-                      fxLayoutAlign="center"
+                      fxLayoutAlign="left"
                     >
                     <!-- <div fxFlex="80%" *ngIf="addNewEntry"> -->
                        
-                      <div fxFlex="80%" class="breadcrumb-btn-content button_wrapper" *ngIf="addNewEntry">
+                      <div fxFlex="100%" class="breadcrumb-btn-content button_wrapper" *ngIf="addNewEntry">
                         <!-- <mat-bar-button [options]="barAddTagEntitiesButtonOptions"> -->
                           <button
                             mat-button
@@ -312,7 +312,7 @@
                             type="button"
                             (click)="handleOnSubmitGeneralEdit()"
                           >
-                            <a class="add-new-label">ADD ENTITIES</a>
+                            <a class="add-new-label">UPDATE ENTITIES</a>
                           </button>
                         <!-- </mat-bar-button> -->
                     <!-- </div> -->
