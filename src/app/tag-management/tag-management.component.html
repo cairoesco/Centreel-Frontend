@@ -30,7 +30,7 @@
         <!-- class="search-button pointer source-filter-wrapper" -->
         <div  class="search-button" fxFlex="10%" fxFlex.md="20%" fxFlex.lg="20%" fxFlex.sm="35%" fxFlex.xs="35%">
           <mat-form-field class="" fxFlex="100">
-            <mat-select (selectionChange)="ApplyMultipleFilter($event.value)"  class="" placeholder="Source" [multiple]="false" [disableOptionCentering]="true">
+            <mat-select [(value)]="default_sources" (selectionChange)="ApplyMultipleFilter($event.value)" class="" [multiple]="false" [disableOptionCentering]="true">
               <mat-option *ngFor="let tag of sources" [value]="tag">
                 {{tag}}
               </mat-option>
