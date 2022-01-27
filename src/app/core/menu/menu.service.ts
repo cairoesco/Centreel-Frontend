@@ -93,10 +93,14 @@ const MENUITEMS = [
   {
     state: 'customer',
     name: 'CUSTOMER',
-    type: 'link',
+    type: 'sub',
     icon: 'menu-employee-svg',
     module: 'users',
-    method: 'index'
+    method: 'index',
+    children: [
+      { state: 'customer', name: 'Customer', module: 'users', method: 'index' },
+      { state: 'queue-list', name: 'In Queue', module: 'users', method: 'index' },
+    ]
   },
   // {
   //   state: 'purchaseorder',
@@ -269,10 +273,11 @@ export class MenuService {
     let menus = [];
     this.api.get('permissions')
       .subscribe((response: any) => {
-       
+      
         let all_menu = this.getAll();
         all_menu.forEach(m => {
           if (this.isPermissible(m.module, m.method, response.data)) {
+           
             // if ((m.module, m.method, response.data)) {
             if (m.children) {
               let c2: ChildrenItems[] = [];

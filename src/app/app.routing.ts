@@ -77,7 +77,7 @@ export const AppRoutes: Routes = [{
   {
     path: 'customer',
     loadChildren: () => import('./customer/customer.module').then(m => m.CustomerModule),
-    data: { title: 'Customer' }
+    data: { title: 'Customer',  breadcrumb: {name:'Customer',url:"customer"} }
   },
 ]
 }, {

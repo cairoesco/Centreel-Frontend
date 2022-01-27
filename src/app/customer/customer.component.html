@@ -3,7 +3,7 @@
 		<div fxFlex="25%" class="breadcrumb-content"></div>
 		<div fxFlex="50%" class="breadcrumb-header-content">Customers</div>
 		<div fxFlex="25%" class="breadcrumb-btn-content">
-			<button class="add-new-btn" [routerLink]="['create']" type="button">
+			<button class="add-new-btn" [routerLink]="['/customer/create']" type="button">
 				<a class="add-new-label">
 					<img src="assets/icon/plus-math.svg" alt="Add New" class="plus-math" />
 					ADD NEW
@@ -87,6 +87,7 @@
 							</div>
 						</ng-template>
 					</ngx-datatable-row-detail>
+					
 					<ngx-datatable-column name="" [sortable]="false" [draggable]="false" [resizeable]="false" [flexGrow]="1" [maxWidth]="70" [minWidth]="50">
 						<ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
 							<mat-checkbox
@@ -118,6 +119,7 @@
 							</div>
 						</ng-template>
 					</ngx-datatable-column>
+					
 					<ngx-datatable-column name="Customer Name" prop="customer_name" [resizeable]="false" [flexGrow]="3">
 						<ng-template
 							let-row="row"
