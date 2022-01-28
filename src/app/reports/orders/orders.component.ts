@@ -8,7 +8,6 @@ import * as moment from "moment";
 import { UtilsServiceService } from "../../shared/services/utils-service.service";
 import { ReportService } from "../report.service";
 import { debounceTime } from "rxjs/operators";
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 @Component({
