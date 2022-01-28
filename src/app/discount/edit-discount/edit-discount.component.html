@@ -181,7 +181,8 @@
 											</div>
 											<div *ngIf="discountType == 'category' " fxFlex="50%">
 												<mat-form-field fxFlex="100%">
-													<input [readonly]="!addNewEntry" matInput type="number" min="0" placeholder="Product Weight*" formControlName="product_weight" autocomplete="off" />
+													<input *ngIf="!addNewEntry" [readonly]="!addNewEntry" matInput type="text" placeholder="Product Weight*" formControlName="product_weight" autocomplete="off" />
+													<input *ngIf="addNewEntry" [readonly]="!addNewEntry" matInput type="number" min="0" placeholder="Product Weight*" formControlName="product_weight" autocomplete="off" />
 												</mat-form-field>
 											</div>
 										</div>

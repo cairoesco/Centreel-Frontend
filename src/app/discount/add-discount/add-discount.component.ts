@@ -143,6 +143,7 @@ export class AddDiscountComponent implements OnInit {
 		const tag = [];
 		const cat = [];
 		for (const params of this.form_obj.parameters) {
+			console.log(params)
 			if (this.selectedDiscountType == "tag") {
 				const data = { tag_id: params.toString() };
 				tag.push(data);
@@ -151,6 +152,7 @@ export class AddDiscountComponent implements OnInit {
 				cat.push(data);
 			}
 		}
+		// product_category_name
 
 		const payload = {
 			store_id: this.form_obj.store_id,
@@ -160,7 +162,7 @@ export class AddDiscountComponent implements OnInit {
 			discount_type: this.form_obj.discount_type,
 			min_qty: this.form_obj.min_qty,
 			discount_mode: this.form_obj.discount_mode,
-			product_Weight: this.form_obj.product_Weight,
+			product_weight: this.form_obj.product_Weight,
 			parameter: this.selectedDiscountType == "tag" ? tag : this.selectedDiscountType == "category" ? cat : "",
 		};
 		this.discountDialogRef.close(payload);
