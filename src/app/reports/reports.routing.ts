@@ -17,6 +17,7 @@ import { ReconcileHistoryComponent } from "./reconcile-history/reconcile-history
 import { InventoryAuditComponent } from "./inventory-audit/inventory-audit.component";
 import { PrintableMenuComponent } from "./printable-menu/printable-menu.component";
 import { DailyInterimComponent } from "./daily-interim/dailyinterim.component";
+import { BrandSalesComponent } from "./brand-sales/brandsales.component";
 import { EmployeeSalesComponent } from "./employee-sales/employee-sales.component";
 
 export const ReportsRoutes: Routes = [
@@ -32,6 +33,11 @@ export const ReportsRoutes: Routes = [
         path: "closeout",
         component: RvcComponent,
         data: { title: "Closeout Report" },
+      },
+      {
+        path: "brandsales",
+        component: BrandSalesComponent,
+        data: { title: "Brand Sales Report" },
       },
       {
         path: "cogsreport",
