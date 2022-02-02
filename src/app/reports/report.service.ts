@@ -147,6 +147,14 @@ export class ReportService {
   getEmployeeSalesReport(data) {
     return this.webApi.get("reports/employeeSales?" + data);
   }
+
+  getBrandSalesReport(data) {
+    return this.webApi.get(`dashboard/soldProductBrand/Index${data}`);
+  }
+
+  exportBrandSalesReport(data) {
+    return this.webApi.get(`dashboard/soldProductBrand${data}`);
+  }
   printableMenu_exportReport(data) {
     return this.webApi.getExportPDF("reports/export/inventoryPrintableMenu?" + data);
   }
