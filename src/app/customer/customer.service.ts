@@ -42,6 +42,44 @@ export class CustomerService {
     filterCustomerQueue(params) {
         return this.webApi.get(`patients`, params)
     }
-
+    customerListExportReport(params) {
+        return this.webApi.getExportPDF(`reports/customerList/export?${params}`)
+      }
+    
+    downloadFile(data: any, type, report_name = null) {
+        let blob = new Blob([data], { type: type });
+        let url = window.URL.createObjectURL(blob);
+        let ext;
+    
+        switch (type) {
+          case "text/csv":
+            ext = ".csv";
+            break;
+          case "application/pdf":
+            ext = ".pdf";
+            break;
+          case "application/vnd.ms-excel":
+            ext = ".xls";
+            break;
+        }
+    
+        if (report_name != null) {
+          var filename = report_name + ext;
+        } else {
+          var filename = +new Date() + ext;
+        }
+    
+        if (navigator.msSaveOrOpenBlob) {
+          navigator.msSaveBlob(blob, filename);
+        } else {
+          var a = document.createElement("a");
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+        window.URL.revokeObjectURL(url);
+    }
 
 }

@@ -159,6 +159,7 @@ export class ReportService {
     return this.webApi.getExportPDF("reports/export/inventoryPrintableMenu?" + data);
   }
 
+
   downloadFile(data: any, type, report_name = null) {
     let blob = new Blob([data], { type: type });
     let url = window.URL.createObjectURL(blob);
@@ -194,4 +195,5 @@ export class ReportService {
     }
     window.URL.revokeObjectURL(url);
   }
+
 }
