@@ -2,20 +2,33 @@
 	<div fxLayout="row">
 		<div fxFlex="25%" class="breadcrumb-content"></div>
 		<div fxFlex="50%" class="breadcrumb-header-content">Customers</div>
-		<div fxFlex="25%" class="breadcrumb-btn-content">
+		<div fxFlex="25%" fxFlex.md="25%" fxFlex.sm="25%" fxFlex.lg="30%" class="breadcrumb-btn-content end">
 			<button class="add-new-btn" [routerLink]="['/customer/create']" type="button">
 				<a class="add-new-label">
 					<img src="assets/icon/plus-math.svg" alt="Add New" class="plus-math" />
 					ADD NEW
 				</a>
 			</button>
-		</div>
+			<button mat-button matSuffix mat-stroked-button class="add-new-btn" [matMenuTriggerFor]="menu"
+					type="button">
+					<mat-icon class="report-header-button">get_app</mat-icon>
+					<span>
+							<a class="add-new-label">EXPORT</a>
+					</span>
+			</button>
+			<mat-menu #menu="matMenu">
+					<button mat-menu-item [disabled]="rows.length == 0" (click)="getExport('pdf')">PDF</button>
+					<button mat-menu-item [disabled]="rows.length == 0" (click)="getExport('csv')">CSV</button>
+					<button mat-menu-item [disabled]="rows.length == 0" (click)="getExport('xls')">EXCEL</button>
+			</mat-menu>
+	</div>
 	</div>
 </mat-card>
 <mat-progress-bar mode="indeterminate" *ngIf="inProgress"></mat-progress-bar>
 <div style="padding-top: 20px">
 	<div fxFlex="2%"></div>
 	<div fxFlex="96%">
+
 		<div fxLayout="column" fxLayoutGap="20px">
 			<div class="" fxLayout="row" fxLayoutWrap fxLayoutAlign="center">
 				<div class="search-input" fxFlex="90%" fxFlex.md="80%" fxFlex.lg="80%" fxFlex.sm="65%" fxFlex.xs="65%">
@@ -31,6 +44,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<div fxLayout="column" class="main-container" *ngIf="rows?.length > 0">
 			<mat-card class="list-bulk-action-header">
 				<div _ngcontent-c41="" class="button-row">

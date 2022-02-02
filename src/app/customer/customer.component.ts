@@ -1,5 +1,7 @@
 import { Component, ViewChild, ElementRef, ChangeDetectorRef, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
+import { HttpResponse } from '@angular/common/http';
+import * as moment from 'moment';
 import { TagComponent } from "../dialog/tag/tag.component";
 import { CustomerService } from "./customer.service";
 import * as _ from "lodash";
@@ -31,6 +33,11 @@ export class CustomerComponent implements OnInit {
 	public page: any = 1;
 	public store_id: any;
 	public fetchNext: boolean = false;
+	public export_date = moment().format('MMMDDYYYY');
+	public chain_id: any;
+
+	public from_date: any = "";
+	public to_date: any = ""
 
 	readonly headerHeight = 50;
 	readonly rowHeight = 50;
@@ -206,7 +213,9 @@ export class CustomerComponent implements OnInit {
 		//Call after delete confirm model close
 		dialogRef.afterClosed().subscribe((result: any) => {
 			if (result) {
-       
+				this.from_date = result.from;
+				this.to_date = result.to;
+			
 				this.filterData = result;
 				Object.keys(result).forEach((key) => {
 					if (!Boolean(result[key])) {
@@ -254,4 +263,36 @@ export class CustomerComponent implements OnInit {
 		};
   })
 	}
+
+	  /* download pdf */
+		getExport(ext) {
+			if(!this.from_date || !this.to_date){
+				this.utils.showSnackBar("Please select a starting and ending dates", { panelClass: 'error' });
+				return;
+			}
+			const { chain_id } = this.utils.getSessionData('currentUser');
+		
+			let url = `chain_id=${chain_id}&ext=${ext}`;
+
+			if(this.from_date) url = `${url}&from_date=${this.from_date}`;
+			if(this.to_date) url = `${url}&to_date=${this.to_date}`;
+			
+			// this.customerService.customerListExportReport(url).subscribe((response: any) => {
+			// 	if(response.success){
+			// 		this.customerService.downloadFile(response.body, 'application/pdf', `Customer list Report ${this.export_date}`);
+			// 	}
+			// })
+
+			this.customerService.customerListExportReport(url).then(
+				(res: HttpResponse<any>) => {
+					if (ext == 'csv') {
+						this.customerService.downloadFile(res.body,  'text/csv', `Customer list Report ${this.export_date}`);
+					} else if(ext == "xls"){
+						this.customerService.downloadFile(res.body, 'application/vnd.ms-excel', `Customer list Report ${this.export_date}`);
+					} else if(ext == 'pdf'){
+						this.customerService.downloadFile(res.body, 'application/pdf', `Customer list Report ${this.export_date}`);
+					}
+					
+				});
+		}
 }
