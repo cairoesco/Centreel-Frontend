@@ -18,6 +18,7 @@ import { InventoryAuditComponent } from "./inventory-audit/inventory-audit.compo
 import { PrintableMenuComponent } from "./printable-menu/printable-menu.component";
 import { DailyInterimComponent } from "./daily-interim/dailyinterim.component";
 import { BrandSalesComponent } from "./brand-sales/brandsales.component";
+import { MonthlyReportComponent } from "./monthly-report/monthly-report.component";
 import { EmployeeSalesComponent } from "./employee-sales/employee-sales.component";
 
 export const ReportsRoutes: Routes = [
@@ -53,6 +54,11 @@ export const ReportsRoutes: Routes = [
         path: "inventory-audit",
         component: InventoryAuditComponent,
         data: { title: "Inventory Audit Report" },
+      },
+      {
+        path: "monthly-report",
+        component: MonthlyReportComponent,
+        data: { title: "Monthly Report" },
       },
       {
         path: "topselling",

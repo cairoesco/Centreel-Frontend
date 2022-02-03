@@ -152,8 +152,15 @@ export class ReportService {
     return this.webApi.get(`dashboard/soldProductBrand/Index${data}`);
   }
 
+  getMonthlyReport(data) {
+    return this.webApi.get(`reports/monthly/category/index${data}`);
+  }
+
   exportBrandSalesReport(data) {
     return this.webApi.get(`dashboard/soldProductBrand${data}`);
+  }
+  exportMonthlyReport(data) {
+    return this.webApi.get(`reports/monthly${data}`);
   }
   printableMenu_exportReport(data) {
     return this.webApi.getExportPDF("reports/export/inventoryPrintableMenu?" + data);

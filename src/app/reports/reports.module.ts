@@ -30,6 +30,7 @@ import { InventoryAuditComponent } from "./inventory-audit/inventory-audit.compo
 import { PrintableMenuComponent } from "./printable-menu/printable-menu.component";
 import { DailyInterimComponent } from "./daily-interim/dailyinterim.component";
 import { BrandSalesComponent } from "./brand-sales/brandsales.component";
+import { MonthlyReportComponent } from "./monthly-report/monthly-report.component";
 import { EmployeeSalesComponent  } from "./employee-sales/employee-sales.component";
 
 @NgModule({
@@ -53,6 +54,7 @@ import { EmployeeSalesComponent  } from "./employee-sales/employee-sales.compone
     TopsellingComponent,
     WasteComponent,
     OrdersComponent,
+    MonthlyReportComponent,
     StocktransferComponent,
     TimesheetComponent,
     CustomsalesComponent,

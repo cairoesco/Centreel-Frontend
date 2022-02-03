@@ -146,7 +146,7 @@ const MENUITEMS = [
       { state: 'cogsreport', name: 'Cogs Report', module: 'reports', method: 'sales' },
       { state: 'dailyinterim', name: 'Daily interim', module: 'reports', method: 'sales' },
       { state: 'employee-sales', name: 'Employee Sales', module: 'reports', method: 'sales' },
-      // { state: 'monthly-report', name: 'Monthly Report', module: 'reports', method: 'sales' },
+      { state: 'monthly-report', name: 'Monthly Report', module: 'reports', method: 'sales' },
       { state: 'inventory', name: 'Inventory Report', module: 'reports', method: 'sales' },
       { state: 'inventory-audit', name: 'Inventory Audit Report', module: 'reports', method: 'sales' },
       { state: 'orders', name: 'Orders', module: 'reports', method: 'sales' },
