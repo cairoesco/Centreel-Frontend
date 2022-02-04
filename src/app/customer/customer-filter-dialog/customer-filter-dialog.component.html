@@ -23,7 +23,7 @@
           <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
             [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end" [ranges]="ranges"
             formControlName="selected" [minDate]="minDate" [maxDate]="maxDate" [showCustomRangeLabel]="true"
-            placeholder="First Added" [opens]="'left'">
+            placeholder="Added On" [opens]="'left'">
         </mat-form-field>
       </div>
     </div>
@@ -44,6 +44,18 @@
             [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end" [ranges]="ranges"
             formControlName="selected_transaction" [minDate]="minDate" [maxDate]="maxDate" [showCustomRangeLabel]="true"
             placeholder="Last Transacted" [opens]="'left'">
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row wrap" fxLayoutGap="5%">
+      <div fxFlex="47.5">
+        <mat-form-field fxFlex="100">
+          <mat-select placeholder="Queue" [multiple]="false" [disableOptionCentering]="true"
+            formControlName="queue_status">
+            <mat-option *ngFor="let queue of queues_array" [value]="queue.value">
+              {{queue.name}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
     </div>

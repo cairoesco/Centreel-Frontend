@@ -1,6 +1,8 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { ReportsRoutes } from "./reports.routing";
 import { SharedModule } from "../shared/shared.module";
 import { SalesComponent } from "./sales/sales.component";
@@ -27,9 +29,15 @@ import { ReconcileHistoryComponent } from "./reconcile-history/reconcile-history
 import { InventoryAuditComponent } from "./inventory-audit/inventory-audit.component";
 import { PrintableMenuComponent } from "./printable-menu/printable-menu.component";
 import { DailyInterimComponent } from "./daily-interim/dailyinterim.component";
+import { BrandSalesComponent } from "./brand-sales/brandsales.component";
+import { MonthlyReportComponent } from "./monthly-report/monthly-report.component";
+import { EmployeeSalesComponent  } from "./employee-sales/employee-sales.component";
+
 @NgModule({
   imports: [
     CommonModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
     RouterModule.forChild(ReportsRoutes),
     FormsModule,
     ReactiveFormsModule,
@@ -46,6 +54,7 @@ import { DailyInterimComponent } from "./daily-interim/dailyinterim.component";
     TopsellingComponent,
     WasteComponent,
     OrdersComponent,
+    MonthlyReportComponent,
     StocktransferComponent,
     TimesheetComponent,
     CustomsalesComponent,
@@ -61,7 +70,9 @@ import { DailyInterimComponent } from "./daily-interim/dailyinterim.component";
     ReconcileHistoryComponent,
     InventoryAuditComponent,
     PrintableMenuComponent,
-    DailyInterimComponent
+    DailyInterimComponent,
+    BrandSalesComponent,
+    EmployeeSalesComponent
   ],
   providers: [ReportService],
   entryComponents: [

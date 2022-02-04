@@ -75,7 +75,19 @@
                     </ngx-datatable-column>
 
 
-                    <ngx-datatable-column name="Store Name" prop="storename" [resizeable]="false" [flexGrow]="2.5">
+                    <ngx-datatable-column name="Minimum Quantity" prop="min_qty" [resizeable]="false" [flexGrow]="2">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{row['min_qty']}}
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Product Weight" prop="product_weight" [resizeable]="false" [flexGrow]="2">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{row['product_weight']}}
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Store Name" prop="storename" [resizeable]="false" [flexGrow]="4">
                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                             {{row['storeName']}}
                         </ng-template>
@@ -91,7 +103,14 @@
                     </ngx-datatable-column>
 
 
-                    <ngx-datatable-column name="View" [sortable]="false" width="70" headerClass="display-none"
+                    <ngx-datatable-column name="View" [sortable]="false" [resizeable]="false"  [flexGrow]="2" >
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <button mat-icon-button [routerLink]="['/discounts', row['discount_id'], 'view']" [state]="{ row: row }">
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <!-- <ngx-datatable-column name="View" [sortable]="false" width="70" headerClass="display-none"
                         [resizeable]="false" [flexGrow]="0.5">
                         <ng-template ngx-datatable-header-template>
                             <span class="align-end" mat-icon-button>
@@ -108,7 +127,7 @@
                                 </span>
                             </mat-menu>
                         </ng-template>
-                    </ngx-datatable-column>
+                    </ngx-datatable-column> -->
                     <ngx-datatable-footer>
                         <ng-template ngx-datatable-footer-template></ng-template>
                     </ngx-datatable-footer>
