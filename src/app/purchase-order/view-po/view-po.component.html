@@ -1,0 +1,852 @@
+<form [formGroup]="purchaseForm" class="create-po-tbl" (ngSubmit)="onSubmit('$event')">
+  <mat-card class="header-main-content">
+    <div fxLayout="row">
+      <div fxFlex="25%" class="breadcrumb-content">
+        <mat-icon class="material-icons" [routerLink]="['/purchaseorder/po-list']">
+          keyboard_arrow_left
+        </mat-icon><label class="lable"> <a [routerLink]="['/purchaseorder/po-list']"> Purchase Receive</a></label>
+      </div>
+      <div fxFlex="50%" class="breadcrumb-header-content">
+        View Purchase Receive
+      </div>
+      <div fxFlex="25%" class="breadcrumb-btn-content">
+        <button mat-button matSuffix mat-stroked-button class="add-new-btn print-btn"
+          (click)="openFilter(this.purchaseOrderData?.variants)" type="button" *ngIf="cannabisProducts.length == 0">
+          <span>
+            <a class="add-new-label">PRINT PO</a>
+          </span>
+        </button>
+        <mat-bar-button *ngIf="purchaseOrderData?.po_detail?.status != 'RECEIVED'" type="submit" type="submit"
+          [options]="barButtonOptions"></mat-bar-button>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-tab-group [selectedIndex]="utility.indexofTab" class="custom-tab">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utility.scrollTo('section1')">INFORMATION</p>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utility.scrollTo('section2')">PRODUCTS</p>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+
+
+  <div class="main-div-container">
+    <div fxLayout="row">
+      <div fxFlex="100" class="scroll-container fancyscroll view-module" id="parentDiv" scrollSpy [spiedTags]="['DIV']"
+        (sectionChange)="utility.onScrollContent($event)" [style.height.px]="innerHeight">
+        <!-- general info section -->
+        <div id="section1">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <div fxFlex="2" fxFlex.md="2" fxFlex.sm="5" fxFlex.xs="10%">
+            </div>
+            <div fxFlex="96" fxFlex.sm="75" fxFlex.md="96" fxFlex.xs="80%">
+              <!-- main content -->
+              <div class="">
+                <h2 layout-margin>Purchase Receive Information
+                </h2>
+                <mat-card class="body-card-block">
+                  <mat-card-content>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3%" fxLayoutAlign="center">
+                      <div fxFlex="31%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="PO Number*"
+                            [formControl]="purchaseForm.controls['purchase_order_no']" readonly autocomplete="off">
+                          <mat-error *ngIf="purchaseForm.controls['purchase_order_no'].hasError('required')">Please
+                            enter PO number for reference</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="31%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput [matDatepicker]="picker" [max]="maxDate" [min]="minDate" readonly
+                            placeholder="Invoice Date*" [formControl]="purchaseForm.controls['invoice_date']">
+                          <mat-datepicker-toggle matSuffix></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                          <mat-error *ngIf="purchaseForm.controls['invoice_date'].hasError('required')">Please enter
+                            invoice date</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="31%">
+                        <mat-form-field fxFlex="100%" >
+                          <mat-select [formControl]="purchaseForm.controls['storage_id']" placeholder="Inventory Import Location"
+                            [disableOptionCentering]="true">
+                            <mat-option (onSelectionChange)="taxrate(wh.store_id,wh.chain_id, $event)"  *ngFor="let wh of warehouse" [value]="wh.storage_id">{{ wh.name }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3%">
+                      <div fxFlex="50%">
+                        <mat-form-field fxFlex="100%" class="input-align">
+                          <mat-select placeholder="Vendor" [formControl]="purchaseForm.controls['vendor_id']" readonly
+                            [disableOptionCentering]="true">
+                            <mat-option>Select Vendor</mat-option>
+                            <mat-option *ngFor="let vendor of rawData?.vendors" [value]="vendor.vendor_id">
+                              {{vendor.name}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="purchaseForm.controls['vendor_id'].hasError('required')">Please select
+                            vendor</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="50%">
+                        <mat-form-field fxFlex="100%" class="input-align">
+                          <input matInput placeholder="Address" [formControl]="purchaseForm.controls['address']"
+                            autocomplete="off">
+                          <mat-error *ngIf="purchaseForm.controls['address'].hasError('required')">Please
+                            enter address</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3%">
+                      <div fxFlex="31%">
+                        <mat-form-field fxFlex="100%" class="input-align">
+                          <input matInput placeholder="Contact Person" [formControl]="purchaseForm.controls['contact']"
+                            autocomplete="off">
+                          <mat-error *ngIf="purchaseForm.controls['contact'].hasError('required')">Please
+                            enter contact details</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="31%">
+                        <mat-form-field fxFlex="100%" class="input-align">
+                          <input matInput placeholder="Phone" [formControl]="purchaseForm.controls['phone']"
+                            autocomplete="off">
+                          <mat-error *ngIf="purchaseForm.controls['phone'].hasError('required')">Please
+                            enter phone number</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="31%">
+                        <mat-form-field fxFlex="100%" class="input-align">
+                          <input matInput placeholder="Email" [formControl]="purchaseForm.controls['email']"
+                            autocomplete="off">
+                          <mat-error *ngIf="purchaseForm.controls['email'].hasError('required')">Please
+                            enter email</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+                      <div fxFlex="15%">
+                        <mat-form-field fxFlex="100%" class="input-align">
+                          <input matInput placeholder="Sum of Purchase Price($)*" readonly type="text" currencyMask
+                            [options]="options" maxlength='15' [formControl]="purchaseForm.controls['total']"
+                            autocomplete="off">
+                          <mat-error *ngIf="purchaseForm.controls['total'].hasError('required')">Please enter total
+                            amount of purchase receive</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <!-- Tax rate drop down -->
+                      <div fxFlex="15%">
+                        <mat-form-field fxFlex="100%" class="input-align">
+                          <mat-select placeholder="Tax rate" 
+                            [formControl]="purchaseForm.controls['taxrate_id']" [disableOptionCentering]="true">
+                            <mat-option >Choose an option</mat-option>
+                            <mat-option *ngFor="let tax_rate of tax_rate" [value]="tax_rate.id" >
+                              {{tax_rate.tax_type}}({{tax_rate.provincial_rate>0 ? tax_rate.country_rate +" + "+ tax_rate.provincial_rate : tax_rate.country_rate}})
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <!-- Tax rate drop down -->
+                      <div fxFlex="15%">
+                        <mat-form-field fxFlex="100%" class="input-align">
+                          <input matInput placeholder="GST Amount($)" type="text" readonly currencyMask
+                            [options]="options" maxlength='15'
+                            [formControl]="purchaseForm.controls['country_tax_amount']" autocomplete="off">
+                          <mat-error *ngIf="purchaseForm.controls['country_tax_amount'].hasError('required')">Please
+                            enter GST amount of purchase receive</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="15%">
+                        <mat-form-field fxFlex="100%" class="input-align">
+                          <input matInput placeholder="PST Amount($)" type="text" readonly currencyMask
+                            [options]="options" maxlength='15'
+                            [formControl]="purchaseForm.controls['provincial_tax_amount']" autocomplete="off">
+                          <mat-error *ngIf="purchaseForm.controls['provincial_tax_amount'].hasError('required')">Please
+                            enter PST amount of purchase receive</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="15%">
+                        <mat-form-field fxFlex="100%" class="input-align">
+                          <input matInput placeholder="Freight Amount($)" readonly type="text" currencyMask
+                            [options]="options" maxlength='15' [formControl]="purchaseForm.controls['freight_charge']"
+                            autocomplete="off">
+                          <mat-error *ngIf="purchaseForm.controls['freight_charge'].hasError('required')">Please enter
+                            amount of freight amount</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="14%">
+                        <mat-form-field fxFlex="100%" class="input-align">
+                          <input matInput placeholder="Total" type="text" currencyMask
+                            [options]="options" [readonly]="true" maxlength='15'
+                            [formControl]="purchaseForm.controls['final_total']" autocomplete="off" >
+                          <!-- <mat-error *ngIf="purchaseForm.controls['final_total'].hasError('required')">Please enter total
+                            amount of purchase receive</mat-error> -->
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%">
+                      <!-- <div fxFlex="15%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Sum of Purchase Price($)*" readonly type="text" currencyMask
+                            [options]="options" maxlength='15' [formControl]="purchaseForm.controls['total']"
+                            autocomplete="off">
+                          <mat-error *ngIf="purchaseForm.controls['total'].hasError('required')">Please enter total
+                            amount of purchase receive</mat-error>
+                        </mat-form-field>
+                      </div> -->
+                      <div fxFlex="50%">
+                        
+                      </div>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%">
+                      <div fxFlex="50%">
+                        
+                      </div>
+                      <div fxFlex="50%">
+                        
+                      </div>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%">
+                      <div fxFlex="100%">
+                        
+                      </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%">
+                      <div fxFlex="100%">
+                        
+                      </div>
+                    </div>
+                    <div fxLayout="row">
+                      <div fxFlex="100%">
+                        <mat-form-field fxFlex="100%">
+                          <textarea matInput placeholder="Notes" [formControl]="purchaseForm.controls['description']"
+                            autocomplete="off"></textarea>
+                          <mat-error *ngIf="purchaseForm.controls['description'].hasError('required')">Please include
+                            notes</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <hr>
+                    <h3 *ngIf="arrayOfFiles.length>0">Documents</h3>
+                    <mat-card *ngIf="purchaseInfo" class="file-drop-box po-document" (click)="fileUpload.click()"
+                      ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+                      (fileOver)="fileOverBase($event,'documents')" [uploader]="uploader">
+                      <div class="mb-1 drag_upload">Browse or drag file(s) to upload</div>
+                    </mat-card>
+                    <input hidden #fileUpload type="file" multiple [formControl]="purchaseForm.controls['file_input']"
+                      ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+                      (change)="fileOverBase($event,'documents')" ng2FileSelect [uploader]="uploader" />
+                    <mat-card class="po-document" *ngFor="let file of arrayOfFiles ; let i = index">
+                      <div fxLayout="row" class="file-view-section">
+                        <div fxFlex="15%">
+                          <mat-icon class="material-icons">
+                            attachment
+                          </mat-icon>
+                        </div>
+                        <div fxFlex="70%">{{file.original_name}}</div>
+                        <div fxFlex="15%" class="end" *ngIf="!purchaseInfo"><span *ngIf="file.id !=0 "><a
+                              href='{{API_URL+"documents/" + file?.id + "/download"}}' *ngIf="file?.id">
+                              <mat-icon class="material-icons">
+                                vertical_align_bottom
+                              </mat-icon>
+                            </a></span>
+                        </div>
+                        <div fxFlex="15%" class="end" *ngIf="purchaseInfo"><span *ngIf="file.id !=0 "><a
+                              href='{{API_URL+"documents/" + file?.id + "/download"}}' *ngIf="file?.id">
+                              <mat-icon class="material-icons">vertical_align_bottom</mat-icon>
+                            </a>
+                          </span>
+                          <mat-icon class="material-icons pointer" (click)="deleteFile(file.id,i)">
+                            delete
+                          </mat-icon>
+                        </div>
+                      </div>
+                      <hr>
+                    </mat-card>
+                  </mat-card-content>
+
+                </mat-card>
+              </div>
+            </div>
+            <div fxFlex="2" fxFlex.sm="20" fxFlex.md="2" fxFlex.xs="10%">
+            </div>
+          </div>
+        </div>
+        <!-- general info section -->
+
+        <!-- Product section -->
+        <div id="section2">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <div fxFlex="2" fxFlex.md="2" fxFlex.sm="5" fxFlex.xs="10%">
+            </div>
+            <div fxFlex="96" fxFlex.sm="75" fxFlex.md="96" fxFlex.xs="80%">
+              <!-- main content -->
+              <!-- cannabis table -->
+              <div *ngIf="cannabisProducts.length > 0" formArrayName="cannabisProducts">
+                <h2 layout-margin>CANNABIS PRODUCTS</h2>
+                <mat-card class="body-card-block audit-trail-padding potable">
+                  <mat-card-content class="variant-card-content">
+
+                    <ngx-datatable #myDatatable class="material product_table"
+                      [ngStyle]="{'height':this.cannabisProducts.length < 12 ? ((this.cannabisProducts.length + 1) * 48 + 20) + 'px' : ''}"
+                      [headerHeight]="60" [limit]="10" [columnMode]="'force'" [footerHeight]="0" [rowHeight]="48"
+                      [scrollbarV]="true" [scrollbarH]="true" [rows]="cannabisProducts">
+                      <ngx-datatable-column name="" [sortable]="false" [draggable]="false" [resizeable]="false"
+                        [flexGrow]="1" [width]="50" [maxWidth]="40" [minWidth]="30">
+                        <ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected"
+                          let-selectFn="selectFn">
+                        </ng-template>
+                        <ng-template ngx-datatable-cell-template ngx-datatable-cell-template let-row="row"
+                          let-expanded="expanded" let-value="value" let-rowIndex="rowIndex" let-isSelected="isSelected"
+                          let-onCheckboxChangeFn="onCheckboxChangeFn">
+                          <div class="checkbox-column" [formGroupName]="rowIndex">
+                            <mat-checkbox color="primary" [checked]="true" disabled *ngIf="row['is_received']">
+                            </mat-checkbox>
+                            <mat-checkbox color="primary" *ngIf="!row['is_received']"
+                              (click)="$event.stopPropagation();" (change)="onCheckboxChangeFn($event);"
+                              formControlName="is_received" [checked]="isSelected">
+                            </mat-checkbox>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" prop="variant_sku" name="SKU" [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? value : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" prop="product_name" name="Product Name" [width]="200">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? value : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" prop="variant_name" name="Variant Name" [width]="200">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? value : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" name="Case Size" [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{row.package_capacity+"X"+row.variant_name }}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" prop="qty" name="Case Quantity" [width]="120">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <!-- <span title="{{value}}"> {{value ? value : "--" }}</span> -->
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{row.qty/row.package_capacity }}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" prop="received_qty" name="Received Quantity"
+                        [flexGrow]="1">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? value : "--" }}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" prop="received_qty" name="Actual Quantity"
+                        [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex" class="cell-data">
+                            <span *ngIf="row['qty']==row['received_qty']">
+                              {{value}}
+                            </span>
+                            <input (input)="checked_checkbox(rowIndex,'cannabisProducts')" autocomplete="off" *ngIf="row['qty']!=row['received_qty']" autofocus type="number"
+                              class="min-width" formControlName="value_added" />
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" prop="variant_name" name="Unit" [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <!-- <span title="{{value}}"> {{ value ? value.split(" ")[1] : "--"}}</span> -->
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{ value ? value.split(" ")[value.split(" ").length - 1].toUpperCase() : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column [resizeable]="false" prop="barcode" name="Barcode" [flexGrow]="2">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <!-- <span title="{{value}}"> {{ value ? value : "--"}}</span> -->
+                            <span title="{{value}}"> 
+                              {{row.barcodes ? row['barcodes'].split(',').length ?  row['barcodes'].split(',')[row['barcodes'].split(',').length - 1] : 'n' : '--'}}
+                            </span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column [resizeable]="false" prop="batch_no" name="Batch" [flexGrow]="2">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{ value ? value : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <!-- thc and cbd value -->
+                      <ngx-datatable-column [resizeable]="false" prop="thc" name="THC" [flexGrow]="0.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{ value ? value : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column [resizeable]="false" prop="cbd" name="CBD" [flexGrow]="0.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{ value ? value : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <!-- thc and cbd value -->
+
+                      <ngx-datatable-column [resizeable]="false" prop="storage_name" name="Warehouse" [flexGrow]="3.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? value : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <!-- purchase price per unit -->
+                      <ngx-datatable-column [resizeable]="false" prop="purchase_price" name="Purchase Price per unit"
+                        [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? (value | currency) : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <!-- purchase price per unit -->
+
+                      <!-- Total purchase price -->
+                      <ngx-datatable-column [resizeable]="false" name="Extended Price" [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{row.qty * row.purchase_price | currency}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <!-- Total purchase price -->
+
+                      <!-- selling price per unit -->
+                      <ngx-datatable-column [resizeable]="false" prop="selling_price" name="Selling Price per unit"
+                        [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? (value | currency) : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <!-- selling price per unit -->
+                      <ngx-datatable-column [frozenRight]="true" [resizeable]="false"  name="print"
+                      [width]="80">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <button *ngIf="row.barcodes && row.barcodes != ','" mat-icon-button type="button" (click)="printBarcode(rowIndex,row.variant_id,'cannabisProducts')">
+                            <mat-icon>print</mat-icon>
+                          </button>
+                        </ng-template>
+                      </ngx-datatable-column>
+                    </ngx-datatable>
+
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <!-- cannabis table -->
+
+              <!-- cannabis accessories table -->
+              <div *ngIf="cannabisProductsAccessories.length > 0" formArrayName="cannabisProductsAccessories">
+                <h2 layout-margin>CANNABIS ACCESSORIES PRODUCTS</h2>
+                <mat-card class="body-card-block audit-trail-padding potable">
+                  <mat-card-content class="variant-card-content">
+
+                    <ngx-datatable #myDatatable class="material product_table"
+                      [ngStyle]="{'height':this.cannabisProductsAccessories.length < 12 ? ((this.cannabisProductsAccessories.length + 1) * 48 + 20) + 'px' : ''}"
+                      [headerHeight]="60" [limit]="10" [columnMode]="'force'" [footerHeight]="0" [rowHeight]="48"
+                      [scrollbarV]="true" [scrollbarH]="true" [rows]="cannabisProductsAccessories">
+                      <ngx-datatable-column name="" [sortable]="false" [draggable]="false" [resizeable]="false"
+                        [flexGrow]="1" [width]="50" [maxWidth]="40" [minWidth]="30">
+                        <ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected"
+                          let-selectFn="selectFn">
+                        </ng-template>
+                        <ng-template ngx-datatable-cell-template ngx-datatable-cell-template let-row="row"
+                          let-expanded="expanded" let-value="value" let-rowIndex="rowIndex" let-isSelected="isSelected"
+                          let-onCheckboxChangeFn="onCheckboxChangeFn">
+                          <div class="checkbox-column" [formGroupName]="rowIndex">
+                            <mat-checkbox color="primary" [checked]="true" disabled *ngIf="row['is_received']">
+                            </mat-checkbox>
+                            <mat-checkbox color="primary" *ngIf="!row['is_received']"
+                              (click)="$event.stopPropagation();" (change)="onCheckboxChangeFn($event);"
+                              formControlName="is_received" [checked]="isSelected">
+                            </mat-checkbox>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" prop="variant_sku" name="SKU" [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? value : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" prop="product_name" name="Product Name" [width]="200">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? value : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" prop="variant_name" name="Variant Name" [width]="200">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? value : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <!-- <ngx-datatable-column [resizeable]="false" name="Size" [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <span title="{{value}}"> {{row.qty+"X"+row.variant_name }}</span>
+                        </ng-template>
+                      </ngx-datatable-column> -->
+                      <ngx-datatable-column [resizeable]="false" prop="qty" name="Qty" [width]="100">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? value : "--" }}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" prop="received_qty" name="Received Quantity"
+                        [flexGrow]="1">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? value : "--" }}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" prop="received_qty" name="Actual Quantity"
+                        [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex" class="cell-data">
+                            <span *ngIf="row['qty']==row['received_qty']">
+                              {{value}}
+                            </span>
+                            <input (input)="checked_checkbox(rowIndex,'cannabisProductsAccessories')" autocomplete="off" *ngIf="row['qty']!=row['received_qty']" autofocus type="number"
+                              class="min-width" formControlName="value_added" />
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <!-- <ngx-datatable-column [resizeable]="false" name="Unit" [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <span title="{{value}}"> {{ value ? value.split(" ")[1] : "--"}}</span>
+                        </ng-template>
+                      </ngx-datatable-column> -->
+
+                      <!-- <ngx-datatable-column [resizeable]="false" prop="batch_no" name="Batch" [flexGrow]="2">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <span title="{{value}}"> {{ value ? value : "--"}}</span>
+                        </ng-template>
+                      </ngx-datatable-column> -->
+
+                      <!-- <ngx-datatable-column [resizeable]="false" prop="storage_name" name="Warehouse" [flexGrow]="3.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <span title="{{value}}"> {{value ? value : "--"}}</span>
+                        </ng-template>
+                      </ngx-datatable-column> -->
+
+                      <!-- purchase price per unit -->
+                      <ngx-datatable-column [resizeable]="false" prop="purchase_price" name="Purchase Price per unit($)"
+                        [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? (value | currency) : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <!-- purchase price per unit -->
+
+                      <!-- Total purchase price -->
+                      <ngx-datatable-column [resizeable]="false" name="Extended price" [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{row.qty * row.purchase_price | currency}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <!-- Total purchase price -->
+
+                      <!-- selling price per unit -->
+                      <ngx-datatable-column [resizeable]="false" prop="selling_price" name="Selling Price per unit($)"
+                        [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? (value | currency) : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <!-- selling price per unit -->
+
+                      <ngx-datatable-column [resizeable]="false" prop="barcode" name="Barcode" [flexGrow]="2">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <!-- <span title="{{value}}"> {{ value ? value : "--"}}</span> -->
+                            <span title="{{value}}"> 
+                              {{row.barcodes ? row['barcodes'].split(',').length ?  row['barcodes'].split(',')[row['barcodes'].split(',').length - 1] : 'n' : '--'}}
+                            </span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column [frozenRight]="true" [resizeable]="false"  name="print"
+                      [width]="80">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <button *ngIf="row.barcodes && row.barcodes != ','" mat-icon-button type="button" (click)="printBarcode(rowIndex,row.variant_id,'cannabisProductsAccessories')">
+                            <mat-icon>print</mat-icon>
+                          </button>
+                        </ng-template>
+                      </ngx-datatable-column>
+                    </ngx-datatable>
+
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <!-- cannabis accessories table -->
+
+              <!-- non cannabis table -->
+              <div *ngIf="noncannabisProducts.length > 0" formArrayName="noncannabisProducts">
+                <h2 layout-margin>NON CANNABIS PRODUCTS</h2>
+                <mat-card class="body-card-block audit-trail-padding potable">
+                  <mat-card-content class="variant-card-content">
+
+                    <ngx-datatable #myDatatable class="material product_table"
+                      [ngStyle]="{'height':this.noncannabisProducts.length < 12 ? ((this.noncannabisProducts.length + 1) * 48 + 20) + 'px' : ''}"
+                      [headerHeight]="60" [limit]="10" [columnMode]="'force'" [footerHeight]="0" [rowHeight]="48"
+                      [scrollbarV]="true" [scrollbarH]="true" [rows]="noncannabisProducts">
+                      <ngx-datatable-column name="" [sortable]="false" [draggable]="false" [resizeable]="false"
+                        [flexGrow]="1" [width]="50" [maxWidth]="40" [minWidth]="30">
+                        <ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected"
+                          let-selectFn="selectFn">
+                        </ng-template>
+                        <ng-template ngx-datatable-cell-template ngx-datatable-cell-template let-row="row"
+                          let-expanded="expanded" let-value="value" let-rowIndex="rowIndex" let-isSelected="isSelected"
+                          let-onCheckboxChangeFn="onCheckboxChangeFn">
+                          <div class="checkbox-column" [formGroupName]="rowIndex">
+                            <mat-checkbox color="primary" [checked]="true" disabled *ngIf="row['is_received']">
+                            </mat-checkbox>
+                            <mat-checkbox color="primary" *ngIf="!row['is_received']"
+                              (click)="$event.stopPropagation();" (change)="onCheckboxChangeFn($event);"
+                              formControlName="is_received" [checked]="isSelected">
+                            </mat-checkbox>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" prop="variant_sku" name="SKU" [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? value : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" prop="product_name" name="Product Name" [width]="200">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? value : "--"}}</span>
+                          </div>
+                          
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" prop="variant_name" name="Variant Name" [width]="200">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? value : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <!-- <ngx-datatable-column [resizeable]="false" name="Size" [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <span title="{{value}}"> {{row.qty+"X"+row.variant_name }}</span>
+                        </ng-template>
+                      </ngx-datatable-column> -->
+                      <ngx-datatable-column [resizeable]="false" prop="qty" name="Qty" [width]="100">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? value : "--" }}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" prop="received_qty" name="Received Quantity"
+                        [flexGrow]="1">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? value : "--" }}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [resizeable]="false" prop="received_qty" name="Actual Quantity"
+                        [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div [formGroupName]="rowIndex" class="cell-data">
+                            <span *ngIf="row['qty']==row['received_qty']">
+                              {{value}}
+                            </span>
+                            <input (input)="checked_checkbox(rowIndex,'noncannabisProducts')" autocomplete="off" *ngIf="row['qty']!=row['received_qty']" autofocus type="number"
+                              class="min-width" formControlName="value_added" />
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <!-- <ngx-datatable-column [resizeable]="false" name="Unit" [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <span title="{{value}}"> {{ value ? value.split(" ")[1] : "--"}}</span>
+                        </ng-template>
+                      </ngx-datatable-column> -->
+
+                      <!-- <ngx-datatable-column [resizeable]="false" prop="batch_no" name="Batch" [flexGrow]="2">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <span title="{{value}}"> {{ value ? value : "--"}}</span>
+                        </ng-template>
+                      </ngx-datatable-column> -->
+
+                      <!-- <ngx-datatable-column [resizeable]="false" prop="storage_name" name="Warehouse" [flexGrow]="3.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <span title="{{value}}"> {{value ? value : "--"}}</span>
+                        </ng-template>
+                      </ngx-datatable-column> -->
+
+                      <!-- purchase price per unit -->
+                      <ngx-datatable-column [resizeable]="false" prop="purchase_price" name="Purchase Price per unit($)"
+                        [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? (value | currency) : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <!-- purchase price per unit -->
+
+                      <!-- Total purchase price -->
+                      <ngx-datatable-column [resizeable]="false" name="Extended Price" [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{row.qty * row.purchase_price | currency}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <!-- Total purchase price -->
+
+                      <!-- selling price per unit -->
+                      <ngx-datatable-column [resizeable]="false" prop="selling_price" name="Selling Price per unit($)"
+                        [flexGrow]="1.5">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <div class="cell-data">
+                            <span title="{{value}}"> {{value ? (value | currency) : "--"}}</span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <!-- selling price per unit -->
+
+                      <ngx-datatable-column [resizeable]="false" prop="barcode" name="Barcode" [flexGrow]="2">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <!-- <span title="{{value}}"> {{ value ? value : "--"}}</span> -->
+                          <div class="cell-data">
+                            <span title="{{value}}"> 
+                              {{row.barcodes ? row['barcodes'].split(',').length ?  row['barcodes'].split(',')[row['barcodes'].split(',').length - 1] : 'n' : '--'}}
+                            </span>
+                          </div>
+                        </ng-template>
+                      </ngx-datatable-column>
+                      <ngx-datatable-column [frozenRight]="true" [resizeable]="false"  name="print"
+                        [width]="80">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                          let-row="row">
+                          <button *ngIf="row.barcodes && row.barcodes != ','" mat-icon-button type="button" (click)="printBarcode(rowIndex,row.variant_id,'noncannabisProducts')">
+                            <mat-icon>print</mat-icon>
+                          </button>
+                        </ng-template>
+                      </ngx-datatable-column>
+                    </ngx-datatable>
+
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <!-- non cannabis table -->
+              <!-- main content -->
+            </div>
+            <div fxFlex="2" fxFlex.sm="20" fxFlex.md="2" fxFlex.xs="10%">
+            </div>
+          </div>
+        </div>
+        <!-- Product section -->
+      </div>
+    </div>
+  </div>
+</form>

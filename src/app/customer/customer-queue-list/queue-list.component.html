@@ -1,0 +1,119 @@
+  <mat-card class="header-main-content">
+    <div fxLayout="row">
+      <div fxFlex="25%" class="breadcrumb-content"></div>
+      <div fxFlex="50%" class="breadcrumb-header-content">Customer Queue</div>
+      <div fxFlex="25%" class="breadcrumb-btn-content">
+        <button class="add-new-btn" [routerLink]="['/customer/create']" type="button">
+          <a class="add-new-label">
+            <img src="assets/icon/plus-math.svg" alt="Add New" class="plus-math" />
+            ADD NEW
+          </a>
+        </button>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-progress-bar mode="indeterminate" *ngIf="inProgress"></mat-progress-bar>
+  <div style="padding-top: 20px">
+    <div fxFlex="2%"></div>
+    <div fxFlex="96%">
+      <div fxLayout="column" fxLayoutGap="20px">
+        <div class="" fxLayout="row" fxLayoutWrap fxLayoutAlign="center">
+          <div class="search-input" fxFlex="90%" fxFlex.md="80%" fxFlex.lg="80%" fxFlex.sm="65%" fxFlex.xs="65%">
+            <img alt="Search" class="Search-icon" src="../../assets/icon/search.png" />
+            <input class="Search" placeholder="Search customer..." [formControl]="search" />
+            <span class="result-count">{{ rows?.length }} Results</span>
+          </div>
+          <div class="search-button pointer" type="button" fxFlex="10%" fxFlex.md="20%" fxFlex.lg="20%" fxFlex.sm="35%" fxFlex.xs="35%">
+            <div fxFlex="70%" class="text">Search</div>
+            <div fxFlex="30%" class="icon">
+              <!-- <mat-icon>keyboard_arrow_down</mat-icon> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column" class="main-container" *ngIf="rows?.length > 0">
+        
+        <div class="list-detail-content">
+          <ngx-datatable
+            #myTable
+            class="material expandable fancyscroll employee-list-table"
+            [ngStyle]="{ height: dynamicHeight }"
+            [headerHeight]="50"
+            [externalPaging]="false"
+            [footerHeight]="30"
+            [columnMode]="'flex'"
+            [rows]="rows"
+            [rowHeight]="48"
+            [scrollbarV]="true"
+          >
+
+            <ngx-datatable-column name="Queue Rank" prop="sequence" [resizeable]="false" [flexGrow]="1">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <span>{{ row["sequence"] }}</span>
+              </ng-template>
+            </ngx-datatable-column>
+  
+            <ngx-datatable-column name="Patient Name" prop="" [resizeable]="false" [flexGrow]="2">
+              <ng-template 
+              let-row="row" 
+              let-value="value" 
+              ngx-datatable-cell-template
+              
+              >
+                <div fxFlex="70%" class="text">{{ row["patient_fname"] }} {{ row["middle_name"] }} {{ row["patient_lname"] }}
+                  <span *ngIf="row.queue_status == 1" class="material-icons active-queue" [ngStyle]="{ color: 'green' }">fiber_manual_record</span>
+                  <span *ngIf="row.queue_status == 0" class="material-icons active-queue" [ngStyle]="{ color: 'grey' }">fiber_manual_record</span>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Phone Number" prop="patient_mobile" [resizeable]="false" [flexGrow]="1.2">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <span>{{ row["patient_mobile"] }}</span>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Email" prop="patient_email" [resizeable]="false" [flexGrow]="2">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <span>{{ row["patient_email"] }}</span>
+              </ng-template>
+            </ngx-datatable-column>
+  
+            <ngx-datatable-column
+              name="Action"
+              [sortable]="false"
+              headerClass="display-none"
+              [resizeable]="false"
+              [flexGrow]="1.5"
+              [maxWidth]="75"
+              [minWidth]="50"
+            >
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <button class="marginTop" (click)="removeCustomerFromQueue(row)" mat-icon-button>
+                <mat-icon>delete</mat-icon>
+              </button>
+              </ng-template>
+            </ngx-datatable-column>
+  
+            <ngx-datatable-footer>
+              <ng-template ngx-datatable-footer-template let-rowCount="rows.length">
+                <div class="total-rows">Total : {{ rows.length }}</div>
+              </ng-template>
+            </ngx-datatable-footer>
+          </ngx-datatable>
+        </div>
+      </div>
+      <div fxLayout="column" *ngIf="rows?.length == 0 && !inProgress" style="margin-top: 60px">
+        <div class="center">
+          <div>
+            <img alt="No result found" src="../../assets/images/sad.svg" class="sad" />
+          </div>
+          <div>
+            <span class="Sorry-no-results-fo">Sorry, no results found</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

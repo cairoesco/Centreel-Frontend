@@ -1,0 +1,60 @@
+<div class="dialog-pop-up">
+
+    <form [formGroup]="form">
+        <div fxLayout="row wrap">
+
+            <div class="main-content" fxLayout="row wrap">
+                <h1 class="header-text" mat-dialog-title>Verify Settings</h1><span fxFlex></span><span class="close-btn"
+                    align="end" (click)="close()">X</span>
+                <mat-card class="margin-zero main-content" fxFlex="100%">
+                    <div mat-dialog-content>
+                        <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                            <div class="mb-1" fxFlex="50%">
+                                <mat-form-field fxFlex="100%">
+                                    <input matInput formControlName="host" placeholder="To*">
+                                </mat-form-field>
+                            </div>
+                            <div class="mb-1" fxFlex="50%">
+                                <mat-form-field fxFlex="100%">
+                                    <mat-select placeholder="Message Type *" formControlName="port"
+                                        [disableOptionCentering]="true">
+                                        <mat-option>--</mat-option>
+                                        <mat-option *ngFor="let port of portList" [value]="port">
+                                            {{port}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                            <div class="mb-1" fxFlex="100%">
+                                <mat-form-field fxFlex="100%">
+                                    <input matInput formControlName="subject" placeholder="Subject*">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                            <div class="mb-1" fxFlex="100%">
+                                <mat-form-field fxFlex="100%">
+                                    <textarea matInput placeholder="Body" formControlName="description" autocomplete="off"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <!-- {{data.name}} -->
+                    </div>
+                </mat-card>
+            </div>
+
+            <mat-card fxLayout="row wrap" class="footer-modal-pop-up margin-zero" fxFlex="100%">
+                <div mat-dialog-actions class="center">
+                    <button (click)="onNoClick()" class="mat-primary-btn" mat-raised-button color="primary">Send</button>
+                    <button mat-button mat-stroked-button color="primary" [mat-dialog-close]=""
+                        class="mat-cancel-btn">Cancel</button>
+                </div>
+            </mat-card>
+        </div>
+
+
+    </form>
+</div>

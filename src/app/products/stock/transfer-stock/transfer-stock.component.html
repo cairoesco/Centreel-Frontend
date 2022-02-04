@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>Transfer Stock from {{storage_name}}
+  <span fxFlex></span>
+  <span class="close-btn" align="end" (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </span>
+</h2>
+<form [formGroup]="productVariantStockTransferForm" class="transfer-stock-dialog">
+  <mat-dialog-content class="mat-typography">
+    <div>
+      <div>
+        <div class="product-name">
+          <h3>{{data.product_name}} - {{sourceStock?.variant_name}}</h3>
+        </div>
+        <mat-form-field class="current-stock remove-underline">
+          <mat-label>Current stock</mat-label>
+          <input type="text" disabled matInput
+            value="{{formatNumber(sourceStock?.storage_stock[indexofSourceStock-2],product_unit)}}{{product_unit}}">
+        </mat-form-field>
+        <div class="product-name">
+          <h3>Transfer To</h3>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%">
+        <div formArrayName="products" fxFlex="100%" fxLayoutGap="5%">
+          <div *ngFor="let products of productVariantStockTransferForm.get('products')['controls']; let i=index">
+            <div [formGroupName]="i">
+              <div formArrayName="productVariants" class="marginTop">
+                <div *ngFor="let productVariants of products.get('productVariants')['controls']; let j=index">
+                  <div [formGroupName]="j" *ngIf="j != data.index-2">
+                    <mat-card-content fxLayoutGap="5%">
+                      <mat-label fxFlex="40%" fxLayoutAlign="start center">{{productVariants.value.storage_name}}
+                      </mat-label>
+                      <mat-form-field fxFlex="20%" class="remove-underline">
+                        <mat-label>Current Stock</mat-label>
+                        <input type="text" matInput disabled 
+                          value="{{formatNumber(productVariants.value.total_stock,product_unit)}}{{product_unit}}">
+                      </mat-form-field>
+                      <mat-form-field fxFlex="20%">
+                        <mat-label>TO TRANSFER</mat-label>
+                        <input type="text" matInput formControlName="value_added"  autocomplete="off" (keypress)="utility.stockValidation($event, productVariants.controls['value_added'].value,data.product_unit);"
+                          (focusout)="transferStock($event)">
+                      </mat-form-field>
+                      <mat-form-field fxFlex="20%" class="remove-underline">
+                        <mat-label>Updated Stock</mat-label>
+                        <input type="text" matInput disabled
+                          value="{{formatNumber(+productVariants.value.total_stock+ +productVariants.controls['value_added'].value,product_unit)}}{{product_unit}}">
+                      </mat-form-field>
+                    </mat-card-content>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="start" class="mat-dialog-footer-custom">
+    <button type="submit" (click)="onSubmit()" class="ok-button" mat-raised-button color="primary">TRANSFER</button>
+    <button mat-button color="primary" class="cancel-button" [mat-dialog-close]="">CANCEL</button>
+  </mat-dialog-actions>
+</form>

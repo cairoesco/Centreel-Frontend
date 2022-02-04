@@ -1,0 +1,106 @@
+<h2 mat-dialog-title>
+  <span *ngIf="!form.controls['storage_id'].value || form.controls['storage_id'].value == 0">Add Warehouse</span> 
+  <span *ngIf="form.controls['storage_id'].value > 0">Edit Warehouse</span> 
+  <span fxFlex></span>
+  <span class="close-btn" align="end" (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </span>
+</h2>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="mat-typography add-tag-dialog">
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+      <div class="mb-1" fxFlex="50%">
+        <mat-form-field fxFlex="100%">
+          <input matInput placeholder="Warehouse Name*" formControlName="name">
+          <mat-error *ngIf="form.controls['name'].hasError('required')">Please enter warehouse name
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mb-1" fxFlex="50%">
+        <mat-form-field fxFlex="100%">
+          <mat-select placeholder="Warehouse Type*" formControlName="subtype" [disableOptionCentering]="true">
+            <mat-option *ngFor="let item of data.type" [value]="item.value">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.controls['subtype'].hasError('required')">
+            Please select warehouse type</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+      <div class="mb-1" fxFlex="100%">
+        <mat-form-field fxFlex="100%">
+          <input matInput placeholder="Address" formControlName="address">
+          <mat-error *ngIf="form.controls['address'].hasError('required')">Please enter warehouse address</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+      <div class="mb-1" fxFlex="50%">
+        <mat-form-field fxFlex="100%">
+          <mat-select placeholder="Country" formControlName="country_id"
+            (selectionChange)="getLocationList('state',$event.value)" [disableOptionCentering]="true">
+            <mat-option>Select Country</mat-option>
+            <mat-option *ngFor="let country of countryList" [value]="country.location_id">
+              {{country.location_name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.controls['country_id'].hasError('required')">Please select country
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mb-1" fxFlex="50%">
+        <mat-form-field fxFlex="100%">
+          <mat-select placeholder="Province" formControlName="state_id"
+            (selectionChange)="getLocationList('city',$event.value)" [disableOptionCentering]="true">
+            <mat-option>Select Province</mat-option>
+            <mat-option *ngFor="let state of provinceList" [value]="state.location_id">
+              {{state.location_name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.controls['state_id'].hasError('required')">Please select province</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+      <div class="mb-1" fxFlex="50%">
+        <mat-form-field fxFlex="100%">
+          <mat-select placeholder="City" formControlName="city_id" [disableOptionCentering]="true">
+            <mat-option>Select City</mat-option>
+            <mat-option *ngFor="let city of cityList" [value]="city.location_id">
+              {{city.location_name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.controls['city_id'].hasError('required')">Please select city</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mb-1" fxFlex="50%">
+          <mat-form-field fxFlex="100%">
+              <input matInput placeholder="Postal Code" formControlName="zipcode" (keypress)="numberOnly($event)" maxlength="10"
+                autocomplete="off">
+            </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+      <div class="mb-1" fxFlex="50%">
+        <mat-form-field fxFlex="100%">
+          <input matInput placeholder="Phone" formControlName="phone" (keypress)="numberOnly($event)" maxlength="10"
+            autocomplete="off">
+        </mat-form-field>
+      </div>
+      <div class="mb-1" fxFlex="50%">
+        <mat-form-field fxFlex="100%">
+          <input matInput placeholder="Email" formControlName="email">
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="start" class="mat-dialog-footer-custom">
+    <button *ngIf="form.controls['storage_id'].value == 0" type="submit" class="ok-button" mat-raised-button
+      color="primary">ADD WAREHOUSE</button>
+    <button *ngIf="form.controls['storage_id'].value > 0" type="submit" class="ok-button" mat-raised-button
+      color="primary">EDIT WAREHOUSE</button>
+    <button mat-button color="primary" class="cancel-button" [mat-dialog-close]="">CANCEL</button>
+  </mat-dialog-actions>
+</form>

@@ -1,0 +1,175 @@
+<mat-card class="header-main-content" [formGroup]="inventory_report">
+  <div fxLayout="row">
+    <div fxFlex="25%" fxFlex.md="25%" fxFlex.sm="25%" fxFlex.lg="30%" class="breadcrumb-content">
+    </div>
+    <div fxFlex="50%" fxFlex.md="50%" fxFlex.sm="50%" fxFlex.lg="40%" class="breadcrumb-header-content center">
+      Inventory Report
+    </div>
+    <div fxFlex="25%" fxFlex.md="25%" fxFlex.sm="25%" fxFlex.lg="30%" class="breadcrumb-btn-content end">
+      <mat-checkbox [formControl]="inventory_report.controls['is_club']" class="check-box-green" color="primary">
+        Batchwise</mat-checkbox>
+      <button mat-button matSuffix mat-stroked-button class="add-new-btn" [matMenuTriggerFor]="menu" type="button">
+        <mat-icon class="report-header-button">get_app</mat-icon>
+        <span>
+          <a class="add-new-label">EXPORT</a>
+        </span>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item [disabled]="resultsData.length == 0" (click)="getExportPDF('pdf')">PDF</button>
+        <button mat-menu-item [disabled]="resultsData.length == 0" (click)="getExportCSV('csv')">CSV</button>
+        <button mat-menu-item [disabled]="resultsData.length == 0" (click)="getExportCSV('xls')">EXCEL</button>
+      </mat-menu>
+    </div>
+  </div>
+</mat-card>
+
+<mat-progress-bar mode="indeterminate" *ngIf="inProgress"></mat-progress-bar>
+<div class="top-20 report-inner-height">
+  <div fxFlex="96%" fxLayout="column" fxFlexOffset="2%">
+    <form>
+      <div class="" fxLayout="row" fxLayoutWrap fxLayoutAlign="center">
+        <div class="search-input" fxFlex="90%" fxFlex.md="80%" fxFlex.lg="80%" fxFlex.sm="65%" fxFlex.xs="65%">
+          <img class="Search-icon" alt="Search" src="../../assets/icon/search.png">
+          <input class="Search" (keyup)="applyFilter($event.target.value)" placeholder="Search...">
+          <span class="result-count">{{resultsData.length}} Results</span>
+        </div>
+        <div class="search-button pointer" (click)="openFilter()" fxFlex="10%" fxFlex.md="20%" fxFlex.lg="20%"
+          fxFlex.sm="35%" fxFlex.xs="35%">
+          <div fxFlex="70%" class="text"> Filter by
+          </div>
+          <div fxFlex="30%" class="icon">
+            <mat-icon>keyboard_arrow_down</mat-icon>
+          </div>
+        </div>
+      </div>
+    </form>
+    <!-- table start -->
+    <mat-card fxLayout="row" class="box-shadow report-listing" *ngIf="resultsData.length > 0">
+      <ngx-datatable #myDatatable class="material custom-table onhandreport-list-table"
+        [ngStyle]="{'height':dynamicHeight}" [headerHeight]="60" [limit]="10" [columnMode]="'flex'" [footerHeight]="50"
+        [rowHeight]="55" [scrollbarV]="true" [rows]="resultsData" (activate)="onActivate($event)"
+        (page)="onPage($event)">
+        <!-- row detail -->
+        <ngx-datatable-row-detail [rowHeight]="150">
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+            <div class="sub-table">
+              <!-- sub table -->
+              <ngx-datatable class="material orders-table" [headerHeight]="50" [limit]="10" [columnMode]="'flex'"
+                [footerHeight]="0" [ngStyle]="{'height':getHeight(row?.stockwiseData.length,row)}" [rowHeight]="48"
+                [scrollbarV]="true" [rows]="row.stockwiseData">
+                <ngx-datatable-column [sortable]="false" [resizeable]="false" prop="batch_no" name="Batch"
+                  [flexGrow]="1">
+                  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                    <span> {{value ? value:'--'}}</span>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [sortable]="false" [resizeable]="false" prop="storage_name" name="Warehouse"
+                  [flexGrow]="2">
+                  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                    <span> {{value ? value:'--'}}</span>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [sortable]="false" [resizeable]="false" prop="available_qty" name="On Hand"
+                  [flexGrow]="1">
+                  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                    <span> {{value ? (value | number: '1.0-0'):'--'}}</span>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [sortable]="false" [resizeable]="false" prop="on_hand_amount" name="On Hand($)"
+                  [flexGrow]="1.5">
+                  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                    <span> {{value ? '$'+value:'--'}}</span>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [sortable]="false" [resizeable]="false" prop="total_selling_amount"
+                  name="Total by Selling Price" [flexGrow]="2">
+                  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                    <span> {{value ? '$'+value:'--'}}</span>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [sortable]="false" [resizeable]="false" prop="margin" name="Margin"
+                  [flexGrow]="1">
+                  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                    <span> {{value ? '$'+value:'--'}}</span>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [sortable]="false" [resizeable]="false" prop="margin_percentage" name="Margin(%)"
+                  [flexGrow]="1">
+                  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                    <span> {{value ? value+'%':'--'}}</span>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column [sortable]="false" [resizeable]="false" prop="reorder" name="Reorder" [flexGrow]="1">
+                  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                    <span> {{value ? value:'--'}}</span>
+                  </ng-template>
+                </ngx-datatable-column>
+
+              </ngx-datatable>
+              <!-- sub table -->
+            </div>
+          </ng-template>
+        </ngx-datatable-row-detail>
+        <ngx-datatable-column name="" [sortable]="false" [draggable]="false" [resizeable]="false" class="arrow"
+          [flexGrow]="0.5" [maxWidth]="10" [minWidth]="10">
+          <ng-template ngx-datatable-cell-template let-row="row" let-expanded="expanded" let-value="value">
+            <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+              title="Expand/Collapse Row"></a>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [resizeable]="false" prop="variant_sku" name="SKU" [flexGrow]="1.5">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            <span> {{value ? value:'--'}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [resizeable]="false" prop="description" name="Description" [flexGrow]="3">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            <span> {{value ? value:'--'}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [sortable]="false" [resizeable]="false" prop="available_qty" name="On Hand"
+          [flexGrow]="1">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            <span> {{value ? (value | number: '1.0-0'):'--'}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [resizeable]="false" prop="product_category_name" name="Category" [flexGrow]="1.5">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            <span> {{value ? value:'--'}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [resizeable]="false" prop="vendor_name" name="Vendor" [flexGrow]="2">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            <span> {{value ? value:'--'}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+        <!-- <ngx-datatable-column [resizeable]="false" prop="reorder" name="Reorder" [flexGrow]="1">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            <span> {{value ? value:'--'}}</span>
+          </ng-template>
+        </ngx-datatable-column> -->
+        <ngx-datatable-footer>
+          <ng-template ngx-datatable-footer-template let-rowCount="rowCount">
+            <div class="total-rows">
+              Total : {{rowCount}}
+            </div>
+          </ng-template>
+        </ngx-datatable-footer>
+      </ngx-datatable>
+    </mat-card>
+    <div fxLayout="column" *ngIf="resultsData.length==0 && !inProgress" class="report-error-msg">
+      <div class="center">
+        <div>
+          <img src="../../assets/images/sad.svg" class="sad" alt="No Data Found">
+        </div>
+        <div>
+          <span class="Sorry-no-results-fo">Sorry, no results found</span>
+        </div>
+        <div *ngIf="(!temp ||temp.length > 0) && !inProgress">
+          <span class="Please-try-a-differe">Please try a different keyword</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- table end -->
+</div>

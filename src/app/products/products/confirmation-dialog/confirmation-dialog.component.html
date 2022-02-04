@@ -1,0 +1,28 @@
+<form [formGroup]="form" (submit)="onSubmit()">
+  <mat-dialog-content class="mat-typography confirm-dialog-content">
+    <div class="content">
+      <img [src]="currentUser?.user_image" onError="this.src='../../assets/images/avatar-m.png';" class="radius-round"
+        alt="User" title="User" />
+      <h3 class="title">Confirmation</h3>
+      <div class="message">
+        Hey {{currentUser?.name}}, confirm your password to change selling price.
+      </div>
+      <div class="form">
+        <div fxLayout="column" fxLayoutAlign="space-around">
+          <div class="pb-1">
+            <mat-form-field style="width: 100%">
+              <input matInput placeholder="Password/PIN" type="password" [formControl]="form.controls['key']">
+              <mat-error *ngIf="form.controls['key'].hasError('required')" class="mat-text-warn">
+                Please enter your password / pin
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="unlock-button">
+      <button type="submit" class="confirm-button" mat-raised-button color="primary">CONFIRM</button>
+      <button mat-button color="primary" class="cancel-button" [mat-dialog-close]="">CANCEL</button>
+    </div>
+  </mat-dialog-content>
+</form>

@@ -1,0 +1,663 @@
+<form [formGroup]="create_store_form" (ngSubmit)="onSubmit()">
+  <mat-card class="header-main-content">
+    <div fxLayout="row">
+      <div fxFlex="25%" class="breadcrumb-content">
+        <mat-icon [routerLink]="['../']" class="material-icons">
+          keyboard_arrow_left
+        </mat-icon><label class="lable"><a [routerLink]="['../']">Stores</a></label>
+      </div>
+      <div fxFlex="50%" class="breadcrumb-header-content">
+        Create Store
+      </div>
+      <div fxFlex="25%" class="breadcrumb-btn-content">
+        <mat-bar-button type="submit" [options]="barButtonOptions"></mat-bar-button>
+      </div>
+    </div>
+  </mat-card>
+  <mat-tab-group [selectedIndex]="utility.indexofTab" class="custom-tab">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utility.scrollTo('section1')">STORE</p>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utility.scrollTo('section2')">TAGS</p>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utility.scrollTo('section3')">HOURS</p>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utility.scrollTo('section4')">WAREHOUSE</p>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utility.scrollTo('section5')">LICENSE</p>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utility.scrollTo('section6')">TILLS</p>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+  <!-- my code -->
+  <div class="main-div-container">
+    <div fxLayout="row">
+      <div fxFlex="100" class="scroll-container fancyscroll" id="parentDiv" scrollSpy [spiedTags]="['DIV']"
+        (sectionChange)="utility.onScrollContent($event)" [style.height.px]="innerHeight">
+        <!-- First Section -->
+        <div id="section1">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <!--middle content -->
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+              <!-- main content -->
+              <div>
+                <h2 layout-margin>Store Information</h2>
+                <mat-card class="mat-content-padding body-card-block">
+                  <mat-card-title>
+                    <h3>Contact Information</h3>
+                  </mat-card-title>
+                  <mat-card-content>
+                    <div fxLayout="row">
+                      <mat-form-field fxFlex="100%" *ngIf="chains.length == 1">
+                        <input matInput placeholder="Chain" [value]="chains[0].name" readonly autocomplete="off">
+                      </mat-form-field>
+                      <mat-form-field fxFlex="100%" *ngIf="chains.length > 1">
+                        <mat-select placeholder="Chain*" formControlName="chain_id" [disabled]="chains.length == 1"
+                          [disableOptionCentering]="true">
+                          <mat-option *ngFor="let item of chains" [value]="item.chain_id">
+                            {{item.name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="create_store_form.controls['chain_id'].hasError('required')">
+                          Please select chain</mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div fxLayout="row">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Store Name*" formControlName="name">
+                        <mat-error *ngIf="create_store_form.controls['name'].hasError('required')"
+                          class="mat-text-warn">Please enter store name</mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div fxLayout="row">
+                      <div fxFlex="100%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Address Line*" formControlName="address">
+                          <mat-error *ngIf="create_store_form.controls['address'].hasError('required')"
+                            class="mat-text-warn">Please enter store address</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row">
+                      <div fxFlex="100%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Apartment, Suit, Unit, Building, Floor etc.*"
+                            formControlName="address_unit">
+                          <mat-error *ngIf="create_store_form.controls['address_unit'].hasError('required')">
+                            Please enter Apartment, Suit, Unit, Building, Floor etc
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                      <div fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <mat-select placeholder="Country*" formControlName="country"
+                            (selectionChange)="getLocationList('state',$event.value)" [disableOptionCentering]="true">
+                            <mat-option>Select Country</mat-option>
+                            <mat-option *ngFor="let country of countryList" [value]="country.location_id">
+                              {{country.location_name}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="create_store_form.controls['country'].hasError('required')">Please select
+                            country</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <mat-select placeholder="Province/State*" formControlName="state"
+                            (selectionChange)="getLocationList('city',$event.value)" [disableOptionCentering]="true">
+                            <mat-option>Select Province</mat-option>
+                            <mat-option *ngFor="let state of provinceList" [value]="state.location_id">
+                              {{state.location_name}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="create_store_form.controls['state'].hasError('required')">Please select
+                            province</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                      <div fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <mat-select placeholder="City*" formControlName="city" [disableOptionCentering]="true">
+                            <mat-option>Select City</mat-option>
+                            <mat-option *ngFor="let city of cityList" [value]="city.location_id">
+                              {{city.location_name}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="create_store_form.controls['city'].hasError('required')">Please select city
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Postal Code*" formControlName="zipcode" autocomplete="off">
+                          <mat-error *ngIf="create_store_form.controls['zipcode'].hasError('required')">
+                            Please enter your postal code
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row">
+                      <div fxFlex="100%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Description*" formControlName="description">
+                          <mat-error *ngIf="create_store_form.controls['description'].hasError('required')">
+                            Please enter description
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Tax No" formControlName="tax_no">
+                      </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Phone Number*" formControlName="contact_no"
+                            (keypress)="utility.numberOnly($event)" maxlength="11" autocomplete="off">
+                          <mat-error *ngIf="create_store_form.controls['contact_no'].hasError('required')">Please enter
+                            phone number </mat-error>
+                          <mat-error *ngIf="create_store_form.controls['contact_no'].hasError('minlength')">Please enter
+                            valid phone number </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="mb-1" fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Email Address*" formControlName="contact_email" type="email">
+                          <mat-error *ngIf="create_store_form.controls['contact_email'].hasError('required')"
+                            class="mat-text-warn">Please enter email address</mat-error>
+                          <mat-error *ngIf="create_store_form.controls['contact_email'].hasError('email')"
+                            class="mat-text-warn">Please enter valid email address</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row">
+                      <div fxFlex="100%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Website URL" formControlName="website">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <!-- image upload -->
+                    <h3>Store Images*</h3>
+                    <mat-card class="file-drop-box" (click)="storeImageUpload.click()" ng2FileDrop
+                      style="margin-bottom: 20px !important" [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+                      (fileOver)="ImageFileDragged($event)" [uploader]="uploader">
+                      <div class="mb-1 drag_upload">Browse or drag file(s) to upload*</div>
+                    </mat-card>
+                    <input hidden #storeImageUpload type="file" multiple formControlName="store_image" ng2FileDrop
+                      [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (change)="ImageFileDragged($event)"
+                      ng2FileSelect [uploader]="uploader" />
+                    <div fxLayout="row wrap">
+                      <div *ngFor="let image of arrayOfImages ; let i = index">
+                        <div class="hover-div">
+                          <div class="image-div" [style.background]="'url(' + image.file_path + ')'"></div>
+                          <div id="hover_img">
+                            <mat-icon (click)="DeleteImage(i)" class="padding-icon" svgIcon="trash-svg">
+                            </mat-icon>
+                          </div>
+                        </div>
+                      </div>
+                      <mat-error class="font11" *ngIf="noImageSelect && arrayOfImages.length ==0"> Please browse or drag
+                        store image
+                      </mat-error>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+            </div>
+          </div>
+        </div>
+        <!-- Tag section -->
+        <div id="section2">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+              <!-- main content -->
+              <div>
+                <h2 layout-margin>Tags</h2>
+                <mat-card class="mat-content-tag-padding body-card-block">
+
+                  <mat-card-content>
+                    <mat-chip-list>
+                      <mat-chip *ngFor="let item of create_store_form.get('tags')['controls']; let i=index"
+                        (removed)="removeTag(i)">
+                        <div class="tag-text">{{item.value.tag_name}}</div>
+                        <span matChipRemove>X</span>
+                      </mat-chip>
+                    </mat-chip-list>
+                    <mat-chip-list>
+                      <button type="button" class="ADD-TAG" (click)="AddNewTag()">
+                        <img src="assets/icon/plus-math.svg" alt="Add New" class="plus-math add-tag-icon">
+                        ADD TAG</button>
+                    </mat-chip-list>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <!-- main content -->
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+            </div>
+          </div>
+        </div>
+        <!-- Tag section -->
+
+        <!-- Store hours Section -->
+        <div id="section3">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+              <div>
+                <h2 layout-margin>Store Hours Information</h2>
+                <mat-card class="mat-content-padding body-card-block">
+                  <mat-card-title>
+                    <!-- <h3>Store Hours</h3> -->
+                  </mat-card-title>
+                  <mat-card-content>
+                    <div class="bottomMargin" fxLayout="column" >
+                      <div fxLayout="row wrap" fxLayout.xs="row wrap" fxLayoutWrap fxLayoutAlign="Start" class="store-days">
+                        <div fxFlex="33%" formArrayName="store_timings"
+                          *ngFor="let item of create_store_form.get('store_timings')['controls']; let p=index">
+                          <div [formGroupName]="p">
+                            <mat-checkbox formControlName="isSelected" color="primary">
+                                <span class="store-days"> {{item.value.name}} </span>
+                            </mat-checkbox>
+                          </div>
+                        </div>
+                      </div>
+                      <mat-error *ngIf="is_selected && shiftFormsubmit"
+                        class="doc-upload-error"><small>Please select Days</small></mat-error>
+                      <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1%" fxLayoutAlign="Start">
+                        <div class="" fxFlex="25%">
+                          <mat-form-field fxFlex="100%">
+                            <mat-select placeholder="From" formControlName="opens"
+                            [disableOptionCentering]="true">
+                              <mat-option *ngFor="let from of from_time; let i=index"
+                                [value]="from">
+                                {{from}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="" fxFlex="25%">
+                          <mat-form-field fxFlex="100%">
+                            <mat-select placeholder="To" formControlName="closes"
+                            [disableOptionCentering]="true">
+                              <mat-option *ngFor="let to of to_time; let i=index"
+                                [value]="to">
+                                {{to}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="store-time-button" fxFlex="50%">
+                          <button mat-button color="primary" class="btn-rectangle" (click)="AddStoreTime()"
+                            type="button">ADD TIME</button>
+                        </div>
+                      </div>
+
+                      <div fxLayout="row">
+                        <div fxFlex="25%">
+                            <mat-error *ngIf="time_required && shiftFormsubmit"
+                            class="doc-upload-error"><small>Must select From and To</small></mat-error>
+                        </div>
+                        <div fxFlex="25%">
+                            <mat-error *ngIf="!time_required && greater && shiftFormsubmit"
+                            class="doc-upload-error"><small>To must be greater than from</small></mat-error>
+                        </div>
+                        <div fxFlex="50%">
+                        </div>
+                      </div>
+
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+                <mat-card class="body-card-block shift-list">
+                  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap class="section-description">
+                    <span>Add store open and close timings.
+                    </span>
+                  </div>
+                  <div 
+                    *ngIf="storeTimes.length > 0">
+
+                    <!-- table -->
+                    <ngx-datatable #myDatatable class="material" [headerHeight]="50" [ngStyle]="{'height':dynamicHeight}"
+                    [limit]="10" [columnMode]="'flex'" [footerHeight]="0" [rowHeight]="48" [scrollbarV]="true"
+                    [rows]="storeTimes">
+
+                    <ngx-datatable-column [resizeable]="false" prop="name" name="Name" [flexGrow]="1">
+                      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                          <span title="{{value}}"> {{value}}</span>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [resizeable]="false" prop="opens" name="Opening Time" [flexGrow]="1">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                            <span title="{{value}}"> {{value}}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [resizeable]="false" prop="closes" name="Closing Time" [flexGrow]="1">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                            <span title="{{value}}"> {{value}}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="View" [sortable]="false" width="70" headerClass="display-none"
+                        [resizeable]="false" [flexGrow]="0.5">
+                        <ng-template ngx-datatable-header-template>
+                            <span class="align-end" mat-icon-button>
+                            </span>
+                        </ng-template>
+                        <ng-template let-row="row" let-rowIndex="rowIndex" let-value="value" ngx-datatable-cell-template>
+                            <span class="align-end action-hover pointer" (click)="$event.stopPropagation();" mat-icon-button
+                                [matMenuTriggerFor]="menu">
+                                <mat-icon>more_vert</mat-icon>
+                            </span>
+                            <mat-menu #menu="matMenu">
+                              <button mat-menu-item (click)="DeleteStoreTime(rowIndex)">
+                                <span>Delete</span>
+                              </button>
+                            </mat-menu>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    </ngx-datatable>
+                    <!-- table -->
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+            </div>
+          </div>
+        </div>
+        <!-- Store hours Section -->
+        <!-- store warehouse Section -->
+        <div id="section4">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <!--middle content -->
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+              <!-- main content -->
+              <div>
+                <div>
+                  <div fxFlex="50">
+                    <h2 layout-margin>Store Warehouses</h2>
+                  </div>
+                  <div fxFlex="50">
+                    <button mat-button class="btn-add-new top-35" type="button" (click)="AddWarehouse()">
+                      <a class="add-new-label">ASSIGN/CREATE WAREHOUSE</a>
+                    </button>
+                  </div>
+                </div>
+                <mat-card class="body-card-block">
+                  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap class="section-description">
+                    <span>Add warehouse if this store have multiple warehouse, like different store front or store back.
+                    </span>
+                  </div>
+                  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center"
+                    *ngIf="create_store_form.get('warehouse_details')['controls'].length > 0">
+                    <table class="hoverTable" fxFlex="100%">
+                      <tr>
+                        <th class="left">Name</th>
+                        <th class="left">Address</th>
+                        <th class="left" style="width:100px;">Type</th>
+                        <th>&nbsp;</th>
+                      </tr>
+                      <tr *ngFor="let item of create_store_form.get('warehouse_details')['controls']; let m=index">
+                        <td>{{item.value.name}}</td>
+                        <td>{{item.value.address}}</td>
+                        <td>{{item.value.subtype}}</td>
+                        <td>
+                          <mat-icon class="material-icons delete pointer" (click)="DeleteWarehouse(m)">delete</mat-icon>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+            </div>
+          </div>
+        </div>
+        <!-- ******************************* License Section -#5-*************************************************-->
+        <div id="section5">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <!--middle content -->
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+              <!-- main content -->
+              <div>
+                <div>
+                  <div fxFlex="50">
+                    <h2 layout-margin>License & Documentation</h2>
+                  </div>
+                  <div fxFlex="50">
+                    <button mat-button type="button" class="btn-add-new top-35" (click)="AddNewLicense()">
+                      <a class="add-new-label"> + ADD LICENSE</a>
+                    </button>
+                  </div>
+                </div>
+                <mat-card class="body-card-block">
+                  <mat-card-title>
+                    <h3>Licensing Information</h3>
+                  </mat-card-title>
+                  <mat-card-content>
+                    <div formArrayName="license_details" class="bottomMargin">
+                      <div *ngFor="let item of create_store_form.get('license_details')['controls']; let p=index">
+                        <div [formGroupName]="p">
+                          <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                            <div class="mb-1" fxFlex="48%">
+                              <mat-form-field fxFlex="100%">
+                                <input matInput placeholder="License Name*" formControlName="license_name">
+                                <mat-error *ngIf="item.controls['license_name'].hasError('required')"
+                                  class="mat-text-warn">Please
+                                  enter license name</mat-error>
+                              </mat-form-field>
+                            </div>
+                            <div class="mb-1" fxFlex="48%">
+                              <mat-form-field fxFlex="100%">
+                                <input matInput placeholder="License Number*" formControlName="license_number">
+                                <mat-error *ngIf="item.controls['license_number'].hasError('required')"
+                                  class="mat-text-warn">Please
+                                  enter license number</mat-error>
+                              </mat-form-field>
+                            </div>
+                            <div class="mb-1" fxFlex="4"
+                              *ngIf="create_store_form.get('license_details')['controls'].length > 1">
+                              <mat-icon class="pointer" style="line-height: 60px" (click)="DeleteLicense(p)">delete
+                              </mat-icon>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <h3 *ngIf="arrayOfFiles.length > 0">Store Documents</h3>
+                    <div fxLayout="row" fxLayout.xs="column" class="file-upload-list" fxLayoutWrap
+                      fxLayoutAlign="center" *ngIf="arrayOfFiles.length > 0">
+                      <table class="upload-document-table" fxFlex="100%">
+                        <tr>
+                          <th class="left">Name</th>
+                          <th class="left">Document Type</th>
+                          <th class="left" style="width:100px;"></th>
+                        </tr>
+                        <tr *ngFor="let item of arrayOfFiles; let n=index">
+                          <td>{{item.document_title}}</td>
+                          <td>{{item.document_type_data?.id_card_type}}</td>
+                          <td class="document-upload-icon-color">
+                            <mat-icon (click)="$event.stopPropagation();deleteFile(n)" class="material-icons pointer">
+                              delete</mat-icon>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+
+
+                    <h3> Upload Document</h3>
+                    <div [formGroup]="uploadDocForm">
+                      <div fxLayout="row">
+                        <div fxFlex="100%">
+                          <mat-form-field fxFlex="100%">
+                            <input matInput placeholder="Title*" formControlName="document_title" autocomplete="off">
+                          </mat-form-field>
+                        </div>
+
+                      </div>
+                      <mat-error *ngIf="!uploadDocForm.get('document_title').valid && isFormSubmitted"
+                        class="doc-upload-error"><small>Please enter document name</small></mat-error>
+                      <div fxLayout="row" fxLayoutGap="5%">
+                        <div fxFlex="47.5%">
+                          <mat-form-field fxFlex="100%">
+                            <mat-select placeholder="Document Type*" formControlName="document_type_data"
+                              [disableOptionCentering]="true">
+                              <mat-option *ngFor="let type of rawData?.id_card_types" [value]="type">
+                                {{type.id_card_type}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="47.5%">
+                          <mat-form-field fxFlex="100%">
+                            <input matInput [matDatepicker]="doc_expiry_date_picker"
+                              (focus)="doc_expiry_date_picker.open()" [readonly]="true"
+                              (click)="doc_expiry_date_picker.open()" placeholder="Document expiry date*"
+                              formControlName="document_expiry_date" autocomplete="off">
+                            <mat-datepicker-toggle matSuffix [for]="doc_expiry_date_picker"></mat-datepicker-toggle>
+                            <mat-datepicker #doc_expiry_date_picker></mat-datepicker>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxLayout="row" fxLayoutGap="5%">
+                        <div fxFlex="47.5%">
+                          <mat-error *ngIf="!uploadDocForm.get('document_type_data').valid && isFormSubmitted"
+                            class="doc-upload-error"><small>Please select document type</small></mat-error>
+                        </div>
+
+                        <div fxFlex="47.5%">
+                          <mat-error *ngIf="!uploadDocForm.get('document_expiry_date').valid && isFormSubmitted"
+                            class="doc-upload-error"><small>Please select document expiry date</small></mat-error>
+                        </div>
+                      </div>
+                      <div fxLayout="row">
+                        <div fxFlex="100%">
+                          <mat-form-field fxFlex="100%">
+                            <input matInput class="pointer" formControlName="document" [value]="uploadedDocName"
+                              placeholder="Select file to upload*" autocomplete="off" (click)="documentInput.click()"
+                              readonly>
+                            <button matSuffix type="button" (click)="documentInput.click()"
+                              class="upload-btn pointer">CHOOSE
+                              FILE...</button>
+                            <input type="file" #documentInput hidden formControlName="document"
+                              (change)="onDocumentChange($event)">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <mat-error *ngIf="!uploadDocForm.get('document').valid && isFormSubmitted"
+                        class="doc-upload-error"><small>Please upload document</small></mat-error>
+                      <button type="button" class="upload-doc-btn" (click)="uploadFile()"> UPLOAD DOCUMENT</button>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+            </div>
+          </div>
+        </div>
+        <!-- Tills Section --#6-->
+        <div id="section6">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <!--middle content -->
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+              <!-- main content -->
+              <div>
+                <div>
+                  <div fxFlex="50">
+                    <h2 layout-margin>Store Tills</h2>
+                  </div>
+                  <div fxFlex="50">
+                    <button mat-button class="btn-add-new top-35" type="button" (click)="AddNewTill()">
+                      <a class="add-new-label">+ ADD TILL</a>
+                    </button>
+                  </div>
+                </div>
+                <mat-card class="body-card-block">
+                  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap class="section-description">
+                    <span>Add Till(s) to manage cash flow for your store!
+                    </span>
+                  </div>
+                  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center"
+                    *ngIf="create_store_form.get('till_details')['controls'].length > 0">
+                    <table class="hoverTable" fxFlex="100%">
+                      <tr>
+                        <th class="left">Name</th>
+                        <th class="left">Status</th>
+                        <th class="left" style="width:100px;">Type</th>
+                        <th>&nbsp;</th>
+                      </tr>
+                      <tr *ngFor="let item of create_store_form.get('till_details')['controls']; let w=index">
+                        <td>{{item.value.name}}</td>
+                        <td>
+                          <mat-slide-toggle color="primary" [checked]="item.value.status == 1"
+                            (click)="$event.stopPropagation();" (change)="changeTillStatus(item,item.value.status,w)">
+                          </mat-slide-toggle>
+                        </td>
+                        <td>{{item.value.subtype| titlecase}}</td>
+                        <td>
+                          <mat-icon class="material-icons delete pointer" (click)="DeleteTill(w)">delete</mat-icon>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+            </div>
+          </div>
+        </div>
+        <div>&nbsp;</div>
+      </div>
+    </div>
+  </div>
+  <!-- my code -->
+</form>

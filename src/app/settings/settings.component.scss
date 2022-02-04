@@ -1,0 +1,67 @@
+.title{
+    //color: ;
+    font-weight: 600;
+}
+.setting-container{
+    margin-top: 4.5%;
+}
+.settings-card mat-card{
+    height: 123px;
+    box-shadow: 1px 0 13px 0 rgba(0, 0, 0, 0.04);
+    background-color: #ffffff;
+    border-left: 6px solid #ffffff;
+}
+
+.settings-card mat-card:hover{
+    box-shadow: 1px 0 27px 3px rgba(0, 0, 0, 0.13);
+    background-color: #ffffff;  
+    border-left: 6px solid #28b127;
+}
+.settings-card .settings-icon{
+    opacity: 0.3;
+    .mat-icon{
+        font-size: 20px;
+    }
+}
+.settings-card .title{
+    font-family: Roboto;
+  font-size: 18px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.5px;
+  color: #272727;
+}
+
+.settings-card mat-card:hover .title{
+    font-family: Roboto;
+  font-size: 18px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.5px;
+  color: #28b127;
+}
+.settings-card mat-card:hover .settings-icon{
+    opacity: 1;
+    color: #28b127;
+}
+.settings-card .content{
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.57;
+    letter-spacing: 0.4px;
+    color: #272727;
+    margin: 9px 0;
+}
+.settings-card .card-widget{
+    margin: 12.5px !important;
+ }
+.header-buttons{
+    height: 43px;
+}

@@ -1,0 +1,195 @@
+<div class="logo-header-light" fxLayoutAlign="center">
+  <img src="assets/images/logo-light.png" alt="centreel-logo"/>
+</div>
+<form>
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center">
+    <div fxFlex="15%" fxFlex.md="10%" fxFlex.lg="10%" fxFlex.sm="2%" fxFlex.xs="2%"></div>
+    <div fxFlex="70%" fxFlex.md="80%" fxFlex.lg="80%" fxFlex.sm="96%" fxFlex.xs="96%">
+      <div fxLayout="column" fxFlex="100%">
+        <div fxFlex="100%" fxLayoutAlign="center" class="chain-img-agreement">
+          <img src="assets/images/default-store.png" alt="img"  />
+        </div>
+        <mat-card fxFlex="100%">
+          <div>
+              <h5 class="set-font-label-agreement">Please complete the agreement of Chronic Hub</h5>
+          </div>
+        <hr>
+        <!----------------------- Your Details ------------------------------->
+        <div fxLayout="row">
+            <h2 class="agreement-labels">Your Details</h2>
+        </div>
+          <div fxLayout="row" fxLayoutGap="5%">
+            <mat-form-field fxFlex="50%" appearance="outline">
+              <mat-label>Name</mat-label>
+              <input matInput placeholder="Name" [formControl]="form.controls['name']">
+
+              <mat-error *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched" class="mat-text-warn">You
+                must include a first name.</mat-error>
+              <mat-error *ngIf="form.controls['name'].hasError('minlength') && form.controls['name'].touched" class="mat-text-warn">Your
+                first name must be at least 5 characters long.</mat-error>
+              <mat-error *ngIf="form.controls['name'].hasError('maxlength') && form.controls['name'].touched" class="mat-text-warn">Your
+                first name cannot exceed 10 characters.</mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="50%" appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput placeholder="Name" [formControl]="form.controls['name']">
+  
+                <mat-error *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched" class="mat-text-warn">You
+                  must include a first name.</mat-error>
+                <mat-error *ngIf="form.controls['name'].hasError('minlength') && form.controls['name'].touched" class="mat-text-warn">Your
+                  first name must be at least 5 characters long.</mat-error>
+                <mat-error *ngIf="form.controls['name'].hasError('maxlength') && form.controls['name'].touched" class="mat-text-warn">Your
+                  first name cannot exceed 10 characters.</mat-error>
+              </mat-form-field>
+              
+          </div>
+          <div fxLayout="row" style="padding:0px 16px 16px 16px">
+              <hr >
+          </div>
+        <!----------------------- Health (Optional) ------------------------------->
+
+          <div fxLayout="row">
+              <h2 class="agreement-labels">Health (Optional)</h2>
+          </div>
+          <div fxLayout="row">
+            <mat-form-field fxFlex="100%" appearance="outline">
+              <mat-label>Health Practioner</mat-label>
+              <input matInput placeholder="Health Practioner" [formControl]="form.controls['name']">
+
+              <mat-error *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched" class="mat-text-warn">You
+                must include a first name.</mat-error>
+              <mat-error *ngIf="form.controls['name'].hasError('minlength') && form.controls['name'].touched" class="mat-text-warn">Your
+                first name must be at least 5 characters long.</mat-error>
+              <mat-error *ngIf="form.controls['name'].hasError('maxlength') && form.controls['name'].touched" class="mat-text-warn">Your
+                first name cannot exceed 10 characters.</mat-error>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row">
+            <mat-form-field fxFlex="100%" appearance="outline">
+              <mat-label>How Did You Hear About Us?</mat-label>
+              <textarea  matInput placeholder="Name" [formControl]="form.controls['name']">How Did You Hear About Us?</textarea>
+
+              <mat-error *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched" class="mat-text-warn">You
+                must include a first name.</mat-error>
+              <mat-error *ngIf="form.controls['name'].hasError('minlength') && form.controls['name'].touched" class="mat-text-warn">Your
+                first name must be at least 5 characters long.</mat-error>
+              <mat-error *ngIf="form.controls['name'].hasError('maxlength') && form.controls['name'].touched" class="mat-text-warn">Your
+                first name cannot exceed 10 characters.</mat-error>
+            </mat-form-field>
+          </div>
+        <!----------------------- Health Practitioner Clinic Address (Optional) ------------------------------->
+
+          <div fxLayout="row">
+              <h2 class="agreement-labels">Health Practitioner Clinic Address (Optional)</h2>
+          </div>
+          <div fxLayout="row">
+            <mat-form-field fxFlex="100%" appearance="outline">
+              <mat-label>Address1</mat-label>
+              <input matInput placeholder="Name" [formControl]="form.controls['name']">
+
+              <mat-error *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched" class="mat-text-warn">You
+                must include a first name.</mat-error>
+              <mat-error *ngIf="form.controls['name'].hasError('minlength') && form.controls['name'].touched" class="mat-text-warn">Your
+                first name must be at least 5 characters long.</mat-error>
+              <mat-error *ngIf="form.controls['name'].hasError('maxlength') && form.controls['name'].touched" class="mat-text-warn">Your
+                first name cannot exceed 10 characters.</mat-error>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row">
+            <mat-form-field fxFlex="100%" appearance="outline">
+              <mat-label>Address2</mat-label>
+              <input matInput placeholder="Name" [formControl]="form.controls['name']">
+
+              <mat-error *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched" class="mat-text-warn">You
+                must include a first name.</mat-error>
+              <mat-error *ngIf="form.controls['name'].hasError('minlength') && form.controls['name'].touched" class="mat-text-warn">Your
+                first name must be at least 5 characters long.</mat-error>
+              <mat-error *ngIf="form.controls['name'].hasError('maxlength') && form.controls['name'].touched" class="mat-text-warn">Your
+                first name cannot exceed 10 characters.</mat-error>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" fxLayoutGap="5%">
+              <mat-form-field fxFlex="50%" appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput placeholder="Name" [formControl]="form.controls['name']">
+  
+                <mat-error *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched" class="mat-text-warn">You
+                  must include a first name.</mat-error>
+                <mat-error *ngIf="form.controls['name'].hasError('minlength') && form.controls['name'].touched" class="mat-text-warn">Your
+                  first name must be at least 5 characters long.</mat-error>
+                <mat-error *ngIf="form.controls['name'].hasError('maxlength') && form.controls['name'].touched" class="mat-text-warn">Your
+                  first name cannot exceed 10 characters.</mat-error>
+              </mat-form-field>
+              <mat-form-field fxFlex="50%" appearance="outline">
+                  <mat-label>Name</mat-label>
+                  <input matInput placeholder="Name" [formControl]="form.controls['name']">
+    
+                  <mat-error *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched" class="mat-text-warn">You
+                    must include a first name.</mat-error>
+                  <mat-error *ngIf="form.controls['name'].hasError('minlength') && form.controls['name'].touched" class="mat-text-warn">Your
+                    first name must be at least 5 characters long.</mat-error>
+                  <mat-error *ngIf="form.controls['name'].hasError('maxlength') && form.controls['name'].touched" class="mat-text-warn">Your
+                    first name cannot exceed 10 characters.</mat-error>
+                </mat-form-field>
+                
+            </div>
+          <div fxLayout="row">
+            <mat-form-field fxFlex="100%" appearance="outline">
+              <mat-label>country</mat-label>
+              <input matInput placeholder="Name" [formControl]="form.controls['name']">
+
+              <mat-error *ngIf="form.controls['name'].hasError('required') && form.controls['name'].touched" class="mat-text-warn">You
+                must include a first name.</mat-error>
+              <mat-error *ngIf="form.controls['name'].hasError('minlength') && form.controls['name'].touched" class="mat-text-warn">Your
+                first name must be at least 5 characters long.</mat-error>
+              <mat-error *ngIf="form.controls['name'].hasError('maxlength') && form.controls['name'].touched" class="mat-text-warn">Your
+                first name cannot exceed 10 characters.</mat-error>
+            </mat-form-field>
+          </div>
+
+          <!----------------------- ACKNOWLEDGEMENT ------------------------------------->
+          <div fxLayout="row">
+              <h2 class="agreement-labels">ACKNOWLEDGEMENT</h2>
+              
+          </div>
+          <div fxLayout="row">
+            <div fxFlex="100%" style="width:100%"> 
+                 <h3>I Hereby Acknowledge *</h3>
+                              <p>By Signing, I agree that the information in this application is accurate and complete. By signing this form, I agree to the following: - I agree to not re-distribute or resell any products obtained from TOKEiT. - I have consulted a healthcare practioner for advice on the appropriateness of cannabis for my condition.</p>
+                    
+                              <p>I acknowledge that medical marijuana obtained from TOKEiT is not approved for use as a drug in Canada that it's indications, safety and risks have not been adequately studied and the appropriate dosage is unclear.</p>
+                    
+                              <p>I acknowledge and agree that I am using marijuana obtained from TOKEiT at my own risk and release TOKEiT from any and all actions claims, complains and demands for damages, loss, liability or injury whatsoever arising directly or indirectly as a consequence of the use of marijuana obtained from TOKEiT.</p> 
+                               
+                              <p>I understand that any advice or recommendations given by the TOKEiT staff is for the purpose of safe dosage and use. <?=$chain_name;?> gives no warranties, or conditions of merchantability, quality, durability or fitness for a particular purpose all of which are hereby disclaimed.</p>
+                    
+                              <p>There may be health risks associated with the consumption of this product. Using cannabis or any cannabis product can impair your concentration, your ability to think and make decisions, and your reaction time and coordination. This can affect your motor skills, including your ability to drive. It can also increase anxiety, and cause panic attacks and in some cases paranoia and hallucination. There may be additional health risks associated with the consumption of this product for women who are pregnant, breastfeeding or planning on becoming pregnant. Cognitive impairment may be greatly increased when cannabis is consumed along with alcohol or other drugs which affect the activity of the nervous system (e.g. opioids, sleeping pills, other psychoactive drugs). this product is intended for use by adults 19 years of age and older.</p>
+                    
+                              <p>Keep out of the reach of children and pets.</p>
+                   
+              </div>
+          </div>
+          <div fxLayout="row">
+            <mat-form-field fxFlex="100%" appearance="outline">
+                <mat-select  [formControl]="form.controls['name']" [disableOptionCentering]="true">
+                  <mat-option>I agree</mat-option>
+                  <mat-option>I decline</mat-option>
+                  
+                </mat-select>
+                <mat-error *ngIf="form.controls['name'].hasError('required')">Please select provience</mat-error>
+              </mat-form-field>
+          </div>
+<div fxLayout="row">
+    <signature-pad [options]="signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete($event)"></signature-pad>
+</div>
+          
+
+
+
+
+        </mat-card>
+      </div>
+    </div>
+    <div fxFlex="15%" fxFlex.md="10%" fxFlex.lg="10%" fxFlex.sm="2%" fxFlex.xs="2%"></div>
+  </div>
+</form>

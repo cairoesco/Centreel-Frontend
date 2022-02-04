@@ -1,0 +1,207 @@
+<mat-card class="header-main-content">
+    <div fxLayout="row">
+        <div fxFlex="25%" class="breadcrumb-content">
+
+        </div>
+        <div fxFlex="50%" class="breadcrumb-header-content">
+            Purchase Order List
+        </div>
+        <div fxFlex="25%" class="breadcrumb-btn-content">
+            <!-- <button class="add-new-btn" type="button" [routerLink]="['create']">
+                <a class="add-new-label">
+                    <img src="assets/icon/plus-math.svg" alt="Add New" class="plus-math">
+                    RECEIVE PURCHASE</a>
+            </button> -->
+            <button mat-button matSuffix mat-stroked-button class="add-new-btn" type="button" [routerLink]="['create']">
+                <a class="add-new-label">
+                    <!-- <img src="assets/icon/plus-math.svg" alt="Add New" class="plus-math"> -->
+                    PARAPHERNALIA
+                </a>
+            </button>
+            <button mat-button matSuffix mat-stroked-button class="add-new-btn" type="button" (click)="fileInput.click()">
+                <a class="add-new-label">
+                    <!-- <img src="assets/icon/plus-math.svg" alt="Add New" class="plus-math"> -->
+                    FLOWER
+                </a>
+            </button>
+
+            <!-- <button type="button" class="import-doc-btn import-btn" (click)="fileInput.click()"> IMPORT PO</button> -->
+            <input type="file" hidden #fileInput (change)="uploadFile($event)" />
+
+        </div>
+    </div>
+</mat-card>
+<mat-progress-bar mode="indeterminate" *ngIf="inProgress"></mat-progress-bar>
+<div style="padding-top: 20px">
+    <div  fxFlex="96%" fxFlexOffset="2%">
+        <!-- my search bar -->
+        <div class="searchbar-div" fxLayout="row" fxLayoutWrap fxLayoutAlign="center">
+            <div class="po-search-input" fxFlex="100%" fxFlex.md="100%" fxFlex.lg="100%" fxFlex.sm="100%" fxFlex.xs="100%">
+                <img class="Search-icon" alt="Search" src="../../assets/icon/search.png">
+                <input class="Search" placeholder="Search By #PO" [formControl]="search">
+                <!-- <span class="result-count">{{newrows.length}} Results</span> -->
+                <span class="result-count">{{total_count}} Results</span>
+            </div>
+            <!-- <div class="search-button pointer" (click)="openFilter(filter_data)" fxFlex="10%" fxFlex.md="20%"
+                fxFlex.lg="20%" fxFlex.sm="35%" fxFlex.xs="35%">
+                <div fxFlex="70%" class="text"> Filter by
+                </div>
+                <div fxFlex="30%" class="icon">
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+                </div>
+            </div> -->
+        </div>
+
+        <!-- new filter -->
+        <mat-card class="box-shadow report-filter-bar mat-filter-margin">
+            <div _ngcontent-c41="" class="button-row">
+                <form [formGroup]="filterForm" (ngSubmit)="applyFilter('evt')">
+                    <div class="" fxLayout="row" fxLayoutGap="2%" fxLayoutAlign="left">
+                        <div fxFlex="20%">
+                            <mat-form-field fxFlex="100%">
+                                <mat-label>Select Recipient</mat-label>
+                                <mat-select formControlName="user_ids" multiple [disableOptionCentering]="true">
+                                    <mat-option *ngFor="let employee of employeeData" [value]="employee.user_id">
+                                    {{employee.name}}
+                                    </mat-option>
+                                </mat-select>
+                                <button *ngIf="userChecked" mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="clear_user_filter();$event.stopPropagation()">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="20%">
+                            <mat-form-field fxFlex="100%">
+                                <mat-label>Select Status</mat-label>
+                                <mat-select formControlName="po_status" [disableOptionCentering]="true">
+                                    <mat-option *ngFor="let status of statusData" [value]="status">{{
+                                      status }}</mat-option>
+                                </mat-select>
+                                <button *ngIf="statusChecked" mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="clear_status_filter(); $event.stopPropagation()">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                              </mat-form-field>                      
+                        </div>
+                        <div fxFlex="20%">
+                            <mat-form-field fxFlex="100%" class="range-date-input">
+                                <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
+                                          [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end" [ranges]="ranges"
+                                          formControlName="selected" [minDate]="minDate" [maxDate]="maxDate" [autoApply]="true"
+                                          [showCustomRangeLabel]="true" placeholder="Select Dates" [opens]="'left'">
+                                <button *ngIf="dateChecked" mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="clear_date_filter()">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                              </mat-form-field>
+                        </div>
+                        <div fxFlex="40%" class="custom-search-button" style="text-align: end;">
+                            <!-- <button type="submit" mat-button color="primary" class="dialog-button">APPLY FILTER</button> -->
+                            <button [disabled]="filter_count == 0" (click)="close()" type="button" mat-button color="primary" class="dialog-button" [matBadge]="filter_count>0 ? filter_count : null" matBadgePosition="after" matBadgeColor="accent">
+                                CLEAR ALL FILTERS
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </mat-card>
+
+        <!-- new filter -->
+
+        <div class="list-detail-content main-container cursor-auto" fxLayout="column" *ngIf="newrows.length > 0 && !isLoading">
+            <!-- <ngx-datatable #myTable class='material fancyscroll employee-list-table'
+                [ngStyle]="{'height':dynamicHeight}" [headerHeight]="50" [externalPaging]="false" [footerHeight]="0"
+                [columnMode]="'flex'" [rowHeight]="48" [scrollbarV]="true" [rows]='rows' [limit]="10"> -->
+            <ngx-datatable #myTable class='material fancyscroll employee-list-table'
+                [ngStyle]="{'height':dynamicHeight}" 
+                [headerHeight]="headerHeight" 
+                [externalPaging]="false" 
+                [footerHeight]="0"
+                [columnMode]="'flex'" 
+                [rowHeight]="rowHeight" 
+                [scrollbarV]="true" 
+                [rows]='newrows' 
+                [limit]="10"
+                (scroll)="onScroll($event.offsetY)">
+                <ngx-datatable-column name="#PO" width="100" prop="purchase_order_no" [resizeable]="false"
+                    [flexGrow]="3">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        {{row["purchase_order_no"]}}
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="VENDOR" prop="vendor_name" width="300" [resizeable]="false" [flexGrow]="2">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        {{row["vendor_name"] ? row["vendor_name"] : "--"}}
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="TOTAL PO VALUE" prop="total" width="300" [resizeable]="false"
+                    [flexGrow]="2">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        {{row["total"]|currency}}
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Storage" prop="storage_name" width="300" [resizeable]="false"
+                    [flexGrow]="2">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        {{row["storage_name"]}}
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="DATE" prop="updated_at" width="200" [resizeable]="false" [flexGrow]="2">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        {{utils.convertLocalDateToUTCDate(row["updated_at"],false) | date:'dd/MM/yyyy'}}
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="RECIPIENT NAME" prop="received_by" width="200" [resizeable]="false"
+                    [flexGrow]="2">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        {{row["received_by"]}}
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="STATUS" prop="status" width="200" [resizeable]="false"
+                    [flexGrow]="2">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <span *ngIf="row['status']=='PARTIALLY RECEIVED'" class="pointer red"
+                            >{{row["status"]}}</span>
+                        <span *ngIf="row['status']=='RECEIVED'" class="green">{{row["status"]}}</span>
+                        <span *ngIf="row['status']!='RECEIVED' && row['status']!='PARTIALLY RECEIVED'">{{row["status"] ? row["status"] : '--'}}</span>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <!-- <ngx-datatable-column name="Status" width="80" [sortable]="false" [resizeable]="false" [flexGrow]="2">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <span *ngIf="row['status']=='confirmed'" class="pointer red"
+                            (click)="purchaseStatusChange(row['id'])">{{row["status"]}}</span>
+                        <span *ngIf="row['status']!='confirmed'" class="green">{{row["status"]}}</span>
+                    </ng-template>
+                </ngx-datatable-column> -->
+
+                <ngx-datatable-column name="VIEW" [sortable]="false" width="70" [resizeable]="false" [flexGrow]="1">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                        <button mat-icon-button [routerLink]="[row['id'], 'view']">
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+                        <!-- <button mat-icon-button >
+                            <mat-icon>print</mat-icon>
+                        </button> -->
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-footer>
+                    <ng-template ngx-datatable-footer-template></ng-template>
+                </ngx-datatable-footer>
+            </ngx-datatable>
+        </div>
+        <div fxLayout="column" *ngIf="newrows.length==0 && !isLoading" class="no_result_div">
+            <div class="center">
+                <div>
+                    <img alt="No result found" src="../../assets/images/sad.svg" class="sad">
+                </div>
+                <div>
+                    <span class="Sorry-no-results-fo">Sorry, no results found</span>
+                </div>
+                <div *ngIf="(!Users ||Users.length > 0) && !isLoading">
+                    <span class="Please-try-a-differe">Please try a different keyword</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

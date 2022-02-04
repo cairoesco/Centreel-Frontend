@@ -1,0 +1,75 @@
+<mat-card class="header-main-content" [formGroup]="inventory_reconcile">
+  <div fxLayout="row">
+    <div fxFlex="25%" fxFlex.md="25%" fxFlex.sm="25%" fxFlex.lg="30%" class="breadcrumb-content">
+    </div>
+    <div fxFlex="50%" fxFlex.md="50%" fxFlex.sm="50%" fxFlex.lg="40%" class="breadcrumb-header-content center">
+      Reconcile Inventory
+    </div>
+    <div fxFlex="25%" fxFlex.md="25%" fxFlex.sm="25%" fxFlex.lg="30%" class="breadcrumb-btn-content end">
+      <mat-bar-button type="submit" (click)="onSubmit()" [options]="barButtonOptions"></mat-bar-button>
+    </div>
+  </div>
+</mat-card>
+
+<mat-progress-bar mode="indeterminate" *ngIf="inProgress"></mat-progress-bar>
+<div class="top-20 report-inner-height">
+  <div fxFlex="96%" fxLayout="column" fxFlexOffset="2%">
+    <form>
+      <div class="" fxLayout="row" fxLayoutWrap fxLayoutAlign="center">
+        <div class="search-input" fxFlex="90%" fxFlex.md="80%" fxFlex.lg="80%" fxFlex.sm="65%" fxFlex.xs="65%">
+          <img class="Search-icon" alt="Search" src="../../assets/icon/search.png">
+          <input class="Search" (keyup)="applyFilter($event.target.value)" placeholder="Search...">
+          <span class="result-count">{{result_data.length}} Results</span>
+        </div>
+        <div class="search-button pointer" (click)="openFilter()" fxFlex="10%" fxFlex.md="20%" fxFlex.lg="20%"
+          fxFlex.sm="35%" fxFlex.xs="35%">
+          <div fxFlex="70%" class="text"> Filter by
+          </div>
+          <div fxFlex="30%" class="icon">
+            <mat-icon>keyboard_arrow_down</mat-icon>
+          </div>
+        </div>
+
+        <div fxFlex="15%" fxFlex.md="15%" fxFlex.lg="15%" fxFlex.sm="15%" fxFlex.xs="100%" class="selcet-filter">
+          <mat-form-field class="header-chain-select-block range-date-input">
+            <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
+              [alwaysShowCalendars]="true" ngxDaterangepickerMd [singleDatePicker]="true" startKey="start" endKey="end"
+              [opens]="'left'" [formControl]="inventory_reconcile.controls['selected']" [autoApply]="true"
+              [minDate]="minDate" [maxDate]="maxDate">
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+    <div class="handsontable" *ngIf="result_data.length > 0">
+      <hot-table class="mytable" [rowHeaders]="true" [data]="result_data" [hotId]="id" [height]="700" [filters]="true"
+        [licenseKey]="'30064-b3d08-01141-a4728-97a2c'">
+        <hot-column data="variant_sku" width="110" title="SKU" readOnly="true"></hot-column>
+        <hot-column data="description" width="275" title="PRODUCT" readOnly="true"></hot-column>
+        <!-- <hot-column data="selling_price" width="120" title="SELLING PRICE" readOnly="true"></hot-column> -->
+        <!-- <hot-column data="variant_name" width="300" title="SIZE" readOnly="true"></hot-column> -->
+        <hot-column data="batch_no" title="BATCH" readOnly="true" *ngIf="isCannabis"></hot-column>
+        <hot-column data="available_qty" width="100" title="ON HAND" readOnly="true"></hot-column>
+        <hot-column data="new_qty" width="100" title="ACTUAL" type="numeric"></hot-column>
+        <hot-column data="reason" width="150" title="REASON" type="dropdown"
+          [source]='["Damaged", "Lost/Theft", "Destroyed","Others"]'></hot-column>
+        <!-- <hot-column data="product_category_name" title="CATEGORY" readOnly="true"></hot-column>
+        <hot-column data="storage_name" width="280" title="WAREHOUSE" readOnly="true"></hot-column> -->
+      </hot-table>
+    </div>
+    <div fxLayout="column" *ngIf="result_data.length==0 && !inProgress" class="report-error-msg">
+      <div class="center">
+        <div>
+          <img src="../../assets/images/sad.svg" class="sad" alt="No Data Found">
+        </div>
+        <div>
+          <span class="Sorry-no-results-fo">Sorry, no results found</span>
+        </div>
+        <div *ngIf="(!temp ||temp.length > 0) && !inProgress">
+          <span class="Please-try-a-differe">Please try a different keyword</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- table end -->
+
+</div>

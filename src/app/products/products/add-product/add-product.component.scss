@@ -1,0 +1,88 @@
+::ng-deep .check-box-size .mat-checkbox-inner-container {
+    height: 20px !important;
+    margin-right: 8px !important;
+    width: 20px !important;
+}
+
+//******************* Inventory Header **************/
+.inventory-header{
+    background: #f0f0f0;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 3px;
+}
+::ng-deep mat-bar-button button
+{
+    background-image: linear-gradient(77deg, #5eb15e, #027901) !important;
+    color: #fff !important;
+}
+.display-none{
+    display: none !important;
+}
+.add-new-circle{
+    color: #07a906;
+}
+.auto_icon {
+    cursor: pointer;
+    margin-bottom: -6px;
+    color: #07a906;
+}
+.validate-barcode {
+    position: absolute;
+    font-size: 10px;
+    bottom: 80px;
+}
+.section-title{
+    font-family: "Roboto" !important;
+    font-size: 18px !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    font-stretch: normal !important;
+    line-height: normal !important;
+    letter-spacing: 0.4px !important;
+    color: #272727 !important;
+}
+.marginLeft {
+    margin-left: 3% !important;
+}
+.marginTop {
+    margin-top: 10% !important;
+}
+
+.hr-line hr {
+    width: calc(100% + -0.5rem);
+    margin: 0.5rem 0 0.5rem 0.25rem;
+}
+.variant-value{
+    margin-right: 0px  !important;
+}
+.supplier-mat-card{
+    margin-top: 20px;
+    margin-left: -0.33rem;
+    margin-right: -0.33rem;
+}
+.supplier-card{
+    min-height: 123px;
+    box-shadow: 1px 0 13px 0 rgba(0, 0, 0, 0.04);
+    background-color: #ffffff;
+}
+.supplier-mat-card .content{
+    text-align: left;
+    padding: 10px;
+}
+.supplier-mat-card .title{
+    background: #dad9d9;
+    padding: 5px;
+}
+.supplier-mat-content{
+    margin-bottom: 5px;
+}
+.overflow-text{
+    overflow-wrap: break-word;
+}
+.margin-top-20{
+    margin-top: 20px;
+}
+.inventory-data {
+    margin-bottom: 0 !important;
+}

@@ -1,0 +1,868 @@
+<mat-card class="header-main-content">
+  <div fxLayout="row">
+    <div fxFlex="25%" class="breadcrumb-content">
+      <mat-icon [routerLink]="['/users']" class="material-icons">
+        keyboard_arrow_left
+      </mat-icon>
+      <label class="lable">
+        <a class="label" [routerLink]="['/users']">Employees</a>
+      </label>
+    </div>
+    <div fxFlex="50%" class="breadcrumb-header-content">
+      View Employee
+    </div>
+    <div fxFlex="25%" class="breadcrumb-btn-content" *ngIf="!isAuthorized">
+      <button color="primary" class="reset-revert-button pointer" [matMenuTriggerFor]="menu">
+        Reset
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item
+          (click)="resendMailToUnverifiedUser(userData.user_email,'PIN','Are you sure to reset PIN?')">Reset
+          PIN</button>
+        <button mat-menu-item
+          (click)="resendMailToUnverifiedUser(userData.user_email,'PASSWORD','Are you sure to reset Password?')">Reset
+          Password</button>
+      </mat-menu>
+    </div>
+
+    <div fxFlex="25%" class="breadcrumb-btn-content" *ngIf="isAuthorized">
+      <button color="primary" class="reset-revert-button pointer" [matMenuTriggerFor]="menu">
+        Reset
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item
+          (click)="openDialogue(userData.user_id,userData.user_email,userData.chain_id,'PIN')">Reset
+          PIN</button>
+        <button mat-menu-item
+          (click)="openDialogue(userData.user_id,userData.user_email,userData.chain_id,'PASSWORD')">Reset
+          Password</button>
+      </mat-menu>
+    </div>
+  </div>
+
+</mat-card>
+<mat-tab-group [selectedIndex]="utility.indexofTab" class="custom-tab">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <p (click)="utility.scrollTo('section1')"> GENERAL</p>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <p (click)="utility.scrollTo('section2')">TAGS</p>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <p (click)="utility.scrollTo('section3')">LICENSING & DOCUMENTATION</p>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <p (click)="utility.scrollTo('section5')">HOURS</p>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <p (click)="utility.scrollTo('section4')">STORE ASSIGNMENT</p>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+<div class="main-div-container view-module" [style.height.px]="innerHeight">
+  <div fxLayout="row">
+    <div fxFlex="100" class="scroll-container fancyscroll" id="parentDiv" scrollSpy [spiedTags]="['DIV']"
+      (sectionChange)="utility.onScrollContent($event)" [style.height.px]="innerHeight">
+      <div id="section1">
+        <form [formGroup]="generalInfosForm" (ngSubmit)="onSubmit('generalInfo')">
+          <div class="section-content" fxLayout="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="55" fxFlex.xs="60">
+              <!-- main content -->
+              <h2 layout-margin>General Information
+                <mat-icon *ngIf="userData?.user_email_verify == 0 && userData?.user_otp_verify == 0"
+                  class="material-icons general-error"> error </mat-icon>
+                <span fxFlex></span>
+                <button class="btn-edit" *ngIf="!generalInfo" (click)="isEditable(1)">
+                  <mat-icon class="material-icons pointer">edit</mat-icon>
+                </button>
+                <button class="btn-edit" *ngIf="generalInfo" (click)="viewOnly()">
+                  <mat-icon class="material-icons pointer">visibility</mat-icon>
+                </button>
+              </h2>
+              <mat-card class="mat-content-padding body-card-block">
+                <mat-card-title>
+                  <h3>Personal Information</h3>
+                </mat-card-title>
+                <mat-card-content>
+                  <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+                    fxLayoutAlign="center">
+                    <div class="mb-1" fxFlex="200px" class="image-desplay left">
+                      <div class="user-hover-div">
+                        <img class="user-image-div" [src]="imageSrc"
+                          onError="this.src='/assets/images/default-image.png';" alt="User Profile" />
+                        <div id="user-hover-img" *ngIf="generalInfo">
+                          <mat-icon class="user-padding-icon pointer" (click)="fileInput.click()">add</mat-icon>
+                        </div>
+                      </div>
+                      <input hidden type="file" accept="image/*" #fileInput (change)="onFileChange($event)"
+                        formControlName="image">
+                    </div>
+                    <div class="mb-1" fxFlex="calc(100% - 200px)">
+                      <div>
+                        <mat-form-field fxFlex=100>
+                          <input [readonly]="true" disabled matInput placeholder="Employee ID"
+                            formControlName="user_id">
+                        </mat-form-field>
+                      </div>
+                      <div>
+                        <mat-form-field fxFlex=100>
+                          <input matInput disabled placeholder="First name*"
+                            formControlName="user_fname" autocomplete="off">
+
+                          <mat-error
+                            *ngIf="generalInfosForm.controls['user_fname'].hasError('required') && generalInfosForm.controls['user_fname'].touched"
+                            class="mat-text-warn">You must include a first name</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div>
+                        <mat-form-field fxFlex=100>
+                          <input matInput placeholder="Last name*"
+                            formControlName="user_lname" autocomplete="off">
+                          <mat-error
+                            *ngIf="generalInfosForm.controls['user_lname'].hasError('required') && generalInfosForm.controls['user_lname'].touched"
+                            class="mat-text-warn">You must include a Last name</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+                    fxLayoutAlign="center">
+                    <div class="mb-1" fxFlex="50%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Nickname"
+                          formControlName="user_nickname" autocomplete="off">
+                      </mat-form-field>
+                    </div>
+                    <div class="mb-1" fxFlex="50%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput [matDatepicker]="picker" [max]="maxDate" [readonly]="true"
+                          (click)="picker.open()" (focus)="picker.open()" placeholder="Date of Birth*"
+                          formControlName="dob">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="generalInfosForm.controls['dob'].hasError('required')" class="mat-text-warn">
+                          Please
+                          select your date of birth</mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <mat-card-title>
+                    <h3>Contact Info</h3>
+                  </mat-card-title>
+                  <div fxLayout="row">
+                    <div fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Address Line 1*"
+                          formControlName="address" autocomplete="off">
+                        <mat-error
+                          *ngIf="generalInfosForm.controls['address'].hasError('required') && generalInfosForm.controls['address'].touched"
+                          class="mat-text-warn">Please enter your address</mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxLayout="row">
+                    <div fxFlex="100%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Apartment, Suit, Unit, Building, Floor etc."
+                          formControlName="address_unit" autocomplete="off">
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+                  <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+                    fxLayoutAlign="center">
+                    <div fxFlex="50%">
+                      <mat-form-field fxFlex="100%">
+                        <mat-select placeholder="Country*" formControlName="country"
+                          (selectionChange)="getStateList('state',$event.value)" [disableOptionCentering]="true">
+                          <mat-option>Select Country</mat-option>
+                          <mat-option *ngFor="let country of rawDetail?.country" [value]="country.location_id">
+                            {{country.location_name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="generalInfosForm.controls['country'].hasError('required')">Please select
+                          country</mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="50%">
+                      <mat-form-field fxFlex="100%">
+                        <mat-select placeholder="Province/State*" formControlName="state"
+                          (selectionChange)="getCityList('city',$event.value)" [disableOptionCentering]="true">
+                          <mat-option>Select Province</mat-option>
+                          <mat-option *ngFor="let state of stateList" [value]="state.location_id">
+                            {{state.location_name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="generalInfosForm.controls['state'].hasError('required')">Please select
+                          province</mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+                    fxLayoutAlign="center">
+                    <div fxFlex="50%">
+                      <mat-form-field fxFlex="100%">
+                        <mat-select placeholder="City*" formControlName="city"
+                          [disableOptionCentering]="true">
+                          <mat-option>Select City</mat-option>
+                          <mat-option *ngFor="let city of cityList" [value]="city.location_id">
+                            {{city.location_name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="generalInfosForm.controls['city'].hasError('required')">Please select
+                          city</mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div fxFlex="50%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Postal Code*" formControlName="zipcode"
+                          autocomplete="off">
+                        <mat-error *ngIf="generalInfosForm.controls['zipcode'].hasError('required')">
+                          Please enter your postal code
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+                    fxLayoutAlign="center">
+                    <div class="mb-1" fxFlex="50%">
+                      <mat-form-field fxFlex="100%">
+                        <input matInput placeholder="Phone Number" (keypress)="utility.numberOnly($event)"
+                          maxlength="11" formControlName="user_mobile" autocomplete="off">
+                      </mat-form-field>
+                    </div>
+                    <div class="mb-1" fxFlex="50%">
+                      <mat-form-field fxFlex="100%">
+                        <input [readonly]="true" matInput placeholder="Email*"
+                          formControlName="user_email" type="email">
+                        <mat-error
+                          *ngIf="generalInfosForm.controls['user_email'].hasError('required') && generalInfosForm.controls['user_email'].touched"
+                          class="mat-text-warn">
+                          Please enter your email address
+                        </mat-error>
+                        <mat-error
+                          *ngIf="generalInfosForm.controls['user_email'].errors?.email && generalInfosForm.controls['user_email'].touched"
+                          class="mat-text-warn">
+                          Please enter your valid email address
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+                      fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Salary" formControlName="salary"
+                          [options]="priceOptions"
+                          currencyMask maxlength="11" autocomplete="off">
+                          <mat-error *ngIf="generalInfosForm.controls['salary'].hasError('required') && generalInfosForm.controls['salary'].touched" class="mat-text-warn">
+                            Please enter Salary
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="mb-1" fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput [matDatepicker]="employment_picker" [min]="employment_minDate" [max]="employment_maxDate" (focus)="employment_picker.open()"
+                            [readonly]="true" (click)="employment_picker.open()" placeholder="Date of Employement*"
+                            formControlName="date_of_employment"  autocomplete="off">
+                          <mat-datepicker-toggle matSuffix [for]="employment_picker"></mat-datepicker-toggle>
+                          <mat-datepicker #employment_picker></mat-datepicker>
+                          <mat-error *ngIf="generalInfosForm.controls['date_of_employment'].hasError('required') && generalInfosForm.controls['date_of_employment'].touched" class="mat-text-warn">Please
+                            Select employment date</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                </mat-card-content>
+              </mat-card>
+              <!-- main content -->
+              <mat-card class="footer-content" *ngIf="generalInfo">
+                <div>
+                  <mat-bar-button type="submit" type="submit" [options]="barButtonOptions"></mat-bar-button>
+                </div>
+              </mat-card>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="40" fxFlex.xs="40">
+              <div fxLayout="row wrap" class="email-verify"
+                *ngIf="userData?.user_email_verify == 0 && userData?.user_otp_verify == 0">
+                <div fxFlex="70%" class="alert-box-content">
+                  <h2> </h2>
+                  <mat-card class="alert-box">
+                    <mat-card-content>
+                      <div class="alert-header">
+                        Email Not Verified!
+                      </div>
+                      <div class="alert-content">
+                        Please verifiy your email address. Click here to <strong> <a
+                            (click)="resendMailToUnverifiedUser(userData.user_email,'BOTH','Are you sure to send verification mail?')"
+                            class="resend-link-hover">Resend</a></strong> Email Verification.
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- Tag section -->
+      <div id="section2">
+        <form [formGroup]="tagsForm" (ngSubmit)="onSubmit('tagsInfo')">
+          <div class="section-content" fxLayout="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="55" fxFlex.xs="60">
+              <!-- main content -->
+              <h2 layout-margin>Tags
+                <span fxFlex></span>
+                <button class="btn-edit" *ngIf="!tags" (click)="isEditable(2)">
+                  <mat-icon class="material-icons pointer">edit</mat-icon>
+                </button>
+                <button class="btn-edit" *ngIf="tags" (click)="viewOnly()">
+                  <mat-icon class="material-icons pointer">visibility</mat-icon>
+                </button>
+              </h2>
+              <mat-card class="mat-content-tag-padding body-card-block">
+
+                <mat-card-content>
+                  <mat-chip-list>
+                    <mat-chip *ngFor="let item of tagArray; let i = index" [selectable]="selectable"
+                      [removable]="removable" (removed)="removeTag(i,item.id)">
+                      <div class="tag-text">{{item.tag_name}}</div>
+                      <span matChipRemove *ngIf='tags'>x</span>
+                    </mat-chip>
+                  </mat-chip-list>
+                  <mat-chip-list>
+                    <button type="button" *ngIf="tags" class="ADD-TAG" color="primary" (click)="AddNewTag()">
+                      <img src="assets/icon/plus-math.svg" alt="Add New" class="plus-math add-tag-icon">
+                      ADD TAG</button>
+                  </mat-chip-list>
+                  <div *ngIf="tagArray.length == 0 && !tags"> No tags available!</div>
+                </mat-card-content>
+              </mat-card>
+              <!-- main content -->
+              <mat-card class="footer-content" *ngIf="tags">
+                <div>
+                  <mat-bar-button type="submit" type="submit" [options]="barButtonOptions"></mat-bar-button>
+                </div>
+              </mat-card>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="40" fxFlex.xs="40">
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- license information -->
+      <div id="section3">
+        <form [formGroup]="licenceForm" (ngSubmit)="onSubmit('licenceInfo')">
+          <div class="section-content" fxLayout="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center" #3>
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="55" fxFlex.xs="60">
+              <div class="">
+                <h2 layout-margin>License & Documentation<span fxFlex></span>
+                  <button class="btn-edit" *ngIf="!licenceInfo" (click)="isEditable(3)">
+                    <mat-icon class="material-icons pointer">edit</mat-icon>
+                  </button>
+                  <button class="btn-edit" *ngIf="licenceInfo" (click)="viewOnly()">
+                    <mat-icon class="material-icons pointer">visibility</mat-icon>
+                  </button>
+                </h2>
+                <mat-card class="body-card-block">
+
+                  <mat-card-content>
+                    <!-- <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+                      fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="License Name*"
+                            formControlName="license_name" autocomplete="off">
+                          <mat-error *ngIf="licenceForm.controls['license_name'].hasError('required')"
+                            class="mat-text-warn">
+                            Please enter your license name
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="mb-1" fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Document Number"
+                            formControlName="certification_number" autocomplete="off">
+                            <mat-error *ngIf="licenceForm.controls['certification_number'].hasError('required')"
+                              class="mat-text-warn">
+                              Please enter your document number
+                            </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+                      fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput [matDatepicker]="picker1" (focus)="picker1.open()" [readonly]="true"
+                            (click)="picker1.open()" placeholder="Documents Expiry Date*"
+                            formControlName="c_e_date" [min]="certification_Expiry_MinDate">
+                          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                          <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                      <div class="mb-1" fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <mat-select placeholder="Document Issuer Province*"
+                            formControlName="certification_country"
+                            [disableOptionCentering]="true">
+                            <mat-option>Select Province</mat-option>
+                            <mat-option *ngFor="let state of stateList" [value]="state.location_id">
+                              {{state.location_name}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="licenceForm.controls['certification_country'].hasError('required')">Please
+                            select
+                            issuer province</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div> -->
+
+
+                    <h3 *ngIf="arrayOfFiles.length > 0 || userDocumentArray.length > 0">Employment Documents</h3>
+                    <div fxLayout="row" fxLayout.xs="column" class="file-upload-list" fxLayoutWrap
+                      fxLayoutAlign="center" *ngIf="arrayOfFiles.length > 0 || userDocumentArray.length > 0">
+                      <table class="upload-document-table" fxFlex="100%">
+                        <tr>
+                          <th class="left">Name</th>
+                          <th class="left">Document Type</th>
+                          <th class="left" style="width:100px;"></th>
+                        </tr>
+                        <tr *ngFor="let item of arrayOfFiles; let n=index">
+                          <td>{{item.document_title}}</td>
+                          <td>{{item.document_type_data?.id_card_type}}</td>
+                          <td class="document-upload-icon-color">
+                            <mat-icon (click)="$event.stopPropagation();" class="material-icons pointer">error
+                            </mat-icon>
+                            <mat-icon (click)="$event.stopPropagation();" class="material-icons pointer">
+                              vertical_align_bottom</mat-icon>
+                            <mat-icon (click)="$event.stopPropagation();deleteFile(n)" class="material-icons pointer">
+                              delete</mat-icon>
+                          </td>
+                        </tr>
+                        <tr *ngFor="let item of userDocumentArray; let n=index">
+                          <td>{{item.document_title}}</td>
+                          <td>{{item.id_card_type}}</td>
+                          <td class="document-upload-icon-color">
+                            <a href='{{API_URL+"documents/" + item?.id + "/download"}}'
+                              (click)="$event.stopPropagation();" *ngIf="item?.id">
+                              <mat-icon class="material-icons">
+                                vertical_align_bottom
+                              </mat-icon>
+                            </a>
+                            <mat-icon class="material-icons pointer"
+                              (click)="$event.stopPropagation();deleteFile(item.id,n)" *ngIf="licenceInfo">
+                              delete
+                            </mat-icon>
+
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+
+                    <h3> Upload Document</h3>
+                    <div [formGroup]="uploadDocForm">
+                      <!-- <div fxLayout="row">
+                        <div fxFlex="100%">
+                          <mat-form-field fxFlex="100%">
+                            <input matInput placeholder="Title*" formControlName="document_title" autocomplete="off">
+                          </mat-form-field>
+                        </div>
+
+                      </div>
+                      <mat-error *ngIf="!uploadDocForm.get('document_title').valid && isFormSubmitted"
+                        class="doc-upload-error"><small>Please enter document name</small></mat-error> -->
+                      
+                      <div fxLayout="row" fxLayoutGap="5%">
+                        <div fxFlex="47.5%">
+                          <mat-form-field fxFlex="100%">
+                            <input matInput placeholder="Title*" formControlName="document_title" autocomplete="off">
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="47.5%">
+                          <mat-form-field fxFlex="100%">
+                            <mat-select placeholder="Document Issuer Province*"
+                            formControlName="certification_province"
+                            [disableOptionCentering]="true">
+                            <mat-option>Select Province</mat-option>
+                            <mat-option *ngFor="let state of stateList" [value]="state.location_id">
+                              {{state.location_name}}
+                            </mat-option>
+                          </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxLayout="row" fxLayoutGap="5%">
+                        <div fxFlex="47.5%">
+                          <mat-error *ngIf="!uploadDocForm.get('document_title').valid && isFormSubmitted"
+                          class="doc-upload-error"><small>Please enter document name</small></mat-error>
+                        </div>
+
+                        <div fxFlex="47.5%">
+                          <mat-error *ngIf="!uploadDocForm.get('certification_province').valid && isFormSubmitted"
+                          class="doc-upload-error"><small>Please select issuer province</small></mat-error>
+                        </div>
+                      </div>
+
+                      <div fxLayout="row" fxLayoutGap="5%">
+                        <div fxFlex="47.5%">
+                          <mat-form-field fxFlex="100%">
+                            <mat-select placeholder="Document Type*" formControlName="document_type_data"
+                              [disableOptionCentering]="true">
+                              <mat-option *ngFor="let type of rawDetail?.id_card_types" [value]="type">
+                                {{type.id_card_type}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="47.5%">
+                          <mat-form-field fxFlex="100%">
+                            <input matInput [matDatepicker]="doc_expiry_date_picker"
+                              (focus)="doc_expiry_date_picker.open()" [readonly]="true"
+                              (click)="doc_expiry_date_picker.open()" [min]="certification_Expiry_MinDate"
+                              placeholder="Document expiry date*" formControlName="document_expiry_date"
+                              autocomplete="off">
+                            <mat-datepicker-toggle matSuffix [for]="doc_expiry_date_picker"></mat-datepicker-toggle>
+                            <mat-datepicker #doc_expiry_date_picker></mat-datepicker>
+                            <mat-error *ngIf="uploadDocForm.controls['document_expiry_date'].hasError('required')"
+                              class="mat-text-warn">Please
+                              select document expiry date</mat-error>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div fxLayout="row" fxLayoutGap="5%">
+                        <div fxFlex="47.5%">
+                          <mat-error *ngIf="!uploadDocForm.get('document_type_data').valid && isFormSubmitted"
+                            class="doc-upload-error"><small>Please select document type</small></mat-error>
+                        </div>
+
+                        <!-- <div fxFlex="47.5%">
+                          <mat-error *ngIf="!uploadDocForm.get('document_expiry_date').valid && isFormSubmitted"
+                            class="doc-upload-error"><small>Please select document expiry date</small></mat-error>
+                        </div> -->
+                      </div>
+                      <div fxLayout="row">
+                        <div fxFlex="100%">
+                          <mat-form-field fxFlex="100%">
+                            <input matInput class="pointer" [value]="uploadedDocName"
+                              placeholder="Select file to upload*" formControlName="document" autocomplete="off" (click)="documentInput.click()"
+                              readonly>
+                            <button matSuffix type="button" (click)="documentInput.click()"
+                              class="upload-btn pointer">CHOOSE
+                              FILE...</button>
+                            <input type="file" #documentInput hidden formControlName="document"
+                              (change)="onDocumentChange($event)">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <mat-error *ngIf="!uploadDocForm.get('document').valid && isFormSubmitted"
+                        class="doc-upload-error"><small>Please upload document</small></mat-error>
+                      <button *ngIf="licenceInfo" type="button" class="upload-doc-btn" (click)="uploadFile()"> UPLOAD
+                        DOCUMENT</button>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <mat-card class="footer-content" *ngIf="licenceInfo">
+                <div>
+                  <mat-bar-button type="submit" type="submit" [options]="barButtonOptions"></mat-bar-button>
+                </div>
+              </mat-card>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="40" fxFlex.xs="40">
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- license inforamtion -->
+      <div id="section5">
+        <form [formGroup]="hoursForm" (ngSubmit)="onSubmit('storeTimingInfo')">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+              <div class="">
+                <h2 layout-margin>Shift Timing Information
+                  <span fxFlex></span>
+                  <span *ngIf="!hours" (click)="isEditable(5)">
+                    <mat-icon class="material-icons pointer">edit</mat-icon>
+                  </span>
+                  <span *ngIf="hours" (click)="viewOnly()">
+                    <mat-icon class="material-icons pointer">visibility</mat-icon>
+                  </span>
+                </h2>
+                <mat-card class="mat-content-padding body-card-block shift-module" *ngIf="hours">
+                  <mat-card-title>
+                  </mat-card-title>
+                  <mat-card-content>
+                    <div class="bottomMargin">
+                      <div fxLayout="row wrap" fxLayout.xs="row wrap" fxLayoutWrap fxLayoutAlign="Start"
+                        class="shift-days">
+                        <div fxFlex="33%" formArrayName="shift"
+                          *ngFor="let item of hoursForm.get('shift')['controls']; let p=index">
+                          <div [formGroupName]="p">
+                            <mat-checkbox formControlName="isSelected" color="primary">{{item.value.name}}
+                            </mat-checkbox>
+                          </div>
+                        </div>
+                      </div>
+                      <mat-error *ngIf="!checkedDays && shiftFormsubmit" class="doc-upload-error"><small>Please select
+                          Days</small></mat-error>
+
+
+                      <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="Start">
+                        <div class="" fxFlex="50%">
+                          <mat-form-field fxFlex="100%">
+                            <mat-select placeholder="Select Store" formControlName="store_id"
+                              [disableOptionCentering]="true">
+                              <mat-option *ngFor="let store of rawDetail?.stores; let i=index" [value]="store">
+                                {{store.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <mat-error *ngIf="!hoursForm.get('store_id').valid && shiftFormsubmit" class="doc-upload-error">
+                        <small>Please select Store</small></mat-error>
+
+                      <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1%" fxLayoutAlign="Start">
+                        <div class="" fxFlex="25%">
+                          <mat-form-field fxFlex="100%">
+                            <mat-select placeholder="From" formControlName="start_time" [disableOptionCentering]="true">
+                              <mat-option *ngFor="let from of from_time; let i=index" [value]="from">
+                                {{from}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="" fxFlex="25%">
+                          <mat-form-field fxFlex="100%">
+                            <mat-select placeholder="To" formControlName="end_time" [disableOptionCentering]="true">
+                              <mat-option *ngFor="let to of to_time; let i=index" [value]="to">
+                                {{to}}
+                              </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="shift-time-button" fxFlex="50%">
+                        <button [disabled]="!hours" mat-button color="primary" class="btn-rectangle" (click)="AddShiftTime()"
+                          type="button">ADD TIME</button>
+                      </div>
+                    </div>
+                    <div fxLayout="row">
+                      <div fxFlex="25%">
+                          <mat-error *ngIf="!hoursForm.get('start_time').valid && shiftFormsubmit"
+                          class="doc-upload-error"><small>Please select from</small></mat-error>
+                      </div>
+                      <div fxFlex="25%">
+                          <mat-error *ngIf="!hoursForm.get('end_time').valid && shiftFormsubmit"
+                          class="doc-upload-error"><small>Please select to</small></mat-error>
+                          <mat-error *ngIf="hoursForm.hasError('Same')"
+                          class="doc-upload-error"><small>To must be greater than from</small></mat-error>
+                      </div>
+                      <div fxFlex="50%">
+                      </div>
+                    </div>
+
+                        <div fxLayout="row">
+                          <div fxFlex="100%">
+                            <mat-error *ngIf="shift_error" class="doc-upload-error"><small>{{shift_error}}</small>
+                            </mat-error>
+                          </div>
+                        </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+
+            </div>
+          </div>
+        </form>
+
+        <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+          fxLayoutAlign="center">
+          <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+          </div>
+          <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+            <div>
+              <mat-card class="body-card-block shift-list">
+                  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap class="section-description">
+                    <span>Add Employee Shift timings
+                    </span>
+                  </div>
+                  <div class="bottomMargin">
+                    <div *ngIf="shiftTimes.length > 0">
+
+                      <ngx-datatable #myDatatable class="material" [headerHeight]="50"
+                        [ngStyle]="{'height':dynamicHeight}" [limit]="10" [columnMode]="'flex'" [footerHeight]="0"
+                        [rowHeight]="48" [scrollbarV]="true" [rows]="shiftTimes">
+
+                        <ngx-datatable-column [resizeable]="false" prop="name" name="Name" [flexGrow]="1">
+                          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                            let-row="row">
+                            <span title="{{value}}"> {{value}}</span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column [resizeable]="false" prop="store_name" name="Store" [flexGrow]="1">
+                          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                            let-row="row">
+                            <span title="{{value}}"> {{value}}</span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column [resizeable]="false" prop="start_time" name="From" [flexGrow]="1">
+                          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                            let-row="row">
+                            <span title="{{value}}"> {{value}}</span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column [resizeable]="false" prop="end_time" name="To" [flexGrow]="1">
+                          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                            let-row="row">
+                            <span title="{{value}}"> {{value}}</span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="View" [sortable]="false" width="70" headerClass="display-none"
+                          [resizeable]="false" [flexGrow]="0.5">
+                          <ng-template ngx-datatable-header-template>
+                            <span class="align-end" mat-icon-button>
+                            </span>
+                        </ng-template>
+                        <ng-template let-row="row" let-rowIndex="rowIndex" let-value="value" ngx-datatable-cell-template>
+                            <span class="align-end action-hover pointer" (click)="$event.stopPropagation();" mat-icon-button
+                                [matMenuTriggerFor]="menu">
+                                <mat-icon>more_vert</mat-icon>
+                            </span>
+                            <mat-menu #menu="matMenu">
+                              <button [disabled]="!hours" mat-menu-item (click)="DeleteShiftTime(rowIndex,value)">
+                                <span>Delete</span>
+                              </button>
+                            </mat-menu>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                      </ngx-datatable>
+                      <!-- Table -->
+
+                    </div>
+                  </div>
+              </mat-card>
+            </div>
+            <mat-card class="footer-content" *ngIf="shiftTimes.length > 0">
+              <mat-bar-button type="button" (click)="onSubmit('storeTimingInfo')" [options]="barButtonOptions">
+              </mat-bar-button>
+            </mat-card>
+          </div>
+          <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+          </div>
+        </div>
+      </div>
+
+      <!-- Store Assignment information -->
+      <div id="section4">
+        <form [formGroup]="storeForm" (ngSubmit)="onSubmit('storeInfo')">
+
+          <div class="section-content" fxLayout="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="55" fxFlex.xs="60">
+              <div class="">
+
+                <h2 layout-margin>Store Assignment Information<span fxFlex></span>
+                  <button class="btn-edit" *ngIf="!storeInfo && (LoginUser?.user_id!=user_id)" (click)="isEditable(4)">
+                    <mat-icon class="material-icons pointer">edit</mat-icon>
+                  </button>
+                  <button class="btn-edit" *ngIf="storeInfo && (LoginUser?.user_id!=user_id)" (click)="viewOnly()">
+                    <mat-icon class="material-icons pointer">visibility</mat-icon>
+                  </button>
+                </h2>
+                <mat-card class="mat-content-padding body-card-block">
+
+                  <mat-card-content>
+                    <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+                      fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="100%">
+                        <mat-form-field fxFlex="100%">
+                          <mat-select placeholder="Role Level*" formControlName="role_level"
+                            [disableOptionCentering]="true">
+                            <mat-option *ngFor="let role of rawDetail?.roles" [value]="role.role_id">
+                              {{role.role_name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+                      fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="100%">
+                        <mat-form-field fxFlex="100%">
+                          <mat-select placeholder="Store Name*" formControlName="store_ids" multiple
+                            [disableOptionCentering]="true">
+                            <mat-option *ngFor="let store of rawDetail?.stores; let i = index" [value]="store.store_id" (onSelectionChange)="storeDetail($event,store,i)">
+                              {{store.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+                      fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="100%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Designation" formControlName="designation"
+                            autocomplete="off">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row">
+                      <div fxFlex="100%">
+                        <mat-form-field fxFlex="100%">
+                          <textarea matInput placeholder="Job Responsibilities" formControlName="job_responsibilities"
+                            autocomplete="off"></textarea>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <mat-card class="footer-content" *ngIf="storeInfo">
+                <div>
+                  <mat-bar-button type="submit" [options]="barButtonOptions"></mat-bar-button>
+                </div>
+              </mat-card>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="40" fxFlex.xs="40">
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- store assignment inforamtion -->
+    </div>
+  </div>
+</div>

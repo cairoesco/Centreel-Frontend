@@ -1,0 +1,84 @@
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { ReportsRoutes } from "./reports.routing";
+import { SharedModule } from "../shared/shared.module";
+import { SalesComponent } from "./sales/sales.component";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { RvcComponent } from "./rvc/rvc.component";
+import { TopsellingComponent } from "./topselling/topselling.component";
+import { WasteComponent } from "./waste/waste.component";
+import { OrdersComponent } from "./orders/orders.component";
+import { StocktransferComponent } from "./stocktransfer/stocktransfer.component";
+import { TimesheetComponent } from "./timesheet/timesheet.component";
+import { NgxDaterangepickerMd } from "ngx-daterangepicker-material";
+import { CustomsalesComponent } from "./customsales/customsales.component";
+import { SalesFilterDialogComponent } from "./customsales/sales-filter-dialog/sales-filter-dialog.component";
+import { SaleshareFilterDialogComponent } from "./customsales/saleshare-filter-dialog/saleshare-filter-dialog.component";
+import { TaxReportComponent } from "./tax-report/tax-report.component";
+import { CogsReportComponent } from "./cogs-report/cogs-report.component";
+import { RefundReportComponent } from "./refund-report/refund-report.component";
+import { ReportService } from "./report.service";
+import { CashoutComponent } from "./cashout/cashout.component";
+import { TimeTrackingComponent } from "./time-tracking/time-tracking.component";
+import { InventoryOnHandComponent } from "./inventory-on-hand/inventory-on-hand.component";
+import { FilterDialogComponent } from "./inventory-on-hand/filter-dialog/filter-dialog.component";
+import { ReconcileHistoryComponent } from "./reconcile-history/reconcile-history.component";
+import { InventoryAuditComponent } from "./inventory-audit/inventory-audit.component";
+import { PrintableMenuComponent } from "./printable-menu/printable-menu.component";
+import { DailyInterimComponent } from "./daily-interim/dailyinterim.component";
+import { BrandSalesComponent } from "./brand-sales/brandsales.component";
+import { MonthlyReportComponent } from "./monthly-report/monthly-report.component";
+import { EmployeeSalesComponent  } from "./employee-sales/employee-sales.component";
+
+@NgModule({
+  imports: [
+    CommonModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    RouterModule.forChild(ReportsRoutes),
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule,
+    NgxDaterangepickerMd.forRoot({
+      applyLabel: "ok",
+      separator: " To ",
+    }),
+  ],
+
+  declarations: [
+    SalesComponent,
+    RvcComponent,
+    TopsellingComponent,
+    WasteComponent,
+    OrdersComponent,
+    MonthlyReportComponent,
+    StocktransferComponent,
+    TimesheetComponent,
+    CustomsalesComponent,
+    SalesFilterDialogComponent,
+    SaleshareFilterDialogComponent,
+    TaxReportComponent,
+    CogsReportComponent,
+    RefundReportComponent,
+    CashoutComponent,
+    TimeTrackingComponent,
+    InventoryOnHandComponent,
+    FilterDialogComponent,
+    ReconcileHistoryComponent,
+    InventoryAuditComponent,
+    PrintableMenuComponent,
+    DailyInterimComponent,
+    BrandSalesComponent,
+    EmployeeSalesComponent
+  ],
+  providers: [ReportService],
+  entryComponents: [
+    SalesFilterDialogComponent,
+    SaleshareFilterDialogComponent,
+    FilterDialogComponent,
+  ],
+})
+export class ReportsModule {}

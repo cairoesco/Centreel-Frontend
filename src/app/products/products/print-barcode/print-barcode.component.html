@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>Print Product Barcode
+  <span fxFlex></span>
+  <span class="close-btn" align="end" *ngIf="!this.barButtonOptions.active" (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </span>
+</h2>
+
+<form [formGroup]="printPoform" (ngSubmit)="onSubmit($event)">
+  <mat-dialog-content class="mat-typography print-po po-print-detail">
+
+    <!-- <div fxLayout="row">
+      <div fxFlex="10">
+        <mat-checkbox color="primary" [checked]="products.length == checkedCount" (change)="isChecked($event)">
+        </mat-checkbox>
+      </div>
+      <div fxFlex="90">
+        <h3><strong>Products</strong></h3>
+      </div>
+    </div> -->
+    <div formArrayName="poProducts">
+      <!-- main content -->
+      <div *ngFor="let row of printPoform.get('poProducts')['controls'];let i=index">
+        <div fxLayout="row wrap" [formGroupName]="i">
+
+          <div fxFlex="10" class="line-height-3">
+            <div class="checkbox-column">
+              <mat-checkbox color="primary" (change)="changeCount($event)" formControlName="isChecked">
+              </mat-checkbox>
+            </div>
+          </div>
+          <div fxFlex="30">
+            <div class="lable">{{row.value.product_name}}</div>
+            <div class="data barcode_text">{{row.value.selling_price | currency}}</div>
+          </div>
+          <div fxFlex="30">
+            <div fxLayout="row wrap">
+              <mat-form-field>
+                <mat-select placeholder="Barcodes*" formControlName="barcodes">
+                  <mat-option *ngFor="let bars of barocde_array" [value]="bars">{{bars}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="row.controls['barcodes'].hasError('required')">Please select Barcode</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxFlex="30">
+            <div class="qty-input">
+              <input type="number" name="qty" min="0"
+                (input)="row.value.qty == 0?row.controls.isChecked.setValue(false):''" class="product-qty"
+                placeholder="Qty" [value]="row.value.qty" formControlName="qty">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- main content -->
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="start" class="mat-dialog-footer-custom">
+    <mat-bar-button type="submit" class="margin-right" [options]="barButtonOptions"></mat-bar-button>
+    <button (click)="close()" type="button" [disabled]="this.barButtonOptions.active" mat-button color="primary"
+      class="cancel-button">Cancel</button>
+  </mat-dialog-actions>
+</form>

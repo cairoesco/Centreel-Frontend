@@ -1,0 +1,68 @@
+<h2 mat-dialog-title class="product-filter-dialog-title">Filters
+  <span fxFlex></span>
+  <span class="close-btn" align="end" (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </span>
+</h2>
+<form [formGroup]="form" (ngSubmit)="applyFilter()">
+  <mat-dialog-content>
+
+    <div fxLayout="row wrap" fxLayoutGap="5%">
+      <div fxFlex="47.5">
+        <mat-form-field fxFlex="100">
+          <mat-select placeholder="Customer Tags" [multiple]="true" [disableOptionCentering]="true"
+            formControlName="tags">
+            <mat-option *ngFor="let tag of rawDetail?.tags" [value]="tag">
+              {{tag}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="47.5">
+        <mat-form-field fxFlex="100%" class="range-date-input">
+          <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
+            [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end" [ranges]="ranges"
+            formControlName="selected" [minDate]="minDate" [maxDate]="maxDate" [showCustomRangeLabel]="true"
+            placeholder="Added On" [opens]="'left'">
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row wrap" fxLayoutGap="5%">
+      <div fxFlex="47.5">
+        <mat-form-field fxFlex="100">
+          <mat-select placeholder="Last Transacted At" [multiple]="true" [disableOptionCentering]="true"
+            formControlName="stores">
+            <mat-option *ngFor="let store of rawDetail?.stores" [value]="store.store_id">
+              {{store.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="47.5">
+        <mat-form-field fxFlex="100%" class="range-date-input">
+          <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
+            [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end" [ranges]="ranges"
+            formControlName="selected_transaction" [minDate]="minDate" [maxDate]="maxDate" [showCustomRangeLabel]="true"
+            placeholder="Last Transacted" [opens]="'left'">
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row wrap" fxLayoutGap="5%">
+      <div fxFlex="47.5">
+        <mat-form-field fxFlex="100">
+          <mat-select placeholder="Queue" [multiple]="false" [disableOptionCentering]="true"
+            formControlName="queue_status">
+            <mat-option *ngFor="let queue of queues_array" [value]="queue.value">
+              {{queue.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="start" class="mat-dialog-footer-custom">
+    <button type="submit" class="ok-button" mat-raised-button color="primary">APPLY FILTERS</button>
+    <button mat-button type="button" color="primary" class="cancel-button" (click)="clearFilter()">CLEAR
+      FILTERS</button>
+  </mat-dialog-actions>
+</form>

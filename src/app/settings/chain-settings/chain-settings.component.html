@@ -1,0 +1,216 @@
+
+  <mat-card class="header-main-content">
+    <div fxLayout="row">
+      <div fxFlex="25%" class="breadcrumb-content">
+        <mat-icon [routerLink]="['/settings']" class="material-icons">
+          keyboard_arrow_left
+        </mat-icon>
+        <label class="lable">
+          <a class="label" [routerLink]="['/settings']">Settings</a>
+        </label>
+      </div>
+      <div fxFlex="50%" class="breadcrumb-header-content">
+        Chain Settings
+      </div>
+      <div fxFlex="25%" class="breadcrumb-btn-content">
+        <!-- <mat-bar-button [options]="barButtonOptions">
+          <button mat-button matSuffix mat-stroked-button class="add-new-btn" type="submit">
+            <a class="add-new-label">SAVE ALL</a>
+          </button>
+        </mat-bar-button> -->
+      </div>
+    </div>
+
+  </mat-card>
+  <mat-tab-group [selectedIndex]="utility.indexofTab" class="custom-tab">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utility.scrollTo('section1')">Email Settings</p>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utility.scrollTo('section2')">TAX Settings</p>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+
+  <div class="main-div-container">
+    <div fxLayout="row">
+      <div fxFlex="100" class="scroll-container fancyscroll" id="parentDiv" scrollSpy [spiedTags]="['DIV']"
+        (sectionChange)="utility.onScrollContent($event)" [style.height.px]="innerHeight">
+        <div id="section1">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+              <!-- main content -->
+              <div class="">
+                <h2 layout-margin>Email Settings
+                  <span fxFlex></span>
+                  <span *ngIf="!emailData" (click)="isEditable(1)">
+                    <mat-icon class="material-icons pointer">edit</mat-icon>
+                  </span>
+                  <span *ngIf="emailData" (click)="viewOnly()">
+                    <mat-icon class="material-icons pointer">visibility</mat-icon>
+                  </span>
+                </h2>
+                <mat-card class="mat-content-padding">
+                  <mat-card-content>
+
+                    <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+                      fxLayoutAlign="center">
+                      <div fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <mat-select placeholder="Mail Function*" formControlName="driver" [disableOptionCentering]="true">
+                            <mat-option *ngFor="let driver of driverList" [value]="driver.slug">
+                              {{driver.name}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="form.controls['driver'].hasError('required')">Please select Mail Function
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <mat-select placeholder="Encryption Method*" formControlName="mail_security" [disableOptionCentering]="true">
+                            <mat-option *ngFor="let mail_security of encryptionList" [value]="mail_security.slug">
+                              {{mail_security.name}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="form.controls['mail_security'].hasError('required')">Please select Encryption Method
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+                      fxLayoutAlign="center">
+                      <div fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Host Name*" formControlName="mail_host" autocomplete="off">
+                          <mat-error *ngIf="form.controls['mail_host'].hasError('required')">
+                            Please enter Host Name
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Port Number*" formControlName="mail_port" autocomplete="off">
+                          <mat-error *ngIf="form.controls['mail_port'].hasError('required')">
+                            Please enter Port Number
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+                      fxLayoutAlign="center">
+
+                      <div class="mb-1" fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Username*" formControlName="mail_username" type="email"
+                            autocomplete="off">
+                          <mat-error *ngIf="form.controls['mail_username'].hasError('required')" class="mat-text-warn">
+                            Please enter your username
+                          </mat-error>
+                          <mat-error
+                            *ngIf="form.controls['mail_username'].errors?.email && form.controls['mail_username'].touched"
+                            class="mat-text-warn">
+                            Please enter your valid username
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="mb-1" fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Password*" type="password" formControlName="mail_password"
+                            maxlength="11" autocomplete="off">
+                          <mat-error *ngIf="form.controls['mail_password'].hasError('required')" class="mat-text-warn">
+                            Please enter your password
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <mat-card class="footer-content" *ngIf="emailData">
+                <div>
+                  <mat-bar-button type="submit" type="submit" [options]="barButtonOptions"></mat-bar-button>
+                </div>
+              </mat-card>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+            </div>
+          </div>
+          </form>
+        </div>
+        <div id="section2">
+          <form [formGroup]="taxForm" (ngSubmit)="onSubmit1()">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+              <!-- main content -->
+              <div class="">
+                <h2 layout-margin>TAX Settings
+                  <span fxFlex></span>
+                  <span *ngIf="!taxData" (click)="isEditable(2)">
+                    <mat-icon class="material-icons pointer">edit</mat-icon>
+                  </span>
+                  <span *ngIf="taxData" (click)="viewOnly()">
+                    <mat-icon class="material-icons pointer">visibility</mat-icon>
+                  </span>
+                </h2>
+                <mat-card class="mat-content-padding">
+                  <mat-card-content>
+
+                    <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+                      fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="70%" fxFlex.md="60%" fxFlex.sm="50%" fxFlex.xs="100%">
+                        <label>Enable GST Exempt for Non Cannabis Product Types?</label>
+                      </div>
+                      <div class="mb-1 setting-align-right" fxFlex="30%" fxFlex.md="40%" fxFlex.sm="50%"
+                      fxFlex.xs="100%">
+                          <mat-radio-group formControlName="gst_exempt" style="width:30%">
+                            <mat-radio-button color="primary" value="1" style="margin-right:10%;">Yes</mat-radio-button>
+                            <mat-radio-button color="primary" value="0">No</mat-radio-button>
+                          </mat-radio-group>
+                      </div>
+                    </div>
+
+                    <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+                      fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="70%" fxFlex.md="60%" fxFlex.sm="50%" fxFlex.xs="100%">
+                        <label>Enable PST Exempt for Non Cannabis Product Types?</label>
+                      </div>
+                      <div class="mb-1 setting-align-right" fxFlex="30%" fxFlex.md="40%" fxFlex.sm="50%"
+                      fxFlex.xs="100%">
+                          <mat-radio-group formControlName="pst_exempt" style="width:30%">
+                            <mat-radio-button color="primary" value="1" style="margin-right:10%;">Yes</mat-radio-button>
+                            <mat-radio-button color="primary" value="0">No</mat-radio-button>
+                          </mat-radio-group>
+                      </div>
+                    </div>
+                    <input formControlName="chain_id" hidden>
+                    
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <mat-card class="footer-content" *ngIf="taxData">
+                <div>
+                  <mat-bar-button type="submit" type="submit" [options]="barButtonOptions"></mat-bar-button>
+                </div>
+              </mat-card>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+            </div>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

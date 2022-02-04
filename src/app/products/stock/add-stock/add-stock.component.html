@@ -1,0 +1,121 @@
+<h2 mat-dialog-title>Add Stock  {{data.storage_name}}
+  <span fxFlex></span>
+  <span class="close-btn" align="end" (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </span>
+</h2>
+<form [formGroup]="productVariantsForm" (submit)="onSubmit(productVariantsForm)" class="add-stock-dialog">
+  <mat-dialog-content class="mat-typography">
+    <div class="">
+      <div formArrayName="products">
+        <div *ngFor="let products of productVariantsForm.get('products')['controls']; let i=index">
+          <div [formGroupName]="i">
+            <mat-card-title class="marginTop">
+              <h3 class="productTitle">{{products.value.product_name}} - {{products.value.name}}</h3>
+            </mat-card-title>
+            <div formArrayName="productVariants" class="marginTop">
+              <div *ngFor="let productVariants of products.get('productVariants')['controls']; let j=index">
+                <div [formGroupName]="j">
+                  <mat-card-content>
+                    <div fxLayout="row wrap" fxLayoutGap="20px">
+                      <mat-form-field class="remove-underline">
+                        <mat-label>Selling Price($)</mat-label>
+                        <input matInput autocomplete="off" disabled readonly
+                          value="{{products.value.productVariants[i].selling_price}}" currencyMask [options]="options"
+                          maxlength='15' type="text">
+                      </mat-form-field>
+                      <mat-form-field>
+                        <mat-label>Inventory({{data.product_unit}})*</mat-label>
+                        <input matInput autocomplete="off" type="text"
+                          (keypress)="utility.stockValidation($event, productVariants.controls['value_added'].value,data.product_unit);"
+                          formControlName="value_added">
+                        <mat-error *ngIf="productVariants.controls['value_added'].hasError('required')">
+                          This field is required
+                        </mat-error>
+                      </mat-form-field>
+                      <mat-form-field>
+                        <mat-label>Purchase Price($)<span *ngIf="data.product_type_slug == 'cannabis'">*</span></mat-label>
+                        <input type="text" autocomplete="off" matInput formControlName="stock_price" currencyMask
+                          [options]="options" maxlength='15'>
+                        <mat-error *ngIf="productVariants.controls['stock_price'].hasError('required')">
+                          This field is required
+                        </mat-error>
+                      </mat-form-field>
+
+                    </div>
+                    <div fxLayout="row wrap" fxLayoutGap="20px">
+                      <mat-form-field>
+                        <mat-label>PO NUMBER<span *ngIf="data.product_type_slug == 'cannabis'">*</span></mat-label>
+                        <!-- <input type="text" (blur)="existingPO(productVariants.controls['purchase_order_no'].value,i,j)"
+                          autocomplete="off" matInput formControlName="purchase_order_no" [matAutocomplete]="poAuto"> -->
+                        <input type="text" autocomplete="off" matInput formControlName="purchase_order_no" [matAutocomplete]="poAuto" (input)="isValue(productVariants.controls['purchase_order_no'].value,i,j)">
+                        <mat-autocomplete #poAuto="matAutocomplete" (optionSelected)="existingPO(productVariants.controls['purchase_order_no'].value,i,j)">
+                          <mat-option *ngFor="let option of PurchaseOrderNofilteredOptions"
+                            [value]="option.purchase_order_no">
+                            {{option.purchase_order_no}}
+                          </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="productVariants.controls['purchase_order_no'].hasError('required')">
+                          This field is required
+                        </mat-error>
+                      </mat-form-field>
+                      
+                      <mat-form-field>
+                        <mat-label>Vendor</mat-label>
+                        <input type="text" readonly="{{isReadOnly}}" autocomplete="off" matInput formControlName="vendor"
+                          [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                          <mat-option *ngFor="let option of VendorfilteredOptions | async" [value]="option.name">
+                            {{option.name}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+
+                      <mat-form-field >
+                        <mat-label>Reorder*</mat-label>
+                        <input matInput autocomplete="off" type="text"
+                          (keypress)="utility.stockValidation($event, productVariants.controls['reorder'].value,data.product_unit);"
+                          formControlName="reorder">
+                        <mat-error *ngIf="productVariants.controls['reorder'].hasError('required')">
+                          This field is required
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div fxLayout="row wrap" fxLayoutGap="20px" *ngIf="data.product_type_slug == 'cannabis'">
+                      <mat-form-field >
+                        <mat-label>Batch Number<span *ngIf="data.product_type_slug == 'cannabis'">*</span></mat-label>
+                        <input matInput autocomplete="off" formControlName="batch_no" (input)="getGTIN()">
+                        <mat-error *ngIf="productVariants.controls['batch_no'].hasError('required')">
+                          This field is required
+                        </mat-error>
+                      </mat-form-field>
+
+                      <mat-form-field >
+                        <mat-label>THC</mat-label>
+                        <input matInput autocomplete="off" type="text" formControlName="thc">
+                      </mat-form-field>
+
+                      <mat-form-field >
+                        <mat-label>CBD</mat-label>
+                        <input matInput autocomplete="off" type="text" formControlName="cbd">
+                      </mat-form-field>
+                    </div>
+                  </mat-card-content>
+                </div>
+                <mat-error class="greater-error-message"
+                  *ngIf="productVariants.controls['stock_price'].hasError('max')">
+                  You must not sell this item at a price lower than the purchase price.<br> Please update selling price
+                  first to continue.
+                </mat-error>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="start" class="mat-dialog-footer-custom">
+    <button type="submit" class="ok-button" mat-raised-button color="primary">ADD</button>
+    <button mat-button color="primary" class="cancel-button" [mat-dialog-close]="">CANCEL</button>
+  </mat-dialog-actions>
+</form>

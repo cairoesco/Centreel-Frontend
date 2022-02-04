@@ -1,0 +1,26 @@
+<mat-toolbar class="main-header cust-header">
+  <button (click)="toggleSidenav.emit()" mat-icon-button>
+    <mat-icon>menu</mat-icon>
+  </button>
+  <div class="branding">
+    <div class="logo"></div>
+  </div>
+  <div class="search-bar" fxFlex>
+  </div>
+
+  <div matRipple [matRippleCentered]="true" class="menu-right pointer" [matMenuTriggerFor]="user">
+    <img class="radius-circle" alt="User Profile" [src]="LoginUser?.user_image" onError="this.src='../../assets/images/avatar-m.png';">
+    <span class="header-user-name">{{LoginUser?.name}}</span>
+    <mat-icon>keyboard_arrow_down</mat-icon>
+  </div>
+  <mat-menu #user="matMenu" x-position="after" [overlapTrigger]="false">
+    <button mat-menu-item [routerLink]="['/users', LoginUser?.user_id, 'view']" style="width: 218px;">
+      <mat-icon>account_circle</mat-icon>
+      Profile
+    </button>
+    <button mat-menu-item (click)="doSignOut()" style="width: 218px;">
+      <mat-icon>exit_to_app</mat-icon>
+      Sign Out
+    </button>
+  </mat-menu>
+</mat-toolbar>

@@ -1,0 +1,141 @@
+.Inventory .inventory-header {
+   padding: 10px;
+}
+
+// .Inventory .hr-line {
+//    margin: 0 -25px;
+// }
+
+.variant-content{
+   padding-top: 60px;
+   .title{
+      font-family: Poppins;
+      font-size: 20px;
+      font-weight: 600;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: 0.5px;
+      color: #272727;
+      margin-bottom: 19px;
+      padding: 0px 18px;
+   }
+   .sidebar{
+      padding: 0px 18px;
+      .sidebar-block{
+         overflow: auto;
+         box-shadow: 1px 0 13px 0 rgba(0, 0, 0, 0.04);
+         background-color: #ffffff;
+         .block{
+            padding: 18px 10px 14px 21px;
+            border-bottom:solid 1px #dedede;
+            text-transform: capitalize;
+            &.selected{
+               background-color: #f4faf4;
+               .name{
+                  color: #28b127;
+               }
+            }
+            .name{
+               font-family: Roboto;
+               font-size: 15px;
+               font-weight: 300;
+               font-style: normal;
+               font-stretch: normal;
+               line-height: normal;
+               letter-spacing: 0.4px;
+               color: #272727;
+            }
+         }
+         
+      }
+      .add-new-btn{
+         width: 100%;
+         border: none;
+         padding: 0px 10px;
+         margin: 10px 0px;
+      }
+   }
+   .content-block{
+      .section{
+         border-radius: 3px;
+        
+         padding: 0px 18px;
+         .section-table{
+            box-shadow: 1px 0 13px 0 rgba(0, 0, 0, 0.04);
+            background-color: #ffffff;
+            background: #FFF;
+         }
+         .section-block{
+            box-shadow: 1px 0 13px 0 rgba(0, 0, 0, 0.04);
+            background-color: #ffffff;
+            padding: 26px;
+            background: #FFF;
+            .hover-div{
+               margin: 11px 11px 0px 0px;
+            }
+            .section-title{
+               font-family: Roboto;
+               font-size: 17px;
+               font-weight: 300;
+               font-style: normal;
+               font-stretch: normal;
+               line-height: normal;
+               letter-spacing: 0.4px;
+               color: #272727;
+               margin-bottom: 30px;
+            }
+            .option-section{
+               margin-top: 40px;
+               .input-box{
+                  padding-right: 25px;
+               }
+            }
+            .inventory-section{
+               .store-title{
+                  margin-top: 20px;
+               }
+            }
+         }
+      }
+   }
+}
+.add-new-circle{
+   color: #07a906;
+}
+.delete-outline{
+   color: #7b7b7b;
+   margin-top: 15px;
+}
+// .formFieldWidth420 {
+//    width: 420px;
+// }
+// .formFieldWidth300 {
+//    width: 300px;
+// }
+// .sidebar-vaiants-list{
+//    padding: 0px;
+//    .header{
+//       padding: 1rem;
+//       background-color: #dadada;
+//       margin: 0px;
+//       .text{
+//          font-size: 18px;
+//          font-weight: bold;
+//          margin: 0px;
+//       }
+//    }
+//    .content{
+//       .block{
+//          padding: 0.5rem 1rem;
+//          border-bottom: 1px solid #dadada;
+//          img{
+//             height: 50px;
+//          }
+//          h4{
+//             margin: 0px;
+//          }
+//       }
+      
+//    }
+// }

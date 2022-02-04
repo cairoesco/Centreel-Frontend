@@ -1,0 +1,13 @@
+<div class="app mat-typography" [dir]="options.dir" [ngClass]="{'app-dark': options.dark, 'boxed': options.boxed, 'collapsed-sidebar': options.collapsed, 'side-panel-opened': sidePanelOpened, 'side-panel-closed': !sidePanelOpened,'lock-blur-bg':lockService.isLock }">
+  <app-header (toggleSidenav)="sidemenu.toggle()"></app-header>
+  <mat-sidenav-container class="app-inner">
+    <mat-sidenav #sidemenu class="sidebar-panel" id="sidebar-panel" [mode]="isOver() ? 'over' : 'side'" [opened]="!isOver()"
+      (openedStart)="sidePanelOpened = true" (closedStart)="sidePanelOpened = false" (mouseover)="menuMouseOverOut('over')"
+      (mouseout)="menuMouseOverOut('side')" [perfectScrollbar]="config" [disabled]="true || isScreenSmall">
+      <app-sidebar (click)="updatePS()"></app-sidebar>
+    </mat-sidenav>
+    <div [perfectScrollbar]="config" class="overflow-none" [disabled]="true || isScreenSmall">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-container>
+</div>

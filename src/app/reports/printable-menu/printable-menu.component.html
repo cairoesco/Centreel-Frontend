@@ -1,0 +1,135 @@
+<mat-card class="header-main-content">
+    <div fxLayout="row">
+      <div fxFlex="25%" fxFlex.md="35%" fxFlex.sm="40%" class="breadcrumb-content">
+      </div>
+      <div fxFlex="50%" fxFlex.md="30%" fxFlex.sm="20%" class="breadcrumb-header-content center">
+        Printable Menu
+      </div>
+      <div fxFlex="25%" fxFlex.md="35%" fxFlex.sm="40%" class="breadcrumb-btn-content end">
+        <button mat-button matSuffix mat-stroked-button class="add-new-btn" [matMenuTriggerFor]="menu" type="button">
+          <mat-icon class="report-header-button">get_app</mat-icon>
+          <span>
+            <a class="add-new-label">EXPORT</a>
+          </span>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item [disabled]="rows.length == 0" (click)="getExportPDF()">PDF</button>
+          <button mat-menu-item [disabled]="rows.length == 0" (click)="getExportCSV('csv')">CSV</button>
+          <button mat-menu-item [disabled]="rows.length == 0" (click)="getExportCSV('xls')">EXCEL</button>
+        </mat-menu>
+        <button mat-button matSuffix mat-stroked-button class="add-new-btn" (click)="reset_form()">
+          <mat-icon class="report-header-button">refresh</mat-icon>
+          <span>
+            <a class="add-new-label">RESET</a>
+          </span>
+        </button>
+      </div>
+    </div>
+  </mat-card>
+  
+  <mat-progress-bar mode="indeterminate" *ngIf="inProgress"></mat-progress-bar>
+  <div class="top-20 report-inner-height">
+    <div  fxFlex="96%" fxFlexOffset="2%">
+      <mat-card class="box-shadow report-filter-bar">
+        <div _ngcontent-c41="" class="button-row">
+          <form [formGroup]="printablemenu">
+            <div class="" fxLayout="row" fxLayoutGap="3%" fxLayoutAlign="left">
+              <div fxFlex="32%">
+                <mat-form-field fxFlex="100%">
+                  <mat-select [formControl]="printablemenu.controls['store_id']" placeholder="Store"
+                      [disableOptionCentering]="true">
+                      <mat-option *ngFor="let store of stores" [value]="store.store_id">{{ store.name }}
+                      </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="" fxFlex="32%">
+                <mat-form-field fxFlex="100%">
+                  <mat-select placeholder="Product Type" [disableOptionCentering]="true" [formControl]="printablemenu.controls['product_type']">
+                    <mat-option *ngFor="let item of product_type" [value]="item.product_type_slug">
+                      {{item.product_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="" fxFlex="32%">
+                <mat-form-field fxFlex="100%">
+                  <mat-select placeholder="Sort" [disableOptionCentering]="true" [formControl]="printablemenu.controls['sort']">
+                    <mat-option *ngFor="let sort_type of sort" [value]="sort_type.type_id">
+                      {{sort_type.type_name}}
+                      <span style="font-weight: bold;" *ngIf="sort_type.type_id % 2 !== 0">ASC</span>
+                      <span style="font-weight: bold;" *ngIf="sort_type.type_id % 2 === 0">DESC</span>
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-card>
+
+      <!-- new code -->
+      <!-- <div *ngFor="let item of rows | keyvalue">
+        {{item | json }}
+        Object Key:{{item.key}} and Object Value:{{item.value}}
+      </div> -->
+        <div class="" *ngFor="let item of rows | keyvalue">
+            <h2 class="padding-closeout">{{item.key}}</h2>
+            <mat-card class="box-shadow report-listing" *ngIf="item?.value?.length > 0">
+                <ngx-datatable #myDatatable class="material" [ngStyle]="{'height':'346px'}" [headerHeight]="50"
+                    [limit]="10" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="48" [scrollbarV]="true"
+                    [rows]="item?.value">
+                    <ngx-datatable-column [resizeable]="false" prop="print_menu_description" name="Product" [width]="300">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                            let-row="row">
+                            <span title="{{value}}" [ngStyle]="{'color': row.variant_new == 1? '#28b127' : ''}">{{value}}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [resizeable]="false" prop="description1" name="THC CBD" [width]="200">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                            let-row="row">
+                            <span title="{{value}}">THC {{row.product_thc}}%  CBD {{row.product_cbd}}%</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [resizeable]="false" prop="product_highlights" name="Description" [width]="550">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                            let-row="row">
+                            <!-- <span title="{{value}}">{{value}}</span> -->
+                            <span matTooltip="{{row.product_highlights}}" matTooltipClass="tooltip-text" *ngIf="row.product_highlights"> {{row.product_highlights | slice:0:150}}
+                              {{row.product_highlights.length < 150 ? '' : '&hellip;'}}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [resizeable]="false" prop="selling_price" name="Price" [width]="150">
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                            let-row="row">
+                            <span title="{{value}}">{{value | currency}}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <!-- <ngx-datatable-footer>
+                        <ng-template ngx-datatable-footer-template let-rowCount="rowCount">
+                            <div class="total-rows">
+                                Total : {{rowCount}}
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-footer> -->
+                </ngx-datatable>
+            </mat-card>
+        </div>
+        <div fxLayout="column" *ngIf="rows.length==0 && !inProgress" class="report-error-msg">
+            <div class="center">
+                <div>
+                    <img src="../../assets/images/sad.svg" class="sad" alt="No Data Found">
+                </div>
+                <div>
+                    <span class="Sorry-no-results-fo">Sorry, no results found</span>
+                </div>
+            </div>
+        </div>
+      <!-- new code -->
+      
+    </div>
+  </div>

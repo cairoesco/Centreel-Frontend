@@ -1,0 +1,27 @@
+.incident-search-input {
+    box-shadow: 1px 0 13px 0 rgba(0, 0, 0, 0.04) !important;
+    border-right:1px solid#e6e6e6; 
+    border-radius: 50px 50px 50px 50px; 
+    background: white; 
+    padding:  10px 10px 10px 10px;
+  }
+
+  .incident-table{
+    min-width: 1100px;
+  }
+  
+  .incident-search{
+    padding-bottom: 5px;
+  }
+
+  .searchbar-div{
+    margin-bottom: 15px;
+  }
+
+  .incidentreport-inner-height{
+    min-height: 470px;
+  }
+
+  ::ng-deep .tooltip-text {
+    font-size: 15px;
+  }

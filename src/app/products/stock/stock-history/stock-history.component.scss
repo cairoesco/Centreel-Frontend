@@ -1,0 +1,13 @@
+.history-dialog-content{
+    .table-container{
+        border: 1px solid #e4e4e4;
+        .variant-name-column{
+            text-align: left;
+            padding-left: 20px !important;
+        }
+    }
+    .loader-block{
+        height:100px;
+        overflow: hidden;
+    }
+}

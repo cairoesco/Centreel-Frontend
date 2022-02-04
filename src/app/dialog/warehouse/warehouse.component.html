@@ -1,0 +1,54 @@
+<div class="dialog-pop-up">
+    
+    <form  [formGroup]="form">
+      <div fxLayout="row wrap">
+          
+        <div class="main-content" fxLayout="row wrap" >
+            <h1 class="header-text" mat-dialog-title>Add Warehouse</h1><span fxFlex></span><span class="close-btn" align="end" (click)="close()">X</span>
+            <mat-card class="margin-zero main-content" fxFlex="100%">
+                <div mat-dialog-content>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <input matInput placeholder="Warehouse Name" formControlName="name">
+                        </mat-form-field>
+                      </div>
+                      <div class="mb-1" fxFlex="50%">
+                        <mat-form-field fxFlex="100%">
+                          <mat-select placeholder="Type" formControlName="type" [disableOptionCentering]="true">
+                              <mat-option value="Store Front">Store Front</mat-option>
+                              <mat-option value="Store Back">Store Back</mat-option>
+                              <mat-option value="Warehouse">Warehouse</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+                        <div class="mb-1" fxFlex="50%">
+                          <mat-form-field fxFlex="100%">
+                            <input matInput placeholder="Phone" formControlName="phone">
+                          </mat-form-field>
+                        </div>
+                        <div class="mb-1" fxFlex="50%">
+                          <mat-form-field fxFlex="100%">
+                            <input matInput placeholder="Email" formControlName="email">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    <!-- {{data.name}} -->
+                  </div>
+            </mat-card>
+        </div>
+         
+          
+          <mat-card fxLayout="row wrap" class="footer-modal-pop-up margin-zero" fxFlex="100%">
+              <div mat-dialog-actions class="center" >
+                  <button (click)="onNoClick()" class="mat-primary-btn" mat-raised-button color="primary">ADD WAREHOUSE</button>
+                  <button mat-button mat-stroked-button color="primary" [mat-dialog-close]="" class="mat-cancel-btn">CANCEL</button>
+                </div>
+          </mat-card>
+      </div>
+      
+      
+    </form>  
+</div>

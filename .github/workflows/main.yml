@@ -1,0 +1,38 @@
+name: centreel
+
+on:
+  push:
+    branches: [master, dev, staging]
+     
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION}}
+      - name: Build Application for production environment
+        if: endsWith(github.ref, '/master')
+        run: npm install && npm run build-prod
+      - name: Build Application for staging environment
+        if: endsWith(github.ref, '/staging')
+        run: npm install && npm run build-staging
+      - name: Build Application for development environment
+        if: endsWith(github.ref, '/dev')
+        run: npm install && npm run build-dev
+
+        
+      - name: Deploy app build to S3 bucket to prodution
+        if: endsWith(github.ref, '/master')
+        run: aws s3 sync ./dist/ s3://centreel-production-frontend --delete
+      - name: Deploy app build to S3 bucket to testing
+        if: endsWith(github.ref, '/staging')
+        run: aws s3 sync ./dist/ s3://centreel-testing-frontend --delete
+      - name: Deploy app build to S3 bucket to dev
+        if: endsWith(github.ref, '/dev')
+        run: aws s3 sync ./dist/ s3://centreel-dev-frontend --delete

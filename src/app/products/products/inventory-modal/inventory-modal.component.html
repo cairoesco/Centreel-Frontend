@@ -1,0 +1,94 @@
+<h2 mat-dialog-title>Add Inventory
+  <span fxFlex></span>
+  <span class="close-btn" align="end" (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </span>
+</h2>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="mat-typography add-tag-dialog inventory-dialog">
+    <div fxLayout="row" fxLayoutGap="5%">
+      <mat-form-field class="example-full-width" fxFlex="30%">
+        <input matInput placeholder="Stock*" formControlName="value_added" autocomplete="off" maxlength="7"
+          (keypress)="utils.numberOnly($event)">
+        <mat-error *ngIf="form.controls['value_added'].hasError('required')">
+          Please enter stock
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" fxFlex="30%">
+        <input matInput placeholder="Unit Price($)*" currencyMask [options]="options" maxlength='15'
+        formControlName="unit_price" autocomplete="off">
+        <mat-error *ngIf="form.controls['unit_price'].hasError('required')">
+          Please enter unit price
+        </mat-error>
+      </mat-form-field>
+      
+      <mat-form-field class="example-full-width" fxFlex="30%">
+        <input readonly matInput placeholder="Total Price($)" value="{{form.controls['unit_price'].value*form.controls['value_added'].value |currency:'$ '}}">
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutGap="5%">
+      <mat-form-field class="example-full-width" fxFlex="50%">
+        <input matInput placeholder="PO #" formControlName="purchase_order_no" maxlength="20" [matAutocomplete]="poAuto" (input)="isValue(form.controls['purchase_order_no'].value)">
+          <!-- (blur)="existingPO(form.controls['purchase_order_no'].value)"> -->
+        <mat-autocomplete #poAuto="matAutocomplete" (optionSelected)="existingPO(form.controls['purchase_order_no'].value)">
+          <mat-option *ngFor="let option of PurchaseOrderNofilteredOptions | async" [value]="option.purchase_order_no">
+            {{option.purchase_order_no}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" fxFlex="50%">
+        <input matInput readonly="{{isReadOnly}}" placeholder="Vendor" formControlName="vendor"  [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of VendorfilteredOptions | async" [value]="option.name">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutGap="5%">
+      <mat-form-field class="example-full-width" fxFlex="50%">
+        <input matInput [matDatepicker]="picker" (focus)="picker.open()" [max]="maxDate" [min]="minDate"
+          [readonly]="true" (click)="picker.open()" placeholder="Purchase Date" formControlName="purchase_date"
+          autocomplete="off">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" fxFlex="50%">
+        <input matInput placeholder="Reorder" maxlength="7" (keypress)="utils.numberOnly($event)"
+          formControlName="reorder" autocomplete="off">
+        <mat-icon class="material-icons pointer"
+          matTooltip="Get notify when your stock get collapsed with limit and you need to reorder." matSuffix>
+          help_outline
+        </mat-icon>
+      </mat-form-field>
+
+    </div>
+    <div fxLayout="row" fxLayoutGap="5%" class="margin-bottom" *ngIf="data?.product_type == 'cannabis'">
+      <div fxFlex="50%">
+        <mat-form-field class="example-full-width" fxFlex="100%" >
+          <input matInput placeholder="Batch #*" formControlName="batch_no" (input)="selected_result(form.controls['batch_no'].value)">
+          <mat-error *ngIf="form.controls['batch_no'].hasError('required')">
+            Please enter Batch no
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="25%">
+        <mat-form-field class="example-full-width" fxFlex="100%" >
+          <input matInput placeholder="THC" formControlName="thc" >
+        </mat-form-field>
+      </div>
+      <div fxFlex="25%">
+        <mat-form-field class="example-full-width" fxFlex="100%" >
+          <input matInput placeholder="CBD" formControlName="cbd" >
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="start" class="mat-dialog-footer-custom">
+    <button type="submit" class="ok-button" mat-raised-button color="primary">ADD</button>
+    <button mat-button color="primary" class="cancel-button" [mat-dialog-close]="">CANCEL</button>
+  </mat-dialog-actions>
+</form>

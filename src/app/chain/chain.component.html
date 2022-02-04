@@ -1,0 +1,53 @@
+<mat-toolbar color="teal-200">
+    <span>Chain</span>
+    <span class="demo-toolbar"></span>
+    <a mat-button [routerLink]="['create']">Add new</a>
+</mat-toolbar>
+
+<div class="clearfix">&nbsp;</div>
+
+<ngx-datatable #myDatatable class="material" [headerHeight]="50" [limit]="10" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="'auto'" [rows]="rows">
+    <ngx-datatable-column prop="name" name="Name">
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            <span title="{{value}}"> {{value}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column prop="desc" name="Description">
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            <span title="{{value}}"> {{value}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column prop="created_on" name="Created On">
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            <span title="{{value}}"> {{value}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column prop="status" name="Status">
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+            <button mat-raised-button color="primary" *ngIf="value==1">Active</button>
+            <button mat-raised-button color="warn" *ngIf="value==0">Inactive</button>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column prop="created_by" name="Added By">
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            <span title="{{value}}"> {{value}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column prop="partner_id" name="Action">
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            <div class="button-row">
+                <a mat-mini-fab color="primary" routerLink="{{value}}/edit/">
+                    <mat-icon aria-label="Edit">edit</mat-icon>
+                </a>
+                <button mat-mini-fab color="warn">
+                    <mat-icon aria-label="Delete" (click)="deleteRow(value,rowIndex)">delete</mat-icon>
+                </button>
+            </div>
+        </ng-template>
+    </ngx-datatable-column>
+</ngx-datatable>

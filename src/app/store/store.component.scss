@@ -1,0 +1,28 @@
+.store-list-content{
+  overflow: auto;
+  .store-list-table{
+    min-width: 800px;;
+  }
+}
+.store-search-input {
+  box-shadow: 1px 0 13px 0 rgba(0, 0, 0, 0.04) !important;
+  border-right:1px solid#e6e6e6; 
+  border-radius: 50px 50px 50px 50px; 
+  background: white; 
+  padding:  10px 10px 10px 10px;
+}
+.main-container{
+  box-shadow: none !important;
+  .store-list-content{
+    ::ng-deep .ngx-datatable{
+      background-color: #fff0;
+      ::ng-deep .datatable-header,.datatable-scroll{
+        background-color: #FFF;
+        width: 100% !important;
+      }
+    }
+  }
+}
+.add-tag-button{
+  text-align: right;
+}

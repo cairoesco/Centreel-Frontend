@@ -1,0 +1,40 @@
+<div class="customsales-filter-dialog">
+  <h1 mat-dialog-title>Share Report
+    <span class="close-icon-block pointer" (click)="close()">
+      <mat-icon>close</mat-icon>
+    </span>
+  </h1>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div mat-dialog-content>
+      <div fxLayout="row">
+        <div fxFlex="100%">
+          <mat-form-field fxFlex="100%">
+            <mat-select placeholder="Mail As" [formControl]="form.controls['mail_as']" multiple [disableOptionCentering]="true">
+              <mat-option *ngFor="let mail of mail_as" [value]="mail">
+                {{mail.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.controls['mail_as'].hasError('required')">Please Select Mail As</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div fxLayout="row">
+        <div fxFlex="100%">
+          <mat-form-field fxFlex="100%">
+            <!-- <input matInput placeholder="Mail To" [formControl]="form.controls['mail_to']"> -->
+            <textarea matInput placeholder="Mail To" [formControl]="form.controls['mail_to']"></textarea>
+            <mat-error *ngIf="form.controls['mail_to'].hasError('required')">Please include Mail To</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+    </div>
+
+    <div mat-dialog-actions>
+      <button type="submit" class="mat-primary-btn" mat-raised-button color="primary">MAIL NOW</button>
+      <button mat-button mat-stroked-button color="primary" [mat-dialog-close]="" class="mat-cancel-btn">CANCEL</button>
+    </div>
+  </form>
+</div>
