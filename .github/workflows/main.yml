@@ -36,3 +36,33 @@ jobs:
       - name: Deploy app build to S3 bucket to dev
         if: endsWith(github.ref, '/dev')
         run: aws s3 sync ./dist/ s3://centreel-dev-frontend --delete
+
+      - name: Create CloudFront Cache Invalidation for prod
+        if: endsWith(github.ref, '/master')
+        uses: chetan/invalidate-cloudfront-action@master
+        env:
+          DISTRIBUTION: ${{ secrets.AWS_CF_DISTRIBUTION_ID_PROD }}
+          PATHS: "/*"
+          AWS_REGION: ${{ secrets.AWS_REGION}}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Create CloudFront Cache Invalidation for test
+        if: endsWith(github.ref, '/staging')
+        uses: chetan/invalidate-cloudfront-action@master
+        env:
+          DISTRIBUTION: ${{ secrets.AWS_CF_DISTRIBUTION_ID_TEST }}
+          PATHS: "/*"
+          AWS_REGION: ${{ secrets.AWS_REGION}}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+
+      - name: Create CloudFront Cache Invalidation for dev
+        if: endsWith(github.ref, '/dev')
+        uses: chetan/invalidate-cloudfront-action@master
+        env:
+          DISTRIBUTION: ${{ secrets.AWS_CF_DISTRIBUTION_ID_DEV }}
+          PATHS: "/*"
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
