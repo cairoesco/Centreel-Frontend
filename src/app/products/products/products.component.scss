@@ -1,0 +1,37 @@
+//***** Exapnd view CSS for text and left block **********//
+.detail-left-block{
+  width: 160px;
+  margin-left: 70px;
+  .lable{
+    font-family: Poppins;
+    font-size: 10px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.3px;
+    color: #28b127;
+  }
+}
+.main-container{
+  box-shadow: none !important;
+  .list-detail-content{
+    .ngx-datatable{
+      background-color: #fff0;
+      ::ng-deep .datatable-header,::ng-deep .datatable-scroll{
+        background-color: #FFF;
+        width: 100% !important;
+      }
+    }
+  }
+}
+
+.barcode_text{
+  white-space: normal;
+  overflow: auto;
+  max-height: 60px;
+  word-wrap: break-word;
+}
+.add-tag-button{
+  text-align: right;
+}

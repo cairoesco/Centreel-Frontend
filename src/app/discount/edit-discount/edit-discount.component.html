@@ -1,0 +1,209 @@
+<form [formGroup]="discountForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+	<mat-card class="header-main-content">
+		<div fxLayout="row">
+			<div fxFlex="25%" class="breadcrumb-content">
+				<mat-icon [routerLink]="['/discounts']" class="material-icons"> keyboard_arrow_left </mat-icon>
+				<label class="lable">
+					<a class="label" [routerLink]="['/discounts']">Discounts</a>
+				</label>
+			</div>
+			<div fxFlex="50%" class="breadcrumb-header-content">View Discount</div>
+		</div>
+	</mat-card>
+	<mat-tab-group [selectedIndex]="utility.indexofTab" class="custom-tab">
+		<mat-tab>
+			<ng-template mat-tab-label>
+				<p (click)="utility.scrollTo('section1')">General</p>
+			</ng-template>
+		</mat-tab>
+		<mat-tab>
+			<ng-template mat-tab-label>
+				<p (click)="utility.scrollTo('section1')">Condition</p>
+			</ng-template>
+		</mat-tab>
+	</mat-tab-group>
+
+	<div class="main-div-container">
+		<div fxLayout="row">
+			<div
+				fxFlex="100"
+				class="scroll-container fancyscroll"
+				id="parentDiv"
+				scrollSpy
+				[spiedTags]="['DIV']"
+				(sectionChange)="utility.onScrollContent($event)"
+				[style.height.px]="innerHeight"
+			>
+				<div id="section1">
+					<div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+						<div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0"></div>
+						<div fxFlex="100" fxFlex.sm="100" fxFlex.md="100">
+							<!-- main content -->
+							<div class="">
+								<h2 layout-margin>
+									General
+									<span fxFlex></span>
+									<button class="btn-edit" *ngIf="!isEditing" (click)="isEditable()">
+										<mat-icon class="material-icons pointer">edit</mat-icon>
+									</button>
+									<button class="btn-edit" *ngIf="isEditing" (click)="viewOnly()">
+										<mat-icon class="material-icons pointer">visibility</mat-icon>
+									</button>
+								</h2>
+								<mat-card class="mat-content-padding body-card-block card_container">
+									<!-- <mat-card-title>
+										<h3>General</h3>
+									</mat-card-title> -->
+									<mat-card-content>
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+											<div fxFlex="75%">
+												<mat-form-field fxFlex="100%">
+													<input [readonly]="!isEditing" matInput placeholder="Discount Name*" formControlName="discount_name" autocomplete="off" />
+												</mat-form-field>
+											</div>
+
+											<div fxFlex="20%">
+												<mat-form-field fxFlex="100%">
+													<mat-select [(value)]="defaultStatus" placeholder="Status" formControlName="status" [disableOptionCentering]="true">
+														<mat-option [disabled]="!isEditing" *ngFor="let status of DiscountStatusArray" [value]="status.status_id">
+															{{ status.status }}
+														</mat-option>
+													</mat-select>
+												</mat-form-field>
+											</div>
+										</div>
+
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+											<div fxFlex="80%" class="breadcrumb-btn-content button_wrapper" *ngIf="isEditing">
+												<!-- <mat-bar-button [options]="barSaveTagButtonOptions"> -->
+												<button mat-button matSuffix mat-stroked-button class="add-new-btn" type="button" (click)="handleOnSubmitGeneralEdit()">
+													<a  *ngIf="inProgress" class="add-new-label">SAVING...</a>
+													<a *ngIf="!inProgress" class="add-new-label">SAVE CHANGES</a>
+												</button>
+												<!-- </mat-bar-button> -->
+											</div>
+										</div>
+									</mat-card-content>
+								</mat-card>
+							</div>
+						</div>
+						<div fxFlex="40" fxFlex.sm="20" fxFlex.md="20"></div>
+					</div>
+				</div>
+
+				<div id="section2">
+					<div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+						<div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0"></div>
+						<div fxFlex="100" fxFlex.sm="100" fxFlex.md="100">
+							<!-- main content -->
+							<div class="">
+								<h2 layout-margin>
+									Condition
+									<span fxFlex></span>
+									<button class="btn-edit" *ngIf="!addNewEntry" (click)="handleAddNewEntry(true)">
+										<mat-icon class="material-icons pointer">edit</mat-icon>
+									</button>
+									<button class="btn-edit" *ngIf="addNewEntry" (click)="handleAddNewEntry(false)">
+										<mat-icon class="material-icons pointer">visibility</mat-icon>
+									</button>
+								</h2>
+								<mat-card class="mat-content-padding body-card-block card_container">
+									<!-- <mat-card-title>
+										<h3>Condition</h3>
+									</mat-card-title> -->
+									<mat-card-content>
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+											<div fxFlex="50%">
+												<mat-form-field fxFlex="100%">
+													<input [readonly]="true" matInput placeholder="Discount Type*" formControlName="discount_type" autocomplete="off" />
+												</mat-form-field>
+											</div>
+
+											<div *ngIf="discountType == 'category' " fxFlex="50%">
+												<mat-form-field fxFlex="100%">
+													<mat-select
+														placeholder="Parameters"
+														formControlName="parameters"
+														[disableOptionCentering]="true"
+														multiple
+													>
+														<mat-option  [disabled]="!addNewEntry" *ngFor="let param of allCategoryArray" [value]="param.product_category_id">
+															{{ param.product_category_name }}
+														</mat-option>
+													
+													</mat-select>
+												</mat-form-field>
+											</div>
+											<div *ngIf="discountType == 'tag' " fxFlex="50%">
+												<mat-form-field fxFlex="100%">
+													<mat-select
+														placeholder="Parameters"
+														formControlName="parameters"
+														[disableOptionCentering]="true"
+														multiple
+													>
+														<mat-option [disabled]="!addNewEntry" *ngFor="let param of allTagsArray" [value]="param.id">
+															{{ param.tag_name }}
+														</mat-option>
+													</mat-select>
+												</mat-form-field>
+											</div>
+										</div>
+
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+											<div fxFlex="50%">
+												<mat-form-field fxFlex="100%">
+													<input [readonly]="!addNewEntry" matInput placeholder="Discount Value*" formControlName="discount_value" autocomplete="off" />
+												</mat-form-field>
+											</div>
+
+											<div fxFlex="50%">
+												<mat-form-field fxFlex="100%">
+													<mat-select
+														placeholder="Discount Mode"
+														formControlName="discount_mode"
+														[disableOptionCentering]="true"
+														
+													>
+														<mat-option [disabled]="!addNewEntry" *ngFor="let value of discountModeArray;" [value]="value.value">
+															{{ value.item  }}
+														</mat-option>
+													</mat-select>
+												</mat-form-field>
+											</div>
+										</div>
+
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+											<div fxFlex="50%">
+												<mat-form-field fxFlex="100%">
+													<input [readonly]="!addNewEntry" matInput type="number" min="0" placeholder="Minimum Quantity" formControlName="min_qty" autocomplete="off" />
+												</mat-form-field>
+											</div>
+											<div *ngIf="discountType == 'category' " fxFlex="50%">
+												<mat-form-field fxFlex="100%">
+													<input *ngIf="!addNewEntry" [readonly]="!addNewEntry" matInput type="text" placeholder="Product Weight*" formControlName="product_weight" autocomplete="off" />
+													<input *ngIf="addNewEntry" [readonly]="!addNewEntry" matInput type="number" min="0" placeholder="Product Weight*" formControlName="product_weight" autocomplete="off" />
+												</mat-form-field>
+											</div>
+										</div>
+
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+											<div fxFlex="80%" class="breadcrumb-btn-content button_wrapper" *ngIf="addNewEntry">
+												<!-- <mat-bar-button [options]="barSaveTagButtonOptions"> -->
+												<button mat-button matSuffix mat-stroked-button class="add-new-btn" type="button" (click)="handleOnSubmitGeneralEdit()">
+													<a class="add-new-label">SAVE CHANGES</a>
+												</button>
+												<!-- </mat-bar-button> -->
+											</div>
+										</div>
+									</mat-card-content>
+								</mat-card>
+							</div>
+						</div>
+						<div fxFlex="40" fxFlex.sm="20" fxFlex.md="20"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

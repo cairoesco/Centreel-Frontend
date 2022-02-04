@@ -1,0 +1,423 @@
+<mat-card class="header-main-content storesetting-header-main-content">
+  <div fxLayout="row">
+    <div fxFlex="30%" class="breadcrumb-content">
+      <mat-icon class="material-icons" [routerLink]="['/settings']">
+        keyboard_arrow_left
+      </mat-icon><label class="lable">
+        <a class="label" [routerLink]="['/settings']">Settings</a>
+      </label>
+    </div>
+    <div fxFlex="40%" class="breadcrumb-header-content">
+      Stores
+    </div>
+    <div fxFlex="30%" class="breadcrumb-btn-content">
+      <mat-form-field class="header-chain-select-block">
+        <mat-select [(ngModel)]="storeId" (ngModelChange)="changeStore(storeId)" [disableOptionCentering]="true">
+          <mat-option *ngFor="let item of stores" [value]="item.store_id">
+            {{item.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</mat-card>
+<mat-tab-group [selectedIndex]="utility.indexofTab" class="custom-tab">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <p (click)="utility.scrollTo('section1')">POS SETTINGS</p>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <p (click)="utility.scrollTo('section2')">KIOSK SETTINGS</p>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <p (click)="utility.scrollTo('section3')">TIMETRACKING SETTINGS</p>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+
+<div class="main-div-container">
+  <div fxLayout="row">
+    <div fxFlex="100" class="scroll-container fancyscroll view-module" id="parentDiv" scrollSpy [spiedTags]="['DIV']"
+      (sectionChange)="utility.onScrollContent($event)" [style.height.px]="innerHeight">
+      <!-- Genral info section -->
+      <div id="section1">
+        <form [formGroup]="posForm" (ngSubmit)="onSubmit('posData')">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+              <!-- main content -->
+              <div class="">
+                <h2 layout-margin>POS Settings
+                  <span fxFlex></span>
+                  <span *ngIf="!posData" (click)="isEditable(1)">
+                    <mat-icon class="material-icons pointer">edit</mat-icon>
+                  </span>
+                  <span *ngIf="posData" (click)="viewOnly()">
+                    <mat-icon class="material-icons pointer">visibility</mat-icon>
+                  </span>
+                </h2>
+                <mat-card class="body-card-block">
+                  <mat-card-content>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="70%" fxFlex.md="60%" fxFlex.sm="50%" fxFlex.xs="100%">
+                        <label>Enable geo-fencing?</label>
+                      </div>
+                      <div class="mb-1 setting-align-right" fxFlex="30%" fxFlex.md="40%" fxFlex.sm="50%"
+                        fxFlex.xs="100%">
+                        <mat-radio-group formControlName="geo_fencing" style="width:30%">
+                          <mat-radio-button color="primary" value="1" style="margin-right:10%;">Yes</mat-radio-button>
+                          <mat-radio-button color="primary" value="0">No</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-1 store-label" fxFlex="70" fxFlex.md="75" fxFlex.sm="75" fxFlex.xs="100%">
+                        <label>Idle timeout</label>
+                      </div>
+                      <div class="mb-1 setting-inputs setting-align-right" fxFlex="30" fxFlex.md="25" fxFlex.sm="25"
+                        fxFlex.xs="100%">
+                        <mat-form-field class="example-full-width" fxFlex="100">
+                          <input matInput type="text" formControlName="idle_time" autocomplete="off"
+                            onKeyUp="if(this.value==1440.){this.value=1440};while(this.value>1440){this.value = this.value.slice(0, -1)};" 
+                            (keypress)="utility.numberOnly($event)">
+                          <span matSuffix>minutes</span>
+                          <mat-error *ngIf="posForm.controls['idle_time'].hasError('required') ">
+                            Please enter timeout</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-1 store-label" fxFlex="70" fxFlex.md="75" fxFlex.sm="75" fxFlex.xs="100%">
+                        <label>Cannabis discount by staff</label>
+                      </div>
+                      <div class="mb-1 setting-inputs setting-align-right" fxFlex="30" fxFlex.md="25" fxFlex.sm="25"
+                        fxFlex.xs="100%">
+                        <mat-form-field class="example-full-width" fxFlex="100">
+                          <input matInput formControlName="cannabis_discount" autocomplete="off"
+                            onKeyUp="if(this.value==100.){this.value=100};while(this.value>100){this.value = this.value.slice(0, -1)};"
+                            (keypress)="utility.numberAndDotOnly($event,this.posForm.controls['cannabis_discount'].value)">
+                          <span matSuffix>%</span>
+                          <mat-error *ngIf="posForm.controls['cannabis_discount'].hasError('required') ">
+                            Please enter cannabis discount</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-1 store-label" fxFlex="70" fxFlex.md="75" fxFlex.sm="75" fxFlex.xs="100%">
+                        <label>Non Cannabis discount by staff</label>
+                      </div>
+                      <div class="mb-1 setting-inputs setting-align-right" fxFlex="30" fxFlex.md="25" fxFlex.sm="25"
+                        fxFlex.xs="100%">
+                        <mat-form-field class="example-full-width" fxFlex="100">
+                          <input matInput formControlName="non_cannabis_discount_by_staff" autocomplete="off"
+                            onKeyUp="if(this.value==100.){this.value=100};while(this.value>100){this.value = this.value.slice(0, -1)};"
+                            (keypress)="utility.numberAndDotOnly($event,this.posForm.controls['non_cannabis_discount_by_staff'].value)">
+                          <span matSuffix>%</span>
+                          <mat-error *ngIf="posForm.controls['non_cannabis_discount_by_staff'].hasError('required') ">
+                            Please enter non cannabis discount</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-1 store-label" fxFlex="70" fxFlex.md="75" fxFlex.sm="75" fxFlex.xs="100%">
+                        <label>Cannabis discount by manager</label>
+                      </div>
+                      <div class="mb-1 setting-inputs setting-align-right" fxFlex="30" fxFlex.md="25" fxFlex.sm="25"
+                        fxFlex.xs="100%">
+                        <mat-form-field class="example-full-width" fxFlex="100">
+                          <input matInput formControlName="cannabis_discount_by_manager" autocomplete="off"
+                            onKeyUp="if(this.value==100.){this.value=100};while(this.value>100){this.value = this.value.slice(0, -1)};"
+                            (keypress)="utility.numberAndDotOnly($event,this.posForm.controls['cannabis_discount_by_manager'].value)">
+                          <span matSuffix>%</span>
+                          <mat-error *ngIf="posForm.controls['cannabis_discount_by_manager'].hasError('required') ">
+                            Please enter cannabis discount by manager</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-1 store-label" fxFlex="70" fxFlex.md="75" fxFlex.sm="75" fxFlex.xs="100%">
+                        <label>Non Cannabis discount by manager</label>
+                      </div>
+                      <div class="mb-1 setting-inputs setting-align-right" fxFlex="30" fxFlex.md="25" fxFlex.sm="25"
+                        fxFlex.xs="100%">
+                        <mat-form-field class="example-full-width" fxFlex="100">
+                          <input matInput formControlName="non_cannabis_discount_by_manager" autocomplete="off"
+                            onKeyUp="if(this.value==100.){this.value=100};while(this.value>100){this.value = this.value.slice(0, -1)};"
+                            (keypress)="utility.numberAndDotOnly($event,this.posForm.controls['non_cannabis_discount_by_manager'].value)">
+                          <span matSuffix>%</span>
+                          <mat-error *ngIf="posForm.controls['non_cannabis_discount_by_manager'].hasError('required') ">
+                            Please enter non cannabis discount by manager</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+
+                    <!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="70%" fxFlex.md="60%" fxFlex.sm="50%" fxFlex.xs="100%">
+                        <label>Enable notification for store closing</label>
+                      </div>
+                      <div class="mb-1 setting-align-right" fxFlex="30%" fxFlex.md="40%" fxFlex.sm="50%"
+                        fxFlex.xs="100%">
+                        <mat-radio-group formControlName="store_close_notify" style="width:30%">
+                          <mat-radio-button color="primary" value="1" style="margin-right:10%;">Yes</mat-radio-button>
+                          <mat-radio-button color="primary" value="0">No</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div> -->
+
+                    <!-- <div *ngIf="posForm.controls['store_close_notify'].value=='1'" fxLayout="row" fxLayout.xs="column"
+                      fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-0 store-label" fxFlex="70" fxFlex.md="75" fxFlex.sm="75" fxFlex.xs="100%"></div>
+                      <div class="mb-0 setting-inputs setting-align-right" fxFlex="30" fxFlex.md="25" fxFlex.sm="25"
+                        fxFlex.xs="100%">
+                        <mat-form-field class="example-full-width" fxFlex="100">
+                          <input matInput type="text" formControlName="store_close_notify_time" autocomplete="off"
+                            onKeyUp="if(this.value==1440.){this.value=1440};while(this.value>1440){this.value = this.value.slice(0, -1)};"
+                            (keypress)="utility.numberOnly($event)">
+                          <span matSuffix>minutes</span>
+                          <mat-error *ngIf="posForm.controls['store_close_notify_time'].hasError('required') ">
+                            Please enter time</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div> -->
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="70%" fxFlex.md="60%" fxFlex.sm="50%" fxFlex.xs="100%">
+                        <label>Enable PIN varification on order checkout?</label>
+                      </div>
+                      <div class="mb-1 setting-align-right" fxFlex="30%" fxFlex.md="40%" fxFlex.sm="50%"
+                        fxFlex.xs="100%">
+                        <mat-radio-group formControlName="order_checkout_pin_verify" style="width:30%">
+                          <mat-radio-button color="primary" value="1" style="margin-right:10%;">Yes</mat-radio-button>
+                          <mat-radio-button color="primary" value="0">No</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="70%" fxFlex.md="60%" fxFlex.sm="50%" fxFlex.xs="100%">
+                        <label>Enable customer selection before checkout?</label>
+                      </div>
+                      <div class="mb-1 setting-align-right" fxFlex="30%" fxFlex.md="40%" fxFlex.sm="50%"
+                        fxFlex.xs="100%">
+                        <mat-checkbox color="primary" class="cannabis_checkbox" formControlName="cannabis_customer_require" style="margin-right:2%;">Cannabis</mat-checkbox>
+                        <mat-checkbox color="primary" class="cannabis_checkbox" formControlName="non_cannabis_customer_require">Others</mat-checkbox>
+                      </div>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="70%" fxFlex.md="60%" fxFlex.sm="50%" fxFlex.xs="100%">
+                        <label>Enable Customer Statistics?</label>
+                      </div>
+                      <div class="mb-1 setting-align-right" fxFlex="30%" fxFlex.md="40%" fxFlex.sm="50%"
+                        fxFlex.xs="100%">
+                        <mat-radio-group formControlName="customer_statistics" style="width:30%">
+                          <mat-radio-button color="primary" value="1" style="margin-right:10%;">Yes</mat-radio-button>
+                          <mat-radio-button color="primary" value="0">No</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="70%" fxFlex.md="60%" fxFlex.sm="50%" fxFlex.xs="100%">
+                        <label>Enable Dry weight limit?</label>
+                      </div>
+                      <div class="mb-1 setting-align-right" fxFlex="30%" fxFlex.md="40%" fxFlex.sm="50%"
+                        fxFlex.xs="100%">
+                        <mat-radio-group formControlName="dry_weight_limit" style="width:30%">
+                          <mat-radio-button color="primary" value="1" style="margin-right:10%;">Yes</mat-radio-button>
+                          <mat-radio-button color="primary" value="0">No</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <!-- main content -->
+              <mat-card class="footer-content" *ngIf="posData">
+                <div>
+                  <mat-bar-button type="submit" type="submit" [options]="barButtonOptions"></mat-bar-button>
+                </div>
+              </mat-card>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div id="section2">
+        <form [formGroup]="kioskForm" (ngSubmit)="onSubmit('kioskData')">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+              <!-- main content -->
+              <div class="">
+                <h2 layout-margin>KIOSK Settings
+                  <span fxFlex></span>
+                  <span *ngIf="!kioskData" (click)="isEditable(2)">
+                    <mat-icon class="material-icons pointer">edit</mat-icon>
+                  </span>
+                  <span *ngIf="kioskData" (click)="viewOnly()">
+                    <mat-icon class="material-icons pointer">visibility</mat-icon>
+                  </span>
+                </h2>
+                <mat-card class="body-card-block">
+                  <mat-card-content>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="70%" fxFlex.md="60%" fxFlex.sm="50%" fxFlex.xs="100%">
+                        <label>Enable kiosk</label>
+                      </div>
+                      <div class="mb-1 setting-align-right" fxFlex="30%" fxFlex.md="40%" fxFlex.sm="50%"
+                        fxFlex.xs="100%">
+                        <mat-radio-group formControlName="enable_kiosk" style="width:30%">
+                          <mat-radio-button color="primary" value="1" style="margin-right:10%;">Yes</mat-radio-button>
+                          <mat-radio-button color="primary" value="0">No</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-0 store-label" fxFlex="70%" fxFlex.md="60%" fxFlex.sm="50%" fxFlex.xs="100%">
+                        <label>Kiosk promo video</label>
+                      </div>
+                      <div class="mb-0 setting-inputs setting-align-right" fxFlex="30%" fxFlex.md="40%" fxFlex.sm="50%"
+                        fxFlex.xs="100%">
+                        <button type="button" (click)="videoInput.click()" [disabled]="!kioskData"
+                          class="upload-btn pointer">UPLOAD</button>
+                        <input type="file" #videoInput hidden formControlName="video_upload" (change)="onFileChange($event)">
+                      </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-0 store-label" fxFlex="70" fxFlex.md="75" fxFlex.sm="75" fxFlex.xs="100%">
+                        <label>Promo timeout</label>
+                      </div>
+                      <div class="mb-0 setting-inputs setting-align-right" fxFlex="30" fxFlex.md="25" fxFlex.sm="25"
+                        fxFlex.xs="100%">
+                        <mat-form-field class="example-full-width" fxFlex="100">
+                          <input matInput type="text" formControlName="kiosk_promo_timeout" autocomplete="off"
+                            onKeyUp="if(this.value==1440.){this.value=1440};while(this.value>1440){this.value = this.value.slice(0, -1)};"
+                            (keypress)="utility.numberOnly($event)">
+                          <span matSuffix>minutes</span>
+                          <mat-error *ngIf="kioskForm.controls['kiosk_promo_timeout'].hasError('required') ">
+                            Please enter timeout</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <!-- main content -->
+              <mat-card class="footer-content" *ngIf="kioskData">
+                <div>
+                  <mat-bar-button type="submit" type="submit" [options]="barButtonOptions"></mat-bar-button>
+                </div>
+              </mat-card>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div id="section3">
+        <form [formGroup]="timetrackingForm" (ngSubmit)="onSubmit('timeTrackingData')">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+            fxLayoutAlign="center">
+            <div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0">
+            </div>
+            <div fxFlex="45" fxFlex.sm="75" fxFlex.md="75">
+              <!-- main content -->
+              <div class="">
+                <h2 layout-margin>Timetracking Settings
+                  <span fxFlex></span>
+                  <span *ngIf="!timeTrackingData" (click)="isEditable(3)">
+                    <mat-icon class="material-icons pointer">edit</mat-icon>
+                  </span>
+                  <span *ngIf="timeTrackingData" (click)="viewOnly()">
+                    <mat-icon class="material-icons pointer">visibility</mat-icon>
+                  </span>
+                </h2>
+                <mat-card class="body-card-block">
+                  <mat-card-content>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="70%" fxFlex.md="60%" fxFlex.sm="50%" fxFlex.xs="100%">
+                        <label>Require employees to clock in/out</label>
+                      </div>
+                      <div class="mb-1 setting-align-right" fxFlex="30%" fxFlex.md="40%" fxFlex.sm="50%"
+                        fxFlex.xs="100%">
+                        <mat-radio-group formControlName="employee_clock_in_out" style="width:30%">
+                          <mat-radio-button color="primary" value="1" style="margin-right:10%;">Yes</mat-radio-button>
+                          <mat-radio-button color="primary" value="0">No</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+
+                    <!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="70%" fxFlex.md="60%" fxFlex.sm="50%" fxFlex.xs="100%">
+                        <label>Auto clock out notify</label>
+                      </div>
+                      <div class="mb-1 setting-align-right" fxFlex="30%" fxFlex.md="40%" fxFlex.sm="50%"
+                        fxFlex.xs="100%">
+                        <mat-radio-group formControlName="auto_clock_out_notify" style="width:30%">
+                          <mat-radio-button color="primary" value="1" style="margin-right:10%;">Yes</mat-radio-button>
+                          <mat-radio-button color="primary" value="0">No</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div> -->
+
+
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-1" fxFlex="50%" fxFlex.md="50%" fxFlex.sm="50%" fxFlex.xs="100%">
+                        <label>Auto clock out</label>
+                      </div>
+                      <div class="mb-1 setting-align-right" fxFlex="50%" fxFlex.md="50%" fxFlex.sm="50%"
+                        fxFlex.xs="100%">
+                        <mat-radio-group formControlName="auto_clock_out" style="width:30%">
+                          <mat-radio-button color="primary" value="0" style="margin-right:10%;" (change)="isAutoClockOut(0)">off</mat-radio-button>
+                          <mat-radio-button color="primary" value="1" style="margin-right:10%;" (change)="isAutoClockOut(1)">after
+                          </mat-radio-button>
+                          <mat-radio-button color="primary" value="2" (change)="isAutoClockOut(2)">at</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                      <div class="mb-0 store-label" fxFlex="70" fxFlex.md="75" fxFlex.sm="75" fxFlex.xs="100%">
+                        <label>Auto clock out {{timetrackingForm.controls.auto_clock_out.value == 0? 'off': timetrackingForm.controls.auto_clock_out.value == 1? 'after':'at'}}</label>
+                      </div>
+                      <div class="mb-0 setting-inputs setting-align-right" fxFlex="30" fxFlex.md="25" fxFlex.sm="25"
+                        fxFlex.xs="100%">
+                        <mat-form-field class="example-full-width" fxFlex="100">
+                          <input matInput type="text" formControlName="auto_clock_out_time" autocomplete="off">
+                          <span matSuffix>hours</span>
+                          <mat-error *ngIf="timetrackingForm.controls['auto_clock_out_time'].hasError('required') ">
+                            Please enter clock out</mat-error>
+                          <mat-error *ngIf="timetrackingForm.controls['auto_clock_out_time'].hasError('pattern')">Invalid time format</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <span>(<strong>Note</strong> : Hours format should be hh:mm)</span>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <!-- main content -->
+              <mat-card class="footer-content" *ngIf="timeTrackingData">
+                <div>
+                  <mat-bar-button type="submit" type="submit" [options]="barButtonOptions"></mat-bar-button>
+                </div>
+              </mat-card>
+            </div>
+            <div fxFlex="40" fxFlex.sm="20" fxFlex.md="20">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

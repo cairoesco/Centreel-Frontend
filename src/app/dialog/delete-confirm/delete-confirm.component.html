@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>{{title}}
+  <span fxFlex></span>
+  <span class="close-btn" align="end" (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </span>
+</h2>
+<mat-dialog-content class="mat-typography delete-dialog fancyscroll">
+  <div fxLayout="row">
+    <span class="names" [innerHTML]="message"> </span>
+  </div>
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+    <div class="mb-1 content" fxFlex="100%">
+      <div *ngFor="let user of selectedItems; let i = index">
+        <label>
+          <mat-checkbox color="primary" (change)="changeCheckbox(user,$event)" [checked]="true">{{ user.name }}
+          </mat-checkbox>
+        </label>
+      </div>
+    </div>
+
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="mat-dialog-footer-custom">
+  <button type="submit" class="ok-button" (click)="deleteData()" mat-raised-button color="primary">{{okButton}}</button>
+  <button mat-button color="primary" class="cancel-button" [mat-dialog-close]="">{{cancelButton}}</button>
+</mat-dialog-actions>

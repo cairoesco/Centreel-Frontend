@@ -1,0 +1,125 @@
+@import "../../user/add-user/add-user.component";
+
+.product_table{
+   width: 100%;
+}
+.scan{
+    padding-top: 20px;
+}
+.import-btn{
+    margin-right: 1rem;
+    cursor: pointer;
+}
+.margin-top-10{
+    margin-top: 10px;
+}
+.po-document{
+    box-shadow: none!important;
+}
+.scan-inactive{
+    background-color: #ddd !important;
+    color: #777777 !important;
+}
+.import-doc-btn {
+  font-family: Poppins;
+  font-size: 12px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.5px;
+  text-align: center;
+  color: #ffffff;
+  width: 126px;
+  height: 43px;
+  border-radius: 3px;
+  border: none;
+  background-image: linear-gradient(81deg, #5eb15e, #027901);
+}
+
+::ng-deep .ngx-datatable.product_table .datatable-header .datatable-header-inner .datatable-header-cell{
+    white-space: normal !important;
+    line-height: 1.2;
+    text-align: center;
+}
+
+
+.import-file-success{
+    height: 3rem;
+    width: 100%;
+    color: #fc970c;
+    border-radius: 1rem;
+    margin-top: 1rem;
+    border:2px solid #fc970c;
+  }
+  .error-icon{
+    background: #fc970c;
+    // border-radius: 1rem 0rem 0 1rem;
+    height: 100%;
+    text-align: center;
+    line-height: 3.8rem;
+    color: #FFFFFF;
+    margin-left: -2px;
+    width: 50px;
+  }
+  .close-icon{
+    cursor: pointer;
+    border-radius: 0 1rem 1rem 0;
+    height: 100%;
+    text-align: center;
+    line-height: 3.8rem;
+    margin-left: -2px;
+    width: 50px;
+  }
+  .import-file-success h3{
+    line-height: 3rem;
+    padding-left: 2rem;
+  }
+  .import-file-success .download-file{
+    text-decoration: underline;
+    color: #272727;
+  }
+  .min-width{
+     width: 60px;
+  }
+  .button-padding{
+    padding: 0px;
+  }
+  .import-po-table{
+    overflow: auto;
+  }
+  .max-width{
+    width: 140px;
+ }
+ .batch-width{
+  width: 100px;
+ }
+ .import-doc-btn1{
+  font-family: Poppins;
+  font-size: 12px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.5px;
+  text-align: center;
+  color: #ffffff;
+  width: 126px;
+  height: 43px;
+  border-radius: 3px;
+  border: none;
+  // background-image: linear-gradient(81deg, #5eb15e, #027901);
+  background-color: #F9C391;
+ }
+
+ .action_btn{
+  width: 25px;
+}
+
+.cell-data{
+  text-align: center !important;
+}
+
+.input-align{
+  text-align: center;
+}

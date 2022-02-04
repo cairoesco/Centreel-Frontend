@@ -1,0 +1,82 @@
+<form [formGroup]="settingForm" (ngSubmit)="SaveSettings(settingForm.value)">
+  <mat-card class="header-main-content">
+    <div fxLayout="row">
+      <div fxFlex="25%" class="breadcrumb-content">
+        <i class="material-icons">
+          keyboard_arrow_left
+        </i><label [routerLink]="['/settings']" class="lable"> Settings</label>
+      </div>
+      <div fxFlex="50%" class="breadcrumb-header-content">
+        Email Setting
+      </div>
+      <div fxFlex="25%" class="breadcrumb-btn-content">
+        <button mat-button matSuffix mat-stroked-button color="primary" type="submit">SAVE ALL</button>
+      </div>
+
+    </div>
+
+  </mat-card>
+  <div fxLayout="row">
+    <div fxFlex="15%">
+    </div>
+    <div fxFlex="70%">
+
+      <mat-card>
+        <mat-card-title>
+          
+          <div fxLayout="row">
+            <div fxFlex="50%"><h3>Email Settings</h3></div>
+            <div fxFlex="50%" class="text-right"><span class="pointer" (click)="openEmailSetting()">Verify Settings</span></div>
+          </div>
+        </mat-card-title>
+        <mat-card-content>
+            
+          <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+            <div class="mb-1" fxFlex="50%">
+              <mat-form-field fxFlex="100%">
+                <input matInput formControlName="host" placeholder="SMTP Server *">
+              </mat-form-field>
+            </div>
+            <div class="mb-1" fxFlex="50%">
+              <mat-form-field fxFlex="100%">
+                  <mat-select placeholder="Port *" formControlName="port" [disableOptionCentering]="true">
+                      <mat-option>--</mat-option>
+                      <mat-option *ngFor="let port of portList" [value]="port">
+                        {{port}}
+                      </mat-option>
+                    </mat-select>
+              </mat-form-field>
+            
+            </div>
+          </div>
+          <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+            <div class="mb-1" fxFlex="50%">
+              <mat-form-field fxFlex="100%">
+                <input matInput formControlName="username" placeholder="Username *">
+              </mat-form-field>
+            </div>
+            <div class="mb-1" fxFlex="50%">
+              <mat-form-field fxFlex="100%">
+                <input matInput formControlName="password" placeholder="Password *">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="" fxLayout="row"  fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+            <div class="mb-1" fxFlex="100%">
+              <mat-radio-group  fxLayoutGap="10px" formControlName="connection_type">
+                <mat-radio-button color="primary" value="tls">Secured connection using TLS (recommended)</mat-radio-button>
+                <mat-radio-button color="primary" value="ssl">Secured connection using SSL</mat-radio-button>
+                <mat-radio-button color="primary" value="">Unsecured connection</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+       
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+    <div fxFlex="15%" id="right-content">
+    </div>
+  </div>
+
+</form>

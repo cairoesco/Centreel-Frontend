@@ -1,0 +1,38 @@
+.add-tag-input {
+  box-shadow: 1px 0 13px 0 rgba(0, 0, 0, 0.04) !important;
+  border-radius: 50px 50px 50px 50px;
+  background: white;
+  padding: 5px 10px 5px 10px;
+  border: 1px solid #d2d2d2;
+  max-width: 96% !important;
+  margin-bottom: 15px;
+}
+
+.existing-tags-title {
+  height: 23px;
+  font-family: Roboto, sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.53;
+  letter-spacing: 0.4px;
+  color: #272727;
+  margin-bottom: 10px;
+}
+
+.added-tags {
+  margin-bottom: 10px;
+}
+
+.existing-tags {
+  margin: 10px 0px 23px 0px;
+  max-height: 150px;
+  overflow: auto;
+}
+
+.tag-add-icon {
+  height: 7px !important;
+  width: 7px !important;
+  margin: 0px 0px 0px 6px !important;
+}

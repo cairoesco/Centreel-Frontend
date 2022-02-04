@@ -1,0 +1,20 @@
+.noshadow {
+  transition: none !important;
+  box-shadow: none !important;
+}
+.datatable-body-cell-label{
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.box-height{
+  min-height: 340px;
+}
+
+.text-right {
+  text-align: right !important;
+}
+.wrap-normal{
+  white-space: normal;
+}

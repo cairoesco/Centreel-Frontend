@@ -1,0 +1,66 @@
+.store-days{
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.4px;
+  color: #272727;
+}
+
+::ng-deep .timepicker__header {
+  background-color: #026d01 !important;
+}
+
+::ng-deep .clock-face__clock-hand_minute:before {
+  border-color: #026d01 !important;;
+}
+
+::ng-deep .clock-face__number > span.active {
+  background-color: #026d01 !important;
+  //color: var(--clock-face-time-active-color);
+}
+
+::ng-deep .timepicker-button {
+  color: #026d01 !important;
+}
+
+::ng-deep .dial-background-color{
+  background-color: #026d01 !important;
+}
+::ng-deep .clock-face__clock-hand{
+  background-color: #026d01 !important;
+}
+
+
+::ng-deep .days .mat-form-field-underline {
+    display: none;
+}
+
+a:link {
+    text-decoration: none;
+  }
+  
+  a:visited {
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  a:active {
+    text-decoration: underline;
+  }
+  
+.store-time-button{
+  text-align: right;
+}
+.store-days{
+    padding-bottom: 10px;
+}
+.shift-list{
+  padding: 0px !important;
+  margin-top:8px !important;
+}

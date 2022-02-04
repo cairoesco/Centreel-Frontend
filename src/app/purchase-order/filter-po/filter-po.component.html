@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Filters
+    <span fxFlex></span>
+    <span class="close-btn" align="end" (click)="dialogRef.close()">
+      <mat-icon>close</mat-icon>
+    </span>
+  </h2>
+  
+  <form [formGroup]="filterForm" (ngSubmit)="applyFilter('evt')">
+    <mat-dialog-content class="mat-typography">
+      <div fxLayout="row wrap" fxLayoutGap="20px">
+  
+        <mat-form-field>
+          <mat-label>Select Recipient</mat-label>
+          <mat-select formControlName="user_ids" multiple [disableOptionCentering]="true">
+            <mat-option *ngFor="let employee of employeeData" [value]="employee.user_id">
+              {{employee.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="data.po_type != 'draft'">
+          <mat-label>Select Status</mat-label>
+          <mat-select formControlName="po_status" [disableOptionCentering]="true">
+              <mat-option *ngFor="let status of statusData" [value]="status">{{
+                status }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field class="range-date-input daterange_width">
+          <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
+                    [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end" [ranges]="ranges"
+                    formControlName="selected" [minDate]="minDate" [maxDate]="maxDate" [autoApply]="true"
+                    [showCustomRangeLabel]="true" placeholder="Select Dates" [opens]="'left'">
+        </mat-form-field>
+  
+      </div>
+  
+    </mat-dialog-content>
+    <mat-dialog-actions align="start" class="mat-dialog-footer-custom">
+      <button type="submit" class="ok-button" mat-raised-button color="primary">APPLY FILTER</button>
+      <button (click)="close()" type="button" mat-button color="primary" class="cancel-button">CLEAR FILTER</button>
+    </mat-dialog-actions>
+  </form>

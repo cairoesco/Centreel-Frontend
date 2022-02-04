@@ -1,0 +1,76 @@
+<form [formGroup]="addAgreement" (ngSubmit)="onSubmit()">
+  <mat-card class="header-main-content">
+    <div fxLayout="row">
+      <div fxFlex="25%" class="breadcrumb-content">
+        <mat-icon [routerLink]="['/settings']" class="material-icons">
+          keyboard_arrow_left
+        </mat-icon>
+        <label class="lable">
+          <a class="label" [routerLink]="['/settings']">Settings</a>
+        </label>
+      </div>
+      <div fxFlex="50%" class="breadcrumb-header-content">
+        Chain Agreement
+      </div>
+      <div fxFlex="25%" class="breadcrumb-btn-content">
+        <mat-bar-button type="submit" [options]="barButtonOptions"></mat-bar-button>
+      </div>
+    </div>
+  </mat-card>
+
+  <div class="scroll-container" fxLayout="row wrap">
+    <div fxFlex="10%">
+    </div>
+    <div class="section-content" fxFlex="50%" fxFlex.sm="70%" fxFlex.xs="80%">
+      <h2 layout-margin>Chain Agreement</h2>
+      <mat-card>
+        <mat-card-content>
+          <div class="mb-1">
+            <mat-form-field fxFlex="100%" *ngIf="chains.length == 1">
+              <input matInput placeholder="Chain" [value]="chains[0].name" readonly autocomplete="off">
+            </mat-form-field>
+            <mat-form-field *ngIf="chains.length > 1">
+              <mat-select [formControl]="addAgreement.controls['chain_id']" placeholder="Select Chain"
+                [disabled]="this.chains.length == 1" [disableOptionCentering]="true">
+                <mat-option *ngFor="let chain of chains" [value]="chain.chain_id">{{ chain.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <small
+              *ngIf="addAgreement.controls['chain_id'].errors?.required && addAgreement.controls['chain_id'].touched"
+              class="mat-text-warn">Please select an item in the list</small>
+          </div>
+          <div fxLayout="row wrap" fxLayoutGap="10%">
+            <div fxFlex="45%">
+              <mat-form-field fxFlex="100%">
+                <input matInput placeholder="Title" [formControl]="addAgreement.controls['title']" type="text">
+                <mat-error *ngIf="addAgreement.controls['title'].hasError('required')">
+                  Please fill out this field</mat-error>
+              </mat-form-field>
+            </div>
+            <div fxFlex="45%">
+              <mat-form-field fxFlex="100%">
+                <mat-select [formControl]="addAgreement.controls['status']" placeholder="Agreement Status" [disableOptionCentering]="true">
+                  <mat-option value="0">Inactive</mat-option>
+                  <mat-option value="1">Active</mat-option>
+                </mat-select>
+                <mat-error *ngIf="addAgreement.controls['status'].hasError('required')">
+                  Please select status of Agreement</mat-error>
+              </mat-form-field>
+            </div>
+
+          </div>
+          <div class="mb-1">
+            <p>Terms & Condition</p>
+            <quill-editor [style]="{height: '200px'}" [formControl]="addAgreement.controls['description']">
+            </quill-editor>
+            <small
+              *ngIf="addAgreement.controls['description'].errors?.required && addAgreement.controls['description'].touched"
+              class="mat-text-warn">You must Enter Terms & Condition.</small>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div fxFlex="8%">
+    </div>
+  </div>
+</form>

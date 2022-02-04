@@ -1,0 +1,334 @@
+<form [formGroup]="productVariantsForm" (ngSubmit)="onSubmit(productVariantsForm.value)">
+  <mat-card class="header-main-content">
+    <div fxLayout="row">
+      <div fxFlex="25%" class="breadcrumb-content" (click)="navigateToProduct()">
+        <mat-icon class="material-icons">
+          keyboard_arrow_left
+        </mat-icon><label class="lable"> products</label>
+      </div>
+      <div fxFlex="50%" class="breadcrumb-header-content">
+        {{variantData?.product_name}}
+      </div>
+      <div fxFlex="25%" class="breadcrumb-btn-content">
+        <mat-bar-button type="submit" [options]="barButtonOptions"></mat-bar-button>
+      </div>
+    </div>
+  </mat-card>
+  <mat-tab-group [selectedIndex]="utils.indexofTab" class="custom-tab">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utils.scrollTo('section1')">IMAGES</p>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utils.scrollTo('section2')">Option</p>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utils.scrollTo('section3')">Pricing</p>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utils.scrollTo('section4')">Identification</p>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utils.scrollTo('section5')">Inventory</p>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <p (click)="utils.scrollTo('section6')">Cannabis Dry Weight</p>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+  <div fxLayout="row wrap" class="main-div-container scroll-container fancyscroll">
+    <div fxFlex="10" fxFlex.md="5" fxFlex.sm="2">
+    </div>
+    <div fxFlex="20" class="variant-content" fxFlex.md="25" fxFlex.sm="28" fxFlex.xs="100">
+      <div class="title">Product Variant</div>
+      <div class="sidebar">
+        <div class="sidebar-block fancyscroll" [style.max-height.px]="(innerHeight*70/100)">
+          <div fxLayout="row wrap" class="block pointer" *ngFor="let variant of variantData?.variants"
+            (click)=activeVariant(variant.variant_id)
+            [ngClass]="(variant.variant_id == selected_variant) ? 'selected' : 'not'">
+            <div class="name">{{variant.variant_name}}</div>
+          </div>
+
+        </div>
+        <button class="add-new-btn" [routerLink]="['/products/create']" type="button">
+          <a class="add-new-label">
+            <img src="assets/icon/plus-math.svg" alt="Add New" class="plus-math">
+            ADD A VARIANT
+          </a>
+        </button>
+      </div>
+    </div>
+    <div class="main-div-container" fxFlex="70" fxFlex.sm="70" fxFlex.xs="100">
+      <div fxFlex="10">
+      </div>
+      <div fxLayout="row wrap" class="scroll-container fancyscroll variant-content main-div-container" id="parentDiv"
+        scrollSpy [spiedTags]="['DIV']" (sectionChange)="utils.onScrollContent($event)" [style.height.px]="innerHeight">
+        <div fxFlex="100%" id="section1">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%">
+            <div fxFlex="70" fxFlex.sm="70" fxFlex.md="70">
+              <!-- main content -->
+              <div class="">
+                <h2 layout-margin>Images</h2>
+                <mat-card class="body-card-block">
+                  <mat-card-content>
+                    <div class="file-drop-box" (click)="productImageUpload.click()" ng2FileDrop
+                      [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event,'image')"
+                      [uploader]="uploader">
+                      <div class="mb-1 drag_upload">Browse or drag file(s) to upload</div>
+                    </div>
+                    <input hidden #productImageUpload type="file" accept="image/*" multiple
+                      formControlName="product_image" ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+                      (change)="fileOverBase($event,'image')" ng2FileSelect [uploader]="uploader" />
+                    <div fxLayout="row wrap">
+                      <div *ngFor="let image of arrayOfImages ; let i = index">
+                        <div class="hover-div">
+                          <div class="image-div" [style.background]="image.file_path"></div>
+                          <div id="hover_img">
+                            <mat-icon (click)="DeleteImage(i)" class="padding-icon" svgIcon="trash-svg"></mat-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxFlex="100%" id="section2">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%">
+            <div fxFlex="70" fxFlex.sm="70" fxFlex.md="70">
+              <!-- main content -->
+              <div class="">
+                <h2 layout-margin>Option</h2>
+                <mat-card class="body-card-block">
+                  <mat-card-content>
+                    <div fxLayout="row wrap" fxLayoutGap="5%" formArrayName="options">
+                      <div *ngFor="let option of productVariantsForm.get('options')['controls'];let i = index; "
+                        class="input-box" fxFlex="47%" fxFlex.md="47%" fxFlex.sm="100%" fxFlex.xs="100%">
+                        <mat-form-field [formGroupName]="i" fxFlex="100%">
+                          <mat-label>{{option.value.optionName}}</mat-label>
+                          <input type="text" formControlName="optionValue" matInput
+                            placeholder="{{option.value.optionName}}">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxFlex="100%" id="section3">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%">
+            <div fxFlex="70" fxFlex.sm="70" fxFlex.md="70">
+              <!-- main content -->
+              <div class="">
+                <h2 layout-margin>Pricing<span fxFlex></span>
+                  <mat-icon (click)="priceConfirmation('data')" class="pointer" *ngIf="!isPriceConfirm">edit
+                  </mat-icon>
+                </h2>
+                <mat-card class="body-card-block">
+                  <mat-card-content>
+                    <div class="Pricing">
+                      <mat-card-title>
+                      </mat-card-title>
+                      <mat-card-content>
+                        <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                          <div class="mb-1" fxFlex="70%">
+                            <label>Pricing differs per store?</label>
+                          </div>
+                          <div class="mb-1" fxFlex="30%">
+                            <mat-radio-group formControlName="price_differ_for_store" style="width:30%">
+                              <mat-radio-button color="primary" value="1"
+                                (change)="PricingDiffersPerStoreChange($event)" style="margin-right:10%;">Yes
+                              </mat-radio-button>
+                              <mat-radio-button color="primary" (change)="PricingDiffersPerStoreChange($event)"
+                                value="0">
+                                No</mat-radio-button>
+                            </mat-radio-group>
+                          </div>
+                        </div>
+                      </mat-card-content>
+                      <div *ngIf="productVariantsForm.controls['price_differ_for_store'].value == 1">
+                        <mat-card-content>
+                          <div formArrayName="variant_price" class="bottomMargin">
+                            <div
+                              *ngFor="let store of productVariantsForm.get('variant_price')['controls']; let z=index">
+                              <div [formGroupName]="z">
+                                <div fxLayout="row" fxLayoutGap="5%">
+                                  <mat-label class="variant-price-inventory" fxFlex="50%">{{store.value.name}}</mat-label>
+                                  <mat-form-field class="example-full-width" fxFlex="50%">
+                                    <input matInput placeholder="Selling Price($)" maxlength="14"
+                                      formControlName="selling_price" autocomplete="off"
+                                      (focusout)="focusOutFunction($event,z)">
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </mat-card-content>
+                      </div>
+                      <div *ngIf="productVariantsForm.controls['price_differ_for_store'].value != 1">
+                        <div fxLayout="row" fxLayoutGap="5%">
+                          <mat-form-field class="example-full-width" fxFlex="50%">
+                            <input matInput placeholder="Selling Price($)" maxlength="14"
+                              formControlName="selling_price" autocomplete="off"
+                              (focusout)="focusOutFunction($event,'')">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxFlex="100%" id="section4">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%">
+            <div fxFlex="70" fxFlex.sm="70" fxFlex.md="70">
+              <!-- main content -->
+              <div class="">
+                <h2 layout-margin>Identification</h2>
+                <mat-card class="body-card-block">
+                  <mat-card-content>
+                    <div fxLayout="row" fxLayoutGap="4%">
+                      <div fxFlex="48">
+                        <mat-form-field class="example-full-width" fxFlex="100">
+                          <input matInput placeholder="SKU*" formControlName="product_sku" autocomplete="off">
+                          <mat-error *ngIf="productVariantsForm.controls['product_sku'].hasError('required') ">
+                            Please enter SKU</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div fxFlex="48">
+                        <mat-form-field class="example-full-width" fxFlex="100">
+                          <input matInput placeholder="Barcode(GTIN, etc.)*" maxlength="20" formControlName="barcode"
+                            autocomplete="off">
+                          <mat-error *ngIf="productVariantsForm.controls['barcode'].hasError('required')"
+                            class="mat-text-warn">
+                            Please enter barcode number
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="5%">
+                      <mat-form-field fxFlex="100">
+                        <mat-select placeholder="Select Province" [multiple]="true" formControlName="govt_id"
+                          [disableOptionCentering]="true">
+                          <mat-option (onSelectionChange)="countProvinceInfo($event,province)"
+                            *ngFor="let province of provinceList" [value]="province?.location_id">
+                            {{province.location_name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxFlex="100%" id="section5">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%">
+            <div fxFlex="70" fxFlex.sm="70" fxFlex.md="70">
+              <!-- main content -->
+              <div class="">
+                <h2 layout-margin>Inventory</h2>
+                <mat-card class="body-card-block">
+                  <mat-card-content>
+                    <div class="section-table">
+                      <div class="Inventory">
+                        <div *ngFor="let data of productVariantsForm.get('inventory')['controls']; let z=index"
+                          class="hr-line">
+                          <div>
+                            <div fxLayout="row" class="inventory-header">
+                              <mat-label fxFlex="100%" class="variant-price-inventory">{{data.value.name}}</mat-label>
+                              <mat-icon class="material-icons pointer add-new-circle"
+                                (click)="AddInventory(z,data.value)">
+                                add_circle_outline</mat-icon>
+                            </div>
+                            <div>
+                              <div fxLayout="row wrap" fxLayoutWrap fxLayoutAlign="center"
+                                *ngIf="data.get('inventories')['controls'].length> 0">
+                                <table class="hoverTable" fxFlex="100%">
+                                  <tr>
+                                    <th class="left">STOCK</th>
+                                    <th class="left">PURCHASE PRICE</th>
+                                    <th class="left">PO #</th>
+                                    <th class="left">BATCH #</th>
+
+                                    <th>&nbsp;</th>
+                                  </tr>
+                                  <tr *ngFor="let item of data.get('inventories')['controls']; let f=index;">
+                                    <td>{{item.value.value_added}}</td>
+                                    <td>{{item.value.stock_price}}</td>
+                                    <td>{{item.value.purchase_order_no}}</td>
+                                    <td>{{item.value.batch_no}}</td>
+                                    <td>
+                                      <mat-icon class="material-icons delete pointer" (click)="DeleteInventories(z,f)">
+                                        delete</mat-icon>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                          <hr>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+        <div fxFlex="100%" id="section6">
+          <div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%">
+            <div fxFlex="70" fxFlex.sm="70" fxFlex.md="70">
+              <!-- main content -->
+              <div class="">
+                <h2 layout-margin>Cannabis Dry Weight</h2>
+                <mat-card class="body-card-block">
+                  <mat-card-content>
+                    <div class="DryWeight" *ngIf="productVariantsForm.controls['is_product_variant'].value == 0">
+                      <div fxLayout="row" fxLayoutGap="4%">
+                        <mat-form-field class="example-full-width" fxFlex="48">
+                          <input matInput placeholder="Cannabis Weight" formControlName="cannabis_weight"
+                            autocomplete="off">
+                        </mat-form-field>
+                        <mat-form-field fxFlex="48">
+                          <mat-select placeholder="Select Units" formControlName="cannabis_uom"
+                            [disableOptionCentering]="true">
+                            <mat-option *ngFor="let unit of CannabisDryWeightUnit" [value]="unit.slug">
+                              {{unit.unit_name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>

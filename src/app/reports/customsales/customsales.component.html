@@ -1,0 +1,112 @@
+<mat-card class="header-main-content">
+  <div fxLayout="row">
+    <div fxFlex="25%" fxFlex.md="40%" fxFlex.sm="40%" fxFlex.lg="30%" class="breadcrumb-content">
+    </div>
+    <div fxFlex="50%" fxFlex.md="20%" fxFlex.sm="20%" fxFlex.lg="40%" class="breadcrumb-header-content center">
+      Custom Sales Report
+    </div>
+    <div fxFlex="25%" fxFlex.md="40%" fxFlex.sm="40%" fxFlex.lg="30%" class="breadcrumb-btn-content end">
+
+      <button mat-button matSuffix mat-stroked-button class="add-new-btn export" [matMenuTriggerFor]="menu" type="button">
+        <mat-icon class="report-header-button">get_app</mat-icon>
+        <a class="add-new-label">EXPORT</a>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item [disabled]="result_data.length == 0" (click)="getExportPDF()">PDF</button>
+        <button mat-menu-item [disabled]="result_data.length == 0" (click)="getExportCSV('csv')">CSV</button>
+        <button mat-menu-item [disabled]="result_data.length == 0" (click)="getExportCSV('xls')">EXCEL</button>
+      </mat-menu>
+      <button class="add-new-btn" (click)="createSearchFilter()" type="button">
+        <a class="add-new-label">
+          <img src="assets/icon/plus-math.svg" alt="Add New" class="plus-math">
+          ADD NEW
+        </a>
+      </button>
+    </div>
+  </div>
+</mat-card>
+
+<mat-progress-bar mode="indeterminate" *ngIf="inProgress"></mat-progress-bar>
+<div class="top-20 report-inner-height">
+  <div  fxFlex="96%" fxFlexOffset="2%">
+    <div fxLayout="column">
+      <div class="searchbar-div" fxLayout="row" fxLayoutWrap fxLayoutAlign="center">
+        <div class="customsales-search-input" fxFlex="100%" fxFlex.md="100%" fxFlex.lg="100%" fxFlex.sm="100%"
+          fxFlex.xs="100%">
+          <img class="Search-icon" src="../../assets/icon/search.png" alt="Search">
+          <input class="Search" (keyup)="applyFilter($event.target.value)" placeholder="Search...">
+          <span class="result-count">{{result_data.length}} Results</span>
+        </div>
+      </div>
+
+      <mat-card class="box-shadow custom-search">
+        <form [formGroup]="customReport">
+          <div fxLayout="row" class="button-row" fxLayoutGap="5px">
+            <div fxFlex="50%">
+              <mat-form-field fxFlex="100%">
+                <mat-select [formControl]="customReport.controls['report_id']" placeholder="Select Report" [disableOptionCentering]="true">
+                  <mat-option *ngFor="let template of sales_template" [value]="template.id">{{template.title}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div fxFlex="50%" *ngIf="sales_template.length>0">
+              <mat-form-field fxFlex="100%">
+                <mat-select [formControl]="customReport.controls['vendor_id']" placeholder="Select Vendor" multiple [disableOptionCentering]="true">
+                  <mat-option *ngFor="let vendor of vendors" [value]="vendor.vendor_id">{{vendor.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div fxFlex="50%" fxLayoutGap="5px" *ngIf="sales_template.length>0" class="custom-search-button">
+              <button mat-button color="primary" class="dialog-button"
+                (click)="createSearchFilter(this.selected_report)">Edit
+                Report</button>
+              <button mat-button color="primary" class="dialog-button"
+                (click)="deleteReport(this.selected_report)">Delete
+                Report</button>
+            </div>
+          </div>
+        </form>
+      </mat-card>
+    </div>
+    
+    <!-- table start -->
+    <mat-card class="box-shadow report-listing" *ngIf="result_data.length > 0">
+      <ngx-datatable #myDatatable class="material custom-table" [ngStyle]="{'height':dynamicHeight}" [headerHeight]="50"
+                [limit]="10" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="48" [scrollbarV]="true"
+                [rows]="result_data">
+          <ngx-datatable-column [resizeable]="false" prop="{{key}}" *ngFor="let key of getObjKeys();let i = index;" name="{{columns[i]}}">
+              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                  <span title="{{value}}"> {{value}}</span>
+              </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-footer>
+              <ng-template 
+                  ngx-datatable-footer-template 
+                  let-rowCount="rowCount">
+                  <div class="total-rows">
+                      Total : {{rowCount}}
+                  </div>
+              </ng-template>
+          </ngx-datatable-footer>
+      </ngx-datatable>
+    </mat-card>
+    <div fxLayout="column" *ngIf="result_data.length==0 && !inProgress" class="report-error-msg">
+        <div class="center">
+            <div>
+                <img src="../../assets/images/sad.svg" class="sad" alt="No Data Found">
+            </div>
+            <div>
+                <span class="Sorry-no-results-fo">Sorry, no results found</span>
+            </div>
+            <div *ngIf="(!temp ||temp.length > 0) && !inProgress">
+                <span class="Please-try-a-differe">Please try a different keyword</span>
+            </div>
+        </div>
+      </div>
+    </div>
+    <!-- table end -->
+
+  </div>

@@ -1,0 +1,138 @@
+<form [formGroup]="warehouseForm" (ngSubmit)="onSubmit(warehouseForm.value)">
+  <mat-card class="header-main-content">
+    <div fxLayout="row">
+      <div fxFlex="25%" class="breadcrumb-content">
+        <i class="material-icons">
+          keyboard_arrow_left
+        </i><label class="lable">settings</label>
+      </div>
+      <div fxFlex="50%" class="breadcrumb-header-content">
+        Warehouse
+      </div>
+      <div fxFlex="25%" class="breadcrumb-btn-content">
+        <button mat-button matSuffix mat-stroked-button color="primary" type="submit">SAVE ALL</button>
+      </div>
+    </div>
+
+  </mat-card>
+  <div fxLayout="row">
+    <div fxFlex="15%">
+    </div>
+    <div fxFlex="70%">
+
+      <mat-card>
+
+        <div class="rowdiv" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center">
+          <div class="colstyle" fxFlex="50%">
+            <mat-form-field class="full-width">
+              <input formControlName="name" matInput placeholder="Warehouse Name">
+            </mat-form-field>
+          </div>
+
+          <div class="colstyle" fxFlex="50%">
+            <mat-form-field class="full-width">
+              <mat-label>Type</mat-label>
+              <mat-select formControlName="type" #fontSize value="16px" [disableOptionCentering]="true">
+                <mat-option value="Store Front">Store Front</mat-option>
+                <mat-option value="Store Back">Store Back</mat-option>
+                <mat-option value="Warehouse">Warehouse</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <div class="rowdiv" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center">
+          <div class="colstyle" fxFlex="50%">
+            <mat-form-field class="full-width">
+              <mat-label>Chain</mat-label>
+              <mat-select formControlName="chain" #fontSize value="16px" [disableOptionCentering]="true">
+                <mat-option value="Store Front">Store Front</mat-option>
+                <mat-option value="Store Back">Store Back</mat-option>
+                <mat-option value="Warehouse">Warehouse</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="colstyle" fxFlex="50%">
+            <mat-form-field class="full-width">
+              <mat-label>Store</mat-label>
+              <mat-select formControlName="store" #fontSize value="16px" [disableOptionCentering]="true">
+                <mat-option value="Store Front">Store Front</mat-option>
+                <mat-option value="Store Back">Store Back</mat-option>
+                <mat-option value="Warehouse">Warehouse</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <div class="rowdiv" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center">
+          <div class="colstyle" fxFlex="50%">
+            <mat-form-field class="full-width">
+              <input type="text" (onSelect)="setAddress($event)" placeholder="Type to search Warehouse Location"
+                formControlName="location" matInput>
+            </mat-form-field>
+          </div>
+
+          <div class="colstyle" fxFlex="50%">
+            <mat-form-field class="full-width">
+              <mat-label>Province</mat-label>
+              <mat-select formControlName="province" #fontSize value="16px" [disableOptionCentering]="true">
+                <mat-option value="Store Front">Store Front</mat-option>
+                <mat-option value="Store Back">Store Back</mat-option>
+                <mat-option value="Warehouse">Warehouse</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <div class="rowdiv" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center">
+          <div class="colstyle" fxFlex="50%">
+            <mat-form-field class="full-width">
+              <mat-label>Country </mat-label>
+              <mat-select #fontSize value="16px" formControlName="country" [disableOptionCentering]="true">
+                <mat-option value="Store Front">Store Front</mat-option>
+                <mat-option value="Store Back">Store Back</mat-option>
+                <mat-option value="Warehouse">Warehouse</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="colstyle" fxFlex="50%">
+            <mat-form-field class="full-width">
+              <mat-label>City</mat-label>
+              <mat-select formControlName="city" #fontSize value="16px" [disableOptionCentering]="true">
+                <mat-option value="Store Front">Store Front</mat-option>
+                <mat-option value="Store Back">Store Back</mat-option>
+                <mat-option value="Warehouse">Warehouse</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <div class="rowdiv" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center">
+
+          <div class="colstyle" fxFlex="50%">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Phone" formControlName="phone">
+            </mat-form-field>
+          </div>
+
+          <div class="colstyle" fxFlex="50%">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Email" formControlName="email">
+            </mat-form-field>
+          </div>
+
+        </div>
+      </mat-card>
+
+    </div>
+    <div fxFlex="15%" id="right-content">
+    </div>
+  </div>
+
+</form>

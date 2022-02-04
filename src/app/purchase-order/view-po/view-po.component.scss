@@ -1,0 +1,30 @@
+.po-document{
+    box-shadow: none!important;
+}
+
+.product_table{
+    width: 100%;
+}
+.potable{
+    overflow: auto;
+}
+.min-width{
+    width: 50px;
+ }
+ ::ng-deep .ngx-datatable.product_table .datatable-header .datatable-header-inner .datatable-header-cell{
+    white-space: normal !important;
+    line-height: 1.2;
+    text-align: center;
+}
+.print-btn{
+    margin-right: 1rem;
+    cursor: pointer;
+}
+
+.cell-data{
+    text-align: center !important;
+}
+
+.input-align{
+    text-align: center;
+  }

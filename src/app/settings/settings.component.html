@@ -1,0 +1,199 @@
+<mat-card class="header-main-content">
+  <div fxLayout="row">
+    <div fxFlex="25%" class="breadcrumb-content"></div>
+    <div fxFlex="50%" class="breadcrumb-header-content">
+      Settings
+    </div>
+    <div fxFlex="25%"  class="breadcrumb-btn-content header-buttons">
+    </div>
+  </div>
+</mat-card>
+
+<div fxLayout="row wrap" class="setting-container">
+  <div  fxFlex="96%" fxFlexOffset="2%">
+    <div fxLayout="row wrap">
+      <div fxFlex.gt-md="33" fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" class="settings-card"
+        *ngIf="this.userData?.user_role[0] == 'chain_manager'">
+        <mat-card class="card-widget pointer" [routerLink]="['chain-settings']">
+          <div mat-card-widget fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="left">
+            <div class="" fxFlex="100%">
+              <div fxFlex="35px" class="settings-icon">
+                <mat-icon class="material-icons">trending_up</mat-icon>
+              </div>
+              <div fxFlex="80%">
+                <div class="title"><a>Chain Settings</a></div>
+                <div class="content">Manage chain specific server configs and user level settings</div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div fxFlex.gt-md="33" fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" class="settings-card" *ngIf="this.userData?.user_role[0] == 'chain_manager'">
+        <mat-card class="card-widget pointer" [routerLink]="['agreement']">
+          <div mat-card-widget fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="left">
+            <div class="" fxFlex="100%">
+              <div fxFlex="35px" class="settings-icon">
+                <mat-icon class="material-icons">loyalty</mat-icon>
+              </div>
+              <div fxFlex="80%">
+                <div class="title"><a>Chain Agreement</a></div>
+                <div class="content">Manage your Chain Agreement</div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div fxFlex.gt-md="33" fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" class="settings-card">
+        <mat-card class="card-widget pointer" [routerLink]="['store-settings']">
+          <div mat-card-widget fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="left">
+            <div class="" fxFlex="100%">
+              <div fxFlex="35px" class="settings-icon">
+                <mat-icon class="material-icons">shopping_cart</mat-icon>
+              </div>
+              <div fxFlex="80%">
+                <div class="title"><a>Store Settings</a></div>
+                <div class="content">Manage province specific hour of sales and age restrictions</div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div fxFlex.gt-md="33" fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" class="settings-card">
+        <mat-card class="card-widget pointer" [routerLink]="['email-settings']">
+          <div mat-card-widget fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="left">
+            <div class="" fxFlex="100%">
+              <div fxFlex="35px" class="settings-icon">
+                <mat-icon class="material-icons">mail</mat-icon>
+              </div>
+              <div fxFlex="80%">
+                <div class="title"><a>Email Settings</a></div>
+                <div class="content">Manage province specific hour of sales and age restrictions</div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <!-- <div fxFlex.gt-md="33" fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" class="settings-card">
+        <mat-card class="card-widget pointer" [routerLink]="['provincetax']">
+          <div mat-card-widget fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="left">
+            <div class="" fxFlex="100%">
+              <div fxFlex="35px" class="settings-icon">
+                <mat-icon class="material-icons">card_giftcard</mat-icon>
+              </div>
+              <div fxFlex="80%">
+                <div class="title"><a>Taxes</a></div>
+                <div class="content">Manage how your store charges taxes</div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div fxFlex.gt-md="33" fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" class="settings-card">
+        <mat-card class="card-widget pointer" [routerLink]="['setting']">
+          <div mat-card-widget fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="left">
+            <div class="" fxFlex="100%">
+              <div fxFlex="35px" class="settings-icon">
+                <mat-icon class="material-icons">language</mat-icon>
+              </div>
+              <div fxFlex="80%">
+                <div class="title"><a>Provincial Settings</a></div>
+                <div class="content">Manage province specific hour of sales and age restrictions</div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div fxFlex.gt-md="33" fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" class="settings-card">
+        <mat-card class="card-widget pointer" [routerLink]="['setting']">
+          <div mat-card-widget fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="left">
+            <div class="" fxFlex="100%">
+              <div fxFlex="35px" class="settings-icon">
+                <mat-icon class="material-icons">home</mat-icon>
+              </div>
+              <div fxFlex="80%">
+                <div class="title"><a>Warehouse Settings</a></div>
+                <div class="content">Manage province specific hour of sales and age restrictions</div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div fxFlex.gt-md="33" fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" class="settings-card">
+        <mat-card class="card-widget pointer" [routerLink]="['setting']">
+          <div mat-card-widget fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="left">
+            <div class="" fxFlex="100%">
+              <div fxFlex="35px" class="settings-icon">
+                <mat-icon class="material-icons">receipt</mat-icon>
+              </div>
+              <div fxFlex="80%">
+                <div class="title"><a>Till Settings</a></div>
+                <div class="content">Manage chain specific server configs and user level settings</div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div fxFlex.gt-md="33" fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" class="settings-card">
+        <mat-card class="card-widget pointer" [routerLink]="['setting']">
+          <div mat-card-widget fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="left">
+            <div class="" fxFlex="100%">
+              <div fxFlex="35px" class="settings-icon">
+                <mat-icon class="material-icons">notification_important</mat-icon>
+              </div>
+              <div fxFlex="80%">
+                <div class="title"><a>Notification</a></div>
+                <div class="content">Manage notification set to you, your team and your customers</div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div fxFlex.gt-md="33" fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" class="settings-card">
+        <mat-card class="card-widget pointer" [routerLink]="['setting']">
+          <div mat-card-widget fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="left">
+            <div class="" fxFlex="100%">
+              <div fxFlex="35px" class="settings-icon">
+                <mat-icon class="material-icons">payment</mat-icon>
+              </div>
+              <div fxFlex="80%">
+                <div class="title"><a>Payment Providers</a></div>
+                <div class="content">Enable and manage your store's payment providers</div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div fxFlex.gt-md="33" fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" class="settings-card">
+        <mat-card class="card-widget pointer" [routerLink]="['setting']">
+          <div mat-card-widget fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="left">
+            <div class="" fxFlex="100%">
+              <div fxFlex="35px" class="settings-icon">
+                <mat-icon class="material-icons">gradient</mat-icon>
+              </div>
+              <div fxFlex="80%">
+                <div class="title"><a>Billing</a></div>
+                <div class="content">Manage your billing information and view your invoices</div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+      <div fxFlex.gt-md="33" fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100" class="settings-card">
+        <mat-card class="card-widget pointer" [routerLink]="['setting']">
+          <div mat-card-widget fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="left">
+            <div class="" fxFlex="100%">
+              <div fxFlex="35px" class="settings-icon">
+                <mat-icon class="material-icons">attach_file</mat-icon>
+              </div>
+              <div fxFlex="80%">
+                <div class="title"><a>Files</a></div>
+                <div class="content">Upload images, videos and documents</div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div> -->
+    </div>
+  </div>
+  <div fxFlex="10%"></div>
+</div>

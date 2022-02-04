@@ -1,0 +1,135 @@
+<mat-card class="header-main-content">
+    <div fxLayout="row">
+        <div fxFlex="25%" class="">
+        </div>
+        <div fxFlex="50%" class="breadcrumb-header-content center">
+            Incident Report
+        </div>
+        <div fxFlex="30%" class="breadcrumb-btn-content end">
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item [disabled]="rows.length == 0" (click)="getExportPDF()">PDF</button>
+                <button mat-menu-item [disabled]="rows.length == 0" (click)="getExportCSV('csv')">CSV</button>
+                <button mat-menu-item [disabled]="rows.length == 0" (click)="getExportCSV('xls')">EXCEL</button>
+            </mat-menu>
+            <button mat-button matSuffix mat-stroked-button class="add-new-btn" [matMenuTriggerFor]="menu"
+                type="button">
+                <mat-icon class="report-header-button">get_app</mat-icon>
+                <span>
+                    <a class="add-new-label">EXPORT</a>
+                </span>
+            </button>
+        </div>
+    </div>
+</mat-card>
+
+<mat-progress-bar mode="indeterminate" *ngIf="inProgress"></mat-progress-bar>
+<div class="top-20 incidentreport-inner-height">
+    <div  fxFlex="96%" fxFlexOffset="2%">
+        <div fxLayout="column" fxLayoutGap="20px">
+            <div class="searchbar-div" fxLayout="row" fxLayoutWrap fxLayoutAlign="center">
+                <div class="incident-search-input" fxFlex="100%" fxFlex.md="100%" fxFlex.lg="100%" fxFlex.sm="100%"
+                    fxFlex.xs="65%">
+                    <img class="Search-icon" src="../../assets/icon/search.png" alt="No Data Found">
+                    <input class="Search" (keyup)="applyFilter($event.target.value)" placeholder="Search...">
+                    <span class="result-count">{{rows.length}} Results</span>
+                </div>
+            </div>
+        </div>
+
+        <mat-card class="box-shadow report-filter-bar">
+            <div _ngcontent-c41="" class="button-row">
+                <form [formGroup]="incidentList">
+                    <div class="" fxLayout="row" fxLayoutGap="1%" fxLayoutAlign="left">
+                        <div fxFlex="30%">
+                            <mat-form-field fxFlex="100%">
+                                <mat-select [formControl]="incidentList.controls['store_id']" placeholder="Store"
+                                    multiple [disableOptionCentering]="true">
+                                    <mat-option *ngFor="let store of storeList" [value]="store.store_id">
+                                        {{ store.name }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="30%">
+                            <mat-form-field fxFlex="100%">
+                                <input matInput placeholder="Reason" [formControl]="incidentList.controls['reason']">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="40%">
+                            <mat-form-field fxFlex="100%" class="range-date-input">
+                                <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
+                                    [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end"
+                                    [ranges]="ranges" [formControl]="incidentList.controls['selected']"
+                                    [minDate]="minDate" [maxDate]="maxDate" [showCustomRangeLabel]="true"
+                                    placeholder="Select Dates" [autoApply]="true" [opens]="'left'">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </mat-card>
+        
+        <mat-card class="box-shadow report-listing" *ngIf="rows.length > 0">
+            <ngx-datatable #myDatatable class="material fancyscroll incident-table" [ngStyle]="{'height':dynamicHeight}"
+                [headerHeight]="50" [limit]="10" [columnMode]="'flex'" [footerHeight]="55" [rowHeight]="55"
+                [scrollbarV]="true" [rows]="rows">
+                <ngx-datatable-column [resizeable]="false" prop="event_date" name="EVENT DATE" [flexGrow]="2">
+                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                        <span title="{{value}}"> {{ (row.event_date=='0000-00-00 00:00:00')?'':
+                            utils.convertLocalDateToUTCDate(row.event_date,false)
+                            | date: 'dd/MM/yyyy hh:mm a' }}</span>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [resizeable]="false" prop="store_id" name="STORE" [flexGrow]="2">
+                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                        <span title="{{value}}"> {{row.store.name}}</span>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [resizeable]="false" prop="reason" name="REASON" [flexGrow]="2"> 
+                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                        <span title="{{value}}" matTooltip="{{row.reason}}" matTooltipClass="tooltip-text"> {{row.reason | slice:0:20}}{{row.reason.length < 20 ? '' : '&hellip;'}}</span>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="parties_involved"
+                    name="PARTIES INVOLVED" [flexGrow]="2">
+                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                        <span title="{{value}}"> {{row.parties_involved}}</span>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="parties_involved" name="VIEW" [flexGrow]="1">
+                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                        <button mat-icon-button [routerLink]="['/incident-report', row.id, 'view']">
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-footer>
+                    <ng-template 
+                        ngx-datatable-footer-template 
+                        let-rowCount="rowCount">
+                        <div class="total-rows">
+                            Total : {{rowCount}}
+                        </div>
+                    </ng-template>
+                </ngx-datatable-footer>
+            </ngx-datatable>
+        </mat-card>
+        <div fxLayout="column" *ngIf="rows.length==0 && !inProgress" class="report-error-msg">
+            <div class="center">
+                <div>
+                    <img src="../../assets/images/sad.svg" class="sad" alt="No Data Found">
+                </div>
+                <div>
+                    <span class="Sorry-no-results-fo">Sorry, no results found</span>
+                </div>
+                <div *ngIf="(!temp ||temp.length > 0) && !inProgress">
+                    <span class="Please-try-a-differe">Please try a different keyword</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="rectangle">
+
+    <div class="breadcrumb-margin">
+
+        <span *ngIf="breadcrumbs.length == 0" class="current-breadcrumb">
+            Home
+        </span>
+        <span *ngIf="breadcrumbs.length != 0" class="breadcrumb">
+            <a routerLink="/">Home</a>
+        </span>
+        <span *ngFor="let breadcrumb of breadcrumbs; let i = index;">
+            <a class="breadcrumb" [hidden]="i == (breadcrumbs.length - 1)" [routerLink]="[breadcrumb.url]"> &nbsp;>&nbsp;
+                {{breadcrumb.name}} </a>
+            <span [hidden]="i != (breadcrumbs.length - 1)" class="current-breadcrumb"> &nbsp;>&nbsp; {{breadcrumb.name}}</span>
+
+        </span>
+    </div>
+</div>

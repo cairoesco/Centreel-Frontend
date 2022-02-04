@@ -1,0 +1,101 @@
+<h2 mat-dialog-title>Print Purchase Order
+  <span fxFlex></span>
+  <span class="close-btn" align="end" *ngIf="!this.barButtonOptions.active" (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </span>
+</h2>
+
+<form [formGroup]="printPoform" (ngSubmit)="onSubmit($event)">
+  <mat-dialog-content class="mat-typography print-po po-print-detail">
+
+    <div fxLayout="row">
+      <div fxFlex="10">
+        <mat-checkbox color="primary" [checked]="products.length == checkedCount" (change)="isChecked($event)">
+        </mat-checkbox>
+      </div>
+      <div fxFlex="90">
+        <h3><strong>Products</strong></h3>
+      </div>
+    </div>
+    <div formArrayName="poProducts">
+      <!-- main content -->
+      <div *ngFor="let row of printPoform.get('poProducts')['controls'];let i=index">
+        <div fxLayout="row wrap" [formGroupName]="i">
+
+          <div fxFlex="10" class="line-height-3">
+            <div class="checkbox-column">
+              <mat-checkbox color="primary" (change)="changeCount($event)" formControlName="isChecked">
+              </mat-checkbox>
+            </div>
+          </div>
+          <div fxFlex="30">
+            <div class="lable">{{row.value.product_name}}</div>
+            <div class="data barcode_text">{{row.value.selling_price | currency}}</div>
+          </div>
+          <div fxFlex="30">
+            <div fxLayout="row wrap">
+              <div class="product_detail">
+                <div class="tag-text lable-align">Batch: {{row.value.batch}}</div>
+                <div class="tag-text lable-align">Variant: {{row.value.variant_name}}</div>
+              </div>
+            </div>
+          </div>
+          <div fxFlex="30">
+            <div class="qty-input">
+              <input type="number" name="qty" min="0" (input)="row.value.qty == 0?row.controls.isChecked.setValue(false):''" class="product-qty" placeholder="Qty" [value]="row.value.qty"
+                formControlName="qty">
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- main content -->
+    </div>
+
+    <!-- <h3><strong>Columns</strong></h3>
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%">
+        <div fxFlex="33%">
+          <mat-form-field fxFlex="100%">
+          <mat-select [formControl]="printPoform.controls['columns']" placeholder="Columns"
+            [disableOptionCentering]="true">
+            <mat-option *ngFor="let col of columns" [value]="col.column">{{ col.column }}
+            </mat-option>
+          </mat-select>
+          </mat-form-field>
+        </div>
+      </div>  
+
+      <h3><strong>Barcode label size</strong></h3>
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%">
+        <div fxFlex="33%">
+          <mat-form-field fxFlex="100%">
+            <input matInput placeholder="Width" type="text" 
+              maxlength='5' [formControl]="printPoform.controls['width']" (keypress)="utility.numberOnly($event)"
+              autocomplete="off">
+          </mat-form-field>
+        </div>
+        <div fxFlex="33%">
+          <mat-form-field fxFlex="100%">
+            <input matInput placeholder="Height" type="text" 
+              maxlength='5' [formControl]="printPoform.controls['height']" (keypress)="utility.numberOnly($event)"
+              autocomplete="off">
+          </mat-form-field>
+        </div>
+        <div fxFlex="33%">
+          <mat-form-field fxFlex="100%">
+            <mat-select [formControl]="printPoform.controls['unit']" placeholder="Unit"
+              [disableOptionCentering]="true">
+              <mat-option *ngFor="let unit of units" [value]="unit.unit_name">{{ unit.unit_name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div> -->
+  </mat-dialog-content>
+  <mat-dialog-actions align="start" class="mat-dialog-footer-custom">
+    <mat-bar-button type="submit" class="margin-right" [options]="barButtonOptions"></mat-bar-button>
+    <button (click)="close()" type="button" [disabled]="this.barButtonOptions.active" mat-button color="primary"
+      class="cancel-button">Cancel</button>
+  </mat-dialog-actions>
+</form>

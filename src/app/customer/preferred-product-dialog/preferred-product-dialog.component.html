@@ -1,0 +1,52 @@
+<h2 mat-dialog-title>Preferred products
+  <span fxFlex></span>
+  <span class="close-btn" align="end" (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </span>
+</h2>
+<mat-dialog-content class="mat-typography default-product-dialog fancyscroll ">
+  <div fxLayout="row wrap">
+    <div fxFlex.gt-md="100" fxFlex="100"  *ngFor="let product of products">
+      <mat-card  class="pa-0 search-result-card" 
+        style="box-shadow: 1px 0 13px 0 rgba(0, 0, 0, 0.07);">
+        <div fxLayout="row" >
+          <div class="media-grid compact bg-cover preferred-img" [ngStyle]="{'background-image': 'url('+product.products.product_image+')'}"
+            fxFlex="30">
+          </div>
+          <div class="pa-1" fxFlex>
+            <div fxLayout="column">
+              <div fxLayout="row">
+                <div fxFlex="80">
+                  <p class="ma-0">{{ product.product_name }}</p>
+                  <span class="product-strain" [ngStyle]="{'background': product.product_category_theme}" >
+                      <span [ngStyle]="{'color': product.product_category_font_color}">
+                          {{product.product_category_name}}
+                      </span>
+                    </span>
+                </div>
+                <div fxFlex="20" fxLayoutAlign="end" class="mat-text-primary text-xl">
+                  <!-- <span> $ {{ product.price }}</span> -->
+                </div>
+              </div>
+              <div fxLayout="row">
+                  <div fxFlex="100">
+                    <p class="ma-0">THC {{product.product_thc}}% CBD {{product.product_cbd}}% (estimated potency)</p>
+                  </div>
+                </div>
+              <div fxLayout="row">
+                <div fxFlex="100">
+                  <p class="ma-0 pa-0 text-md">{{ product.product_highlights }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</mat-dialog-content>
+<!-- 
+  <mat-dialog-actions class="mat-dialog-footer-custom">
+    <button type="submit" class="ok-button" mat-raised-button color="primary">ADD</button>
+    <button mat-button color="primary" class="cancel-button" [mat-dialog-close]="">CANCEL</button>
+  </mat-dialog-actions> -->

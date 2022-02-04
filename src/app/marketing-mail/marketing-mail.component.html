@@ -1,0 +1,132 @@
+
+<mat-card>
+  <form class="example-form" [formGroup]="sendMarketingMail" (change)="sunmittedFilterValues(sendMarketingMail)">
+      
+    
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="Chain" aria-label="Chain" matInput [formControl]="sendMarketingMail.controls['chain_id']"
+        [matAutocomplete]="chain_id">
+      <mat-autocomplete #chain_id="matAutocomplete"  [displayWith]="chainDisplay">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{ option.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field> &nbsp;
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="Store" aria-label="Number" matInput [formControl]="sendMarketingMail.controls['store_id']"
+        [matAutocomplete]="store_id">
+      <mat-autocomplete #store_id="matAutocomplete" [displayWith]="storeDisplay">
+        <mat-option *ngFor="let option of filteredStoreOptions | async" [value]="option">
+          {{ option.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    &nbsp;
+    <mat-form-field class="example-full-width">
+
+      <input matInput #postalCode maxlength="5" placeholder="Age" [formControl]="sendMarketingMail.controls['age_from']">
+
+
+    </mat-form-field>
+    &nbsp;<b>TO</b>&nbsp;
+    <mat-form-field class="example-full-width">
+
+      <input matInput #postalCode maxlength="5" [formControl]="sendMarketingMail.controls['age_to']">
+
+
+    </mat-form-field>
+    &nbsp;
+    <label>Gender: </label>
+    <mat-radio-group [formControl]="sendMarketingMail.controls['gender']">
+      <mat-radio-button value="0">Male</mat-radio-button>
+      <mat-radio-button value="1">Female</mat-radio-button>
+      <mat-radio-button value="2">Others</mat-radio-button>
+      <mat-radio-button value="3">All</mat-radio-button>
+    </mat-radio-group>
+  </form>
+</mat-card>
+
+<mat-card>
+  <!-- <mat-form-field class="mb-1">
+    <input matInput placeholder="Type to filter the name column..." [formControl]="myControl" required (keyup)='updateFilter($event)'>
+  </mat-form-field>
+  <ngx-datatable class='material' [columns]="columns" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+    [rowHeight]="'auto'" [limit]="10" [rows]='rows'>
+  </ngx-datatable> -->
+
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+        <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+      </ng-container>
+      <!-- Progress Column -->
+      <ng-container matColumnDef="progress">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Progress </th>
+        <td mat-cell *matCellDef="let row"> {{row.progress}}% </td>
+      </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+      </ng-container>
+      <!-- Color Column -->
+      <ng-container matColumnDef="color">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Color </th>
+        <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.color}} </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+      </tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </div>
+
+
+</mat-card>
+
+<mat-card>
+  <span>Send mail to customer</span><span>No of Customers : 143</span><button mat-raised-button color="primary">Send to
+    Selected<button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button></button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>
+      <mat-icon>dialpad</mat-icon>
+      <span>Redial</span>
+    </button>
+    <button mat-menu-item disabled>
+      <mat-icon>voicemail</mat-icon>
+      <span>Check voicemail</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>notifications_off</mat-icon>
+      <span>Disable alerts</span>
+    </button>
+  </mat-menu>
+  <div class="full-width margin-mat-card">
+    <mat-form-field>
+      <input matInput placeholder="Subject">
+    </mat-form-field>
+  </div>
+  <mat-card class="pa-0">
+    <quill-editor [style]="{height: '200px'}" (onEditorCreated)="setFocus($event)"></quill-editor>
+  </mat-card>
+</mat-card>

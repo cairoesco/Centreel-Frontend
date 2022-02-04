@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>Add Tags
+    <span fxFlex></span>
+    <span class="close-btn" align="end" (click)="dialogRef.close()">
+        <mat-icon>close</mat-icon>
+    </span>
+</h2>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<mat-dialog-content class="mat-typography add-tag-dialog">
+    <div fxLayout="row">
+        <div class="add-tag-input" fxFlex="90%" fxFlex.md="80%" fxFlex.lg="80%" fxFlex.sm="65%" fxFlex.xs="65%">
+            <input class="Search" [formControl]="form.controls['tag']" placeholder="Add tags...">
+        </div>
+    </div>
+</mat-dialog-content>
+</form>
+
+<div fxLayout="row wrap" class="added-tags">
+    <div class="tag-div"  *ngFor="let tag of newtags"> 
+        <div class="tag-text" >{{tag}}<img src="assets/icon/tag-delete-sign.svg" alt="Delete Tag" class="tag-add-icon pointer" (click)="remove(tag)"></div>
+    </div>
+</div>
+
+<div class="existing-tags-title" *ngIf="alltags.length>0">Existing Tags</div>
+<div fxLayout="row wrap" class="existing-tags fancyscroll" *ngIf="alltags.length>0">
+    <div class="tag-div pointer"  *ngFor="let tag of alltags" (click)="add(tag)"> 
+        <div class="tag-text" >{{tag}}<img src="assets/icon/tag-add-sign.svg" alt="Add New Tag" class="tag-add-icon"></div>
+    </div>
+</div>
+<div fxLayout="row wrap" *ngIf="alltags.length == 0 && isTag">
+    <p>No Existing Tags Found!</p>
+</div>
+
+<mat-dialog-actions align="start" class="mat-dialog-footer-custom">
+    <button type="submit" class="ok-button" (click)="onAddClick()" mat-raised-button color="primary">APPLY TAGS</button>
+    <button mat-button color="primary" class="cancel-button" [mat-dialog-close]="">CANCEL</button>
+</mat-dialog-actions>

@@ -1,0 +1,175 @@
+<mat-card class="header-main-content">
+    <div fxLayout="row">
+        <div fxFlex="25%" class="breadcrumb-content">
+        </div>
+        <div fxFlex="50%" class="breadcrumb-header-content">
+            Employees
+        </div>
+        <div fxFlex="25%" class="breadcrumb-btn-content">
+            <button class="add-new-btn" [routerLink]="['create']" type="button">
+                <a class="add-new-label">
+                    <img src="assets/icon/plus-math.svg" alt="Add New" class="plus-math">
+                    ADD NEW
+                </a>
+            </button>
+        </div>
+    </div>
+</mat-card>
+<mat-progress-bar mode="indeterminate" *ngIf="inProgress"></mat-progress-bar>
+<div style="padding-top: 20px">
+    <div fxFlex="2%">
+    </div>
+    <div fxFlex="96%">
+        <div fxLayout="column" fxLayoutGap="20px">
+            <div class="" fxLayout="row" fxLayoutWrap fxLayoutAlign="center">
+                <div class="search-input" fxFlex="90%" fxFlex.md="80%" fxFlex.lg="80%" fxFlex.sm="65%" fxFlex.xs="65%">
+                    <img alt="Search" class="Search-icon" src="../../assets/icon/search.png">
+                    <input class="Search" (keyup)="applyFilter($event.target.value)" placeholder="Search name...">
+                    <span class="result-count">{{rows.length}} Results</span>
+                </div>
+                <div class="search-button pointer" (click)="ApplyMultipleFilter(filter_data)" fxFlex="10%" fxFlex.md="20%"
+                    fxFlex.lg="20%" fxFlex.sm="35%" fxFlex.xs="35%">
+                    <div fxFlex="70%" class="text"> Filter by </div>
+                    <div fxFlex="30%" class="icon">
+                        <mat-icon>keyboard_arrow_down</mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div fxLayout="column" class="main-container" *ngIf="rows.length > 0">
+            <mat-card class="list-bulk-action-header">
+                <div _ngcontent-c41="" class="button-row add-tag-button">
+                    <span matTooltip="Select one or more employees to add Tags." [matTooltipDisabled]="selected.length>0">
+                    <button mat-button mat-stroked-button [disabled]="selected.length<1" class="mat-add-tag-btn"
+                        type="button" (click)="AddNewTag('ALL')">
+                        ADD TAGS
+                    </button>
+                    </span>
+                </div>
+            </mat-card>
+            <div class="list-detail-content">
+                <ngx-datatable #myTable class='material expandable fancyscroll employee-list-table'
+                    [ngStyle]="{'height':dynamicHeight}" [headerHeight]="50" [externalPaging]="false" [footerHeight]="0"
+                    [columnMode]="'flex'" [rowHeight]="48" [scrollbarV]="true" [rows]='rows' [limit]="10"
+                    [selected]="selected" [selectionType]="'checkbox'" (activate)="onActivate($event)"
+                    (select)='onSelect($event)'>
+                    <!-- Row Detail Template -->
+                    <ngx-datatable-row-detail [rowHeight]="130" #myDetailRow>
+                        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                            <div class="example-element-detail">
+                                <div class="margin image">
+                                    <img  class="image-block" [src]="row['user_image']" onError="this.src='/assets/images/default-image.png';"  alt="User Profile" />
+                                </div>
+                                <div class="tag-section tags fancyscroll" >
+                                    <div fxLayout="row wrap">
+                                    <div class="tag-div"  *ngFor="let item of row['tags']"> 
+                                        <div class="tag-text" >{{item.tag_name}}</div>
+                                    </div>
+                                    </div>
+                                    <mat-chip-list class="pointer">
+                                        <button type="button" class="ADD-TAG" (click)="AddNewTag(row)">
+                                            <img src="assets/icon/plus-math.svg" alt="Add New" class="plus-math add-tag-icon">
+                                            ADD TAG
+                                        </button>
+                                    </mat-chip-list>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-row-detail>
+                    <ngx-datatable-column name="" [sortable]="false" [draggable]="false" [resizeable]="false"
+                        [flexGrow]="1" [maxWidth]="70" [minWidth]="50">
+                        <ng-template ngx-datatable-header-template let-allRowsSelected="allRowsSelected"
+                            let-selectFn="selectFn">
+                            <mat-checkbox color="primary" class="all-select-checkbox"
+                                (change)="selectFn(!allRowsSelected)" [checked]="allRowsSelected"
+                                [indeterminate]="!allRowsSelected && selected.length>0">
+                            </mat-checkbox>
+                        </ng-template>
+                        <ng-template ngx-datatable-cell-template let-row="row" let-expanded="expanded" let-value="value"
+                            let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
+                            <div class="checkbox-column">
+                                <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded"
+                                    [class.datatable-icon-down]="expanded" title="Expand/Collapse Row"
+                                    class="ngx-expand-arrow"></a>
+                                <mat-checkbox color="primary" (click)="$event.stopPropagation();"
+                                    (change)="onCheckboxChangeFn($event);" [checked]="isSelected">
+                                </mat-checkbox>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Employee Name" prop="name" [resizeable]="false" [flexGrow]="2">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <span class="hover-color" (click)="$event.stopPropagation();"
+                                [routerLink]="['/users', row['user_id'], 'view']">{{row['name']}}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Employee Email" prop="user_email" [resizeable]="false" [flexGrow]="2.5">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <span class="hover-color" (click)="$event.stopPropagation();"
+                                [routerLink]="['/users', row['user_id'], 'view']">{{row['user_email']}}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Store" prop="store_name" [resizeable]="false" [flexGrow]="2.5">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{row['store_name']}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Designation" prop="designation" [resizeable]="false" [flexGrow]="2.5">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{row['designation']}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Status" [sortable]="false" [resizeable]="false" [flexGrow]="1">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <mat-slide-toggle color="primary" [checked]="row['user_status'] == 1"
+                                (click)="$event.stopPropagation();" (change)="changeUserStatus(row['user_id'],$event)">
+                            </mat-slide-toggle>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="View" [sortable]="false" width="70" headerClass="display-none"
+                        [resizeable]="false" [flexGrow]="0.5">
+                        <ng-template ngx-datatable-header-template>
+                            <span class="align-end" mat-icon-button>
+                            </span>
+                        </ng-template>
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <span class="align-end" (click)="$event.stopPropagation();" mat-icon-button
+                                [matMenuTriggerFor]="menu">
+                                <mat-icon>more_vert</mat-icon>
+                            </span>
+                            <mat-menu #menu="matMenu">
+                                <span mat-menu-item [routerLink]="['/users', row['user_id'], 'view']">
+                                    <span>View Employee</span>
+                                </span>
+                                <span mat-menu-item
+                                    *ngIf="row['user_email_verify'] == 0 && row['user_otp_verify'] == 0">
+                                    <span (click)="resendMailToUnverifiedUser(row['user_email'])">Resend Varification</span>
+                                </span>
+                            </mat-menu>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-footer>
+                        <ng-template ngx-datatable-footer-template></ng-template>
+                    </ngx-datatable-footer>
+                </ngx-datatable>
+            </div>
+        </div>
+        <div fxLayout="column" *ngIf="rows.length==0 && !inProgress" style="margin-top: 60px;">
+            <div class="center">
+                <div>
+                    <img alt="No result found" src="../../assets/images/sad.svg" class="sad">
+                </div>
+                <div>
+                    <span class="Sorry-no-results-fo">Sorry, no results found</span>
+                </div>
+                <div *ngIf="(!Users ||Users.length > 0) && !inProgress">
+                    <span class="Please-try-a-differe">Please try a different keyword</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row-selecetd-count" *ngIf="selected.length>0">
+        <span>{{selected.length}} Rows Selected</span>
+    </div>
+</div>

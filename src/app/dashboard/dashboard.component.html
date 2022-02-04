@@ -1,0 +1,312 @@
+<div fxLayout="row wrap">
+    <div fxFlex="100">
+        <mat-card>
+            <mat-card-title>
+                Sales ($)
+                <span fxFlex></span>
+            </mat-card-title>
+            <mat-card-content>
+                <canvas height="40" baseChart #lineChart="base-chart" class="chart" [datasets]="lineChartData"
+                    [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors"
+                    [chartType]="'line'"></canvas>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<div fxLayout="row wrap">
+    <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex.md="50" fxFlex="100">
+        <mat-card class="card-widget mat-purple">
+            <div mat-card-widget>
+                <div mat-card-float-icon>
+                    <mat-icon>attach_money</mat-icon>
+                </div>
+                <div class="pl-0">
+                    <h2 mat-card-widget-title>{{totalAmount.totalOrders | currency}}</h2>
+                    <p>Today's Total Order Value</p>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex.md="50" fxFlex="100">
+        <mat-card class="card-widget mat-green">
+            <div mat-card-widget>
+                <div mat-card-float-icon>
+                    <mat-icon>people</mat-icon>
+                </div>
+                <div class="pl-0">
+                    <h2 mat-card-widget-title>{{totalAmount.newUser | number}}</h2>
+                    <p>Today's New Customers</p>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+
+    <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex.md="50" fxFlex="100">
+        <mat-card class="card-widget mat-red">
+            <div mat-card-widget>
+                <div mat-card-float-icon>
+                    <mat-icon>people</mat-icon>
+                </div>
+                <div class="pl-0">
+                    <h2 mat-card-widget-title>{{totalAmount.customerToday | number}}</h2>
+                    <p>Today's Total Customers</p>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex.md="50" fxFlex="100">
+        <mat-card class="card-widget mat-indigo">
+            <div mat-card-widget>
+                <div mat-card-float-icon>
+                    <mat-icon>attach_money</mat-icon>
+                </div>
+                <div class="pl-0">
+                    <h2 mat-card-widget-title>{{totalAmount.customerAvg | currency}}</h2>
+                    <p>Today's Average Checkout</p>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+
+    <div fxFlex.gt-sm="33.33%" fxFlex.gt-xs="100" fxFlex.md="50" fxFlex="100">
+        <mat-card>
+            <mat-card-title>Sales By Payment Type</mat-card-title>
+            <mat-card-content>
+                <canvas *ngIf="paymentTypeChartData.length>0" baseChart class="chart" #salesPayment="base-chart" [data]="paymentTypeChartData"
+                    [labels]="paymentTypeChartLabels" [options]="salesdoughnutOptions"
+                    [colors]="salesdoughnutChartColors" [chartType]="doughnutChartType"></canvas>
+            </mat-card-content>
+            <br />
+            <mat-card-content class="text-xs-center text-uppercase">
+                <div fxLayout="row" class="text-uppercase">
+                    <div fxFlex="100" *ngFor="let payment of paymentType">
+                        <p class="mt-0 mb-0 text-md mat-text-muted">{{payment.txn_mode}}</p>
+                        <h2 class="mt-0 mb-0">{{payment.percent}}%</h2>
+                    </div>
+                </div>
+            </mat-card-content>
+            <hr />
+            <div fxLayout="row wrap" class="text-uppercase">
+                <mat-form-field fxFlex="50%">
+                    <mat-select [(ngModel)]="typeFilter" (selectionChange)="paymentTypeChartFilter(typeFilter)" [disableOptionCentering]="true">
+                        <mat-option [value]="'TODAY'">Today</mat-option>
+                        <mat-option [value]="'LAST_WEEK'">Last Week</mat-option>
+                        <mat-option [value]="'CURRENT_MONTH'">Current Month</mat-option>
+                        <mat-option [value]="'CURRENT_YEAR'">Current Year</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div fxFlex="30%"></div>
+            </div>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-sm="33.33%" fxFlex.gt-xs="100" fxFlex.md="50" fxFlex="100">
+        <mat-card>
+            <mat-card-title>Top Selling Products</mat-card-title>
+            <mat-card-content>
+                <canvas baseChart *ngIf="pieChartData.length>0" class="chart" #pieChart="base-chart" [data]="pieChartData" [options]="pieOptions"
+                    [colors]="pieChartColors" [labels]="pieChartLabels" [chartType]="pieChartType"></canvas>
+            </mat-card-content>
+            <br />
+            <mat-card-content class="text-xs-center text-uppercase">
+                <div fxLayout="row wrap" class="text-uppercase">
+                    <div fxFlex="33.33%">
+                        <p class="mt-0 mb-0 text-md mat-text-muted">Cannabis</p>
+                        <h2 class="mt-0 mb-0">{{pieStatus.cannabis}}%</h2>
+                    </div>
+                    <div fxFlex="33.33%">
+                        <p class="mt-0 mb-0 text-md mat-text-muted">Cannabis accessories</p>
+                        <h2 class="mt-0 mb-0">{{pieStatus.accessories}}%</h2>
+                    </div>
+                    <div fxFlex="33.33%">
+                        <p class="mt-0 mb-0 text-md mat-text-muted">Others</p>
+                        <h2 class="mt-0 mb-0">{{pieStatus.others}}%</h2>
+                    </div>
+                </div>
+            </mat-card-content>
+            <hr />
+            <div fxLayout="row wrap" class="text-uppercase">
+                <mat-form-field fxFlex="50%">
+                    <mat-select [(ngModel)]="soldProductFilter"
+                        (selectionChange)="soldProductChartChartFilter(soldProductFilter)" [disableOptionCentering]="true">
+                        <mat-option [value]="'TODAY'">Today</mat-option>
+                        <mat-option [value]="'LAST_WEEK'">Last Week</mat-option>
+                        <mat-option [value]="'CURRENT_MONTH'">Current Month</mat-option>
+                        <mat-option [value]="'CURRENT_YEAR'">Current Year</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div fxFlex="30%"></div>
+            </div>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-sm="33.33%" fxFlex.gt-xs="100" fxFlex.md="50" fxFlex="100">
+        <mat-card>
+            <mat-card-title>Sales By Order Type</mat-card-title>
+            <mat-card-content>
+                <canvas baseChart *ngIf="doughnutChartData.length>0" class="chart" #salesOrder="base-chart" [data]="doughnutChartData"
+                    [labels]="doughnutChartLabels" [options]="doughnutOptions" [colors]="doughnutChartColors"
+                    [chartType]="doughnutChartType"></canvas>
+            </mat-card-content>
+            <br />
+            <mat-card-content class="text-xs-center text-uppercase">
+                <div fxLayout="row" class="text-uppercase">
+                    <div fxFlex="100" *ngFor="let x of order">
+                        <p class="mt-0 mb-0 text-md mat-text-muted">{{x.kkey}}</p>
+                        <h2 class="mt-0 mb-0">{{x.percent}}%</h2>
+                    </div>
+                </div>
+            </mat-card-content>
+            <hr />
+            <div fxLayout="row wrap" class="text-uppercase">
+                <mat-form-field fxFlex="50%">
+                    <mat-select [(ngModel)]="orderFilter" (selectionChange)="orderChartFilter(orderFilter)" [disableOptionCentering]="true">
+                        <mat-option [value]="'TODAY'">Today</mat-option>
+                        <mat-option [value]="'LAST_WEEK'">Last Week</mat-option>
+                        <mat-option [value]="'CURRENT_MONTH'">Current Month</mat-option>
+                        <mat-option [value]="'CURRENT_YEAR'">Current Year</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div fxFlex="30%"></div>
+            </div>
+        </mat-card>
+    </div>
+
+    <div fxFlex.gt-sm="33.33%" fxFlex.gt-xs="100" fxFlex.md="50" fxFlex="100">
+        <mat-card class="box-height">
+            <mat-card-title>Top Selling Cannabis</mat-card-title>
+            <mat-card-content>
+                <ngx-datatable class="material noshadow" [rows]="topSelling.cannabis" [headerHeight]="50"
+                    [columnMode]="'flex'" [footerHeight]="0" [rowHeight]="'auto'" [reorderable]="false">
+                    <ngx-datatable-column name="Product Name" class="ellipsis" [sortable]="false" [resizeable]="false"
+                        [flexGrow]="40">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <span title="{{row.product_name}}" class="wrap-normal">{{row.product_name}}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Quantity" class="text-right" [sortable]="false" [resizeable]="false"
+                        [flexGrow]="27">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{row.order_qty|number: (row.product_unit=='pcs'?'1.0-0':'1.2-2')}}{{row.product_unit}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Amount" class="text-right" [sortable]="false" [resizeable]="false"
+                        [flexGrow]="30">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{row.amount|currency}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </mat-card-content>
+
+        </mat-card>
+    </div>
+
+    <div fxFlex.gt-sm="33.33%" fxFlex.gt-xs="100" fxFlex.md="50" fxFlex="100">
+        <mat-card class="box-height">
+            <mat-card-title>Top Selling Cannabis Accessories</mat-card-title>
+            <mat-card-content>
+                <ngx-datatable class="material noshadow" [rows]="topSelling.cannabis_accessories" [columnMode]="'flex'"
+                    [headerHeight]="50" [footerHeight]="0" [rowHeight]="'auto'" [reorderable]="false">
+                    <ngx-datatable-column name="Product Name" class="ellipsis" [sortable]="false" [resizeable]="false"
+                        [flexGrow]="40">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <span title="{{row.product_name}}" class="wrap-normal">{{row.product_name}}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Quantity" class="text-right" [sortable]="false" [resizeable]="false"
+                        [flexGrow]="27">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{row.order_qty|number: (row.product_unit=='pcs'?'1.0-0':'1.2-2')}}{{row.product_unit}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Amount" class="text-right" [sortable]="false" [resizeable]="false"
+                        [flexGrow]="30">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{row.amount|currency}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div fxFlex.gt-sm="33.33%" fxFlex.gt-xs="100" fxFlex.md="50" fxFlex="100">
+        <mat-card class="box-height">
+            <mat-card-title>Top Selling Others</mat-card-title>
+            <mat-card-content>
+                <ngx-datatable height="500" class="material noshadow" [rows]="topSelling.others" [columnMode]="'flex'"
+                    [headerHeight]="50" [footerHeight]="0" [rowHeight]="'auto'" [reorderable]="false">
+                    <ngx-datatable-column name="Product Name" class="ellipsis" [sortable]="false" [resizeable]="false"
+                        [flexGrow]="40">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <span title="{{row.product_name}}" class="wrap-normal">{{row.product_name}}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Quantity" class="text-right" [sortable]="false" [resizeable]="false"
+                        [flexGrow]="27">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{row.order_qty|number: (row.product_unit=='pcs'?'1.0-0':'1.2-2')}}{{row.product_unit}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Amount" class="text-right" [sortable]="false" [resizeable]="false"
+                        [flexGrow]="30">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{row.amount|currency}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div fxFlex.gt-sm="50%" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-card-title fxLayout="row" fxLayoutAlign="start center">
+                Sales Per Employee &nbsp; <span class="font-weight-bold mat-text-primary"></span>
+                <span fxFlex></span>
+            </mat-card-title>
+            <mat-card-content>
+                <canvas baseChart class="chart" #salesEmp="base-chart" [datasets]="barChartData"
+                    [labels]="barChartLabels" [options]="empSalesChartOptions" [colors]="chartColors"
+                    [chartType]="'bar'"></canvas>
+            </mat-card-content>
+            <hr />
+            <div fxLayout="row wrap" class="text-uppercase">
+                <mat-form-field fxFlex="50%">
+                    <mat-select [(ngModel)]="salesPerEmployeeFilter"
+                        (selectionChange)="salesPerEmployeeChartFilter(salesPerEmployeeFilter)" [disableOptionCentering]="true">
+                        <mat-option [value]="'TODAY'">Today</mat-option>
+                        <mat-option [value]="'LAST_WEEK'">Last Week</mat-option>
+                        <mat-option [value]="'CURRENT_MONTH'">Current Month</mat-option>
+                        <mat-option [value]="'CURRENT_YEAR'">Current Year</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </mat-card>
+    </div>
+    <div fxFlex.gt-sm="50%" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+            <mat-card-title fxLayout="row" fxLayoutAlign="start center">
+                Avg Sales Per Order by Employee &nbsp; <span class="font-weight-bold mat-text-primary"></span>
+                <span fxFlex></span>
+            </mat-card-title>
+            <mat-card-content>
+                <canvas baseChart class="chart" #salesAvgEmp="base-chart" [datasets]="empAvgChartData"
+                    [labels]="empAvgChartLabels" [options]="empAvgChartOptions" [colors]="chartColors"
+                    [chartType]="'bar'"></canvas>
+            </mat-card-content>
+            <hr />
+            <div fxLayout="row wrap" class="text-uppercase">
+                <mat-form-field fxFlex="50%">
+                    <mat-select [(ngModel)]="avgSalesPerEmployeeFilter"
+                        (selectionChange)="avgSalesPerEmployeeChartFilter(avgSalesPerEmployeeFilter)" [disableOptionCentering]="true">
+                        <mat-option [value]="'TODAY'">Today</mat-option>
+                        <mat-option [value]="'LAST_WEEK'">Last Week</mat-option>
+                        <mat-option [value]="'CURRENT_MONTH'">Current Month</mat-option>
+                        <mat-option [value]="'CURRENT_YEAR'">Current Year</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </mat-card>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Filters
+    <span fxFlex></span>
+    <span class="close-btn" align="end" (click)="close()">
+      <mat-icon>close</mat-icon>
+    </span>
+  </h2>
+  
+  <form [formGroup]="inventory_reconcile" (ngSubmit)="applyFilter()">
+    <mat-dialog-content class="mat-typography">
+      <div fxLayout="row" fxLayoutGap="20px">
+        <mat-form-field fxFlex="48" class="header-chain-select-block">
+          <mat-select placeholder="Category" [disableOptionCentering]="true" [formControl]="inventory_reconcile.controls['product_type']">
+            <mat-option *ngFor="let item of product_type" [value]="item.product_type_slug">
+              {{item.product_name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex="48" class="header-chain-select-block">
+          <mat-select placeholder="Store Name" [disableOptionCentering]="true" [formControl]="inventory_reconcile.controls['store_id']">
+            <mat-option *ngFor="let item of storeList" [value]="item.store_id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row wrap" class="MARGIN-BOTTOM">
+        <mat-checkbox [formControl]="inventory_reconcile.controls['has_stock']" class="check-box-green" color="primary">Out
+          of stock</mat-checkbox>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="start" class="mat-dialog-footer-custom">
+      <button type="submit" class="ok-button" mat-raised-button color="primary">APPLY FILTER</button>
+      <button (click)="close()" mat-button color="primary" class="cancel-button">CLEAR FILTER</button>
+    </mat-dialog-actions>
+  </form>

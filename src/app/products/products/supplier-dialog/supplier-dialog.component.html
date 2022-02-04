@@ -1,0 +1,112 @@
+<h2 mat-dialog-title><span *ngIf="!isEditMode">Add Supplier</span><span *ngIf="isEditMode">View Supplier
+    <span *ngIf="!isEditForm" (click)="viewMode(true)" class="position-relative">
+      <mat-icon class="material-icons pointer">visibility</mat-icon>
+    </span>
+    <span *ngIf="isEditForm" (click)="viewMode()" class="position-relative">
+      <mat-icon class="material-icons pointer">edit</mat-icon>
+    </span>
+  </span>
+  <span fxFlex></span>
+  <span class="close-btn" align="end" (click)="dialogRef.close()">
+    <mat-icon>close</mat-icon>
+  </span>
+</h2>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="mat-typography add-tag-dialog">
+    <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+      <div fxLayout="row" fxFlex="100%">
+        <mat-form-field class="example-full-width" fxFlex="100">
+          <input matInput placeholder="Supplier Name*" formControlName="name" autocomplete="off">
+          <mat-error *ngIf="form.controls['name'].hasError('required') ">
+            Please enter supplier name</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row">
+      <mat-form-field class="example-full-width" fxFlex="100">
+        <input matInput placeholder="Address Line 1*" formControlName="address1" autocomplete="off">
+      </mat-form-field>
+    </div>
+    <div fxLayout="row">
+      <mat-form-field class="example-full-width" fxFlex="100">
+        <input matInput placeholder="Apartment, Suit, Unit, Building, Floor, etc." formControlName="address2"
+          autocomplete="off">
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+      <div fxLayout="row" fxFlex="50%">
+        <mat-form-field fxFlex="100">
+          <mat-select placeholder="Select Province*" formControlName="state_id">
+            <mat-option (onSelectionChange)="getCityList(province.location_id)" *ngFor="let province of provinceList"
+              [value]="province.location_id">
+              {{province.location_name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxFlex="50%">
+        <mat-form-field fxFlex="100">
+          <mat-select placeholder="Select City*" formControlName="city_id">
+            <mat-option *ngFor="let province of cityList" [value]="province.location_id">
+              {{province.location_name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+      <div fxFlex="50%">
+        <mat-form-field class="example-full-width" fxFlex="100">
+          <input matInput placeholder="Postal Code*" formControlName="postal_code" autocomplete="off">
+        </mat-form-field>
+      </div>
+      <!-- <div fxFlex="50%">
+        <mat-form-field class="example-full-width" fxFlex="100">
+          <input matInput placeholder="Minimum Order*" formControlName="min_order" autocomplete="off" maxlength="7"
+            (keypress)="utils.numberOnly($event)">
+        </mat-form-field>
+      </div> -->
+      <div fxFlex="50%" fxLayout="row">
+        <mat-form-field class="example-full-width" fxFlex="100">
+          <input matInput placeholder="Tax Number*" formControlName="tax_no" autocomplete="off">
+        </mat-form-field>
+      </div>
+
+    </div>
+    <div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+      <div fxLayout="row" fxFlex="50%">
+        <mat-form-field class="example-full-width" fxFlex="100">
+          <input matInput placeholder="Supplier Business No*" formControlName="business_no" autocomplete="off">
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxFlex="50%"></div>
+    </div>
+
+    <br>
+    <mat-card-title>
+      <h3>Contact Person</h3>
+    </mat-card-title>
+    <div fxLayout="row">
+      <mat-form-field class="example-full-width" fxFlex="100">
+        <input type="email" matInput placeholder="CP Email*" formControlName="contact_person_email" autocomplete="off">
+      </mat-form-field>
+    </div>
+    <div fxLayout="row">
+      <mat-form-field class="example-full-width" fxFlex="100">
+        <input matInput placeholder="Contact Info*" formControlName="contact_person_phone" autocomplete="off"
+          maxlength="10" (keypress)="utils.numberOnly($event)">
+      </mat-form-field>
+    </div>
+    <div fxLayout="row">
+      <mat-form-field class="example-full-width" fxFlex="100">
+        <input matInput placeholder="Job Title" formControlName="job_title" autocomplete="off">
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="start" class="mat-dialog-footer-custom marging-right">
+    <mat-bar-button type="submit" type="submit" [options]="barButtonEditOptions" *ngIf="isEditMode"></mat-bar-button>
+    <mat-bar-button type="submit" type="submit" [options]="barButtonAddOptions" *ngIf="!isEditMode"></mat-bar-button>
+    <button mat-button color="primary" class="cancel-button" [mat-dialog-close]="">CANCEL</button>
+  </mat-dialog-actions>
+</form>

@@ -1,0 +1,38 @@
+.history-table{
+    width: 100%;
+}
+
+.table-width{
+    overflow: auto;
+}
+.reconcile-history-table{
+    width: 100%;
+}
+
+::ng-deep .ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell{
+    white-space: normal !important;
+    line-height: 1.2;
+    // text-align: center;
+    // color: red;
+}
+
+// .cell-data{
+//     text-align: center !important;
+//   }
+
+// .mak{
+//     color:red;
+//     background-color: orange;
+//     text-align: right;
+// }
+
+// ::ng-deep .ngx-datatable.material {
+//     .datatable-header {
+//         .datatable-header-inner{
+//       .datatable-header-cell {
+//         // your styles here
+        
+//       }
+//     }
+//     }
+//   }

@@ -1,0 +1,36 @@
+.inventory-search-input {
+    box-shadow: 1px 0 13px 0 rgba(0, 0, 0, 0.04) !important;
+    border-right: 1px solid#e6e6e6;
+    border-radius: 50px 50px 50px 50px;
+    background: white;
+    padding: 10px 10px 10px 10px;
+  }
+  .onhandreport-list-table{
+      width: 100% !important;
+  }
+  .selcet-filter{
+      text-align: right;
+      ::ng-deep .mat-form-field{
+        line-height: 1.65 !important;    
+       }
+  }
+  .header-chain-select-block{
+    height: 43px;
+    width: 100%;
+    ::ng-deep .mat-form-field-underline{
+     height: 0;
+     .mat-form-field-ripple{
+       opacity: 0;
+     }
+   }
+   
+   ::ng-deep .mat-form-field-wrapper{   
+     .mat-form-field-infix{
+       background: #FFF;
+       border-radius: 25px;
+       border: solid 1px #e6e6e6;
+       padding: 12px 20px;
+       box-shadow: 1px 0 13px 0 rgba(0, 0, 0, 0.04) !important;
+     }
+   }
+ }

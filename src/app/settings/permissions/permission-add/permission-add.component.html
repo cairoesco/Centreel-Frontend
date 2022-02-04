@@ -1,0 +1,151 @@
+<form [formGroup]="addType" (ngSubmit)="onSubmit()">
+<mat-card class="header-main-content">
+<div fxLayout="row">
+    <div fxFlex="25%" class="breadcrumb-content">
+    <i class="material-icons">
+        keyboard_arrow_left
+    </i><label class="lable"><a [routerLink]="['../']">Permissions</a></label>
+    </div>
+    <div fxFlex="50%" class="breadcrumb-header-content">
+    Add Permission
+    </div>
+    <div fxFlex="25%" class="breadcrumb-btn-content">
+      <button mat-button matSuffix mat-stroked-button color="primary" type="submit">SAVE ALL</button>
+    </div>
+</div>
+</mat-card>
+
+
+<div class="main-div-container" >
+    <div fxLayout="row">
+      <div fxFlex="16.45%" fxFlex.md="10%" fxFlex.sm="10%" fxFlex.xs="0%" id="left-content">
+      </div>
+      
+      <div fxFlex="83.55%" fxFlex.md="90%" fxFlex.sm="90%" fxFlex.xs="100%">
+        <!-- First Section -->
+        <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center" #1>
+          <!--middle content -->
+          <div fxFlex="54%" id="middle-content">
+            <!-- main content -->
+            <div class="">
+              <h2 layout-margin>Create Permission</h2>
+              <mat-card class="mat-content-padding">
+                <!-- <mat-card-title>
+                  <h3>Contact Information</h3>
+                </mat-card-title> -->
+                <mat-card-content>
+  
+                <div fxLayout="row">
+                  <div fxFlex="100%">
+                    <mat-form-field fxFlex="100%">
+                      <input matInput placeholder="Permission Name" [formControl]="addType.controls['permission_name']">
+                      <mat-error *ngIf="addType.controls['permission_name'].errors?.required && addType.controls['permission_name'].touched" class="mat-text-warn">You must include a Permission name.</mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div fxLayout="row">
+                  <div fxFlex="100%">
+                    <mat-form-field fxFlex="100%">
+                      <textarea matInput placeholder="Permission Description" [formControl]="addType.controls['permission_desc']"></textarea>
+                      <mat-error *ngIf="addType.controls['permission_desc'].errors?.required && addType.controls['permission_desc'].touched" class="mat-text-warn">You must include a Permission Description.</mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div fxLayout="row">
+                  <div fxFlex="100%">
+                    <mat-form-field fxFlex="100%">
+                        <mat-chip-list #chipList>
+                          <mat-chip
+                            *ngFor="let module of modules; let i = index" 
+                            [selectable]="selectable"
+                            [removable]="removable"
+                            (removed)="removeModule(module)"
+                            >
+                            {{module}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                          </mat-chip>
+                          <input
+                            placeholder="Select Module"
+                            #moduleInput
+                            [formControl]="addType.controls['moduleCtrl']"
+                            [matAutocomplete]="auto"
+                            [matChipInputFor]="chipList"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            [matChipInputAddOnBlur]="addOnBlur"
+                            (matChipInputTokenEnd)="addModuleMethod($event,modules,moduleCtrl)"
+                            >
+                        </mat-chip-list>
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedModule($event)">
+                          <mat-option *ngFor="let list of filteredModules" [value]="list.module_id">
+                            {{list.module_name}}
+                          </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div fxLayout="row" *ngFor="let modu of module; let idx = index">
+                  <div fxFlex="100%">
+                    <mat-form-field fxFlex="100%">
+                        <mat-chip-list #chipList>
+                          <mat-chip
+                            *ngFor="let method of modu.selectedMethods; let i = index"
+                            [selectable]="selectable"
+                            [removable]="removable"
+                            (removed)="removeMethod(modu.selectedMethods)" >
+                            {{method}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                          </mat-chip>
+                          <input
+                            placeholder="Select Method(s) for {{modu.module_name}}"
+                            #methodInput
+                            [formControl]="addType.controls['methodsCtrl']"
+                            [matAutocomplete]="auto"
+                            [matChipInputFor]="chipList"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            [matChipInputAddOnBlur]="addOnBlur"
+                            (matChipInputTokenEnd)="addModuleMethod($event, methods, methodsCtrl)">
+                        </mat-chip-list>
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMethod($event)">
+                          <mat-option *ngFor="let list of modu.methods" [value]="list.method_id">
+                            {{list.method_name}}
+                          </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div fxLayout="row">
+                  <div fxFlex="100%">
+                    <mat-form-field fxFlex="100%">
+                      <mat-select placeholder="Permission Status" [formControl]="addType.controls['permission_status']" [disableOptionCentering]="true">
+                        <mat-option [value]="1">Active</mat-option>
+                        <mat-option [value]="0">Inactive</mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="!addType.controls['permission_status'].valid && addType.controls['permission_status'].touched" class="mat-text-warn">You must select Permission status.</mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+  
+                <div>&nbsp;</div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+            <!-- main content -->
+          </div>
+          <!--middle content -->
+          
+          <!--right content -->
+          <div fxFlex="46%" id="right-content">
+  
+          </div>
+          <!--right content -->
+        </div>
+        <!-- First Section -->
+        
+      </div>
+    </div>
+  </div>
+  </form>
