@@ -36,7 +36,7 @@ export class FilterDialogComponent implements OnInit {
       product_type: ['non cannabis'],
       store_id: [this.data.fdata.store_id],
       storage_id: [this.data.fdata.storage_id],
-      has_stock: [false],
+      has_stock: [true],
     });
   }
 
@@ -57,9 +57,8 @@ export class FilterDialogComponent implements OnInit {
     this.reportService.getStores()
       .subscribe((response: any) => {
         this.storeList = response.data.stores;
-        console.log(this.storeList, "this.storeList line 45>>>>>>")
         if (this.storeList.length > 0) {
-          this.data.fdata.has_stock = !this.data.fdata.has_stock;
+          this.data.fdata.has_stock = this.data.fdata.has_stock;
           this.data.fdata.product_type = this.data.fdata.type;
           
           this.inventory_report.patchValue(this.data.fdata);
@@ -75,7 +74,7 @@ export class FilterDialogComponent implements OnInit {
     this.inventory_report.controls.store_id.setValue(this.storeList[0].store_id);
     this.inventory_report.controls.product_type.setValue('non cannabis');
     this.inventory_report.controls.storage_id.setValue(this.storageList[0].storage_id);
-    this.inventory_report.controls.has_stock.setValue(false);
+    this.inventory_report.controls.has_stock.setValue(true);
     this.applyFilter();
   }
 }
