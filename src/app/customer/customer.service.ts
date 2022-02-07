@@ -26,7 +26,6 @@ export class CustomerService {
     getCustomer(patient_id, store_id){
         return this.webApi.get(`patients/${patient_id}?store_id=${store_id}`)        
     }
-
     getCustomerPreferredProductList(id) {
         return this.webApi.get('patients/'+id+'/product')
     }
