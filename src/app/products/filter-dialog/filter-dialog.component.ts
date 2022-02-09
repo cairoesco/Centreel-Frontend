@@ -73,7 +73,10 @@ export class FilterDialogComponent implements OnInit {
       product_category_id: [[]],
       tags: [[]],
       selected: [""],
-      barcode_type: [""],
+      // barcode_type: [""],
+      out_of_stock: 0,
+      without_price: 0,
+      without_barcode: 0,
     });
   }
   applyFilter() {
@@ -129,7 +132,7 @@ export class FilterDialogComponent implements OnInit {
   }
   getTags() {
     this.api.get("tags?type=" + "variant").subscribe((result: any) => {
-      if (Boolean(result.success)) {
+      if (result.success) {
         this.alltags = result.data;
       }
     });
