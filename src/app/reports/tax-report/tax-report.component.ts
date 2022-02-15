@@ -117,23 +117,25 @@ export class TaxReportComponent implements OnInit {
   /* onchange event */
 
   /* download pdf */
-  getExportPDF() {
-    this.reportService.exportReport('taxespdf', this.formobj).then(
-      (res: HttpResponse<any>) => {
-        this.reportService.downloadFile(res.body, 'application/pdf', 'Tax Report '+this.export_date);
-      });
-  }
+  // getExportPDF() {
+  //   this.reportService.exportReport('taxespdf', this.formobj).then(
+  //     (res: HttpResponse<any>) => {
+  //       this.reportService.downloadFile(res.body, 'application/pdf', 'Tax Report '+this.export_date);
+  //     });
+  // }
   /* download pdf */
 
   /* download CSV */
-  getExportCSV(ext) {
+  getExport(ext) {
     this.formobj.ext = ext;
-    this.reportService.exportReport('taxescsv', this.formobj).then(
+    this.reportService.exportReport('taxes/export', this.formobj).then(
       (res: HttpResponse<any>) => {
         if (ext == 'csv') {
           this.reportService.downloadFile(res.body, 'text/csv', 'Tax Report '+this.export_date);
         } else if (ext == 'xls') {
           this.reportService.downloadFile(res.body, 'application/vnd.ms-excel', 'Tax Report '+this.export_date);
+        } else if (ext == 'pdf') {
+          this.reportService.downloadFile(res.body, 'application/pdf', 'Tax Report '+this.export_date);
         }
       });
   }
