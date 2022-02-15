@@ -97,24 +97,26 @@ export class SalesComponent implements OnInit {
   /* onchange event */
 
   /* download pdf */
-  getExportPDF() {
-    this.formobj.report_name = 'sales';
-    this.reportService.exportReport("sales/salesperCategorypdf", this.formobj).then(
-      (res: HttpResponse<any>) => {
-        this.reportService.downloadFile(res.body, 'application/pdf', 'Sales per Category Report '+this.export_date);
-      });
-  }
+  // getExportPDF() {
+  //   this.formobj.report_name = 'sales';
+  //   this.reportService.exportReport("sales/salesperCategorypdf", this.formobj).then(
+  //     (res: HttpResponse<any>) => {
+  //       this.reportService.downloadFile(res.body, 'application/pdf', 'Sales per Category Report '+this.export_date);
+  //     });
+  // }
   /* download pdf */
 
-  /* download csv and excel */
-  getExportCSV(ext) {
+  /* download csv and excel and pdf */
+  getExport(ext) {
     this.formobj.ext = ext;
-    this.reportService.exportReport("sales/salesperCategorycsv", this.formobj).then(
+    this.reportService.exportReport("sales/salesperCategory/export", this.formobj).then(
       (res: HttpResponse<any>) => {
         if (ext == 'csv') {
           this.reportService.downloadFile(res.body, 'text/csv', 'Sales per Category Report '+this.export_date);
         } else if (ext == 'xls') {
           this.reportService.downloadFile(res.body, 'application/vnd.ms-excel', 'Sales per Category Report '+this.export_date);
+        } else if (ext == 'pdf') {
+          this.reportService.downloadFile(res.body, 'application/pdf', 'Sales per Category Report '+this.export_date);
         }
       });
   }

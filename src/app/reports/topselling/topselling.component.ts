@@ -131,22 +131,24 @@ export class TopsellingComponent implements OnInit {
   }
 
   /* download pdf */
-  getExportPDF() {
-    this.reportService.exportReport("topsellingspdf", this.formobj).then(
-      (res: HttpResponse<any>) => {
-        this.reportService.downloadFile(res.body, 'application/pdf', 'Top Selling Report '+this.export_date);
-      });
-  }
+  // getExportPDF() {
+  //   this.reportService.exportReport("topsellingspdf", this.formobj).then(
+  //     (res: HttpResponse<any>) => {
+  //       this.reportService.downloadFile(res.body, 'application/pdf', 'Top Selling Report '+this.export_date);
+  //     });
+  // }
 
-  /* download excel */
-  getExportCSV(ext) {
+  /* download reports */
+  getExport(ext) {
     this.formobj.ext = ext;
-    this.reportService.exportReport("topsellingscsv", this.formobj).then(
+    this.reportService.exportReport("topsellings/export", this.formobj).then(
       (res: HttpResponse<any>) => {
         if (ext == 'csv') {
           this.reportService.downloadFile(res.body, 'text/csv', 'Top Selling Report '+this.export_date);
         } else if (ext == 'xls') {
           this.reportService.downloadFile(res.body, 'application/vnd.ms-excel', 'Top Selling Report '+this.export_date);
+        } else if (ext == 'pdf') {
+          this.reportService.downloadFile(res.body, 'application/pdf', 'Top Selling Report '+this.export_date);
         }
       });
   }

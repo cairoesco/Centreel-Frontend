@@ -161,23 +161,25 @@ export class StocktransferComponent implements OnInit {
   /* onchange event */
 
   /* download pdf */
-  getExportPDF() {
-    this.reportService.exportReport("transferpdf", this.formobj).then(
-      (res: HttpResponse<any>) => {
-        this.reportService.downloadFile(res.body, 'application/pdf', 'Stock Transfer History Report '+this.export_date);
-      });
-  }
+  // getExportPDF() {
+  //   this.reportService.exportReport("transferpdf", this.formobj).then(
+  //     (res: HttpResponse<any>) => {
+  //       this.reportService.downloadFile(res.body, 'application/pdf', 'Stock Transfer History Report '+this.export_date);
+  //     });
+  // }
   /* download pdf */
 
-  /* download CSV */
-  getExportCSV(ext) {
+  /* download CSV and xls and pdf */
+  getExport(ext) {
     this.formobj.ext = ext;
-    this.reportService.exportReport("transfercsv", this.formobj).then(
+    this.reportService.exportReport("transfer/export", this.formobj).then(
       (res: HttpResponse<any>) => {
         if (ext == 'csv') {
           this.reportService.downloadFile(res.body, 'text/csv', 'Stock Transfer History Report '+this.export_date);
         } else if (ext == 'xls') {
           this.reportService.downloadFile(res.body, 'application/vnd.ms-excel', 'Stock Transfer History Report '+this.export_date);
+        } else if (ext == 'pdf') {
+          this.reportService.downloadFile(res.body, 'application/pdf', 'Stock Transfer History Report '+this.export_date);
         }
       });
   }

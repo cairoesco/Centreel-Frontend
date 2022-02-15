@@ -101,16 +101,16 @@ export class WasteComponent implements OnInit {
   /* get warehouse */
 
   /* download pdf */
-  getExportPDF() {
-    this.reportService.exportReport("wastepdf", this.formobj).then(
-      (res: HttpResponse<any>) => {
-        this.reportService.downloadFile(res.body, 'application/pdf', 'Waste Report '+this.export_date);
-      });
-  }
+  // getExportPDF() {
+  //   this.reportService.exportReport("wastepdf", this.formobj).then(
+  //     (res: HttpResponse<any>) => {
+  //       this.reportService.downloadFile(res.body, 'application/pdf', 'Waste Report '+this.export_date);
+  //     });
+  // }
   /* download pdf */
 
   /* download CSV */
-  getExportCSV(ext) {
+  getExport(ext) {
     this.formobj.ext = ext;
     this.reportService.exportReport("wastecsv", this.formobj).then(
       (res: HttpResponse<any>) => {
@@ -118,6 +118,8 @@ export class WasteComponent implements OnInit {
           this.reportService.downloadFile(res.body, 'text/csv', 'Waste Report '+this.export_date);
         } else if (ext == 'xls') {
           this.reportService.downloadFile(res.body, 'application/vnd.ms-excel', 'Waste Report '+this.export_date);
+        } else if (ext == 'pdf') {
+          this.reportService.downloadFile(res.body, 'application/pdf', 'Waste Report '+this.export_date);
         }
       });
   }
