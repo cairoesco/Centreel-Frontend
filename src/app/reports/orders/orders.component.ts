@@ -180,21 +180,23 @@ export class OrdersComponent implements OnInit {
 		}
 	}
 	/* download pdf */
-	getExportPDF() {
-		this.reportService.exportReport("orderslistpdf", this.formobj).then((res: HttpResponse<any>) => {
-			this.reportService.downloadFile(res.body, "application/pdf", "Orders Report " + this.export_date);
-		});
-	}
+	// getExportPDF() {
+	// 	this.reportService.exportReport("orderslistpdf", this.formobj).then((res: HttpResponse<any>) => {
+	// 		this.reportService.downloadFile(res.body, "application/pdf", "Orders Report " + this.export_date);
+	// 	});
+	// }
 	/* download pdf */
 
 	/* download excel and csv */
-	getExportCSV(ext) {
+	getExport(ext) {
 		this.formobj.ext = ext;
-		this.reportService.exportReport("orderslistcsv", this.formobj).then((res: HttpResponse<any>) => {
+		this.reportService.exportReport("orderslist/export", this.formobj).then((res: HttpResponse<any>) => {
 			if (ext == "csv") {
 				this.reportService.downloadFile(res.body, "text/csv", "Orders Report " + this.export_date);
 			} else if (ext == "xls") {
 				this.reportService.downloadFile(res.body, "application/vnd.ms-excel", "Orders Report " + this.export_date);
+			} else if (ext == "pdf") {
+				this.reportService.downloadFile(res.body, "application/pdf", "Orders Report " + this.export_date);
 			}
 		});
 	}
