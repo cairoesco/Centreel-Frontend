@@ -112,7 +112,7 @@ export class WasteComponent implements OnInit {
   /* download CSV */
   getExport(ext) {
     this.formobj.ext = ext;
-    this.reportService.exportReport("wastecsv", this.formobj).then(
+    this.reportService.exportReport("waste/export", this.formobj).then(
       (res: HttpResponse<any>) => {
         if (ext == 'csv') {
           this.reportService.downloadFile(res.body, 'text/csv', 'Waste Report '+this.export_date);
