@@ -22,8 +22,8 @@
 
 <div class="existing-tags-title" *ngIf="alltags.length>0">Existing Tags</div>
 <div fxLayout="row wrap" class="existing-tags fancyscroll" *ngIf="alltags.length>0">
-    <div class="tag-div pointer"  *ngFor="let tag of alltags" (click)="add(tag)"> 
-        <div class="tag-text" >{{tag}}<img src="assets/icon/tag-add-sign.svg" alt="Add New Tag" class="tag-add-icon"></div>
+    <div class="tag-div pointer"  *ngFor="let tag of alltags" (click)="add(tag.tag_name)"> 
+        <div class="tag-text" >{{tag.tag_name}}<img src="assets/icon/tag-add-sign.svg" alt="Add New Tag" class="tag-add-icon"></div>
     </div>
 </div>
 <div fxLayout="row wrap" *ngIf="alltags.length == 0 && isTag">
