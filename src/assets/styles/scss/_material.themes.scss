@@ -1,9 +1,10 @@
 // Default Theme
-@include angular-material-theme($theme);
+@use '@angular/material' as mat;
+@include mat.all-component-themes($theme);
 
 // Dark Theme
 .app-dark {  
-  @include angular-material-theme($dark-theme);
+  @include mat.all-component-themes($dark-theme);
   .navigation .mat-list-item {
     color: rgba(255,255,255, 0.87)!important;
   }

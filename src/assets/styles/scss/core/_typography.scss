@@ -1,5 +1,6 @@
 /* $typography
  ------------------------------------------*/
+@use '@angular/material' as mat;
 a {
   text-decoration: none;
   color: inherit;
@@ -22,7 +23,7 @@ hr {
   margin-top: 0;
   margin-bottom: 0;
   border: 0;
-  border-top: 1px solid mat-color($foreground, divider);
+  border-top: 1px solid mat.get-color-from-palette($foreground, divider);
 }
 
 strong, b {

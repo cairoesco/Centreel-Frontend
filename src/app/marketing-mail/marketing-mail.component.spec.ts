@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MarketingMailComponent } from './marketing-mail.component';
 import { SharedModule } from '../shared/shared.module';
@@ -8,7 +8,7 @@ describe('MarketingMailComponent', () => {
   let component: MarketingMailComponent;
   let fixture: ComponentFixture<MarketingMailComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports:[SharedModule,BrowserAnimationsModule],
       declarations: [ MarketingMailComponent ]

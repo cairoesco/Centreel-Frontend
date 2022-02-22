@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PermissionEditComponent } from './permission-edit.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -11,7 +11,7 @@ describe('PermissionEditComponent', () => {
   let component: PermissionEditComponent;
   let fixture: ComponentFixture<PermissionEditComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports:[
         BrowserAnimationsModule,

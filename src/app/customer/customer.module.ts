@@ -13,25 +13,23 @@ import { EditCustomerComponent } from './edit-customer/edit-customer.component';
 import { CustomerQueueListComponent } from './customer-queue-list/queue-list.component'
 
 @NgModule({
-  declarations: [ 
-    CustomerComponent, 
-    CustomerQueueListComponent,
-    AddCustomerComponent, 
-    EditCustomerComponent,  
-    CustomerFilterDialogComponent, 
-    PreferredProductDialogComponent
-  ],
-  imports: [SharedModule,
-    CommonModule,
-    CustomerRoutingModule,
-    AutocompleteLibModule,
-    NgxDaterangepickerMd.forRoot({
-      applyLabel: 'ok',
-      separator: ' To '
-  })
-  ],
-  providers:[CustomerService],
-  entryComponents:[CustomerFilterDialogComponent,PreferredProductDialogComponent]
-
+    declarations: [
+        CustomerComponent,
+        CustomerQueueListComponent,
+        AddCustomerComponent,
+        EditCustomerComponent,
+        CustomerFilterDialogComponent,
+        PreferredProductDialogComponent
+    ],
+    imports: [SharedModule,
+        CommonModule,
+        CustomerRoutingModule,
+        AutocompleteLibModule,
+        NgxDaterangepickerMd.forRoot({
+            applyLabel: 'ok',
+            separator: ' To '
+        })
+    ],
+    providers: [CustomerService]
 })
 export class CustomerModule { }

@@ -13,26 +13,23 @@ import { EditTagManagementComponent } from './edit-tag-management/edit-tag-manag
 
 
 @NgModule({
-  declarations: [ 
-    TagManagementComponent, 
-    AddTagManagementComponent, 
-    EditTagManagementComponent,  
-    TagManagementFilterDialogComponent, 
-    //  AutocompleteLibModule,
-    // PreferredProductDialogComponent
-  ],
-  imports: [SharedModule,
-    CommonModule,
-    TagManagementRoutingModule,
-    AutocompleteLibModule,
-    NgxDaterangepickerMd.forRoot({
-      applyLabel: 'ok',
-      separator: ' To '
-  })
-  ],
-  providers:[TagManagementService],
-  entryComponents:[TagManagementFilterDialogComponent]
-  // entryComponents:[CustomerFilterDialogComponent,PreferredProductDialogComponent]
-
+    declarations: [
+        TagManagementComponent,
+        AddTagManagementComponent,
+        EditTagManagementComponent,
+        TagManagementFilterDialogComponent,
+        //  AutocompleteLibModule,
+        // PreferredProductDialogComponent
+    ],
+    imports: [SharedModule,
+        CommonModule,
+        TagManagementRoutingModule,
+        AutocompleteLibModule,
+        NgxDaterangepickerMd.forRoot({
+            applyLabel: 'ok',
+            separator: ' To '
+        })
+    ],
+    providers: [TagManagementService]
 })
 export class TagManagementModule { }
