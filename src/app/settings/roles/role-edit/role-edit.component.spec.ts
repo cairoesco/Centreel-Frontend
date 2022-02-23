@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { RoleEditComponent } from './role-edit.component';
@@ -11,7 +11,7 @@ describe('RoleEditComponent', () => {
   let component: RoleEditComponent;
   let fixture: ComponentFixture<RoleEditComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,

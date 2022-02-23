@@ -1,6 +1,14 @@
 import { Injectable } from "@angular/core";
 import { ApiService } from "../api.service";
 
+
+declare global {
+  interface Navigator {
+    msSaveBlob?: (blob: any, defaultName?: string) => boolean;
+    msSaveOrOpenBlob: (blob: Blob) => void;
+  }
+}
+
 @Injectable()
 export class ReportService {
   constructor(private webApi: ApiService) {}

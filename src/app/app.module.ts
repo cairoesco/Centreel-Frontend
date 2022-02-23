@@ -39,57 +39,54 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    SidebarComponent,
-    OptionsComponent,
-    MenuComponent,
-    AdminLayoutComponent,
-    AuthLayoutComponent,
-    AccordionAnchorDirective,
-    AccordionLinkDirective,
-    AccordionDirective,
-    BreadcrumbComponent,
-    TagComponent,
-    DeleteConfirmComponent,
-    LockScreenComponent,
-    PrintBarcodeComponent,
-    LayoutComponent,
-  ],
-  imports: [
-    BrowserModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    BrowserAnimationsModule,
-    RouterModule.forRoot(AppRoutes),
-    UserIdleModule.forRoot({ idle: 4000, timeout: 4000, ping: 120 }),
-
-    HttpClientModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
-      }
-    }),
-    LoadingBarRouterModule,
-    BidiModule,
-    SharedModule,
-    SignaturePadModule,
-
-    MatFormFieldModule,
-    MatInputModule
-  ],
-  providers: [
-    AuthGuardService,
-    AuthService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    MenuService,
-    ApiService,
-    SharedService
-  ],
-  entryComponents: [TagComponent, DeleteConfirmComponent, LockScreenComponent, PrintBarcodeComponent],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HeaderComponent,
+        SidebarComponent,
+        OptionsComponent,
+        MenuComponent,
+        AdminLayoutComponent,
+        AuthLayoutComponent,
+        AccordionAnchorDirective,
+        AccordionLinkDirective,
+        AccordionDirective,
+        BreadcrumbComponent,
+        TagComponent,
+        DeleteConfirmComponent,
+        LockScreenComponent,
+        PrintBarcodeComponent,
+        LayoutComponent,
+    ],
+    imports: [
+        BrowserModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        BrowserAnimationsModule,
+        RouterModule.forRoot(AppRoutes, { relativeLinkResolution: 'legacy' }),
+        UserIdleModule.forRoot({ idle: 4000, timeout: 4000, ping: 120 }),
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (createTranslateLoader),
+                deps: [HttpClient]
+            }
+        }),
+        LoadingBarRouterModule,
+        BidiModule,
+        SharedModule,
+        SignaturePadModule,
+        MatFormFieldModule,
+        MatInputModule
+    ],
+    providers: [
+        AuthGuardService,
+        AuthService,
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        MenuService,
+        ApiService,
+        SharedService
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { LockScreenComponent } from './lock-screen.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -16,7 +16,7 @@ describe('LockScreenComponent', () => {
   let component: LockScreenComponent;
   let fixture: ComponentFixture<LockScreenComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports:[
         BrowserAnimationsModule,
