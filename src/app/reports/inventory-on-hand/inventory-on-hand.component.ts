@@ -143,8 +143,6 @@ export class InventoryOnHandComponent implements OnInit {
   }
   /* onchange event */
   onChanges(data): void {
-    console.log(data, 'data from inventory report filter line 146')
-
     this.formobj = {};
     let val = data;
     this.formobj.type = val.product_type

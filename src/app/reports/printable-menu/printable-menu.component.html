@@ -76,7 +76,7 @@
         <div class="" *ngFor="let item of rows | keyvalue">
             <h2 class="padding-closeout">{{item.key}}</h2>
             <mat-card class="box-shadow report-listing" *ngIf="item?.value?.length > 0">
-                <ngx-datatable #myDatatable class="material" [ngStyle]="{'height':'346px'}" [headerHeight]="50"
+                <ngx-datatable #myDatatable class="material custom-table" [ngStyle]="{'height':dynamicHeight}" [headerHeight]="50"
                     [limit]="10" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="48" [scrollbarV]="true"
                     [rows]="item?.value">
                     <ngx-datatable-column [resizeable]="false" prop="print_menu_description" name="Product" [width]="300">
