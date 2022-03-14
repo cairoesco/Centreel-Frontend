@@ -20,7 +20,7 @@ export class FilterDialogComponent implements OnInit {
   public form_obj: any = new Object();
   public inventory_report: FormGroup;
   public storeList: any = [];
-  public storageList: any = [];
+  public storageList: any = [{storage_id:'all', name: 'All'}];
   public product_type_id: any;
   public product_category_id: any;
   public product_type = [{product_type_slug:'all', product_name: 'All'},{product_type_slug:'cannabis', product_name: 'Cannabis'},{product_type_slug:'non cannabis', product_name: 'Non-Cannabis'}]
@@ -46,7 +46,7 @@ export class FilterDialogComponent implements OnInit {
   }
   getFilterData(){
     this.reportService.getInventoryFilterData().subscribe((response: any) => {
-      this.storageList = response.data.warehouse;
+    this.storageList = [...this.storageList, ...response.data.warehouse];
       if (this.storageList.length > 0) {
         this.inventory_report.controls.storage_id.setValue(this.storageList[0].storage_id);
       }

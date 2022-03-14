@@ -440,7 +440,6 @@ export class AddCustomerComponent implements OnInit {
   }
 
   handleShowExtraCardInfo(evt){
-    console.log(evt, 'evt evt evt evt evt')
     if(evt == 1){
       this.showExtraCardInfo = true;
     } else {
