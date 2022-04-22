@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { StockHistoryComponent } from './stock-history.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -14,7 +14,7 @@ describe('StockHistoryComponent', () => {
   let component: StockHistoryComponent;
   let fixture: ComponentFixture<StockHistoryComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports:[
         BrowserAnimationsModule,

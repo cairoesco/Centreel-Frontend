@@ -8,22 +8,30 @@
 <form [formGroup]="inventory_report" (ngSubmit)="applyFilter()">
   <mat-dialog-content class="mat-typography">
     <div fxLayout="row" fxLayoutGap="20px">
-      <mat-form-field fxFlex="48" class="header-chain-select-block">
-       
-        <mat-select placeholder="Category" [disableOptionCentering]="true" [formControl]="inventory_report.controls['product_type']">
-          <mat-option *ngFor="let item of product_type" [value]="item.product_type_slug">
-            {{item.product_name}}
-          </mat-option>
-        </mat-select>
-     
-      </mat-form-field>
-     
+
       <mat-form-field fxFlex="48" class="header-chain-select-block">
         <mat-select placeholder="Store Name" [disableOptionCentering]="true" [formControl]="inventory_report.controls['store_id']">
           <mat-option *ngFor="let item of storeList" [value]="item.store_id">
             {{item.name}}
           </mat-option>
         </mat-select>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="48" class="header-chain-select-block">
+        <mat-select placeholder="Warehouse" [disableOptionCentering]="true" [formControl]="inventory_report.controls['storage_id']">
+          <mat-option *ngFor="let item of storageList" [value]="item.storage_id">
+            {{item.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="48" class="header-chain-select-block">
+        <mat-select placeholder="Category" [disableOptionCentering]="true" [formControl]="inventory_report.controls['product_type']">
+          <mat-option *ngFor="let item of product_type" [value]="item.product_type_slug">
+            {{item.product_name}}
+          </mat-option>
+        </mat-select>
+     
       </mat-form-field>
       
     </div>

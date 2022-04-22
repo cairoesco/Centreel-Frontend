@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LicenseComponent } from './license.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -8,7 +8,7 @@ describe('LicenseComponent', () => {
   let component: LicenseComponent;
   let fixture: ComponentFixture<LicenseComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports:[BrowserAnimationsModule,SharedModule],
       declarations: [ LicenseComponent ],

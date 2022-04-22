@@ -35,7 +35,7 @@ export class InventoryOnHandComponent implements OnInit {
     this.inventory_report = this.formBuilder.group({
       product_type: ['all'],
       store_id: [''],
-      is_club: [1],
+      is_club: [0],
       has_stock: [false],
     });
     this.getStores();
@@ -143,8 +143,6 @@ export class InventoryOnHandComponent implements OnInit {
   }
   /* onchange event */
   onChanges(data): void {
-    console.log(data, 'data from inventory report filter line 146')
-
     this.formobj = {};
     let val = data;
     this.formobj.type = val.product_type

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PrintBarcodeComponent } from './print-barcode.component';
 
@@ -6,7 +6,7 @@ describe('PrintBarcodeComponent', () => {
   let component: PrintBarcodeComponent;
   let fixture: ComponentFixture<PrintBarcodeComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ PrintBarcodeComponent ]
     })

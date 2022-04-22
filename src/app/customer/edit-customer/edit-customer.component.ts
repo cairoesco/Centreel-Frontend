@@ -272,9 +272,7 @@ export class EditCustomerComponent implements OnInit {
 
 	handleOnSubmitGeneralEdit() {
 	const form_obj = this.form.getRawValue();
-	console.log(form_obj)
 	this.api.editCustomer(form_obj.patient_id, form_obj).subscribe((response: any) => {
-		console.log(response)
 	}	
 )}
 

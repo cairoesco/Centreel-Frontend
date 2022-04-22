@@ -1,8 +1,9 @@
 /* $sidebar-panel
  ------------------------------------------*/
+@use '@angular/material' as mat;
  $mat-toolbar-height-desktop: 64px !default;
- $mat-toolbar-height-mobile-portrait: 56px !default;
- $mat-toolbar-height-mobile-landscape: 48px !default;
+ $px-portrait: 56px !default;
+
  div[dir=ltr] .amml-icon , .amml-icon {
    @include margin-right(24px!important);
  }
@@ -16,7 +17,7 @@
    }
    @include media-breakpoint-down(xs) {
      position: fixed!important;
-     top: $mat-toolbar-height-mobile-portrait;
+     top: $px-portrait;
    }
    .mat-drawer-focus-trap>.cdk-focus-trap-content {
      position: relative;
@@ -43,7 +44,7 @@
    }
    .mat-list-item.open > .mat-list-item-content {
      max-height: 2000px;
-     background: mat-color($background, 'hover');
+     background: mat.get-color-from-palette($background, 'hover');
    }
    .mat-nav-list a, .anml-data  {
      display: flex;
@@ -59,15 +60,15 @@
        height: 0px;
        border-left: 5px solid transparent;
        border-right: 5px solid transparent;
-       border-top: 5px solid rgba(mat-color($foreground, base), 0.87);
+       border-top: 5px solid rgba(mat.get-color-from-palette($foreground, base), 0.87);
        text-indent: -9999px;
      }
  
      .selected-amml-item,
      .active-amml-item {
-       background: mat-color($background, 'hover');
+       background: mat.get-color-from-palette($background, 'hover');
        & ~ div[class*=" level-"], & ~ div[class^="level-"] {
-         background: mat-color($background, 'hover');
+         background: mat.get-color-from-palette($background, 'hover');
        }
      }
      .menu-caret {

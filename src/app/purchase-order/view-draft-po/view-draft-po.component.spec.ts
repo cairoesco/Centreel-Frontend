@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ViewDraftPoComponent } from './view-draft-po.component';
 
@@ -6,7 +6,7 @@ describe('ViewDraftPoComponent', () => {
   let component: ViewDraftPoComponent;
   let fixture: ComponentFixture<ViewDraftPoComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ViewDraftPoComponent ]
     })

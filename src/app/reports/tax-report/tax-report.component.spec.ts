@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TaxReportComponent } from './tax-report.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -13,7 +13,7 @@ describe('TaxReportComponent', () => {
   let component: TaxReportComponent;
   let fixture: ComponentFixture<TaxReportComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,

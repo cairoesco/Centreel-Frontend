@@ -16,7 +16,7 @@ export class TagComponent implements OnInit {
   public form: FormGroup;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   tags: string[] = [];
-  alltags: string[] = [];
+  alltags: any[] = [];
   newtags: string[] = [];
   isTag:boolean = false;
 
@@ -53,18 +53,14 @@ export class TagComponent implements OnInit {
   }
 
   add(tagval) {
+    
     if (tagval != '') {
-      let value = tagval;
-      if ((value || '').trim()) {
-        if (_.find(this.newtags, function (o) {
-          return o.toLowerCase() == value.toLowerCase();
-        }) == undefined) {
-          this.newtags.push(value.trim());
-        }
-        else {
-          this.utils.showSnackBar("Tag already exists", { panelClass: 'error' });
-        }
-      }
+       const foundTag = this.alltags.find(tag => tag.tag_name == tagval)
+          if(!foundTag){
+            this.newtags.push(tagval.trim());
+          } else {
+            this.utils.showSnackBar("Tag already exists", { panelClass: 'error' });
+          }
     }
   }
 

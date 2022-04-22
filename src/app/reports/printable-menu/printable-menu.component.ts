@@ -83,7 +83,11 @@ export class PrintableMenuComponent implements OnInit {
         .subscribe((response: any) => {
           this.inProgress = false;
           this.rows = response.data;
-          this.dynamicHeight = this.rows.length < 12 ? ((this.rows.length + 2) * 48 + 10) + "px" : '';
+          
+          // this logic handles the dynamic table height for each of the tables
+					for(const payload in response.data){
+						this.dynamicHeight = response.data[payload].length < 12 ? (response.data[payload].length + 2) * 48 + 10 + "px" : "";
+					}
         },
           err => {
             this.inProgress = false;

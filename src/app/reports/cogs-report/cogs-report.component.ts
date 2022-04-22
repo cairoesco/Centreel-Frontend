@@ -105,23 +105,25 @@ export class CogsReportComponent implements OnInit {
   /* onchange event */
 
   /* download pdf */
-  getExportPDF() {
-    this.reportService.exportReport('cogspdf', this.formobj).then(
-      (res: HttpResponse<any>) => {
-        this.reportService.downloadFile(res.body, 'application/pdf', 'Cogs Report '+this.export_date);
-      });
-  }
+  // getExportPDF() {
+  //   this.reportService.exportReport('cogspdf', this.formobj).then(
+  //     (res: HttpResponse<any>) => {
+  //       this.reportService.downloadFile(res.body, 'application/pdf', 'Cogs Report '+this.export_date);
+  //     });
+  // }
   /* download pdf */
 
   /* download CSV */
-  getExportCSV(ext) {
+  getExport(ext) {
     this.formobj.ext = ext;
-    this.reportService.exportReport('cogscsv', this.formobj).then(
+    this.reportService.exportReport('export/cogs', this.formobj).then(
       (res: HttpResponse<any>) => {
         if (ext == 'csv') {
           this.reportService.downloadFile(res.body, 'text/csv', 'Cogs Report '+this.export_date);
         } else if (ext == 'xls') {
           this.reportService.downloadFile(res.body, 'application/vnd.ms-excel', 'Cogs Report '+this.export_date);
+        } else if (ext == 'pdf') {
+          this.reportService.downloadFile(res.body, 'application/pdf', 'Cogs Report '+this.export_date);
         }
       });
   }

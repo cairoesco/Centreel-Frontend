@@ -397,7 +397,7 @@ export class AddCustomerComponent implements OnInit {
       );
   }
   countryFilter(val){
-    console.log(val, 'value from country filter')
+
   }
 
   countryDisplay(country?: any): string | undefined {
@@ -440,7 +440,6 @@ export class AddCustomerComponent implements OnInit {
   }
 
   handleShowExtraCardInfo(evt){
-    console.log(evt, 'evt evt evt evt evt')
     if(evt == 1){
       this.showExtraCardInfo = true;
     } else {

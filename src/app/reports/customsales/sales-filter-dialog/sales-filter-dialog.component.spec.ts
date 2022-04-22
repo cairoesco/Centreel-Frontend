@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SalesFilterDialogComponent } from './sales-filter-dialog.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -13,7 +13,7 @@ describe('SalesFilterDialogComponent', () => {
   let component: SalesFilterDialogComponent;
   let fixture: ComponentFixture<SalesFilterDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports:[
         BrowserAnimationsModule,

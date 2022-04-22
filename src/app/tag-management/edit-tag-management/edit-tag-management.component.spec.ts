@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EditTagManagementComponent } from './edit-tag-management.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -13,7 +13,7 @@ describe('AddUserComponent', () => {
   let component: TagManagementService;
   let fixture: ComponentFixture<TagManagementService>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,

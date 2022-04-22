@@ -11,7 +11,6 @@ import { DiscountFilterDialogComponent } from './discount-filter-dialog/discount
 @NgModule({
     imports: [SharedModule, DiscountRoutingModule],
     declarations: [DiscountComponent, EditDiscountComponent, AddDiscountComponent, DiscountFilterDialogComponent],
-    providers: [DiscountService],
-    entryComponents:[AddDiscountComponent, DiscountFilterDialogComponent]
+    providers: [DiscountService]
 })
 export class DiscountModule { }

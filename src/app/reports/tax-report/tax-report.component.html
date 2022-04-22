@@ -13,9 +13,9 @@
         </span>
       </button>
       <mat-menu #menu="matMenu">
-        <a mat-menu-item (click)="getExportPDF()">PDF</a>
-        <a mat-menu-item (click)="getExportCSV('csv')">CSV</a>
-        <a mat-menu-item (click)="getExportCSV('xls')">EXCEL</a>
+        <a mat-menu-item (click)="getExport('pdf')">PDF</a>
+        <a mat-menu-item (click)="getExport('csv')">CSV</a>
+        <a mat-menu-item (click)="getExport('xls')">EXCEL</a>
       </mat-menu>
       <button mat-button matSuffix mat-stroked-button class="add-new-btn" (click)="reset_form()">
         <mat-icon class="report-header-button">refresh</mat-icon>

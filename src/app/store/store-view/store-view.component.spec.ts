@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { StoreViewComponent } from './store-view.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -14,7 +14,7 @@ describe('StoreViewComponent', () => {
   let component: StoreViewComponent;
   let fixture: ComponentFixture<StoreViewComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports:[
         BrowserAnimationsModule,

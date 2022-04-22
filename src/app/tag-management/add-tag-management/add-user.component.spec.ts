@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import {  AddTagManagementComponent } from './add-tag-management.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -13,7 +13,7 @@ describe('AddUserComponent', () => {
   let component: AddTagManagementComponent;
   let fixture: ComponentFixture<AddTagManagementComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,

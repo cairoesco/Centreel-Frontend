@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PurchaseOrderComponent } from './purchase-order.component';
 import { SharedModule } from '../shared/shared.module';
@@ -13,7 +13,7 @@ describe('PurchaseOrderComponent', () => {
   let component: PurchaseOrderComponent;
   let fixture: ComponentFixture<PurchaseOrderComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports:[
         BrowserAnimationsModule,

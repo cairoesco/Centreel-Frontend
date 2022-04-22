@@ -1,6 +1,14 @@
 import { Injectable } from "@angular/core";
 import { ApiService } from "../api.service";
 
+
+declare global {
+  interface Navigator {
+    msSaveBlob?: (blob: any, defaultName?: string) => boolean;
+    msSaveOrOpenBlob: (blob: Blob) => void;
+  }
+}
+
 @Injectable()
 export class ReportService {
   constructor(private webApi: ApiService) {}
@@ -164,6 +172,10 @@ export class ReportService {
   }
   printableMenu_exportReport(data) {
     return this.webApi.getExportPDF("reports/export/inventoryPrintableMenu?" + data);
+  }
+
+  exportTopsellingReport(data) {
+    return this.webApi.get("reports/topsellings/export", data);
   }
 
   downloadFile(data: any, type, report_name = null) {

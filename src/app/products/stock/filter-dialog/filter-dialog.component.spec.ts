@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { FilterDialogComponent, CategoryFilterPipe } from './filter-dialog.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -14,7 +14,7 @@ describe('FilterDialogComponent', () => {
   let component: FilterDialogComponent;
   let fixture: ComponentFixture<FilterDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,

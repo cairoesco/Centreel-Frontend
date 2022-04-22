@@ -136,35 +136,14 @@ export class EmployeeSalesComponent implements OnInit {
     this.reportService.exportEmployeeSalesReport(url).then(
       (res: HttpResponse<any>) => {
         if (ext == 'csv') {
-          this.reportService.downloadFile(res.body, 'text/csv', 'Orders Report '+this.export_date);
+          this.reportService.downloadFile(res.body, 'text/csv', 'Employee sales report Report '+this.export_date);
         } else if (ext == 'xls') {
-          this.reportService.downloadFile(res.body, 'application/vnd.ms-excel', 'Orders Report '+this.export_date);
+          this.reportService.downloadFile(res.body, 'application/vnd.ms-excel', 'Employee sales report Report '+this.export_date);
         } else if (ext == 'pdf'){
-        this.reportService.downloadFile(res.body, 'application/pdf', 'Orders Report '+this.export_date);
+        this.reportService.downloadFile(res.body, 'application/pdf', 'Employee sales report Report '+this.export_date);
         }
       });
   }
-  // getExportPDF() {
-  //   this.reportService.exportReport("orderslistpdf", this.formobj).then(
-  //     (res: HttpResponse<any>) => {
-  //       this.reportService.downloadFile(res.body, 'application/pdf', 'Orders Report '+this.export_date);
-  //     });
-  // }
-  /* download pdf */
-
-  /* download excel and csv */
-  getExportCSV(ext) {
-    this.formobj.ext = ext;
-    this.reportService.exportReport("orderslistcsv", this.formobj).then(
-      (res: HttpResponse<any>) => {
-        if (ext == 'csv') {
-          this.reportService.downloadFile(res.body, 'text/csv', 'Orders Report '+this.export_date);
-        } else if (ext == 'xls') {
-          this.reportService.downloadFile(res.body, 'application/vnd.ms-excel', 'Orders Report '+this.export_date);
-        }
-      });
-  }
-  /* download excel and csv */
 
   reset_form() {
     this.employeeSalesList.controls['selected'].setValue({ start: moment().format('DD/MM/YYYY'), end: moment().format('DD/MM/YYYY') });

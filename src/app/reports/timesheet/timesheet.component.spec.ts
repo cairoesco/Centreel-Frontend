@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TimesheetComponent } from './timesheet.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -12,7 +12,7 @@ describe('TimesheetComponent', () => {
   let component: TimesheetComponent;
   let fixture: ComponentFixture<TimesheetComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports:[
         BrowserAnimationsModule,

@@ -73,12 +73,13 @@ export class FilterDialogComponent implements OnInit {
       product_category_id: [[]],
       tags: [[]],
       selected: [""],
-      barcode_type: [""],
+      out_of_stock: false,
+      without_barcode: false,
+      without_price: false,
     });
   }
   applyFilter() {
     this.form_obj = this.filterForm.getRawValue();
-    console.log(this.form_obj, "this.form_obj line 67");
     if (
       !(
         this.form_obj.product_category_id &&

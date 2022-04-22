@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ReconcileStockComponent } from './reconcile-stock.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -14,7 +14,7 @@ describe('ReconcileStockComponent', () => {
   let component: ReconcileStockComponent;
   let fixture: ComponentFixture<ReconcileStockComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports:[
         BrowserAnimationsModule,

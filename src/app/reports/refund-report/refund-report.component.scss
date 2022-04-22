@@ -26,7 +26,7 @@
 //   text-align: right;
 // }
 
-// /* from custom sales design*/
+// __<<ngThemingMigrationEscapedComment1>>__
 
 // .customsales-search-input {
 //   box-shadow: 1px 0 13px 0 rgba(0, 0, 0, 0.04) !important;
@@ -80,9 +80,9 @@
 //   //height: 43px;
 // }
 
-// .searchbar-div{
-//   margin-bottom: 15px;
-// }
+.searchbar-div{
+  margin-bottom: 15px;
+}
 
 // .custom-mat-table{
 //   padding-bottom: 0px;
@@ -96,4 +96,11 @@
 }
 .sub-table{
   border: 1px solid #DCDCDC;
+}
+.customsales-search-input {
+  box-shadow: 1px 0 13px 0 rgba(0, 0, 0, 0.04) !important;
+  border-right: 1px solid#e6e6e6;
+  border-radius: 50px 50px 50px 50px;
+  background: white;
+  padding: 10px 10px 10px 10px;
 }

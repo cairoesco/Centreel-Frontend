@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { WasteComponent } from './waste.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -12,7 +12,7 @@ describe('WasteComponent', () => {
   let component: WasteComponent;
   let fixture: ComponentFixture<WasteComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports:[
         BrowserAnimationsModule,
