@@ -1,6 +1,11 @@
 .text-right {
     text-align: right;
-}
-.pointer {
+    color: green;
+    border-bottom: 2px solid black;
     cursor: pointer;
+}
+
+div.text-right:hover {
+    transform: scale(1.1);
+    transition: 0.5s all ease-in-out;
 }
