@@ -1,6 +1,6 @@
 <div class="dialog-pop-up">
 
-    <form [formGroup]="form">
+    <form [formGroup]="emailSettingsForm">
         <div fxLayout="row wrap">
 
             <div class="main-content" fxLayout="row wrap">
@@ -11,16 +11,16 @@
                         <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
                             <div class="mb-1" fxFlex="50%">
                                 <mat-form-field fxFlex="100%">
-                                    <input matInput formControlName="host" placeholder="To*">
+                                    <input matInput formControlName="to" placeholder="To*">
                                 </mat-form-field>
                             </div>
                             <div class="mb-1" fxFlex="50%">
                                 <mat-form-field fxFlex="100%">
-                                    <mat-select placeholder="Message Type *" formControlName="port"
+                                    <mat-select placeholder="Message Type *" formControlName="message_type"
                                         [disableOptionCentering]="true">
-                                        <mat-option>--</mat-option>
-                                        <mat-option *ngFor="let port of portList" [value]="port">
-                                            {{port}}
+                                        <!-- <mat-option>--</mat-option> -->
+                                        <mat-option *ngFor="let type of messageTypeList" [value]="type">
+                                            {{ type }}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
@@ -37,7 +37,7 @@
                         <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
                             <div class="mb-1" fxFlex="100%">
                                 <mat-form-field fxFlex="100%">
-                                    <textarea matInput placeholder="Body" formControlName="description" autocomplete="off"></textarea>
+                                    <textarea matInput placeholder="Body" formControlName="body" autocomplete="off"></textarea>
                                 </mat-form-field>
                             </div>
                         </div>
