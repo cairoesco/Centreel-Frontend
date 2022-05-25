@@ -20,6 +20,7 @@ import { DailyInterimComponent } from "./daily-interim/dailyinterim.component";
 import { BrandSalesComponent } from "./brand-sales/brandsales.component";
 import { MonthlyReportComponent } from "./monthly-report/monthly-report.component";
 import { EmployeeSalesComponent } from "./employee-sales/employee-sales.component";
+import { LowSalesComponent  } from "./low-sales/low-sales.component";
 
 export const ReportsRoutes: Routes = [
   {
@@ -129,6 +130,11 @@ export const ReportsRoutes: Routes = [
         path: "employee-sales",
         component: EmployeeSalesComponent,
         data: { title: "Employee Sales Report" },
+      },
+      {
+        path: "low-sales",
+        component: LowSalesComponent,
+        data: { title: "Low Sales Report" },
       },
     ],
   },
