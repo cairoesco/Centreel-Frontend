@@ -32,6 +32,7 @@ import { DailyInterimComponent } from "./daily-interim/dailyinterim.component";
 import { BrandSalesComponent } from "./brand-sales/brandsales.component";
 import { MonthlyReportComponent } from "./monthly-report/monthly-report.component";
 import { EmployeeSalesComponent  } from "./employee-sales/employee-sales.component";
+import { LowSalesComponent  } from "./low-sales/low-sales.component";
 
 @NgModule({
     imports: [
@@ -71,8 +72,9 @@ import { EmployeeSalesComponent  } from "./employee-sales/employee-sales.compone
         PrintableMenuComponent,
         DailyInterimComponent,
         BrandSalesComponent,
-        EmployeeSalesComponent
+        EmployeeSalesComponent,
+        LowSalesComponent
     ],
-    providers: [ReportService]
+    providers: [ReportService],
 })
 export class ReportsModule {}
