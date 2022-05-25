@@ -41,10 +41,12 @@ export class FilterDialogComponent implements OnInit {
   }
 
   ngOnInit() {
+   
     this.getStores();
     this.getFilterData();
   }
   getFilterData(){
+    console.log(this.data, 'line 44')
     this.reportService.getInventoryFilterData().subscribe((response: any) => {
     this.storageList = [...this.storageList, ...response.data.warehouse];
       if (this.storageList.length > 0) {
