@@ -41,7 +41,6 @@ export class LowSalesComponent implements OnInit {
 			product_type: [""],
 		});
     this.getStores();
-		
     this.onChanges();
   }
 
@@ -89,13 +88,12 @@ export class LowSalesComponent implements OnInit {
       .subscribe((response: any) => {
         this.storeList = response.data.stores;
 				this.productTypeList = [{product_type_slug:'all', product_name: 'All'},{product_type_slug:'cannabis', product_name: 'Cannabis'},{product_type_slug:'non cannabis', product_name: 'Non-Cannabis'}]
-			
+
         if (response.data.stores.length > 0) {
           this.lowsalesForm.patchValue({ store_id: this.storeList[0].store_id });
         }
 				this.lowsalesForm.patchValue({ product_type: 'all' });
       });
-			
   }
 
   getExport(ext) {
