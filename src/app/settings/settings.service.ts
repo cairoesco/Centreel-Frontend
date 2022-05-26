@@ -11,6 +11,10 @@ export class SettingsService {
     storeMailConfiguration(data) {
         return this.webApi.post('mailConfiguration', data)
     }
+    sendEmailConfiguration(data) {
+      
+        return this.webApi.post(`mailConfiguration/sendEmail${data.query}`, data.body.formData)
+    }
     /* tax setting */
     getchainData() {
         return this.webApi.get('chain/settings/create')

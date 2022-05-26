@@ -41,7 +41,6 @@ export class LowSalesComponent implements OnInit {
 			product_type: [""],
 		});
     this.getStores();
-
     this.onChanges();
   }
 
@@ -95,7 +94,6 @@ export class LowSalesComponent implements OnInit {
         }
 				this.lowsalesForm.patchValue({ product_type: 'all' });
       });
-
   }
 
   getExport(ext) {

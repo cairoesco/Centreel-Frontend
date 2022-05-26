@@ -75,6 +75,6 @@ import { LowSalesComponent  } from "./low-sales/low-sales.component";
         EmployeeSalesComponent,
         LowSalesComponent
     ],
-    providers: [ReportService]
+    providers: [ReportService],
 })
 export class ReportsModule {}

@@ -174,7 +174,6 @@ export class ReportService {
   exportLowSalesReport(data) {
     return this.webApi.get(`reports/lowSale/export${data}`);
   }
-  
   exportBrandSalesReport(data) {
     return this.webApi.get(`dashboard/soldProductBrand${data}`);
   }
