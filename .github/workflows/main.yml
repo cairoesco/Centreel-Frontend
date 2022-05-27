@@ -21,7 +21,7 @@ jobs:
         run: npm install && npm run build-prod
       - name: Build Application for staging environment
         if: endsWith(github.ref, '/staging')
-        run: npm install && npm run build-staging
+        run: npm install --legacy-peer-deps && npm run build-staging
       - name: Build Application for development environment
         if: endsWith(github.ref, '/dev')
         run: npm install --legacy-peer-deps && npm run build-dev
