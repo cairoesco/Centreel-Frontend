@@ -24,7 +24,7 @@ jobs:
         run: npm install && npm run build-staging
       - name: Build Application for development environment
         if: endsWith(github.ref, '/dev')
-        run: ng update && npm install && npm run build-dev
+        run: npm install --legacy-peer-deps && npm run build-dev
 
         
       - name: Deploy app build to S3 bucket to prodution
