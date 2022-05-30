@@ -28,10 +28,10 @@
   &.single-selection,
   &.multi-selection {
     .datatable-body-row {
-      &.active,
-      &.active .datatable-row-group {
-        @include _mat-toolbar-color($primary);
-      }
+      // &.active,
+      // &.active .datatable-row-group {
+      //   @include _mat-toolbar-color($primary);
+      // }
 
       &.active:hover,
       &.active:hover .datatable-row-group {
@@ -74,10 +74,10 @@
         background-color: darken(mat-color($background, 'hover'), 2%);;
       }
 
-      &.active,
-      &.active .datatable-row-group {
-        @include _mat-toolbar-color($primary);
-      }
+      // &.active,
+      // &.active .datatable-row-group {
+      //   @include _mat-toolbar-color($primary);
+      // }
 
       &.active:hover,
       &.active:hover .datatable-row-group {
@@ -212,10 +212,10 @@
   &.single-selection,
   &.multi-selection {
     .datatable-body-row {
-      &.active,
-      &.active .datatable-row-group {
-        @include _mat-toolbar-color($dark-primary);
-      }
+      // &.active,
+      // &.active .datatable-row-group {
+      //   @include _mat-toolbar-color($dark-primary);
+      // }
 
       &.active:hover,
       &.active:hover .datatable-row-group {
@@ -255,10 +255,10 @@
         background-color: darken(mat-color($dark-background, 'hover'), 2%);;
       }
 
-      &.active,
-      &.active .datatable-row-group {
-        @include _mat-toolbar-color($dark-primary);
-      }
+      // &.active,
+      // &.active .datatable-row-group {
+      //   @include _mat-toolbar-color($dark-primary);
+      // }
 
       &.active:hover,
       &.active:hover .datatable-row-group {
