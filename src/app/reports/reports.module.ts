@@ -16,7 +16,6 @@ import { CustomsalesComponent } from './customsales/customsales.component';
 import { SalesFilterDialogComponent } from './customsales/sales-filter-dialog/sales-filter-dialog.component';
 import { SaleshareFilterDialogComponent } from './customsales/saleshare-filter-dialog/saleshare-filter-dialog.component';
 import { TaxReportComponent } from './tax-report/tax-report.component';
-import { CogsReportComponent } from './cogs-report/cogs-report.component';
 import { RefundReportComponent } from './refund-report/refund-report.component';
 import { ReportService } from './report.service';
 import { CashoutComponent } from './cashout/cashout.component';
