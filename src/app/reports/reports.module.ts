@@ -52,7 +52,6 @@ import { PrintableMenuComponent } from './printable-menu/printable-menu.componen
         SalesFilterDialogComponent,
         SaleshareFilterDialogComponent,
         TaxReportComponent,
-        CogsReportComponent,
         RefundReportComponent,
         CashoutComponent,
         TimeTrackingComponent,
