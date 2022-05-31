@@ -22,17 +22,17 @@
               "src/favicon.ico"
             ],
             "styles": [
-              {"input":"node_modules/quill/dist/quill.snow.css", "inject": false},
-              {"input":"node_modules/quill/dist/quill.bubble.css", "inject": false},
-              {"input":"node_modules/dragula/dist/dragula.css", "inject": false},
-              {"input":"node_modules/leaflet/dist/leaflet.css", "inject": false},
-              {"input":"node_modules/angular-calendar/scss/angular-calendar.scss", "inject": false},
-              {"input":"node_modules/@swimlane/ngx-datatable/index.css", "inject": false},
-              {"input":"node_modules/@swimlane/ngx-datatable/themes/material.css", "inject": false},
-              {"input":"src/assets/fonts/pe/css/pe-icon-set-weather.css", "inject": false},
-              {"input":"src/assets/fonts/data-table/icons.css", "inject": false},
-              {"input":"src/assets/styles/highlightjs/material-light.css", "inject": false},
-              {"input":"src/assets/styles/app.scss", "inject": false}
+              "node_modules/quill/dist/quill.snow.css", 
+              "node_modules/quill/dist/quill.bubble.css", 
+              "node_modules/dragula/dist/dragula.css", 
+              "node_modules/leaflet/dist/leaflet.css", 
+              "node_modules/angular-calendar/scss/angular-calendar.scss", 
+              "node_modules/@swimlane/ngx-datatable/index.css", 
+              "node_modules/@swimlane/ngx-datatable/themes/material.css", 
+              "src/assets/fonts/pe/css/pe-icon-set-weather.css", 
+              "src/assets/fonts/data-table/icons.css", 
+              "src/assets/styles/highlightjs/material-light.css", 
+              "src/assets/styles/app.scss"
             ],
             "scripts": [
               "node_modules/hammerjs/hammer.min.js",
