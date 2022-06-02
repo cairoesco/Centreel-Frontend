@@ -61,7 +61,7 @@
                   <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
                     [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end" [ranges]="ranges"
                     [formControl]="refundFilterForm.controls['selected']" [minDate]="minDate" [maxDate]="maxDate" [autoApply]="true"
-                    [showCustomRangeLabel]="true" placeholder="Select Dates" [opens]="'left'">
+                    [(ngModel)]="selected" placeholder="Select Dates" [opens]="'left'">
                 </mat-form-field>
               </div>
             </div>
