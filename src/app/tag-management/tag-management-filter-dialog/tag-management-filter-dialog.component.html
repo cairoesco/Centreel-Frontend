@@ -22,7 +22,7 @@
         <mat-form-field fxFlex="100%" class="range-date-input">
           <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
             [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end" [ranges]="ranges"
-            formControlName="selected" [minDate]="minDate" [maxDate]="maxDate" [showCustomRangeLabel]="true"
+            formControlName="selected" [minDate]="minDate" [maxDate]="maxDate" [(ngModel)]="selected"
             placeholder="First Added" [opens]="'left'">
         </mat-form-field>
       </div>
@@ -42,7 +42,7 @@
         <mat-form-field fxFlex="100%" class="range-date-input">
           <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
             [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end" [ranges]="ranges"
-            formControlName="selected_transaction" [minDate]="minDate" [maxDate]="maxDate" [showCustomRangeLabel]="true"
+            formControlName="selected_transaction" [minDate]="minDate" [maxDate]="maxDate" [(ngModel)]="selected"
             placeholder="Last Transacted" [opens]="'left'">
         </mat-form-field>
       </div>
