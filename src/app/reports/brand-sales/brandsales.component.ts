@@ -40,7 +40,7 @@ export class BrandSalesComponent implements OnInit {
 		monthNames: moment.monthsShort(),
 		firstDay: moment.localeData().firstDayOfWeek(),
 	};
-
+	selected: any;
 	alwaysShowCalendars: boolean;
 	ranges: any = {
 		Today: [moment(), moment()],

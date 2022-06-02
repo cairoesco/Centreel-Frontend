@@ -50,7 +50,7 @@
                 <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
                 [alwaysShowCalendars]="true" ngxDaterangepickerMd [alwaysShowCalendars]="true" startKey="start" endKey="end"
                 [ranges]="ranges" [formControl]="cogsForm.controls['selected']" [autoApply]="true" [minDate]="minDate" [maxDate]="maxDate"
-                placeholder="Select Dates" [showCustomRangeLabel]="true" [opens]="'left'">
+                placeholder="Select Dates" [(ngModel)]="selected" [opens]="'left'">
               </mat-form-field>
           </div>
           </div>
