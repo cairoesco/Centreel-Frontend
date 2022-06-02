@@ -83,6 +83,7 @@ export class RefundReportComponent implements OnInit {
       let params = 'search=' + '' + '&from_date=' + this.formobj.from_date + '&to_date=' + this.formobj.to_date + '&store_id=' + this.formobj.store_id
       this.reportService.getRefundReport(params)
       .subscribe((response: any) => {
+        console.log(response, 'line 86')
         this.inProgress = false;
         this.rows = response.data;
         this.temp = this.rows;
