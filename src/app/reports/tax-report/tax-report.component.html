@@ -47,7 +47,7 @@
               <mat-form-field fxFlex="100%" class="range-date-input">
                 <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
                   [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end" [ranges]="ranges"
-                  formControlName="selected" [minDate]="minDate" [maxDate]="maxDate" [showCustomRangeLabel]="true" [autoApply]="true"
+                  formControlName="selected" [minDate]="minDate" [maxDate]="maxDate" [(ngModel)]="selected" [autoApply]="true"
                   placeholder="Select Dates" [opens]="'left'">
               </mat-form-field>
             </div>

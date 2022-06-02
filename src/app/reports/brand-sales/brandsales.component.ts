@@ -41,6 +41,7 @@ export class BrandSalesComponent implements OnInit {
 		firstDay: moment.localeData().firstDayOfWeek(),
 	};
 
+	selected: any;
 	alwaysShowCalendars: boolean;
 	ranges: any = {
 		Today: [moment(), moment()],
