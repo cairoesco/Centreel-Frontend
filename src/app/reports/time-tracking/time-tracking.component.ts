@@ -27,7 +27,7 @@ export class TimeTrackingComponent implements OnInit {
   public export_date = moment().format('MMMDDYYYY');
 
   //datepicker
-  selected: any;
+  selected = { start: moment().format("DD/MM/YYYY"), end: moment().format("DD/MM/YYYY") };
   alwaysShowCalendars: boolean;
   //datepicker
 

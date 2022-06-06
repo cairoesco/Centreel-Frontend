@@ -28,7 +28,7 @@ export class RefundReportComponent implements OnInit {
   public export_date = moment().format('MMMDDYYYY');
 
    //datepicker range
-   selected: any;
+   selected = { start: moment().startOf('month'), end: moment().endOf('month') };
    alwaysShowCalendars: boolean;
    ranges: any = {
      'Today': [moment(), moment()],
@@ -64,10 +64,10 @@ export class RefundReportComponent implements OnInit {
     let TZ = this.utils.getTimeZone(); //timezone
     this.refundFilterForm.valueChanges.subscribe(val => {
     
-      let sdate = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-      let edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+      let sdate = val.selected.start.format('YYYY-MM-DD HH:mm:ss');
+      let edate = val.selected.end.format('YYYY-MM-DD HH:mm:ss');
       if (sdate == edate) {
-        edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
+        edate = val.selected.end.add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
       }
       this.formobj.from_date = this.utils.get_utc_from_to_date(sdate);
       this.formobj.to_date = this.utils.get_utc_from_to_date(edate);

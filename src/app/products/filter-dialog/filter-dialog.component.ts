@@ -38,7 +38,7 @@ export class FilterDialogComponent implements OnInit {
   product_category_id: any;
 
   //datepicker range
-  selected: any;
+  selected = { start: moment().format("DD/MM/YYYY"), end: moment().format("DD/MM/YYYY") };
   alwaysShowCalendars: boolean;
   ranges: any = {
     Today: [moment(), moment()],

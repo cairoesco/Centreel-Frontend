@@ -53,7 +53,7 @@ export class PurchaseOrderComponent implements OnInit {
 
 
   //datepicker range
-  selected: any;
+  selected = { start: moment().format("DD/MM/YYYY"), end: moment().format("DD/MM/YYYY") };
   alwaysShowCalendars: boolean;
   ranges: any = {
     'Today': [moment(), moment()],

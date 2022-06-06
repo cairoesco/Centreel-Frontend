@@ -25,12 +25,13 @@ export class RvcComponent implements OnInit {
   grand_total: number = 0;
   minDate = moment("2018-01-01");
   maxDate = moment();
+  store_id: any = "";
   localconfi: any = { applyLabel: 'ok', separator: ' To ', format: 'DD/MM/YYYY', direction: 'ltr', weekLabel: 'W', cancelLabel: 'Cancel', customRangeLabel: 'Custom range', daysOfWeek: moment.weekdaysMin(), monthNames: moment.monthsShort(), firstDay: moment.localeData().firstDayOfWeek() };
   public dynamicHeight = "";
   public export_date: any;
 
   //datepicker range
-  selected: any;
+  selected = { start: moment().startOf('month'), end: moment().endOf('month')  };
   alwaysShowCalendars: boolean;
   ranges: any = {
     'Today': [moment(), moment()],
@@ -63,20 +64,21 @@ export class RvcComponent implements OnInit {
   onChanges(): void {
     this.inProgress = true;
     this.rvc.valueChanges.subscribe(val => {
-      this.formobj.store_id = val.store_id
-      var sdate = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-      var edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+      this.formobj.store_id = val.store_id || this.store_id
+      var sdate = val.selected.start.format('YYYY-MM-DD HH:mm:ss');
+      var edate = val.selected.end.format('YYYY-MM-DD HH:mm:ss');
       if (sdate == edate) {
-        edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
+        edate = val.selected.end.add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
       }
       this.formobj.from_date = this.utils.get_utc_from_to_date(sdate);
       //this.formobj.end_date = this.utils.get_utc_from_to_date(edate);
       this.formobj.to_date = this.utils.get_utc_from_to_date(edate);
 
-      var display_date = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('DD/MM/YYYY');
-      this.export_date = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('MMMDDYYYY');
+      var display_date = val.selected.start.format('DD/MM/YYYY');
+      this.export_date = val.selected.start.format('MMMDDYYYY');
 
       this.formobj.date = display_date;
+      if(this.formobj.store_id){
       this.reportService.getRVCReport(this.formobj)
         .subscribe((response: any) => {
           this.inProgress = false;
@@ -87,6 +89,7 @@ export class RvcComponent implements OnInit {
             this.inProgress = false;
           }
         );
+    }
     });
   }
   /* onchange event */
@@ -121,6 +124,7 @@ export class RvcComponent implements OnInit {
         this.storeList = response.data.stores;
         if (response.data.stores.length > 0) {
           this.rvc.patchValue({ store_id: this.storeList[0].store_id });
+          this.store_id = this.storeList[0].store_id
         }
       });
   }

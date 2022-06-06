@@ -25,12 +25,14 @@ export class CogsReportComponent implements OnInit {
   public grand_total: number = 0;
   public minDate = moment("2018-01-01");
   public maxDate = moment();
+  public store_id: any = "";
   public localconfi: any = { applyLabel: 'ok', separator: ' To ', format: 'DD/MM/YYYY', direction: 'ltr', weekLabel: 'W', cancelLabel: 'Cancel', customRangeLabel: 'Custom range', daysOfWeek: moment.weekdaysMin(), monthNames: moment.monthsShort(), firstDay: moment.localeData().firstDayOfWeek() };
   public dynamicHeight = "";
   public export_date = moment().format('MMMDDYYYY');
   
   //datepicker
-  public selected: any;
+  public selected = { start: moment().startOf('month'), end: moment().endOf('month') };
+  // public selected = { start: moment().format("DD/MM/YYYY"), end: moment().format("DD/MM/YYYY") };
   public alwaysShowCalendars: boolean;
   public ranges: any = {
     'Today': [moment(), moment()],
@@ -64,30 +66,33 @@ export class CogsReportComponent implements OnInit {
     this.inProgress = true;
     var TZ = this.utility.getTimeZone(); //timezone
     this.cogsForm.valueChanges.subscribe(val => {
-      this.formobj.store_id = val.store_id
+      this.formobj.store_id = val.store_id || this.store_id
       this.formobj.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       this.formobj.tz = encodeURIComponent(TZ);
-      var sdate = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-      var edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+      var sdate = val.selected.start.format('YYYY-MM-DD HH:mm:ss');
+      var edate = val.selected.end.format('YYYY-MM-DD HH:mm:ss');
       this.formobj.startdate = sdate;
       this.formobj.enddate = edate;
       if (sdate == edate) {
-        edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
+        edate = val.selected.end.add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
         this.formobj.enddate = sdate;
       }
       this.formobj.from_date = this.utility.get_utc_from_to_date(sdate);
       //this.formobj.end_date = this.utils.get_utc_from_to_date(edate);
       this.formobj.to_date = this.utility.get_utc_from_to_date(edate);
 
-      var display_date = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('DD/MM/YYYY');
-      this.export_date = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('MMMDDYYYY');
+      var display_date = val.selected.start.format('DD/MM/YYYY');
+      this.export_date = val.selected.start.format('MMMDDYYYY');
 
-      var start_date = moment(sdate).format('YYYY-MM-DD HH:mm:ss');
-      var to_date = moment(edate).format('YYYY-MM-DD HH:mm:ss');
+      var start_date = sdate;
+      var to_date = edate;
+      // var start_date = moment(sdate).format('YYYY-MM-DD HH:mm:ss');
+      // var to_date = moment(edate).format('YYYY-MM-DD HH:mm:ss');
       this.formobj.from_date = this.utility.get_utc_from_to_date(start_date);
       this.formobj.to_date = this.utility.get_utc_from_to_date(to_date);
       
       let params = 'store_id=' + this.formobj.store_id + '&from_date=' + this.formobj.from_date + '&to_date=' + this.formobj.to_date + '&tz=' + encodeURIComponent(TZ) + '&timezone=' + this.formobj.timezone;
+      if(this.formobj.store_id){
       this.reportService.getCogsReport(params)
         .subscribe((response: any) => {
           this.inProgress = false;
@@ -98,7 +103,7 @@ export class CogsReportComponent implements OnInit {
             this.inProgress = false;
           }
         );
-      
+        }
 
     });
   }
@@ -136,6 +141,7 @@ export class CogsReportComponent implements OnInit {
         this.storeList = response.data.stores;
         if (response.data.stores.length > 0) {
           this.cogsForm.patchValue({ store_id: this.storeList[0].store_id });
+          this.store_id = this.storeList[0].store_id
         }
       });
   }

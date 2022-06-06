@@ -34,13 +34,14 @@ export class EmployeeSalesComponent implements OnInit {
   grand_total: number = 0;
   minDate = moment("2018-01-01");
   maxDate = moment();
+  store_id: any = "";
   localconfi: any = { applyLabel: 'ok', separator: ' To ', format: 'DD/MM/YYYY', direction: 'ltr', weekLabel: 'W', cancelLabel: 'Cancel', customRangeLabel: 'Custom range', daysOfWeek: moment.weekdaysMin(), monthNames: moment.monthsShort(), firstDay: moment.localeData().firstDayOfWeek() };
   public timeout: any;
   public dynamicHeight = "";
   public export_date = moment().format('MMMDDYYYY');
 
   //datepicker range
-  selected: any;
+  selected = { start: moment().startOf('month'), end: moment().endOf('month') };
   alwaysShowCalendars: boolean;
   ranges: any = {
     'Today': [moment(), moment()],
@@ -79,6 +80,7 @@ export class EmployeeSalesComponent implements OnInit {
         this.storeList = response.data.stores;
         if (this.storeList.length > 0) {
           this.employeeSalesList.patchValue({ store_id: this.storeList[0].store_id });
+          this.store_id = this.storeList[0].store_id
         }
       });
   }
@@ -88,12 +90,12 @@ export class EmployeeSalesComponent implements OnInit {
     this.inProgress = true;
     var TZ = this.utils.getTimeZone(); //timezone
     this.employeeSalesList.valueChanges.subscribe(val => {
-      this.formobj.store_id = val.store_id
+      this.formobj.store_id = val.store_id || this.store_id
       this.formobj.tz = encodeURIComponent(TZ);
-      var sdate = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-      var edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+      var sdate = val.selected.start.format('YYYY-MM-DD HH:mm:ss');
+      var edate = val.selected.end.format('YYYY-MM-DD HH:mm:ss');
       if (sdate == edate) {
-        edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
+        edate = val.selected.end.add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
       }
       this.formobj.start_date = this.utils.get_utc_from_to_date(sdate);
       this.formobj.end_date = this.utils.get_utc_from_to_date(edate);
@@ -110,10 +112,9 @@ export class EmployeeSalesComponent implements OnInit {
       //   delete this.formobj.order_pub_id;
       // }
        
-      
+      if(this.formobj.store_id){
       this.reportService.getEmployeeSalesReport(payload)
         .subscribe((response: any) => {
-          console.log(response, 'response response response')
           this.inProgress = false;
           if (Object.keys(response.data).length > 0) {
             this.rows = response.data
@@ -126,6 +127,7 @@ export class EmployeeSalesComponent implements OnInit {
             this.inProgress = false;
           }
         );
+      }
     });
   }
   /* onchange event */
