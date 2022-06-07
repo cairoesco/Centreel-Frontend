@@ -31,7 +31,7 @@ export class TaxReportComponent implements OnInit {
   public export_date = moment().format('MMMDDYYYY');
   @ViewChild('myTable') table: any;
   //datepicker
-  public selected = { start: moment().startOf('month'), end: moment().endOf('month') };
+  public selected = { start: moment().startOf('month'), end: moment()};
   public alwaysShowCalendars: boolean;
   public ranges: any = {
     'Today': [moment(), moment()],
@@ -42,6 +42,7 @@ export class TaxReportComponent implements OnInit {
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
   //datepicker
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
 
   constructor(private formBuilder: FormBuilder,
     public reportService: ReportService,

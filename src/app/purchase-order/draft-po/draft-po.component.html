@@ -59,7 +59,7 @@
                                 <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
                                           [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end" [ranges]="ranges"
                                           formControlName="selected" [minDate]="minDate" [maxDate]="maxDate" [autoApply]="true"
-                                          [(ngModel)]="selected" placeholder="Select Dates" [opens]="'left'">
+                                          [(ngModel)]="selected" [isInvalidDate]="isInvalidDate" placeholder="Select Dates" [opens]="'left'">
                                 <button *ngIf="dateChecked" mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="clear_date_filter()">
                                     <mat-icon>close</mat-icon>
                                 </button>

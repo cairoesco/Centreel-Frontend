@@ -63,17 +63,19 @@ export class OrdersComponent implements OnInit {
 	readonly rowHeight = 50;
 
 	//datepicker range
-	selected = { start: moment().startOf('month'), end: moment().endOf('month') };
+	selected = { start: moment().startOf('month'), end: moment() };
 	alwaysShowCalendars: boolean;
 	ranges: any = {
 		Today: [moment(), moment()],
 		Yesterday: [moment().subtract(1, "days"), moment().subtract(1, "days")],
 		"Last 7 Days": [moment().subtract(6, "days"), moment()],
 		"Last 30 Days": [moment().subtract(29, "days"), moment()],
-		"This Month": [moment().startOf("month"), moment().endOf("month")],
+		"This Month": [moment().startOf("month"), moment()],
 		"Last Month": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")],
 	};
-	//datepicker range
+	
+	isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
+
 
 	constructor(
 		private router: Router,

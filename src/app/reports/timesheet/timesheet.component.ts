@@ -29,10 +29,11 @@ export class TimesheetComponent implements OnInit {
   public export_date = moment().format('MMMDDYYYY');
   public store_id: any = "";
   //datepicker
-  selected = { start: moment().startOf('month'), end: moment().endOf('month') };
+  selected = { start: moment().startOf('month'), end: moment()};
   alwaysShowCalendars: boolean;
   //datepicker
-
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
+  
   constructor(private router: Router,
     public reportService: ReportService,
     private formBuilder: FormBuilder,
