@@ -136,7 +136,9 @@ export class OrdersComponent implements OnInit {
 				delete this.formobj.order_pub_id;
 			}
 			this.rows = [];
-			this.fetchOrderlist();
+			if(this.formobj.store_id){
+				this.fetchOrderlist();
+			}
 
 		});
 	}
