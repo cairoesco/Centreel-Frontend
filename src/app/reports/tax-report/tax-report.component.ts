@@ -31,7 +31,7 @@ export class TaxReportComponent implements OnInit {
   public export_date = moment().format('MMMDDYYYY');
   @ViewChild('myTable') table: any;
   //datepicker
-  public selected: any;
+  public selected = { start: moment().startOf('month'), end: moment().endOf('month') };
   public alwaysShowCalendars: boolean;
   public ranges: any = {
     'Today': [moment(), moment()],
@@ -66,13 +66,13 @@ export class TaxReportComponent implements OnInit {
     this.inProgress = true;
     this.taxForm.valueChanges.subscribe(val => {
       this.formobj.store_ids = JSON.stringify(val.store_ids);
-      var sdate = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-      var edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+      var sdate = val.selected.start.format('YYYY-MM-DD HH:mm:ss');
+      var edate = val.selected.end.format('YYYY-MM-DD HH:mm:ss');
       if (sdate == edate) {
-        edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
+        edate = val.selected.end.add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
       }
-      var start_date = moment(sdate).format('YYYY-MM-DD HH:mm:ss');
-      var to_date = moment(edate).format('YYYY-MM-DD HH:mm:ss');
+      var start_date = sdate;
+      var to_date = edate;
       this.formobj.from_date = this.utility.get_utc_from_to_date(start_date);
       this.formobj.to_date = this.utility.get_utc_from_to_date(to_date);
       if (val.store_ids && val.store_ids.length > 0) {

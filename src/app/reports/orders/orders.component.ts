@@ -57,12 +57,13 @@ export class OrdersComponent implements OnInit {
 	public sum_total_count: number;
 	public render_on_new_state: boolean = false;
   public fetchNext: boolean = false;
+	public store_id: any = "";
 	readonly headerHeight = 50;
 	readonly footerHeight = 50;
 	readonly rowHeight = 50;
 
 	//datepicker range
-	selected: any;
+	selected = { start: moment().startOf('month'), end: moment().endOf('month') };
 	alwaysShowCalendars: boolean;
 	ranges: any = {
 		Today: [moment(), moment()],
@@ -105,6 +106,7 @@ export class OrdersComponent implements OnInit {
 			this.storeList = response.data.stores;
 			if (this.storeList.length > 0) {
 				this.orderlist.patchValue({ store_id: this.storeList[0].store_id });
+				this.store_id = this.storeList[0].store_id
 			}
 		});
 	}
@@ -114,12 +116,12 @@ export class OrdersComponent implements OnInit {
 		this.inProgress = true;
 		var TZ = this.utils.getTimeZone(); //timezone
 		this.orderlist.valueChanges.pipe(debounceTime(500)).subscribe((val) => {
-			this.formobj.store_id = val.store_id;
+			this.formobj.store_id = val.store_id || this.store_id;
 			this.formobj.tz = encodeURIComponent(TZ);
-			var sdate = moment(val.selected.start, "DD/MM/YYYY HH:mm:ss").format("YYYY-MM-DD HH:mm:ss");
-			var edate = moment(val.selected.end, "DD/MM/YYYY HH:mm:ss").format("YYYY-MM-DD HH:mm:ss");
+			var sdate = val.selected.start.format("YYYY-MM-DD HH:mm:ss");
+			var edate = val.selected.end.format("YYYY-MM-DD HH:mm:ss");
 			if (sdate == edate) {
-				edate = moment(val.selected.end, "DD/MM/YYYY HH:mm:ss").add(1, "day").format("YYYY-MM-DD HH:mm:ss");
+				edate = val.selected.end.add(1, "day").format("YYYY-MM-DD HH:mm:ss");
 			}
 			this.formobj.start_date = this.utils.get_utc_from_to_date(sdate);
 			this.formobj.end_date = this.utils.get_utc_from_to_date(edate);

@@ -42,7 +42,9 @@ export class MonthlyReportComponent implements OnInit {
 		firstDay: moment.localeData().firstDayOfWeek(),
 	};
 
-  selected: any;
+
+	selected = { start: moment().startOf('month'), end: moment().endOf('month') };
+
 	alwaysShowCalendars: boolean;
 	ranges: any = {
 		Today: [moment(), moment()],
@@ -76,11 +78,11 @@ export class MonthlyReportComponent implements OnInit {
 	onChanges(): void {
 		this.inProgress = true;
 		this.monthlyReportForm.valueChanges.subscribe((val) => {
-			let sdate = moment(val.selected.start, "DD/MM/YYYY HH:mm:ss").format("YYYY-MM-DD HH:mm:ss");
-			let edate = moment(val.selected.end, "DD/MM/YYYY HH:mm:ss").format("YYYY-MM-DD HH:mm:ss");
+			let sdate = val.selected.start.format("YYYY-MM-DD HH:mm:ss");
+			let edate = val.selected.end.format("YYYY-MM-DD HH:mm:ss");
 
-			let start_date = moment(sdate).format("YYYY-MM-DD HH:mm:ss");
-			let to_date = moment(edate).format("YYYY-MM-DD HH:mm:ss");
+			let start_date = sdate;
+			let to_date = edate;
 			this.formobj.from_date = this.utils.get_utc_from_to_date(start_date);
 			this.formobj.to_date = this.utils.get_utc_from_to_date(to_date);
 
