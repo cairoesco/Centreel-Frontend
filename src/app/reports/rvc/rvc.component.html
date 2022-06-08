@@ -49,7 +49,7 @@
                                 <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
                                     [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end"
                                     [ranges]="ranges" [formControl]="rvc.controls['selected']" [minDate]="minDate"
-                                    [maxDate]="maxDate" [autoApply]="true" [(ngModel)]="selected"
+                                    [maxDate]="maxDate" [autoApply]="true" [(ngModel)]="selected" [isInvalidDate]="isInvalidDate"
                                     placeholder="Select Dates" [opens]="'left'">
                             </mat-form-field>
                         </div>

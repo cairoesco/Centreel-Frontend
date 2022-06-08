@@ -23,12 +23,13 @@ export class WasteComponent implements OnInit {
   formobj: any = new Object();
   minDate = moment("2018-01-01");
   maxDate = moment();
+  storage_id: any = "";
   localconfi: any = { applyLabel: 'ok', separator: ' To ', format: 'DD/MM/YYYY', direction: 'ltr', weekLabel: 'W', cancelLabel: 'Cancel', customRangeLabel: 'Custom range', daysOfWeek: moment.weekdaysMin(), monthNames: moment.monthsShort(), firstDay: moment.localeData().firstDayOfWeek() };
   public dynamicHeight = "";
   public export_date = moment().format('MMMDDYYYY');
 
   //datepicker range
-  selected: any;
+  selected = { start: moment().startOf('month'), end: moment()};
   alwaysShowCalendars: boolean;
   ranges: any = {
     'Today': [moment(), moment()],
@@ -39,7 +40,8 @@ export class WasteComponent implements OnInit {
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
   //datepicker range
-
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
+  
   constructor(private router: Router,
     private formBuilder: FormBuilder,
     public reportService: ReportService,
@@ -62,16 +64,19 @@ export class WasteComponent implements OnInit {
   onChanges(): void {
     this.inProgress = true;
     this.waste.valueChanges.subscribe(val => {
-      this.formobj.storage_id = val.storage_id;
+      this.formobj.storage_id = val.storage_id || this.storage_id;
       this.formobj.type = val.waste_type;
-      var sdate = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-      var edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+
+      var sdate = val.selected.start.format('YYYY-MM-DD HH:mm:ss');
+      var edate = val.selected.end.format('YYYY-MM-DD HH:mm:ss');
       if (sdate == edate) {
-        edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
+        edate = val.selected.end.add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
       }
+
       this.formobj.from_date = this.utils.get_utc_from_to_date(sdate);
       this.formobj.to_date = this.utils.get_utc_from_to_date(edate);
       
+      if(this.formobj.storage_id){
       this.reportService.getWasteReport(this.formobj)
         .subscribe((response: any) => {
           this.inProgress = false;
@@ -82,6 +87,7 @@ export class WasteComponent implements OnInit {
             this.inProgress = false;
           }
         );
+        }
     });
   }
   /* onchange event */
@@ -95,6 +101,7 @@ export class WasteComponent implements OnInit {
         /* filter only store front data */
         if (response.data.length > 0) {
           this.waste.patchValue({ storage_id: this.warehouse[0].storage_id });
+          this.storage_id = this.warehouse[0].storage_id
         }
       });
   }

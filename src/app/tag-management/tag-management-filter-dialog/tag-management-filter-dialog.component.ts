@@ -20,7 +20,7 @@ export class TagManagementFilterDialogComponent implements OnInit {
   public maxDate = moment();
   public localconfi: any = { applyLabel: 'ok', separator: ' To ', format: 'DD/MM/YYYY', direction: 'ltr', weekLabel: 'W', cancelLabel: 'Cancel', customRangeLabel: 'Custom range', daysOfWeek: moment.weekdaysMin(), monthNames: moment.monthsShort(), firstDay: moment.localeData().firstDayOfWeek() };
   //datepicker
-  public selected: any;
+  public selected = { start: moment().format("DD/MM/YYYY"), end: moment().format("DD/MM/YYYY") };
   public alwaysShowCalendars: boolean;
   public ranges: any = {
     'Today': [moment(), moment()],
@@ -31,6 +31,8 @@ export class TagManagementFilterDialogComponent implements OnInit {
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
   //datepicker
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
+  
   constructor(public dialogRef: MatDialogRef<TagManagementFilterDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router: Router,

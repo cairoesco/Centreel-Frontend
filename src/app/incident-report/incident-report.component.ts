@@ -33,7 +33,7 @@ export class IncidentReportComponent implements OnInit {
 
 
   //datepicker range
-  selected: any;
+  selected = { start: moment().format("DD/MM/YYYY"), end: moment().format("DD/MM/YYYY") };
   alwaysShowCalendars: boolean;
   ranges: any = {
     'Today': [moment(), moment()],
@@ -44,6 +44,7 @@ export class IncidentReportComponent implements OnInit {
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
   //datepicker range
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
 
   constructor(
     private formBuilder: FormBuilder,

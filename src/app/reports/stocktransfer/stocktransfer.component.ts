@@ -31,20 +31,23 @@ export class StocktransferComponent implements OnInit {
   sourceStorage = [];
   destinationStorage = [];
   public export_date = moment().format('MMMDDYYYY');
+	public from = moment().format("YYYY-MM-DD");
+	public to = moment().format("YYYY-MM-DD");
 
   //datepicker range
-  selected: any;
+  selected = { start: moment().startOf('month'), end: moment()};
   alwaysShowCalendars: boolean;
   ranges: any = {
-    'Today': [moment(), moment()],
-    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+    Today: [moment(), moment()],
+    Yesterday: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
     'Last 7 Days': [moment().subtract(6, 'days'), moment()],
     'Last 30 Days': [moment().subtract(29, 'days'), moment()],
     'This Month': [moment().startOf('month'), moment().endOf('month')],
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
   //datepicker range
-
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
+  
   constructor(private router: Router,
     public reportService: ReportService,
     private formBuilder: FormBuilder,
@@ -114,8 +117,9 @@ export class StocktransferComponent implements OnInit {
   onChanges() {
     this.inProgress = true;
     this.transfer.valueChanges.subscribe(val => {
-      var sdate = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-      var edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+  
+      var sdate = moment(val.selected.start).format('YYYY-MM-DD HH:mm:ss');
+      var edate = moment(val.selected.end).format('YYYY-MM-DD HH:mm:ss');
       if (sdate == edate) {
         edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
       }

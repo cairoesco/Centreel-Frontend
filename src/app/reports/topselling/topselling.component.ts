@@ -25,12 +25,13 @@ export class TopsellingComponent implements OnInit {
   formobj: any = new Object();
   minDate = moment("2018-01-01");
   maxDate = moment();
+  storage_id: any = "";
   localconfi: any = { applyLabel: 'ok', separator: ' To ', format: 'DD/MM/YYYY', direction: 'ltr', weekLabel: 'W', cancelLabel: 'Cancel', customRangeLabel: 'Custom range', daysOfWeek: moment.weekdaysMin(), monthNames: moment.monthsShort(), firstDay: moment.localeData().firstDayOfWeek() };
   public dynamicHeight = "";
   public export_date = moment().format('MMMDDYYYY');
 
   //datepicker range
-  selected: any;
+  selected = { start: moment().format("DD/MM/YYYY"), end: moment().format("DD/MM/YYYY") };
   alwaysShowCalendars: boolean;
   ranges: any = {
     'Today': [moment(), moment()],
@@ -41,7 +42,8 @@ export class TopsellingComponent implements OnInit {
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
   //datepicker range
-
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
+  
   constructor(private router: Router,
     public reportService: ReportService,
     private formBuilder: FormBuilder,
@@ -66,7 +68,7 @@ export class TopsellingComponent implements OnInit {
   onChanges(): void {
     this.inProgress = true;
     this.topSelling.valueChanges.subscribe(val => {
-      this.formobj.storage_id = val.storage_id
+      this.formobj.storage_id = val.storage_id || this.storage_id
       var sdate = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
       var edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
       if(sdate == edate){
@@ -85,6 +87,7 @@ export class TopsellingComponent implements OnInit {
       } else {
         delete this.formobj.product_category_id;
       }
+      if(this.formobj.storage_id){
       this.reportService.getTopsellingReport(this.formobj)
         .subscribe((response: any) => {
           this.inProgress = false;
@@ -95,6 +98,7 @@ export class TopsellingComponent implements OnInit {
             this.inProgress = false;
           }
         );
+      }
     });
   }
   /* get product types */
@@ -113,6 +117,7 @@ export class TopsellingComponent implements OnInit {
         /* filter only store front data */
         if (response.data.length > 0) {
           this.topSelling.patchValue({ storage_id: this.warehouse[0].storage_id });
+          this.storage_id = this.warehouse[0].storage_id
         }
       });
   }

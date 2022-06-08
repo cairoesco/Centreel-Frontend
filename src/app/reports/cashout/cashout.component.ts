@@ -28,7 +28,7 @@ export class CashoutComponent implements OnInit {
   LoginUser: any;
 
   //datepicker
-  selected: any;
+  selected = { start: moment().format("DD/MM/YYYY"), end: moment().format("DD/MM/YYYY") };
   alwaysShowCalendars: boolean;
   //datepicker
 
