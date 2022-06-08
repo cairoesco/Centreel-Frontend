@@ -40,10 +40,10 @@ export class ReconsileInventoryComponent implements OnInit {
   localconfi: any = { applyLabel: 'ok', separator: ' To ', format: 'DD/MM/YYYY', direction: 'ltr', weekLabel: 'W', cancelLabel: 'Cancel', customRangeLabel: 'Custom range', daysOfWeek: moment.weekdaysMin(), monthNames: moment.monthsShort(), firstDay: moment.localeData().firstDayOfWeek() };
 
   //datepicker
-  selected: any;
+  selected = {  start: moment().startOf('month'), end: moment() };
   alwaysShowCalendars: boolean;
   //datepicker
-
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
   private hotRegisterer = new HotTableRegisterer();
   id = 'hotInstance';
 

@@ -47,7 +47,7 @@
                         <div fxFlex="50%">
                             <mat-form-field fxFlex="100%" class="range-date-input">
                                 <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
-                                    [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end"
+                                    [alwaysShowCalendars]="true" ngxDaterangepickerMd [(ngModel)]="selected" [isInvalidDate]="isInvalidDate" startKey="start" endKey="end"
                                     [ranges]="ranges" [formControl]="rvc.controls['selected']" [minDate]="minDate"
                                     [maxDate]="maxDate" [autoApply]="true" [showCustomRangeLabel]="true"
                                     placeholder="Select Dates" [opens]="'left'">
@@ -56,7 +56,9 @@
                         <!-- <div fxFlex="50%">
                             <mat-form-field fxFlex="100%" class="range-date-input">
                                 <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
-                                    [alwaysShowCalendars]="true" ngxDaterangepickerMd [singleDatePicker]="true"
+                                    [alwaysShowCalendars]="true" ngxDaterangepickerMd
+[(ngModel)]="selected"
+[isInvalidDate]="isInvalidDate" [singleDatePicker]="true"
                                     startKey="start" endKey="end" [formControl]="rvc.controls['selected']"
                                     [autoApply]="true" [minDate]="minDate" [maxDate]="maxDate"
                                     placeholder="Select Dates">

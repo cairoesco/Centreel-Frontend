@@ -33,7 +33,7 @@ export class IncidentReportComponent implements OnInit {
 
 
   //datepicker range
-  selected: any;
+  selected = {  start: moment().startOf('month'), end: moment() };
   alwaysShowCalendars: boolean;
   ranges: any = {
     'Today': [moment(), moment()],
@@ -44,7 +44,7 @@ export class IncidentReportComponent implements OnInit {
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
   //datepicker range
-
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
   constructor(
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
@@ -80,15 +80,15 @@ export class IncidentReportComponent implements OnInit {
         }
       });
   }
-
+  
   /* onchange event */
   onChanges(): void {
     this.inProgress = true;
     this.incidentList.valueChanges.subscribe(val => {
-      var sdate = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-      var edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+     var sdate = val.selected.start.format('YYYY-MM-DD HH:mm:ss');
+      var edate = val.selected.end.format('YYYY-MM-DD HH:mm:ss');
       if (sdate == edate) {
-        edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
+        edate = val.selected.end.add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
       }
       this.formobj.from_date = this.utils.get_utc_from_to_date(sdate);
       this.formobj.to_date = this.utils.get_utc_from_to_date(edate);

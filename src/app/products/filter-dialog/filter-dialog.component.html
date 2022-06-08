@@ -36,7 +36,7 @@
 
       <mat-form-field class="range-date-input daterange_width">
         <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
-          [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end" [ranges]="ranges"
+          [alwaysShowCalendars]="true" ngxDaterangepickerMd [(ngModel)]="selected" [isInvalidDate]="isInvalidDate" startKey="start" endKey="end" [ranges]="ranges"
           formControlName="selected" [minDate]="minDate" [maxDate]="maxDate" [autoApply]="true"
           [showCustomRangeLabel]="true" placeholder="Interacted recently" [opens]="'left'">
       </mat-form-field>
