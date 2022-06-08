@@ -40,7 +40,7 @@ export class BrandSalesComponent implements OnInit {
 		monthNames: moment.monthsShort(),
 		firstDay: moment.localeData().firstDayOfWeek(),
 	};
-	selected = {  start: moment().startOf('month'), end: moment().endOf('month') };
+	selected = {  start: moment().startOf('month'), end: moment() };
 	alwaysShowCalendars: boolean;
 	ranges: any = {
 		Today: [moment(), moment()],
@@ -51,6 +51,7 @@ export class BrandSalesComponent implements OnInit {
 		"Last Month": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")],
 	};
 
+	isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
 	constructor(
 		public reportService: ReportService,
 		private formBuilder: FormBuilder,

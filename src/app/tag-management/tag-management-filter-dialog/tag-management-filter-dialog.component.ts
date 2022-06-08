@@ -31,6 +31,8 @@ export class TagManagementFilterDialogComponent implements OnInit {
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
   //datepicker
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
+  
   constructor(public dialogRef: MatDialogRef<TagManagementFilterDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router: Router,

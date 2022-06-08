@@ -41,7 +41,7 @@ export class EmployeeSalesComponent implements OnInit {
   public export_date = moment().format('MMMDDYYYY');
 
   //datepicker range
-  selected = { start: moment().startOf('month'), end: moment().endOf('month') };
+  selected = { start: moment().startOf('month'), end: moment()};
   alwaysShowCalendars: boolean;
   ranges: any = {
     'Today': [moment(), moment()],
@@ -52,7 +52,8 @@ export class EmployeeSalesComponent implements OnInit {
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
   //datepicker range
-
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
+  
   constructor(private router: Router,
     public reportService: ReportService,
     private formBuilder: FormBuilder,

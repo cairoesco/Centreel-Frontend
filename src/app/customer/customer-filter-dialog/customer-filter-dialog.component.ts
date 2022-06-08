@@ -33,7 +33,7 @@ export class CustomerFilterDialogComponent implements OnInit {
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
   public queues_array: any  = []; 
-  
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment());
    
   //datepicker
   constructor(public dialogRef: MatDialogRef<CustomerFilterDialogComponent>,

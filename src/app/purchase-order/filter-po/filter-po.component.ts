@@ -36,6 +36,7 @@ export class FilterPoComponent implements OnInit {
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
   //datepicker range
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
 
   constructor(private api: PurchaseOrderService, public dialogRef: MatDialogRef<FilterPoComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public fb: FormBuilder, private utils: UtilsServiceService) {
     this.alwaysShowCalendars = true;

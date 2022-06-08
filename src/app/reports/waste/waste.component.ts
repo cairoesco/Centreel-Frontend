@@ -29,7 +29,7 @@ export class WasteComponent implements OnInit {
   public export_date = moment().format('MMMDDYYYY');
 
   //datepicker range
-  selected = { start: moment().startOf('month'), end: moment().endOf('month') };
+  selected = { start: moment().startOf('month'), end: moment()};
   alwaysShowCalendars: boolean;
   ranges: any = {
     'Today': [moment(), moment()],
@@ -40,7 +40,8 @@ export class WasteComponent implements OnInit {
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
   //datepicker range
-
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
+  
   constructor(private router: Router,
     private formBuilder: FormBuilder,
     public reportService: ReportService,

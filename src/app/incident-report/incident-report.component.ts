@@ -44,6 +44,7 @@ export class IncidentReportComponent implements OnInit {
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
   //datepicker range
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
 
   constructor(
     private formBuilder: FormBuilder,

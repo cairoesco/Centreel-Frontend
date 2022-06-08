@@ -31,7 +31,7 @@ export class CogsReportComponent implements OnInit {
   public export_date = moment().format('MMMDDYYYY');
   
   //datepicker
-  public selected = { start: moment().startOf('month'), end: moment().endOf('month') };
+  public selected = { start: moment().startOf('month'), end: moment()};
   // public selected = { start: moment().format("DD/MM/YYYY"), end: moment().format("DD/MM/YYYY") };
   public alwaysShowCalendars: boolean;
   public ranges: any = {
@@ -43,6 +43,7 @@ export class CogsReportComponent implements OnInit {
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
   //datepicker
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
 
   constructor(
     private formBuilder: FormBuilder,
