@@ -63,7 +63,7 @@
                         <div fxFlex="38%">
                             <mat-form-field fxFlex="100%" class="range-date-input">
                                 <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
-                                    [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end"
+                                    [alwaysShowCalendars]="true" ngxDaterangepickerMd [(ngModel)]="selected" [isInvalidDate]="isInvalidDate" startKey="start" endKey="end"
                                     [ranges]="ranges" [formControl]="topSelling.controls['selected']" [minDate]="minDate"
                                     [maxDate]="maxDate" [showCustomRangeLabel]="true" placeholder="Select Dates" [autoApply]="true"
                                     [opens]="'left'">

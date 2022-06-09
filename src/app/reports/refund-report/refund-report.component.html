@@ -60,7 +60,7 @@
               <div  fxFlex="50%">
                 <mat-form-field fxFlex="100%" class="range-date-input">
                   <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
-                    [alwaysShowCalendars]="true" ngxDaterangepickerMd startKey="start" endKey="end" [ranges]="ranges"
+                    [alwaysShowCalendars]="true" ngxDaterangepickerMd [(ngModel)]="selected" [isInvalidDate]="isInvalidDate" startKey="start" endKey="end" [ranges]="ranges"
                     [formControl]="refundFilterForm.controls['selected']" [minDate]="minDate" [maxDate]="maxDate" [autoApply]="true"
                     [showCustomRangeLabel]="true" placeholder="Select Dates" [opens]="'left'">
                 </mat-form-field>
@@ -84,13 +84,13 @@
 
           <ngx-datatable-column [resizeable]="false" prop="purchase_price" name="Purchase Price " [width]="135">
             <ng-template  ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-              <span  title="{{value}}"> ${{value.toFixed(2)}}</span>
+              <span  title="{{value}}"> ${{value}}</span>
             </ng-template>
           </ngx-datatable-column>
 
           <ngx-datatable-column [resizeable]="false" prop="purchase_price_lot" name="Purchase Price Lot" [width]="150">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-              <span title="{{value}}"> ${{value.toFixed(2)}}</span>
+              <span title="{{value}}"> ${{value}}</span>
             </ng-template>
           </ngx-datatable-column>
 

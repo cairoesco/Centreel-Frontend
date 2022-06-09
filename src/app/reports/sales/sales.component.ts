@@ -31,8 +31,10 @@ export class SalesComponent implements OnInit {
   public dynamicHeight = "";
   public export_date = moment().format('MMMDDYYYY');
 
+  public storage_id: any = "";
+
   //datepicker range
-  selected: any;
+  selected = {  start: moment().startOf('month'), end: moment() };
   alwaysShowCalendars: boolean;
   ranges: any = {
     'Today': [moment(), moment()],
@@ -43,6 +45,7 @@ export class SalesComponent implements OnInit {
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
   //datepicker range
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
 
   constructor(private router: Router,
     public reportService: ReportService,
@@ -69,15 +72,16 @@ export class SalesComponent implements OnInit {
   onChanges(): void {
     this.inProgress = true;
     this.saleType.valueChanges.subscribe(val => {
-      this.formobj.storage_id = val.storage_id
-      var sdate = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-      var edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+      this.formobj.storage_id = val.storage_id || this.storage_id
+     var sdate = val.selected.start.format('YYYY-MM-DD HH:mm:ss');
+      var edate = val.selected.end.format('YYYY-MM-DD HH:mm:ss');
       if (sdate == edate) {
-        edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
+        edate = val.selected.end.add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
       }
       this.formobj.from_date = this.utils.get_utc_from_to_date(sdate);
       this.formobj.to_date = this.utils.get_utc_from_to_date(edate);
       
+      if(this.formobj.storage_id){
       this.reportService.getSalesReport(this.formobj)
         .subscribe((response: any) => {
           this.inProgress = false;
@@ -92,6 +96,7 @@ export class SalesComponent implements OnInit {
             this.inProgress = false;
           }
         );
+      }
     });
   }
   /* onchange event */
@@ -135,6 +140,7 @@ export class SalesComponent implements OnInit {
         /* filter only store front data */
         if (response.data.length > 0) {
           this.saleType.patchValue({ storage_id: this.warehouse[0].storage_id });
+          this.storage_id = this.warehouse[0].storage_id
         }
       });
   }

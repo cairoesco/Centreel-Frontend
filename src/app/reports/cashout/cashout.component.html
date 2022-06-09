@@ -44,7 +44,7 @@
                       <div fxFlex="50%">
                           <mat-form-field fxFlex="100%" class="range-date-input">
                               <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
-                                  [alwaysShowCalendars]="true" ngxDaterangepickerMd [singleDatePicker]="true"
+                                  [alwaysShowCalendars]="true" ngxDaterangepickerMd [(ngModel)]="selected" [isInvalidDate]="isInvalidDate" [singleDatePicker]="true"
                                   startKey="start" endKey="end" [formControl]="cashout.controls['selected']" [autoApply]="true"
                                   [minDate]="minDate" [maxDate]="maxDate" placeholder="Select Dates">
                           </mat-form-field>

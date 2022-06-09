@@ -38,9 +38,9 @@ export class OrdersComponent implements OnInit {
   public timeout: any;
   public dynamicHeight = "";
   public export_date = moment().format('MMMDDYYYY');
-
+  public store_id: any = "";
   //datepicker range
-  selected: any;
+  selected = {  start: moment().startOf('month'), end: moment() };
   alwaysShowCalendars: boolean;
   ranges: any = {
     'Today': [moment(), moment()],
@@ -51,7 +51,8 @@ export class OrdersComponent implements OnInit {
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
   //datepicker range
-
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
+  
   constructor(private router: Router,
     public reportService: ReportService,
     private formBuilder: FormBuilder,
@@ -79,6 +80,7 @@ export class OrdersComponent implements OnInit {
         this.storeList = response.data.stores;
         if (this.storeList.length > 0) {
           this.orderlist.patchValue({ store_id: this.storeList[0].store_id });
+          this.store_id = this.storeList[0].store_id
         }
       });
   }
@@ -88,13 +90,13 @@ export class OrdersComponent implements OnInit {
     this.inProgress = true;
     var TZ = this.utils.getTimeZone(); //timezone
     this.orderlist.valueChanges.subscribe(val => {
-      console.log({ val }, 'line 91')
-      this.formobj.store_id = val.store_id
+  
+      this.formobj.store_id = val.store_id || this.store_id;
       this.formobj.tz = encodeURIComponent(TZ);
-      var sdate = moment(val.selected.start, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-      var edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+     var sdate = val.selected.start.format('YYYY-MM-DD HH:mm:ss');
+      var edate = val.selected.end.format('YYYY-MM-DD HH:mm:ss');
       if (sdate == edate) {
-        edate = moment(val.selected.end, 'DD/MM/YYYY HH:mm:ss').add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
+        edate = val.selected.end.add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
       }
       this.formobj.start_date = this.utils.get_utc_from_to_date(sdate);
       this.formobj.end_date = this.utils.get_utc_from_to_date(edate);
@@ -111,6 +113,7 @@ export class OrdersComponent implements OnInit {
         delete this.formobj.order_pub_id;
       }
 
+      if(this.formobj.store_id){
       this.reportService.getOrdersReport(this.formobj)
         .subscribe((response: any) => {
           this.inProgress = false;
@@ -125,6 +128,7 @@ export class OrdersComponent implements OnInit {
             this.inProgress = false;
           }
         );
+      }
     });
   }
   /* onchange event */

@@ -33,7 +33,7 @@
         <div fxFlex="15%" fxFlex.md="15%" fxFlex.lg="15%" fxFlex.sm="15%" fxFlex.xs="100%" class="selcet-filter">
           <mat-form-field class="header-chain-select-block range-date-input">
             <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
-              [alwaysShowCalendars]="true" ngxDaterangepickerMd [singleDatePicker]="true" startKey="start" endKey="end"
+              [alwaysShowCalendars]="true" ngxDaterangepickerMd [(ngModel)]="selected" [isInvalidDate]="isInvalidDate" [singleDatePicker]="true" startKey="start" endKey="end"
               [opens]="'left'" [formControl]="inventory_reconcile.controls['selected']" [autoApply]="true"
               [minDate]="minDate" [maxDate]="maxDate">
           </mat-form-field>

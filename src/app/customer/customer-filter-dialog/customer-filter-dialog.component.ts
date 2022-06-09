@@ -22,7 +22,7 @@ export class CustomerFilterDialogComponent implements OnInit {
   public maxDate = moment();
   public localconfi: any = { applyLabel: 'ok', separator: ' To ', format: 'DD/MM/YYYY', direction: 'ltr', weekLabel: 'W', cancelLabel: 'Cancel', customRangeLabel: 'Custom range', daysOfWeek: moment.weekdaysMin(), monthNames: moment.monthsShort(), firstDay: moment.localeData().firstDayOfWeek() };
   //datepicker
-  public selected: any;
+  selected = {  start: moment().startOf('month'), end: moment() };
   public alwaysShowCalendars: boolean;
   public ranges: any = {
     'Today': [moment(), moment()],
@@ -33,6 +33,7 @@ export class CustomerFilterDialogComponent implements OnInit {
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
   //datepicker
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
   constructor(public dialogRef: MatDialogRef<CustomerFilterDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router: Router,
@@ -90,21 +91,21 @@ export class CustomerFilterDialogComponent implements OnInit {
   applyFilter() {
 
     if (this.form.controls.selected.value.start)
-      var sdate = moment(this.form.controls.selected.value.start, 'DD/MM/YYYY').format('YYYY-MM-DD');
+      var sdate = this.form.controls.selected.value.start.format('YYYY-MM-DD');
     if (this.form.controls.selected.value.end)
-      var edate = moment(this.form.controls.selected.value.end, 'DD/MM/YYYY').format('YYYY-MM-DD');
+      var edate = this.form.controls.selected.value.end.format('YYYY-MM-DD');
     if (sdate == edate) {
       if (this.form.controls.selected.value.end)
-        edate = moment(this.form.controls.selected.value.end, 'DD/MM/YYYY').add(1, 'day').format('YYYY-MM-DD');
+        edate = this.form.controls.selected.value.end.add(1, 'day').format('YYYY-MM-DD');
     }
 
     if (this.form.controls.selected_transaction.value.start)
-      var transaction_start_date = moment(this.form.controls.selected_transaction.value.start, 'DD/MM/YYYY').format('YYYY-MM-DD');
+      var transaction_start_date = this.form.controls.selected_transaction.value.start.format('YYYY-MM-DD');
     if (this.form.controls.selected_transaction.value.end)
-      var transaction_end_date = moment(this.form.controls.selected_transaction.value.end, 'DD/MM/YYYY').format('YYYY-MM-DD');
+      var transaction_end_date = this.form.controls.selected_transaction.value.end.format('YYYY-MM-DD');
     if (transaction_start_date == transaction_end_date) {
       if (this.form.controls.selected_transaction.value.end)
-        transaction_end_date = moment(this.form.controls.selected_transaction.value.end, 'DD/MM/YYYY').add(1, 'day').format('YYYY-MM-DD');
+        transaction_end_date = this.form.controls.selected_transaction.value.end.add(1, 'day').format('YYYY-MM-DD');
     }
     this.form.controls.start_txn_date.setValue(transaction_start_date);
     this.form.controls.end_txn_date.setValue(transaction_end_date);

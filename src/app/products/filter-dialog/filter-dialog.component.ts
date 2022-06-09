@@ -26,7 +26,7 @@ export class FilterDialogComponent implements OnInit {
   product_category_id: any;
 
    //datepicker range
-   selected: any;
+   selected = {  start: moment().startOf('month'), end: moment() };
    alwaysShowCalendars: boolean;
    ranges: any = {
      'Today': [moment(), moment()],
@@ -37,6 +37,7 @@ export class FilterDialogComponent implements OnInit {
      'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
    }
    //datepicker range
+   isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
   constructor(private api: ApiService, public dialogRef: MatDialogRef<FilterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public fb: FormBuilder) {
 
   }

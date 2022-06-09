@@ -21,6 +21,7 @@ export class DraftPoComponent implements OnInit {
   public dynamicHeight = "";
   public inProgress: boolean = false;
 
+  
   constructor(public dialog: MatDialog, private router: Router, private api: PurchaseOrderService, public utils: UtilsServiceService,private el: ElementRef,public fb: FormBuilder) { }
 
   readonly headerHeight = 50;
@@ -43,7 +44,7 @@ export class DraftPoComponent implements OnInit {
 
 
   //datepicker range
-  selected: any;
+  selected = {  start: moment().startOf('month'), end: moment() };
   alwaysShowCalendars: boolean;
   ranges: any = {
     'Today': [moment(), moment()],
@@ -54,7 +55,7 @@ export class DraftPoComponent implements OnInit {
     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
   }
   //datepicker range
-
+  isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
   //new
 
   /* po list */
