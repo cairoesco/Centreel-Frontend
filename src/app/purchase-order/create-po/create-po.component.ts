@@ -109,6 +109,9 @@ export class CreatePoComponent implements OnInit {
 
   public tempWarehouse: any = {};
 
+  public temp_thc: any = "";
+  public temp_cbd: any = "";
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -706,7 +709,6 @@ export class CreatePoComponent implements OnInit {
       let total = this.purchaseForm.get("total").value;
       let tax_rate = this.purchaseForm.get("taxrate_id").value;
       if (tax_rate) {
-        console.log(this.taxrateValue);
         this.current_taxrate1(this.taxrateValue);
       }
 
@@ -1119,7 +1121,7 @@ export class CreatePoComponent implements OnInit {
           : 0,
         Validators.required,
       ],
-      special_price: [response_data.special_price],
+      special_price: [response_data.special_price ?? 0],
       is_received: [false],
       product_desc: [data.product_desc],
       // storage_id: [this.warehouse[0].storage_id],
@@ -1307,6 +1309,15 @@ export class CreatePoComponent implements OnInit {
     const thc = mainControl.at(index).get("thc");
     const cbd = mainControl.at(index).get("cbd");
 
+    if(thc.value){
+      this.temp_thc = thc.value;
+    }
+    
+    if(cbd.value){
+     this.temp_cbd = cbd.value;
+     }
+
+
     if (batchControl.value) {
       rControl.setValue(true);
     } else {
@@ -1347,13 +1358,24 @@ export class CreatePoComponent implements OnInit {
             .getBatchDetails(variant_id, this.variantObj)
             .subscribe((response: any) => {
               if (response.success) {
+               if(response.data.thc){
                 thc.setValue(response.data.thc);
+               } else {
+                thc.setValue(this.temp_thc);
+               }
+                
+               if(response.data.cbd){
                 cbd.setValue(response.data.cbd);
+                } else {
+                  cbd.setValue(this.temp_cbd);
+                }
               }
             });
         } else {
-          thc.setValue("");
-          cbd.setValue("");
+          thc.setValue(this.temp_thc);
+          cbd.setValue(this.temp_cbd);
+          // thc.setValue("");
+          // cbd.setValue("");
         }
       }
     } else {
