@@ -62,7 +62,7 @@
                     <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3%">
                       <div fxFlex="31%">
                         <mat-form-field fxFlex="100%">
-                          <input matInput placeholder="PO Number*"
+                          <input matInput placeholder="PO Number"
                             [formControl]="purchaseForm.controls['purchase_order_no']" [readonly]="isImported"
                             autocomplete="off">
                           <mat-error *ngIf="purchaseForm.controls['purchase_order_no'].hasError('required')">Please
@@ -76,7 +76,7 @@
                         <mat-form-field fxFlex="100%">
                           <input matInput [matDatepicker]="picker" [readonly]="isImported" (focus)="picker.open()"
                             [max]="maxDate" [min]="minDate" [readonly]="true" (click)="picker.open()"
-                            placeholder="Invoice Date*" [formControl]="purchaseForm.controls['invoice_date']">
+                            placeholder="Invoice Date" [formControl]="purchaseForm.controls['invoice_date']">
                           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                           <mat-datepicker #picker></mat-datepicker>
                           <mat-error *ngIf="purchaseForm.controls['invoice_date'].hasError('required')">Please enter
@@ -153,7 +153,7 @@
                     <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
                       <div fxFlex="15%">
                         <mat-form-field fxFlex="100%" class="input-align">
-                          <input matInput placeholder="Sum of Purchase Price($)*" type="text" currencyMask
+                          <input matInput placeholder="Sum of Purchase Price($)" type="text" currencyMask
                             [options]="options" [readonly]="true" maxlength='15'
                             [formControl]="purchaseForm.controls['total']" autocomplete="off">
                           <mat-error *ngIf="purchaseForm.controls['total'].hasError('required')">Please enter total
