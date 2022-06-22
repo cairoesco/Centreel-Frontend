@@ -114,8 +114,9 @@ export class InventoryAuditComponent implements OnInit {
   /* download CSV */
 
   reset_form() {
-    // this.reconcile.controls['store_id'].reset();
-    // this.reconcile.controls['product_type'].reset();
+   
+    this.reconcile.controls['product_type'].setValue('cannabis');
+
   }
 
   /* new code */

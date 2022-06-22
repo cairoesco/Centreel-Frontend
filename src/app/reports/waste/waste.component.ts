@@ -128,7 +128,7 @@ export class WasteComponent implements OnInit {
   /* download CSV */
 
   reset_form() {
-    this.waste.controls['selected'].setValue({ start: moment().format('DD/MM/YYYY'), end: moment().format('DD/MM/YYYY') });
+    this.waste.controls['selected'].setValue({ start: moment().startOf('month'), end: moment() });
     this.waste.controls['waste_type'].setValue('ALL');
   }
 }

@@ -30,7 +30,7 @@ export class RvcComponent implements OnInit {
   public export_date: any;
   public store_id: any = "";
   //datepicker range
-  selected = {  start: moment().startOf('month'), end: moment() };
+  selected = {  start: moment(), end: moment().subtract(1, 'days') };
   alwaysShowCalendars: boolean;
   ranges: any = {
     'Today': [moment(), moment()],
@@ -130,6 +130,6 @@ export class RvcComponent implements OnInit {
   }
 
   reset_form() {
-    this.rvc.patchValue({ selected: { start: moment().format('DD/MM/YYYY'), end: moment().format('DD/MM/YYYY') } });
+    this.rvc.patchValue({selected : {  start: moment(), end: moment().subtract(1, 'days') }  });
   }
 }

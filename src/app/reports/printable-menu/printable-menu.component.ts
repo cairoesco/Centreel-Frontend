@@ -124,6 +124,7 @@ export class PrintableMenuComponent implements OnInit {
 
   reset_form() {
     this.printablemenu.controls['sort'].reset();
+    this.printablemenu.controls['product_type'].setValue('cannabis')
     // this.reconcile.controls['product_type'].reset();
   }
 
