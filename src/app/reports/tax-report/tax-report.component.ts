@@ -152,7 +152,7 @@ export class TaxReportComponent implements OnInit {
       });
   }
   reset_form() {
-    this.taxForm.controls['selected'].setValue({ start: moment().format('DD/MM/YYYY'), end: moment().format('DD/MM/YYYY') });
+    this.taxForm.controls['selected'].setValue({ start: moment().startOf('month'), end: moment() });
     this.taxForm.controls['store_ids'].setValue(this.store_ids);
   }
 

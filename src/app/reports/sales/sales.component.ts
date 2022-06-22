@@ -147,7 +147,7 @@ export class SalesComponent implements OnInit {
   /* warehouse dropdown */
 
   reset_form() {
-    this.saleType.controls['selected'].setValue({ start: moment().format('DD/MM/YYYY'), end: moment().format('DD/MM/YYYY') });
+    this.saleType.controls['selected'].setValue({ start: moment().startOf('month'), end: moment() });
   }
 }
 
