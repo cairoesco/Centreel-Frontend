@@ -12,9 +12,6 @@ declare global {
 export class ReportService {
     constructor(private webApi: ApiService) { }
 
-    getCogsReport(data) {
-        return this.webApi.get("reports/cogs?" + data);
-    }
     getTaxReport(data) {
         return this.webApi.get('reports/taxes', data)
     }
