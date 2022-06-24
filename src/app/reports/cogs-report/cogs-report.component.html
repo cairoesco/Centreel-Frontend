@@ -1,0 +1,166 @@
+<mat-card class="header-main-content">
+  <div fxLayout="row">
+    <div fxFlex="25%" fxFlex.md="40%" fxFlex.sm="40%" fxFlex.lg="30%" class="breadcrumb-content">
+    </div>
+    <div fxFlex="50%" fxFlex.md="20%" fxFlex.sm="20%" class="breadcrumb-header-content center">
+      Cogs Report
+    </div>
+    <div fxFlex="25%" fxFlex.md="40%" fxFlex.sm="40%" fxFlex.lg="30%" class="breadcrumb-btn-content end">
+      <button mat-button matSuffix mat-stroked-button class="add-new-btn" [matMenuTriggerFor]="menu" type="button">
+        <mat-icon class="report-header-button">get_app</mat-icon>
+        <span>
+          <a class="add-new-label">EXPORT</a>
+        </span>
+      </button>
+      <mat-menu #menu="matMenu">
+        <a mat-menu-item (click)="getExport('pdf')">PDF</a>
+        <a mat-menu-item (click)="getExport('csv')">CSV</a>
+        <a mat-menu-item (click)="getExport('xls')">EXCEL</a>
+      </mat-menu>
+      <button mat-button matSuffix mat-stroked-button class="add-new-btn" (click)="reset_form()">
+        <mat-icon class="report-header-button">refresh</mat-icon>
+        <span>
+          <a class="add-new-label">RESET</a>
+        </span>
+      </button>
+    </div>
+  </div>
+</mat-card>
+
+
+
+<mat-progress-bar mode="indeterminate" *ngIf="inProgress"></mat-progress-bar>
+<div class="top-20 report-inner-height">
+  <div fxFlex="96%" fxFlexOffset="2%">
+    <mat-card class="box-shadow report-filter-bar">
+      <div _ngcontent-c41="" class="button-row">
+        <form [formGroup]="cogsForm">
+          <div class="" fxLayout="row" fxLayoutGap="1%" fxLayoutAlign="left">
+            <div fxFlex="50%">
+              <mat-form-field fxFlex="100%">
+                <mat-select [formControl]="cogsForm.controls['store_id']" placeholder="Store"
+                    [disableOptionCentering]="true">
+                    <mat-option *ngFor="let wh of storeList" [value]="wh.store_id">{{ wh.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            </div>
+            <div fxFlex="50%">
+              <mat-form-field fxFlex="100%" class="range-date-input">
+                <input type="text" autocomplete="off" readonly="true" matInput [locale]="localconfi"
+                [alwaysShowCalendars]="true" ngxDaterangepickerMd [alwaysShowCalendars]="true" startKey="start" endKey="end"
+                [ranges]="ranges" [formControl]="cogsForm.controls['selected']" [autoApply]="true" [minDate]="minDate" [maxDate]="maxDate"
+                placeholder="Select Dates" [(ngModel)]="selected"  [isInvalidDate]="isInvalidDate" [opens]="'left'">
+              </mat-form-field>
+          </div>
+          </div>
+        </form>
+      </div>
+    </mat-card>
+
+
+    <mat-card class="box-shadow order-report-listing report-listing" *ngIf="rows.length > 0">
+      <ngx-datatable #myDatatable class="material expandable order-list-table"
+                [ngStyle]="{'height':dynamicHeight}" [headerHeight]="50" [limit]="10" [columnMode]="'flex'"
+                [footerHeight]="50" [rowHeight]="48" [scrollbarV]="true" [rows]="rows" 
+                >
+
+                                              
+                                <ngx-datatable-column [resizeable]="false" prop="print_menu_description" name="Product Name"
+                                    [flexGrow]="1.5">
+                                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                        let-row="row">
+                                        <span title="{{value}}"> {{value}}</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column [resizeable]="false" prop="product_category_name" name="Category"
+                                    [flexGrow]="1">
+                                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                        let-row="row">
+                                        <span title="{{value}}"> {{value}}</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                        
+                                <ngx-datatable-column [resizeable]="false" prop="total_transaction" name="TOTAL TRANSACTIONS" [flexGrow]="1.8">
+                                  <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                      let-row="row">
+                                      <span title="{{value}}"> {{value | number :'1.0-0'}}</span>
+                                  </ng-template>
+                              </ngx-datatable-column>
+
+                              <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="total_sold_qty" name="AMOUNT SOLD (G UNIT)"
+                                    [flexGrow]="1.8">
+                                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                        let-row="row">
+                                        <span title="{{value}}"> {{value | currency}}</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+
+                              <ngx-datatable-column [resizeable]="false" prop="total_purchase_amount" name="COST OF GOODS SOLD"
+                                    [flexGrow]="1.8">
+                                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                        let-row="row">
+                                        <span title="{{value}}"> {{value | currency}}</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+
+                              <ngx-datatable-column [resizeable]="false" [sortable]="false" prop="margin" name="GROSS PROFIT"
+                                    [flexGrow]="1.2">
+                                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                        let-row="row">
+                                        <span title="{{value}}"> {{value | currency}}</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+
+                              <ngx-datatable-column [resizeable]="false"  prop="margin_percentage" name="GROSS PROFIT(%)"
+                                    [flexGrow]="1.5">
+                                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                        let-row="row">
+                                        <span title="{{value}}"> {{value | number :'1.2-2'}}%</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+
+                              <ngx-datatable-column [resizeable]="false" [sortable]="false"  prop="avg_selling_price" name="AVERAGE SALE PRICE"
+                              let grandtotal="grand_total"  [flexGrow]="1.7">
+                                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                        let-row="row">
+                                        <span title="{{value}}"> {{value | currency}}</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+
+                              <ngx-datatable-column [resizeable]="false" [sortable]="false"  prop="avg_purchase_price" name="PRICE PER (G UNIT)"
+                                [flexGrow]="1.5">
+                                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
+                                        let-row="row">
+                                        <span title="{{value}}"> {{value | currency}}</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                    
+                             
+                               
+
+              </ngx-datatable>
+    </mat-card>
+
+    <div fxLayout="column" *ngIf="rows.length==0 && !inProgress" class="report-error-msg">
+      <div class="center">
+        <div>
+          <img src="../../assets/images/sad.svg" class="sad" alt="No Data Found">
+        </div>
+        <div>
+          <span class="Sorry-no-results-fo">Sorry, no results found</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
