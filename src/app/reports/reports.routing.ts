@@ -8,7 +8,6 @@ import { TimesheetComponent } from './timesheet/timesheet.component';
 import { StocktransferComponent } from './stocktransfer/stocktransfer.component';
 import { CustomsalesComponent } from './customsales/customsales.component';
 import { TaxReportComponent } from './tax-report/tax-report.component';
-import { CogsReportComponent } from "./cogs-report/cogs-report.component";
 import { RefundReportComponent } from './refund-report/refund-report.component';
 import { CashoutComponent } from './cashout/cashout.component';
 import { TimeTrackingComponent } from './time-tracking/time-tracking.component';
@@ -30,11 +29,6 @@ export const ReportsRoutes: Routes = [
                 path: 'closeout',
                 component: RvcComponent,
                 data: { title: 'Closeout Report' }
-            },
-            {
-                path: "cogsreport",
-                component: CogsReportComponent,
-                data: { title: "Cogs Report" },
             },
             {
                 path: 'inventory',
