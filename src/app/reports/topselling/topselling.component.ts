@@ -159,7 +159,7 @@ export class TopsellingComponent implements OnInit {
   }
 
   reset_form() {
-    this.topSelling.controls['selected'].setValue({start: moment().format('DD/MM/YYYY'), end: moment().format('DD/MM/YYYY')});
+    this.topSelling.controls['selected'].setValue({start: moment().startOf('month'), end: moment()});
     this.topSelling.controls['product_type_id'].reset();
     this.topSelling.controls['product_category_id'].reset();
   }

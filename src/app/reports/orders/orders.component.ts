@@ -63,7 +63,7 @@ export class OrdersComponent implements OnInit {
 	readonly rowHeight = 50;
 
 	//datepicker range
-	selected = { start: moment().startOf('month'), end: moment() };
+	selected = { start: moment(), end: moment().subtract(1, 'days') };
 	alwaysShowCalendars: boolean;
 	ranges: any = {
 		Today: [moment(), moment()],
@@ -208,8 +208,9 @@ export class OrdersComponent implements OnInit {
 	/* download excel and csv */
 
 	reset_form() {
-		this.orderlist.controls["selected"].setValue({ start: moment().format("DD/MM/YYYY"), end: moment().format("DD/MM/YYYY") });
+		this.orderlist.controls["selected"].setValue({ start: moment(), end: moment() });
 		this.orderlist.controls["customer_name"].reset();
+		this.orderlist.controls['selected'].setValue({start: moment(), end: moment().subtract(1, 'days')  });
 		this.orderlist.controls["order_id"].reset();
 		if (this.storeList.length > 0) {
 			this.orderlist.patchValue({ store_id: this.storeList[0].store_id });
