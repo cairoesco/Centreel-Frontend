@@ -27,5 +27,5 @@
   "include": [
     "./src",
     "node_modules/ng-feedback"
-  ]
+, "products.module.ts"  ]
 }
