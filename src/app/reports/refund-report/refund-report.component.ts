@@ -198,7 +198,7 @@ export class RefundReportComponent implements OnInit {
   }
 
   reset_form() {
-    this.refundFilterForm.controls['selected'].setValue({ start: moment().format('DD/MM/YYYY'), end: moment().format('DD/MM/YYYY') });
+    this.refundFilterForm.controls['selected'].setValue({ start: moment().startOf('month'), end: moment() });
   }
 
 
