@@ -16,6 +16,9 @@ import { InventoryOnHandComponent } from './inventory-on-hand/inventory-on-hand.
 import { ReconcileHistoryComponent } from './reconcile-history/reconcile-history.component';
 import { InventoryAuditComponent } from './inventory-audit/inventory-audit.component';
 import { PrintableMenuComponent } from './printable-menu/printable-menu.component';
+import { BrandSalesComponent } from "./brand-sales/brandsales.component";
+import { EmployeeSalesComponent } from "./employee-sales/employee-sales.component";
+import { LowSalesComponent  } from "./low-sales/low-sales.component";
 
 export const ReportsRoutes: Routes = [
     {
@@ -30,6 +33,11 @@ export const ReportsRoutes: Routes = [
                 path: 'closeout',
                 component: RvcComponent,
                 data: { title: 'Closeout Report' }
+            },
+            {
+               path: "brandsales",
+               component: BrandSalesComponent,
+               data: { title: "Brand Sales Report" },
             },
             {
                 path: "cogsreport",
@@ -105,6 +113,17 @@ export const ReportsRoutes: Routes = [
                 path: 'printable-menu',
                 component: PrintableMenuComponent,
                 data: { title: 'Printable Menu Report' }
-            }]
+            },
+            {
+               path: "employee-sales",
+               component: EmployeeSalesComponent,
+               data: { title: "Employee Sales Report" },
+            },
+            {
+              path: "low-sales",
+              component: LowSalesComponent,
+              data: { title: "Low Sales Report" },
+            },
+        ]
     }
 ];
