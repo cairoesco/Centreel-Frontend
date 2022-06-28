@@ -49,7 +49,7 @@
           [disableOptionCentering]="true"
         >
           <mat-option *ngFor="let tag of alltags" [value]="tag">
-            {{ tag }}
+            {{ tag.tag_name }}
           </mat-option>
         </mat-select>
       </mat-form-field>
