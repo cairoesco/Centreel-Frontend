@@ -139,8 +139,32 @@ export class ReportService {
     getPrintableMenuReport(data){
         return this.webApi.get('reports/inventoryPrintableMenu?'+data)
     }
+    getBrandSalesReport(data) {
+        return this.webApi.get(`dashboard/soldProductBrand/Index${data}`);
+    }
+    getLowSalesReport(data) {
+
+        let tz = new Date().toTimeString().slice(9).substring(3, 8);
+        tz = `${tz.slice(0, 3)}:${tz.substring(3, 5)}` 
+        return this.webApi.get(`reports/lowSale/index?time_zone=${tz}${data}`);
+      }
+    
+      exportLowSalesReport(data) {
+        return this.webApi.get(`reports/lowSale/export${data}`);
+      }
+
     printableMenu_exportReport(data) {
         return this.webApi.getExportPDF('reports/export/inventoryPrintableMenu?' +data)
+    }
+    getEmployeeSalesReport(data) {
+       return this.webApi.get("reports/employeeSales?" + data);
+    }
+
+    exportBrandSalesReport(data) {
+        return this.webApi.get(`dashboard/soldProductBrand${data}`);
+    }
+    exportEmployeeSalesReport(url) {
+        return this.webApi.getExportPDF("reports/" + url,);
     }
 
     downloadFile(data: any, type, report_name = null) {

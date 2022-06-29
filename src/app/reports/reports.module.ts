@@ -26,7 +26,9 @@ import { FilterDialogComponent } from './inventory-on-hand/filter-dialog/filter-
 import { ReconcileHistoryComponent } from './reconcile-history/reconcile-history.component';
 import { InventoryAuditComponent } from './inventory-audit/inventory-audit.component';
 import { PrintableMenuComponent } from './printable-menu/printable-menu.component';
-
+import { BrandSalesComponent } from "./brand-sales/brandsales.component";
+import { EmployeeSalesComponent  } from "./employee-sales/employee-sales.component";
+import { LowSalesComponent  } from "./low-sales/low-sales.component";
 
 @NgModule({
     imports: [
@@ -61,7 +63,10 @@ import { PrintableMenuComponent } from './printable-menu/printable-menu.componen
         FilterDialogComponent,
         ReconcileHistoryComponent,
         InventoryAuditComponent,
-        PrintableMenuComponent
+        PrintableMenuComponent,
+        BrandSalesComponent,
+        EmployeeSalesComponent,
+        LowSalesComponent
     ],
     providers: [ReportService
     ],

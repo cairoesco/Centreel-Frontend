@@ -120,9 +120,12 @@ const MENUITEMS = [
     method: 'sales',
     children: [
       // { state: 'cashout', name: 'Cash Out', module: 'reports', method: 'sales' },
+      { state: 'brandsales', name: 'Brand sales', module: 'reports', method: 'sales' },
       { state: 'closeout', name: 'Closeout', module: 'reports', method: 'sales' },
-      { state: 'customsales', name: 'Custom sales', module: 'reports', method: 'sales' },
       { state: 'cogsreport', name: 'Cogs Report', module: 'reports', method: 'sales' },
+      { state: 'customsales', name: 'Custom sales', module: 'reports', method: 'sales' },
+      { state: 'employee-sales', name: 'Employee Sales', module: 'reports', method: 'sales' },
+      { state: 'low-sales', name: 'Low Sales', module: 'reports', method: 'sales' },
       // { state: 'monthly-report', name: 'Monthly Report', module: 'reports', method: 'sales' },
       { state: 'inventory', name: 'Inventory Report', module: 'reports', method: 'sales' },
       { state: 'inventory-audit', name: 'Inventory Audit Report', module: 'reports', method: 'sales' },
