@@ -150,7 +150,9 @@ export class ReportService {
       }
     
       exportLowSalesReport(data) {
-        return this.webApi.get(`reports/lowSale/export${data}`);
+        let tz = new Date().toTimeString().slice(9).substring(3, 8);
+        tz = `${tz.slice(0, 3)}:${tz.substring(3, 5)}` 
+        return this.webApi.get(`reports/lowSale/export${data}&time_zone=${tz}`);
       }
 
     printableMenu_exportReport(data) {

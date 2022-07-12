@@ -97,7 +97,7 @@ export class LowSalesComponent implements OnInit {
   }
 
   getExport(ext) {
-		let url = `store_id=${this.store_id}`;
+		let url = `?store_id=${this.store_id}&ext=${ext}`;
 		if (this.product_type && this.product_type !== 'all') url = `${url}?product_type=${this.product_type}`;
 		if (this.variant_sku) url = `${url}&variant_sku=${this.variant_sku}`;
 		this.reportService.exportLowSalesReport(url).subscribe((response: any) => {

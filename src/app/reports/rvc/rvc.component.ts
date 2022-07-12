@@ -86,7 +86,7 @@ export class RvcComponent implements OnInit {
           this.dynamicHeight = this.rows.length < 12 ? ((this.rows.length + 2) * 48 + 10) + "px" : '';
         },
           err => {
-            this.inProgress = false;
+            this.inProgress = false;      
           }
         );
       }

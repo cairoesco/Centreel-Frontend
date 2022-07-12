@@ -22,5 +22,5 @@ export class CustomerService {
     getCustomerPreferredProductList(id) {
         return this.webApi.get('patients/'+id+'/product')
     }
-
+ 
 }
