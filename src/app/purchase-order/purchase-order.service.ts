@@ -79,6 +79,8 @@ export class PurchaseOrderService {
         return this.webApi.post('purchaseReceive/checkValidation', data);
     }
     /* check po num exist or not */
+    
+    /* check po num exist or not */
     /* get thc cbd data */
     getBatchDetails(vid, param) {
         return this.webApi.get('variantBatch/'+vid,param)

@@ -62,14 +62,18 @@
                     <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3%">
                       <div fxFlex="31%">
                         <mat-form-field fxFlex="100%">
-                          <input matInput placeholder="PO Number*"
+                          <input matInput placeholder="PO Number*"  (input)="validate"
                             [formControl]="purchaseForm.controls['purchase_order_no']" [readonly]="isImported"
                             autocomplete="off">
                           <mat-error *ngIf="purchaseForm.controls['purchase_order_no'].hasError('required')">Please
                             enter PO number for reference</mat-error>
-                          <mat-error *ngIf="purchaseForm.controls['purchase_order_no'].errors?.asyncValidation">The
+                          
+                          <mat-error *ngIf="purchaseForm.controls['purchase_order_no'].errors?.asyncValidation || purchaseForm.controls['purchase_order_no']  || this.purchase_order_no_error">The
                             purchase order no has already been taken</mat-error>
-                          <!-- <span class="mat-text-warn" *ngIf="isPOnumber">The purchase order no has already been taken.</span> -->
+                           
+                          <!-- <mat-error class="{{this.purchase_order_no_error === true ? 'is_error' : 'not_error'}}">The purchase order no has already been taken</mat-error> -->
+                          <!-- <mat-error *ngIf="purchase_order_no_error">The purchase order no has already been taken</mat-error> -->
+                          <!-- <span class="mat-text-warn" *ngIf="purchase_order_no_error">The purchase order no has already been taken.</span> -->
                         </mat-form-field>
                       </div>
                       <div fxFlex="31%">
