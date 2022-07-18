@@ -38,14 +38,19 @@ export class DiscountComponent {
 		this.inProgress = true;
 		this.discountService.GetStores().subscribe((response: any) => {
 			if (response.success) {
-				this.discountService.GetDiscountList(response.data[0].store_id).subscribe((payload: any) => {
-					if (payload.success) {
-						this.Discounts = payload.data;
-						this.rows = this.Discounts;
-						this.dynamicHeight = this.rows.length < 12 ? (this.rows.length + 1) * 48 + 140 + "px" : "";
-						this.temp = this.Discounts;
+				
+					for(let i = 0; i < response.data.length; i++){
+						this.discountService.GetDiscountList(response.data[i].store_id).subscribe((payload: any) => {
+							if (payload.success) {
+								this.Discounts = [...this.Discounts, ...payload.data];
+								this.rows = this.Discounts;
+								this.dynamicHeight = this.rows.length < 12 ? (this.rows.length + 1) * 60 + 140 + "px" : "";
+								this.temp = this.Discounts;
+								
+							}
+						});
 					}
-				});
+			
 			}
 			this.inProgress = false;
 		});
@@ -151,6 +156,7 @@ export class DiscountComponent {
 				this.discountService.AddNewDiscount(result).subscribe((response: any) => {
 					this.inProgress = false;
 					if (response.success) {
+						this.Discounts = [];
 						this.GetDiscounts();
 					} else {
 						this.utils.showSnackBar(response.message, { panelClass: "error" });

@@ -20,7 +20,7 @@
     <div fxFlex="2%">
     </div>
 
-    <div fxFlex="96%">
+    <div fxFlex="96%">  
 
         <div fxLayout="column" fxLayoutGap="20px">
             <div class="" fxLayout="row" fxLayoutWrap fxLayoutAlign="center">
@@ -45,7 +45,7 @@
 
                 <ngx-datatable #myTable class='material fancyscroll employee-list-table'
                     [ngStyle]="{'height':dynamicHeight}" [headerHeight]="50" [externalPaging]="false" [footerHeight]="0"
-                    [columnMode]="'flex'" [rowHeight]="48" [scrollbarV]="true" [rows]='rows' [limit]="10">
+                    [columnMode]="'flex'" [rowHeight]="60" [scrollbarV]="true" [rows]='rows' [limit]="10">
                  
                     <ngx-datatable-column name="Title" prop="title" [resizeable]="false" [flexGrow]="4">
                         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
