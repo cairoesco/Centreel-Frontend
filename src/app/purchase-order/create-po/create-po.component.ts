@@ -541,6 +541,9 @@ export class CreatePoComponent implements OnInit {
         );
         this.cID = this.warehouse[0].chain_id;
         this.tempWarehouse = this.warehouse[0];
+        this.purchaseForm.controls["chain_id"].setValue(this.warehouse[0].chain_id);
+        this.purchaseForm.controls["store_id"].setValue(this.warehouse[0].store_id);
+       
       }
     });
   }
