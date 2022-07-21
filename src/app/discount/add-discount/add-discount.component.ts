@@ -14,6 +14,7 @@ import { LEFT_ARROW } from "@angular/cdk/keycodes";
 	styleUrls: ["./add-discount.component.scss"],
 })
 export class AddDiscountComponent implements OnInit {
+
 	public tags: any = [];
 	public stores: any = [];
 	public discount_types: any = [];
@@ -84,7 +85,7 @@ export class AddDiscountComponent implements OnInit {
 	/***************** Form Group *****************************/
 	addDiscountForm() {
 		this.discountForm = this.fb.group({
-			store_id: ["", [Validators.required]],
+			store_id: [[], [Validators.required]],
 			discount_title: ["", [Validators.required]],
 			value: ["", [Validators.required, Validators.min(1)]],
 			discount_type: ["", [Validators.required]],
@@ -98,7 +99,7 @@ export class AddDiscountComponent implements OnInit {
 	getRawDetails() {
 		this.api.GetAddDiscountData().subscribe((response: any) => {
 			if (response.success) {
-				const tempDiscountTypes = [];
+				let tempDiscountTypes = [];
 				if (response.data.discounts_types.length > 0) {
 					const tempData = response.data.discounts_types.sort();
 					for (let i in tempData) {
@@ -109,6 +110,30 @@ export class AddDiscountComponent implements OnInit {
 						tempDiscountTypes.push(obj);
 					}
 				}
+				/* remove discount type with no value */
+				if(response.data.categories.length < 1){
+					tempDiscountTypes = 	tempDiscountTypes.filter(type => type.item != 'Category')
+			
+				}
+				if(response.data.tags.length < 1){
+					tempDiscountTypes = 	tempDiscountTypes.filter(type => type.item != 'Tag')
+			
+				}
+				/* remove discount type with no value */
+
+				/** auto select a discount type if only one discount exist */
+				if(tempDiscountTypes.length == 1){
+					this.discountForm.controls['discount_type'].setValue(tempDiscountTypes[0].value);
+					this.selectedDiscountType = tempDiscountTypes[0].value;
+				}
+				/** auto select a discount type if only one discount exist */
+
+				/** auto select a discount mode if only one mode exist */
+				if(this.discountModeArray.length == 1){
+					this.discountForm.controls['discount_mode'].setValue(this.discountModeArray[0].value);
+					
+				}
+				/** auto select a discount mode if only one mode exist */
 
 				this.rawDetail = response.data;
 				this.stores = response.data.stores.sort();
@@ -142,8 +167,8 @@ export class AddDiscountComponent implements OnInit {
 		}
 		const tag = [];
 		const cat = [];
+		const store_ids = [];
 		for (const params of this.form_obj.parameters) {
-			console.log(params)
 			if (this.selectedDiscountType == "tag") {
 				const data = { tag_id: params.toString() };
 				tag.push(data);
