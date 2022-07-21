@@ -20,7 +20,7 @@
 
 			<mat-form-field>
 				<mat-label>Select Store</mat-label>
-				<mat-select formControlName="store_id" [disableOptionCentering]="true">
+				<mat-select formControlName="store_id" multiple [disableOptionCentering]="true">
 					<mat-option *ngFor="let store of stores; let i = index" [value]="store.store_id">
 						{{ store.name }}
 					</mat-option>

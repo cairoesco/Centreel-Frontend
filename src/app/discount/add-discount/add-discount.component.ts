@@ -85,7 +85,7 @@ export class AddDiscountComponent implements OnInit {
 	/***************** Form Group *****************************/
 	addDiscountForm() {
 		this.discountForm = this.fb.group({
-			store_id: ["", [Validators.required]],
+			store_id: [[], [Validators.required]],
 			discount_title: ["", [Validators.required]],
 			value: ["", [Validators.required, Validators.min(1)]],
 			discount_type: ["", [Validators.required]],
@@ -167,6 +167,7 @@ export class AddDiscountComponent implements OnInit {
 		}
 		const tag = [];
 		const cat = [];
+		const store_ids = [];
 		for (const params of this.form_obj.parameters) {
 			if (this.selectedDiscountType == "tag") {
 				const data = { tag_id: params.toString() };
