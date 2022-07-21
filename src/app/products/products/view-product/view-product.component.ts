@@ -905,22 +905,22 @@ export class ViewProductComponent implements OnInit {
   }
   taxInfoStore(event) {
     this.taxForm.get("section").setValue(event);
-    if (!this.isAdminRole) {
-      this.taxForm.removeControl("store_id");
-      this.taxForm.removeControl("taxrate_id");
-    }
+    // if (!this.isAdminRole) {
+    //   this.taxForm.removeControl("store_id");
+    //   this.taxForm.removeControl("taxrate_id");
+    // }
 
     const formData = new FormData();
 
     Object.keys(this.taxForm.value).forEach((key) => {
+     
       if (this.taxForm.value[key] instanceof Object) {
         formData.append(key, JSON.stringify(this.taxForm.value[key]));
       } else {
         formData.append(key, this.taxForm.value[key]);
       }
     });
-    formData.append("product_status", "1");
-
+    
     if (this.taxForm.valid) {
       this.barButtonOptions.active = true;
       this.barButtonOptions.text = "Saving Data...";
@@ -1009,7 +1009,7 @@ export class ViewProductComponent implements OnInit {
           this.barButtonOptions.text = "SAVE CHANGES";
           this.imagesOfarray = [];
           this.getProductById();
-          // this.router.navigateByUrl('products/allproducts');
+          this.router.navigateByUrl('products/allproducts');
         } else {
           this.utility.showSnackBar(response.message, { panelClass: "error" });
           this.barButtonOptions.active = false;
