@@ -84,7 +84,7 @@ export class AddDiscountComponent implements OnInit {
 	/***************** Form Group *****************************/
 	addDiscountForm() {
 		this.discountForm = this.fb.group({
-			store_id: ["", [Validators.required]],
+			store_id: [[], [Validators.required]],
 			discount_title: ["", [Validators.required]],
 			value: ["", [Validators.required, Validators.min(1)]],
 			discount_type: ["", [Validators.required]],
@@ -98,7 +98,8 @@ export class AddDiscountComponent implements OnInit {
 	getRawDetails() {
 		this.api.GetAddDiscountData().subscribe((response: any) => {
 			if (response.success) {
-				const tempDiscountTypes = [];
+				console.log(response.data)
+				let tempDiscountTypes = [];
 				if (response.data.discounts_types.length > 0) {
 					const tempData = response.data.discounts_types.sort();
 					for (let i in tempData) {
@@ -110,6 +111,31 @@ export class AddDiscountComponent implements OnInit {
 					}
 				}
 
+				/* remove discount type with no value */
+				if(response.data.categories.length < 1){
+					tempDiscountTypes = 	tempDiscountTypes.filter(type => type.item != 'Category')
+
+				}
+				if(response.data.tags.length < 1){
+					tempDiscountTypes = 	tempDiscountTypes.filter(type => type.item != 'Tag')
+
+				}
+				/* remove discount type with no value */
+
+				/** auto select a discount type if only one discount exist */
+				if(tempDiscountTypes.length == 1){
+					this.discountForm.controls['discount_type'].setValue(tempDiscountTypes[0].value);
+					this.selectedDiscountType = tempDiscountTypes[0].value;
+				}
+				/** auto select a discount type if only one discount exist */
+
+				/** auto select a discount mode if only one mode exist */
+				if(this.discountModeArray.length == 1){
+					this.discountForm.controls['discount_mode'].setValue(this.discountModeArray[0].value);
+
+				}
+				/** auto select a discount mode if only one mode exist */
+
 				this.rawDetail = response.data;
 				this.stores = response.data.stores.sort();
 				this.discount_types = tempDiscountTypes;
@@ -118,26 +144,35 @@ export class AddDiscountComponent implements OnInit {
 				this.discountForm.patchValue({
 					store_id: this.stores[0].store_id,
 				});
+				if(this.discount_types.length < 1){
+					this.utility.showSnackBar('There is no available discount type', { panelClass: 'error' });
+					return
+				}
+				
 			}
 		});
 	}
 
 	addNewDiscount() {
 		this.form_obj = this.discountForm.getRawValue();
+		if(this.discount_types.length < 1){
+			this.utility.showSnackBar('There is no available discount type for this store', { panelClass: 'error' });
+			return
+		}
 		if(!this.form_obj.discount_title){
-			this.utility.showSnackBar('Please enter a valid discount title');
+			this.utility.showSnackBar('Please enter a valid discount title', { panelClass: 'error' });
 		return
 		}
 		if(!this.form_obj.value){
-			this.utility.showSnackBar('Discount value is a mandatory field');
+			this.utility.showSnackBar('Discount value is a mandatory field', { panelClass: 'error' });
 		return
 		}
 		if(!this.form_obj.discount_type){
-			this.utility.showSnackBar('Please select a discount type');
+			this.utility.showSnackBar('Please select a discount type', { panelClass: 'error' });
 		return
 		}
 		if(!this.selectedDiscountType){
-			this.utility.showSnackBar('Discount parameter is a mandatory field');
+			this.utility.showSnackBar('Discount parameter is a mandatory field', { panelClass: 'error' });
 		return
 		}
 		const tag = [];
