@@ -20,8 +20,8 @@
 
 export const environment = {
   production: false,
-  // baseUrl: "https://devapi.centreel.app/",
-  baseUrl: 'https://testingapi.centreel.app/',
+  baseUrl: "https://devapi.centreel.app/",
+  // baseUrl: 'https://testingapi.centreel.app/',
   // baseUrl: 'https://devapi.centreel.app/',
   client_id: 2,
   client_secret: "86uYm59gFcLwrnUcHZvQ3eXHwiCJiZDVaqA5t863",
