@@ -15,6 +15,7 @@ import {
 import {
   FormBuilder,
   FormGroup,
+  FormControl,
   Validators,
   FormArray,
   AbstractControl,
@@ -39,13 +40,12 @@ import { UtilsServiceService } from "../../shared/services/utils-service.service
 import { MatProgressButtonOptions } from "mat-progress-buttons";
 import * as _ from "lodash";
 import * as XLSX from "xlsx";
-import { debounceTime } from "rxjs/operators";
 import { PrintBarcodeComponent } from "../../products/products/print-barcode/print-barcode.component";
 import { CreateProductComponent } from "../create-product/create-product.component";
 import { PurchaseOrderComponent } from "../purchase-order.component";
 import { SharedService } from "src/app/shared/shared.service";
 import { Observable, timer } from "rxjs";
-import { map, startWith, switchMap } from "rxjs/operators";
+import { map, startWith, switchMap, debounceTime } from "rxjs/operators";
 @Component({
   selector: "app-create-po",
   templateUrl: "./create-po.component.html",
@@ -60,6 +60,8 @@ export class CreatePoComponent implements OnInit {
   @ViewChild("searchInput") searchInput: ElementRef;
   name = "Angular";
   @ViewChild(PurchaseOrderComponent) hello: PurchaseOrderComponent;
+
+	console = console;
 
   ngAfterViewInit() {}
   public config: PerfectScrollbarConfigInterface = {};
@@ -104,7 +106,7 @@ export class CreatePoComponent implements OnInit {
   public variantObj: any = new Object();
   public isTrue: boolean = true;
   public importSheet: boolean = false;
-
+  public purchase_order_no_error: boolean = false;
   public tempWarehouse: any = {};
 
   constructor(
@@ -219,11 +221,12 @@ export class CreatePoComponent implements OnInit {
   //#region**************** FormGroup ***************/
   purchaseInfoForm() {
     this.purchaseForm = this.fb.group({
-      purchase_order_no: [
-        "",
-        [Validators.required],
-        [this.customAsyncValidator()],
-      ],
+      purchase_order_no: new FormControl ( null, [Validators.required, this.customAsyncValidator()] ),
+      // purchase_order_no: [
+      //   "",
+      //   [Validators.required],
+      //   // [this.customAsyncValidator()],
+      // ],
       address: [""],
       contact: [""],
       phone: [""],
@@ -641,6 +644,7 @@ export class CreatePoComponent implements OnInit {
     // this.getWarehouse();
     //this.GetSearchResult();
     this.onChanges();
+    // this.refVar.detectChanges();
   }
   ngDoCheck() {
     this.innerHeight = window.innerHeight - 192;
@@ -1625,7 +1629,29 @@ export class CreatePoComponent implements OnInit {
   }
   /* create new product */
 
+    validate() {
+    
+    setTimeout(() => {
+    const temp_value = this.purchaseForm.controls['purchase_order_no'].value;
+    this.formobj.po_no = temp_value;
+    this.formobj.chain_id = this.cID;
+
+      if(temp_value != ""){
+
+       this.api.isExist(this.formobj).subscribe((response: any) => {
+        if (response.data.length > 0) { 
+        this.purchase_order_no_error = true;
+         this.purchaseForm.controls['purchase_order_no'].setErrors({asyncValidation: true}); 
+                 
+        }
+       })
+             
+    }
+    }, 100) 
+  }
+
   customAsyncValidator(): AsyncValidatorFn {
+   
     return (
       control: AbstractControl
     ):

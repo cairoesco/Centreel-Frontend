@@ -143,3 +143,11 @@
  ::ng-deep tr td:last-child {
   display: none;
 }
+
+.is_error {
+color: "red";
+}
+
+.not_error {
+  display: none;
+}
