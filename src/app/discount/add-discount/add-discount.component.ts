@@ -190,7 +190,7 @@ export class AddDiscountComponent implements OnInit {
 		// product_category_name
 
 		const payload = {
-			store_id: this.form_obj.store_id,
+			store_id: JSON.stringify(this.form_obj.store_id),
 			discount_title: this.form_obj.discount_title,
 			status: 1,
 			value: this.form_obj.value,
