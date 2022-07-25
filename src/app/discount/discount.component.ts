@@ -36,14 +36,14 @@ export class DiscountComponent {
 
 	GetDiscounts() {
 		this.inProgress = true;
-		// const temp_store_ids = []
+		const temp_store_ids = []
 		this.discountService.GetStores().subscribe((response: any) => {
 			if (response.success) {
 				
-				// for(let i = 0; i < response.data.length; i++){
-				// 	temp_store_ids.push(response.data[i].store_id)
-				// }
-				const temp_store_ids = [4]
+				for(let i = 0; i < response.data.length; i++){
+					temp_store_ids.push(response.data[i].store_id)
+				}
+				// const temp_store_ids = [4]
 					this.discountService.GetDiscountList(JSON.stringify(temp_store_ids)).subscribe((payload: any) => {
 						if (payload.success) {
 							this.Discounts = [...this.Discounts, ...payload.data];
