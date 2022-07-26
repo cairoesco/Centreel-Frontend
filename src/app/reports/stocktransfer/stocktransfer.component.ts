@@ -190,7 +190,7 @@ export class StocktransferComponent implements OnInit {
   /* download CSV */
 
   reset_form() {
-    this.transfer.controls['selected'].setValue({ start: moment().format('DD/MM/YYYY'), end: moment().format('DD/MM/YYYY') });
+    this.transfer.controls['selected'].setValue({ start: moment().startOf('month'), end: moment() });
     this.transfer.controls['variant_name'].reset();
     this.transfer.controls['source_storage_id'].reset();
     this.transfer.controls['destination_storage_id'].reset();

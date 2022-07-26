@@ -27,7 +27,7 @@ export class TimeTrackingComponent implements OnInit {
   public export_date = moment().format('MMMDDYYYY');
   public store_id: any = "";
   //datepicker
-  selected = { start: moment().format("DD/MM/YYYY") };
+  selected = {  start: moment(), end: moment().subtract(1, 'days') };
   alwaysShowCalendars: boolean;
   //datepicker
   isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
@@ -119,7 +119,7 @@ export class TimeTrackingComponent implements OnInit {
   /* download CSV and EXCEL */
 
   reset_form() {
-    this.timesheet.patchValue({selected:{ start: moment().format('DD/MM/YYYY'),end: moment().format('DD/MM/YYYY') }});
+    this.timesheet.patchValue({selected:{ start: moment(), end: moment().subtract(1, 'days') }});
   }
 
 }

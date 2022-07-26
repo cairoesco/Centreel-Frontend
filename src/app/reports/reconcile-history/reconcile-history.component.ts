@@ -165,7 +165,7 @@ export class ReconcileHistoryComponent implements OnInit {
   /* download CSV */
 
   reset_form() {
-    this.reconcile.controls['selected'].setValue({ start: moment().format('DD/MM/YYYY'), end: moment().format('DD/MM/YYYY') });
+    this.reconcile.controls['selected'].setValue({ start: moment().startOf('month'), end: moment() });
     this.reconcile.controls['warehouse_id'].reset();
     this.reconcile.controls['reason'].reset();
     this.reconcile.controls['product_type'].reset();
