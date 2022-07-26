@@ -327,12 +327,12 @@ export class CreatePoComponent implements OnInit {
         this.purchaseForm.get("invoice_date").setValue(formatedDate);
       }
 
-      // let cid = this.purchaseForm.value.storage_id.chain_id;
-      // let sid = this.purchaseForm.value.storage_id.store_id;
+      let cid = this.purchaseForm.value.storage_id.chain_id;
+      let sid = this.purchaseForm.value.storage_id.store_id;
       let poid = this.purchaseForm.value.purchase_order_no;
       // this.purchaseForm.get('storage_id').setValue(this.purchaseForm.value.storage_id.storage_id);
-      // this.purchaseForm.get('chain_id').setValue(cid);
-      // this.purchaseForm.get('store_id').setValue(sid);
+      this.purchaseForm.get('chain_id').setValue(cid);
+      this.purchaseForm.get('store_id').setValue(sid);
       this.purchaseForm.get("po_no").setValue(poid);
 
       /* invoice date format */
