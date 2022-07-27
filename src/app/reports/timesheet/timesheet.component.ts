@@ -148,7 +148,7 @@ export class TimesheetComponent implements OnInit {
   /* download CSV and EXCEL */
 
   reset_form() {
-    this.timesheet.patchValue({ selected: { start: moment().format('DD/MM/YYYY'), end: moment().format('DD/MM/YYYY') } });
+    this.timesheet.patchValue({ selected: { start: moment().startOf('month'), end: moment() } });
   }
 
   getDate(date, index, emp_name) {
