@@ -503,17 +503,16 @@ export class ViewProductComponent implements OnInit {
   //#endregion
 
   //#region ______________________ Tax Section ______________________/
-
-  taxInfoForm(product) {
-    if (this.isAdminRole && product.tax.length > 0) {
+  public products_array: any = {};
+  
+   taxInfoForm(product) {
+    this.products_array = product;
+    this.selectedStore(product?.tax[0]?.store_id,  {isUserInput: true} )
+    if (product.tax.length > 0) {
       this.taxForm.patchValue({
         is_taxable: product.is_taxable,
-        store_id: product.tax[0].store_id,
-        taxrate_id: product.tax[0].taxrate_id,
-      });
-    } else {
-      this.taxForm.patchValue({
-        is_taxable: product.is_taxable,
+        store_id: product?.tax[0]?.store_id,
+        
       });
     }
   }
@@ -1205,13 +1204,16 @@ export class ViewProductComponent implements OnInit {
   public storewiseTaxes = [];
   selectedStore(store_id, event) {
     if (event.isUserInput) {
-      this.storewiseTaxes = [];
-      this.result.stores.forEach((element) => {
-        if (element.store_id == store_id) {
-          this.storewiseTaxes.push(element.taxrates);
-        }
-      });
-    }
+    this.storewiseTaxes = [];
+    const str = this.chainwiseStores.find(store => store.store_id == store_id);
+    const tempDefaultTax = this.products_array.tax.find(item => item.store_id == str.store_id);
+
+    const defaultTax = str?.taxrates.find(tax => tax?.id == tempDefaultTax?.taxrate_id);
+    this.storewiseTaxes.push(str?.taxrates);
+    this.taxForm.patchValue({
+    taxrate_id: defaultTax?.id
+    })
+  }
   }
   /* store wise taxes */
 }
