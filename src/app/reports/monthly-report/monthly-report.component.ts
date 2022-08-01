@@ -22,7 +22,7 @@ export class MonthlyReportComponent implements OnInit {
 	public tempRows: any[] = [];
 	public formobj: any = new Object();
   public dynamicHeight = "";
-	public export_date: any;
+	public export_date = moment().format("YYYY-MM-DD");
 	public from = moment().format("YYYY-MM-DD");
 	public to = moment().format("YYYY-MM-DD");
 	public store_id: any;
@@ -143,13 +143,13 @@ export class MonthlyReportComponent implements OnInit {
 	}
 	getExport(ext) {
 		let url = `?store_id=${this.store_id}&from_date=${this.from}&to_date=${this.to}&ext=${ext}`;
-		this.reportService.exportMonthlyReport(url).subscribe((response: any) => {
+		this.reportService.exportMonthlyReport(url).then((res: HttpResponse<any>) => {
 			if (ext == "csv") {
-				this.reportService.downloadFile(response.body, "text/csv", "Monthly Report " + this.export_date);
+				this.reportService.downloadFile(res.body, "text/csv", "Monthly Report " + this.export_date);
 			} else if (ext == "xls") {
-				this.reportService.downloadFile(response.body, "application/vnd.ms-excel", "Monthly Report " + this.export_date);
+				this.reportService.downloadFile(res.body, "application/vnd.ms-excel", "Monthly Report " + this.export_date);
 			} else if (ext == "pdf") {
-				this.reportService.downloadFile(response.body, "application/pdf", "Monthly Report " + this.export_date);
+				this.reportService.downloadFile(res.body, "application/pdf", "Monthly Report " + this.export_date);
 			}
 		});
 	}
