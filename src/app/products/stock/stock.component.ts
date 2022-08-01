@@ -333,9 +333,9 @@ export class StockComponent {
 
     let storage_id = this.dataHeaderChild[index - 2].storage_id;
     // let { product_name, product_type_slug } = this.expandedElement;
-    let { product_name, product_type_slug } = this.expandedRow;
+    let { product_name, product_type_slug, product_id = 0 } = this.expandedRow;
     const dialogRef = this.dialog.open(ReconcileStockComponent, {
-      data: { data: data, index: index, storage_id: storage_id, product_name: product_name, product_type_slug: product_type_slug, product_unit: this.product_unit, storage_name: column.header, header: this.dataHeaderChild, productId: this.productId }
+      data: { data: data, index: index, storage_id: storage_id, product_name: product_name, product_type_slug: product_type_slug, product_unit: this.product_unit, storage_name: column.header, header: this.dataHeaderChild, productId: product_id }
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
@@ -373,9 +373,9 @@ export class StockComponent {
   TransferStock(data, column, index, row_index) {
 
     // let { product_name } = this.expandedElement;
-    let { product_name } = this.expandedRow;
+    let { product_name, product_id = 0 } = this.expandedRow;
     const dialogRef = this.dialog.open(TransferStockComponent, {
-      data: { data: data, index: index, product_unit: this.product_unit, product_name: product_name, storage_name: column.header, header: this.dataHeaderChild, productId: this.productId }
+      data: { data: data, index: index, product_unit: this.product_unit, product_name: product_name, storage_name: column.header, header: this.dataHeaderChild, productId: product_id }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -410,11 +410,11 @@ export class StockComponent {
 
     let storage_id = this.dataHeaderChild[index - 2].storage_id;
     // let { product_name, product_type_slug } = this.expandedElement;
-    let { product_name, product_type_slug } = this.expandedRow;
+    let { product_name, product_type_slug, product_id = 0 } = this.expandedRow;
     const dialogRef = this.dialog.open(AddStockComponent, {
       panelClass: 'add-stock-dialog',
       disableClose: true,
-      data: { data: data, index: index, product_name: product_name, product_type_slug: product_type_slug, product_unit: this.expandedRow.product_unit, storage_name: column.header, storage_id: storage_id, productId: this.productId,chain_id: this.selectedFilter.chain_id }
+      data: { data: data, index: index, product_name: product_name, product_type_slug: product_type_slug, product_unit: this.expandedRow.product_unit, storage_name: column.header, storage_id: storage_id, productId: product_id,chain_id: this.selectedFilter.chain_id }
     });
 
     dialogRef.afterClosed().subscribe(result => {
