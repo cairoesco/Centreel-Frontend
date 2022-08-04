@@ -354,10 +354,13 @@ export class ViewProductComponent implements OnInit {
   }
 
   generalInfoForm(product) {
-    if (product.product_thc)
+    if (product.product_thc){
       var thc = product.product_thc.split("-");
+    }
     if (product.product_cbd)
-      var cbd = product.product_cbd.split("-");
+      {
+        var cbd = product.product_cbd.split("-");
+    }
     this.generalForm.patchValue({
       product_name: product.product_name,
       product_highlights: product.product_highlights == null ? '' : product.product_highlights,
@@ -633,6 +636,7 @@ export class ViewProductComponent implements OnInit {
 
   getRawDetails_temp(data) {
     this.rawDetail = data;
+    this.categoryList = this.rawDetail.product_types.find(product_type => product_type.type_id == this.productData.type_id)
     this.productProperties()
     const control: any = this.propertiesForm.controls['productProperties'];
     this.rawDetail.product_attributes.forEach(element => {
@@ -684,10 +688,10 @@ export class ViewProductComponent implements OnInit {
           this.isCanabies = (this.cannabiesData.type_slug == "cannabis");
           this.dynamicHeight = this.variants.length < 12 ? ((this.variants.length + 1) * 90 + 10) + "px" : '';
           this.arrayOfImages = this.productData.product_images;
-          this.generalInfoForm(this.productData);
           this.taxInfoForm(this.productData);
           this.identificationInfoForm(this.productData);
           this.getRawDetails_temp({ product_attributes: response.data.product_attributes, product_types: response.data.product_types, variant_properties: response.data.variant_properties, product: response.data.product,species:response.data.species });
+          this.generalInfoForm(this.productData);
           this.supplierForm.controls.product_suppliers_data.setValue(this.productData.product_supplier);
           const control1: any = this.identificationForm.controls['product_proviences'];
           this.variantsForm = this.fb.group({
