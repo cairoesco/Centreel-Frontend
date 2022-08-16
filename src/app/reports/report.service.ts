@@ -178,7 +178,7 @@ export class ReportService {
     return this.webApi.get(`dashboard/soldProductBrand${data}`);
   }
   exportMonthlyReport(data) {
-    return this.webApi.get(`reports/monthly${data}`);
+    return this.webApi.getExportPDF(`reports/monthly${data}`);
   }
   printableMenu_exportReport(data) {
     return this.webApi.getExportPDF("reports/export/inventoryPrintableMenu?" + data);
