@@ -43,6 +43,16 @@ export class InventoryAuditComponent implements OnInit {
 		{ value: "0", item: "In stock" },
 		{ value: "1", item: "Out of stock" },
 	];
+	public sort_array = [
+		{ value: "1", item: "Default" },
+		{ value: "2", item: "SKU ASC" },
+		{ value: "3", item: "SKU DESC" },
+		{ value: "4", item: "Description ASC" },
+		{ value: "5", item: "Description DESC" },
+		{ value: "6", item: "On hand ASC" },
+		{ value: "7", item: "On hand DESC" },
+	];
+
 	public export_date: any;
 	public date_time: any;
 	public out_of_stock_selected: any
@@ -55,6 +65,7 @@ export class InventoryAuditComponent implements OnInit {
 			store_id: [""],
 			product_type: ["cannabis"],
 			out_of_stock: "all",
+			sort: "1",
 			selected: { start: moment().format("DD/MM/YYYY HH:mm:ss"), end: moment().format("DD/MM/YYYY") },
 		});
 		this.out_of_stock_selected = "all";
@@ -64,12 +75,14 @@ export class InventoryAuditComponent implements OnInit {
 	/* onchange event */
 	public param_dt: any;
 	public param_stock: any;
+	public param_sort: any;
 	onChanges() {
 		this.inProgress = true;
 		// var TZ = this.utils.getTimeZone(); //timezone
 		this.reconcile.valueChanges.subscribe((val) => {
 			this.param_dt = "";
 			this.param_stock = "";
+			this.param_sort = "";
 			if (val.store_id && val.store_id > 0) {
 				this.formobj.store_id = JSON.stringify(val.store_id);
 			} else {
@@ -93,8 +106,15 @@ export class InventoryAuditComponent implements OnInit {
 			} else {
 				delete this.formobj.out_of_stock;
 			}
+			/* for sort */
+			if (val.sort) {
+				this.formobj.sort = val.sort;
+				this.param_sort = "&sort=" + this.formobj.sort;
+			} else {
+				delete this.formobj.sort;
+			}
 			// let params = "store_id=" + this.formobj.store_id + this.param_dt;
-			let params = "store_id=" + this.formobj.store_id + this.param_dt + this.param_stock;
+			let params = "store_id=" + this.formobj.store_id + this.param_dt + this.param_stock + this.param_sort;
 			this.date_time = moment(val.selected.start, "DD/MM/YYYY HH:mm:ss").format("YYYY-MM-DD HH:mm:ss");
 			this.export_date = moment(val.selected.start, "DD/MM/YYYY HH:mm:ss").format("MMMDDYYYY");
 			// this.reportService.getReconcileHistoryReport(this.formobj)
@@ -147,6 +167,7 @@ export class InventoryAuditComponent implements OnInit {
 		// this.reconcile.controls['store_id'].reset();
 		// this.reconcile.controls['product_type'].reset();
 		this.reconcile.controls['product_type'].setValue('cannabis');
+		this.reconcile.controls['sort'].setValue('1');
 	}
 
 	/* new code */
