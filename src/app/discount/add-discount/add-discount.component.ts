@@ -178,7 +178,6 @@ export class AddDiscountComponent implements OnInit {
 		const tag = [];
 		const cat = [];
 		for (const params of this.form_obj.parameters) {
-			console.log(params)
 			if (this.selectedDiscountType == "tag") {
 				const data = { tag_id: params.toString() };
 				tag.push(data);
