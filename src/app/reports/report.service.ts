@@ -165,17 +165,18 @@ export class ReportService {
   }
 
   getLowSalesReport(data) {
-
     let tz = new Date().toTimeString().slice(9).substring(3, 8);
     tz = `${tz.slice(0, 3)}:${tz.substring(3, 5)}` 
     return this.webApi.get(`reports/lowSale/index?time_zone=${tz}${data}`);
   }
 
   exportLowSalesReport(data) {
-    return this.webApi.get(`reports/lowSale/export${data}`);
+    let tz = new Date().toTimeString().slice(9).substring(3, 8);
+    tz = `${tz.slice(0, 3)}:${tz.substring(3, 5)}`; 
+    return this.webApi.getExportPDF(`reports/lowSale/export?time_zone=${tz}${data}`);
   }
   exportBrandSalesReport(data) {
-    return this.webApi.get(`dashboard/soldProductBrand${data}`);
+    return this.webApi.getExportPDF(`dashboard/soldProductBrand${data}`);
   }
   exportMonthlyReport(data) {
     return this.webApi.getExportPDF(`reports/monthly${data}`);

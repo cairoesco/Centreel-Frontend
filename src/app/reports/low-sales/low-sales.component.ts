@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { HttpResponse } from "@angular/common/http";
 import { ReportService } from '../report.service';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { debounceTime } from "rxjs/operators";
@@ -88,7 +89,6 @@ export class LowSalesComponent implements OnInit {
       .subscribe((response: any) => {
         this.storeList = response.data.stores;
 				this.productTypeList = [{product_type_slug:'all', product_name: 'All'},{product_type_slug:'cannabis', product_name: 'Cannabis'},{product_type_slug:'non cannabis', product_name: 'Non-Cannabis'}]
-
         if (response.data.stores.length > 0) {
           this.lowsalesForm.patchValue({ store_id: this.storeList[0].store_id });
         }
@@ -97,16 +97,16 @@ export class LowSalesComponent implements OnInit {
   }
 
   getExport(ext) {
-		let url = `store_id=${this.store_id}`;
+		let url = `&store_id=${this.store_id}&ext=${ext}`;
 		if (this.product_type && this.product_type !== 'all') url = `${url}?product_type=${this.product_type}`;
 		if (this.variant_sku) url = `${url}&variant_sku=${this.variant_sku}`;
-		this.reportService.exportLowSalesReport(url).subscribe((response: any) => {
+		this.reportService.exportLowSalesReport(url).then((res: HttpResponse<any>) => {
 			if (ext == "csv") {
-				this.reportService.downloadFile(response.body, "text/csv", "Low sales Report " + this.export_date);
+				this.reportService.downloadFile(res.body, "text/csv", "Low sales Report " + this.export_date);
 			} else if (ext == "xls") {
-				this.reportService.downloadFile(response.body, "application/vnd.ms-excel", "Low sales Report " + this.export_date);
+				this.reportService.downloadFile(res.body, "application/vnd.ms-excel", "Low sales Report " + this.export_date);
 			} else if (ext == "pdf") {
-				this.reportService.downloadFile(response.body, "application/pdf", "Low sales Report " + this.export_date);
+				this.reportService.downloadFile(res.body, "application/pdf", "Low sales Report " + this.export_date);
 			}
 		});
 	}

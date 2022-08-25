@@ -135,13 +135,13 @@ export class BrandSalesComponent implements OnInit {
 	}
 	getExport(ext) {
 		let url = `?from=${this.from}&to=${this.to}&ext=${ext}`;
-		this.reportService.exportBrandSalesReport(url).subscribe((response: any) => {
+		this.reportService.exportBrandSalesReport(url).then((res: HttpResponse<any>) => {
 			if (ext == "csv") {
-				this.reportService.downloadFile(response.body, "text/csv", "Brand sales Report " + this.export_date);
+				this.reportService.downloadFile(res.body, "text/csv", "Brand sales Report " + this.export_date);
 			} else if (ext == "xls") {
-				this.reportService.downloadFile(response.body, "application/vnd.ms-excel", "Brand sales Report " + this.export_date);
+				this.reportService.downloadFile(res.body, "application/vnd.ms-excel", "Brand sales Report " + this.export_date);
 			} else if (ext == "pdf") {
-				this.reportService.downloadFile(response.body, "application/pdf", "Brand sales Report " + this.export_date);
+				this.reportService.downloadFile(res.body, "application/pdf", "Brand sales Report " + this.export_date);
 			}
 		});
 	}
