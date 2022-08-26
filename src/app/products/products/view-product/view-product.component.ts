@@ -1008,7 +1008,8 @@ export class ViewProductComponent implements OnInit {
           this.barButtonOptions.text = "SAVE CHANGES";
           this.imagesOfarray = [];
           this.getProductById();
-          this.router.navigateByUrl('products/allproducts');
+          // this.router.navigateByUrl('products/allproducts');
+          this.router.navigateByUrl(`/products/${this.product_id}/view`);
         } else {
           this.utility.showSnackBar(response.message, { panelClass: "error" });
           this.barButtonOptions.active = false;
