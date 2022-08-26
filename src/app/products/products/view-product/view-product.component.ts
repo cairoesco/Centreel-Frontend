@@ -664,6 +664,7 @@ export class ViewProductComponent implements OnInit {
 
   getRawDetails_temp(data) {
     this.rawDetail = data;
+    this.categoryList = this.rawDetail.product_types.find(product_type => product_type.type_id == this.productData.type_id)
     this.productProperties();
     const control: any = this.propertiesForm.controls["productProperties"];
     this.rawDetail.product_attributes.forEach((element) => {
@@ -729,7 +730,6 @@ export class ViewProductComponent implements OnInit {
             ? (this.variants.length + 1) * 90 + 10 + "px"
             : "";
         this.arrayOfImages = this.productData.product_images;
-        this.generalInfoForm(this.productData);
         this.taxInfoForm(this.productData);
         this.identificationInfoForm(this.productData);
         this.getRawDetails_temp({
@@ -739,6 +739,7 @@ export class ViewProductComponent implements OnInit {
           product: response.data.product,
           species: response.data.species,
         });
+        this.generalInfoForm(this.productData);
         this.supplierForm.controls.product_suppliers_data.setValue(
           this.productData.product_supplier
         );
