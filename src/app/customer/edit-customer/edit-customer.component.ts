@@ -80,6 +80,8 @@ export class EditCustomerComponent implements OnInit {
 	public editable: boolean = false;
 	public isContactInfoEditable: boolean = false;
 	public isCardDetailsEditable: boolean = false;
+	public isEmailConsentEditable: boolean = false;
+	public isLoginInfoEditable: boolean = false;
 
 	employment_minDate = new Date(2000, 0, 1);
 	employment_maxDate = new Date();
@@ -263,6 +265,7 @@ export class EditCustomerComponent implements OnInit {
 			zipcode: "",
 			discount: "",
 			id_cards: "",
+			email_consent: "",
 		});
 	}
 
@@ -273,6 +276,12 @@ export class EditCustomerComponent implements OnInit {
 	handleOnSubmitGeneralEdit() {
 	const form_obj = this.form.getRawValue();
 	this.api.editCustomer(form_obj.patient_id, form_obj).subscribe((response: any) => {
+		if (response.success) {
+			this.utility.showSnackBar( response.message, { duration: 4000, panelClass: 'success'  });
+		}
+		else {
+			this.utility.showSnackBar(response.message, { panelClass: 'error' });
+		}
 	}	
 )}
 
@@ -379,9 +388,12 @@ export class EditCustomerComponent implements OnInit {
 								this.form.get("middle_name").setValue(response.data.middle_name);
 								this.form.get("patient_mobile").setValue(response.data.patient_mobile);
 								this.form.get("patient_email").setValue(response.data.patient_email);
+								this.form.get("password").setValue(response.data.isset_password == 1 ? '********' : '');
 								this.form.get("country_id").setValue(this.countryArr[0].location_id);
 								this.form.get("state_id").setValue(response.data.state_id);
 								this.form.get("city_id").setValue(response.data.city_id);
+								this.form.get("email_consent").setValue(response.data.email_consent == 0 ? false : true);
+								this.form.get("store_id").setValue(this.store_id);
 
 								this.tempState = response.data.state_id;
 								this.tempCity = response.data.city_id;
@@ -398,6 +410,8 @@ export class EditCustomerComponent implements OnInit {
 								this.viewOnly();
 								this.contactInfoViewOnly();
 								this.cardDetailsViewOnly();
+								this.emailConsentViewOnly();
+								this.loginInfoViewOnly();
 							}
 						});
 					}
@@ -474,5 +488,30 @@ export class EditCustomerComponent implements OnInit {
 		this.form.get("patient_license_number").enable();
 		this.form.get("source").enable();
 		this.isCardDetailsEditable = true;
+	}
+
+	emailConsentViewOnly() {
+		this.form.get("email_consent").disable();
+		this.isEmailConsentEditable = false;
+	}
+
+	emailConsentEditable() {
+		this.form.get("email_consent").enable();
+		this.isEmailConsentEditable = true;
+	}
+
+	onEmailConsentChange(event) {
+		this.form.get("email_consent").setValue(event.checked ? 1 : 0)
+	}
+
+	loginInfoViewOnly() {
+		this.form.get("patient_email").disable();
+		this.form.get("password").disable();
+		this.isLoginInfoEditable = false;
+	}
+	loginInfoEditable() {
+		this.form.get("patient_email").enable();
+		this.form.get("password").enable();
+		this.isLoginInfoEditable = true;
 	}
 }

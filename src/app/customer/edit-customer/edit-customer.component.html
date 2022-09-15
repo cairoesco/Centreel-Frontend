@@ -27,6 +27,16 @@
 				<p (click)="utility.scrollTo('section3')">ID CARD DETAILS</p>
 			</ng-template>
 		</mat-tab>
+		<mat-tab>
+			<ng-template mat-tab-label>
+				<p (click)="utility.scrollTo('section4')">EMAIL CONSENT</p>
+			</ng-template>
+		</mat-tab>
+		<mat-tab>
+			<ng-template mat-tab-label>
+				<p (click)="utility.scrollTo('section5')">LOGIN INFORMATION</p>
+			</ng-template>
+		</mat-tab>
 	</mat-tab-group>
 
 	<div class="main-div-container">
@@ -136,7 +146,7 @@
 													<mat-error *ngIf="form.controls['dob'].hasError('required')" class="mat-text-warn">Please select your date of birth</mat-error>
 												</mat-form-field>
 											</div>
-											
+
 											<div fxFlex="50%">
 												<mat-form-field fxFlex="100%">
 													<mat-select [(value)]="defaultGender" placeholder="Gender*" formControlName="gender" [disableOptionCentering]="true">
@@ -165,29 +175,15 @@
 												</mat-form-field>
 											</div>
 
-											<div
-                      class=""
-                      fxLayout="row"
-                      fxLayout.xs="column"
-                      fxLayoutWrap
-                      fxLayoutGap="5%"
-                      fxLayoutAlign="center"
-                    >
-                    <div fxFlex="50%" class="breadcrumb-btn-content button_wrapper" *ngIf="editable">
-											<div fxFlex="100%">
-                        <button
-                          mat-button
-                          matSuffix
-                          mat-stroked-button
-                          class="add-new-btn"
-                          type="button"
-                          (click)="handleOnSubmitGeneralEdit()"
-                        >
-                          <a class="add-new-label">SAVE CHANGES</a>
-                        </button>
+											<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+												<div fxFlex="50%" class="breadcrumb-btn-content button_wrapper" *ngIf="editable">
+													<div fxFlex="100%">
+														<button mat-button matSuffix mat-stroked-button class="add-new-btn" type="button" (click)="handleOnSubmitGeneralEdit()">
+															<a class="add-new-label">SAVE CHANGES</a>
+														</button>
+													</div>
 												</div>
-                    </div>
-                    </div>
+											</div>
 										</div>
 									</mat-card-content>
 								</mat-card>
@@ -203,7 +199,8 @@
 
 						<div fxFlex="57" fxFlex.sm="55" fxFlex.md="55">
 							<div class="">
-								<h2 layout-margin>Customer Information
+								<h2 layout-margin>
+									Customer Information
 									<span fxFlex></span>
 									<button class="btn-edit" *ngIf="isContactInfoEditable" (click)="contactInfoViewOnly()">
 										<mat-icon class="material-icons pointer">edit</mat-icon>
@@ -228,7 +225,6 @@
 														(keypress)="utility.numberOnly($event)"
 														maxlength="11"
 														autocomplete="off"
-														
 													/>
 													<mat-error *ngIf="form.controls['patient_mobile'].hasError('required')" class="mat-text-warn">
 														Please enter your phone number
@@ -255,7 +251,6 @@
 											</div>
 										</div>
 										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
-
 											<div fxFlex="30%">
 												<mat-form-field fxFlex="100%">
 													<mat-select
@@ -284,7 +279,6 @@
 														</mat-option>
 													</mat-select>
 												</mat-form-field>
-												
 											</div>
 
 											<div fxFlex="30%">
@@ -303,29 +297,13 @@
 											</div>
 										</div>
 
-										
-										<div
-										class=""
-										fxLayout="row"
-										fxLayout.xs="column"
-										fxLayoutWrap
-										fxLayoutGap="5%"
-										fxLayoutAlign="center"
-									>
-									<div fxFlex="80%" class="breadcrumb-btn-content button_wrapper" *ngIf="isContactInfoEditable">
-											<button
-												mat-button
-												matSuffix
-												mat-stroked-button
-												class="add-new-btn"
-												type="button"
-												(click)="handleOnSubmitGeneralEdit()"
-											>
-												<a class="add-new-label">SAVE CHANGES</a>
-											</button>
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+											<div fxFlex="80%" class="breadcrumb-btn-content button_wrapper" *ngIf="isContactInfoEditable">
+												<button mat-button matSuffix mat-stroked-button class="add-new-btn" type="button" (click)="handleOnSubmitGeneralEdit()">
+													<a class="add-new-label">SAVE CHANGES</a>
+												</button>
 											</div>
-									</div>
-
+										</div>
 									</mat-card-content>
 								</mat-card>
 							</div>
@@ -340,7 +318,8 @@
 						<div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0"></div>
 						<div fxFlex="57" fxFlex.sm="55" fxFlex.md="55">
 							<div class="">
-								<h2 layout-margin>ID Card Details
+								<h2 layout-margin>
+									ID Card Details
 									<span fxFlex></span>
 									<button class="btn-edit" *ngIf="isCardDetailsEditable" (click)="cardDetailsViewOnly()">
 										<mat-icon class="material-icons pointer">edit</mat-icon>
@@ -389,43 +368,23 @@
 											<div fxFlex="45%">
 												<mat-form-field fxFlex="100%">
 													<input matInput placeholder="Caregiver license number" formControlName="caregiver_license_number" autocomplete="off" />
-
-													
 												</mat-form-field>
 											</div>
 
 											<div fxFlex="45%">
 												<mat-form-field fxFlex="100%">
 													<input matInput placeholder="Patient license number" formControlName="patient_license_number" autocomplete="off" />
-
-													
 												</mat-form-field>
 											</div>
 										</div>
 
-										<div
-										class=""
-										fxLayout="row"
-										fxLayout.xs="column"
-										fxLayoutWrap
-										fxLayoutGap="5%"
-										fxLayoutAlign="center"
-									>
-									<div fxFlex="100%" class="breadcrumb-btn-content button_wrapper" *ngIf="isCardDetailsEditable">
-										
-											<button
-												mat-button
-												matSuffix
-												mat-stroked-button
-												class="add-new-btn"
-												type="button"
-												(click)="handleOnSubmitGeneralEdit()"
-											>
-												<a class="add-new-label">SAVE CHANGES</a>
-											</button>
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+											<div fxFlex="100%" class="breadcrumb-btn-content button_wrapper" *ngIf="isCardDetailsEditable">
+												<button mat-button matSuffix mat-stroked-button class="add-new-btn" type="button" (click)="handleOnSubmitGeneralEdit()">
+													<a class="add-new-label">SAVE CHANGES</a>
+												</button>
 											</div>
-
-									</div>
+										</div>
 									</mat-card-content>
 								</mat-card>
 							</div>
@@ -433,6 +392,118 @@
 						<div fxFlex="28" fxFlex.sm="20" fxFlex.md="20"></div>
 					</div>
 				</div>
+				<div id="section4">
+					<!-- license information -->
+					<div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+						<div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0"></div>
+						<div fxFlex="57" fxFlex.sm="55" fxFlex.md="55">
+							<div class="">
+								<h2 layout-margin>
+									Email Consent
+									<span fxFlex></span>
+									<button class="btn-edit" *ngIf="isEmailConsentEditable" (click)="emailConsentViewOnly()">
+										<mat-icon class="material-icons pointer">edit</mat-icon>
+									</button>
+									<button class="btn-edit" *ngIf="!isEmailConsentEditable" (click)="emailConsentEditable()">
+										<mat-icon class="material-icons pointer">visibility</mat-icon>
+									</button>
+								</h2>
+
+								<mat-card class="mat-content-padding body-card-block card_container">
+									<mat-card-title>
+										<h3>Email Consent</h3>
+									</mat-card-title>
+									<mat-card-content class="email-consent-wrapper">
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="start">
+											<div class="email-consent">
+												<label class="email-consent-label">Opted In:</label>
+
+												<mat-slide-toggle checked="form.controls['email_consent'] == 0 ? 'false' : 'true' "  color="primary" [disabled]="!isEmailConsentEditable"  (change)="onEmailConsentChange($event)"></mat-slide-toggle>
+											</div>
+										</div>
+
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+											<div fxFlex="100%" class="breadcrumb-btn-content button_wrapper" *ngIf="isEmailConsentEditable">
+												<button mat-button matSuffix mat-stroked-button class="add-new-btn" type="button" (click)="handleOnSubmitGeneralEdit()">
+													<a class="add-new-label">SAVE CHANGES</a>
+												</button>
+											</div>
+										</div>
+									</mat-card-content>
+								</mat-card>
+							</div>
+						</div>
+						<div fxFlex="28" fxFlex.sm="20" fxFlex.md="20"></div>
+					</div>
+				</div>
+
+				<div id="section5" class="">
+					<div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+						<div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0"></div>
+
+						<div fxFlex="57" fxFlex.sm="55" fxFlex.md="55">
+							<div class="">
+								<h2 layout-margin>
+									Login Information
+									<span fxFlex></span>
+									<button class="btn-edit" *ngIf="isLoginInfoEditable" (click)="loginInfoViewOnly()">
+										<mat-icon class="material-icons pointer">edit</mat-icon>
+									</button>
+									<button class="btn-edit" *ngIf="!isLoginInfoEditable" (click)="loginInfoEditable()">
+										<mat-icon class="material-icons pointer">visibility</mat-icon>
+									</button>
+								</h2>
+								<mat-card class="mat-content-padding body-card-block card_container">
+									<mat-card-title>
+										<h3>Login Information</h3>
+									</mat-card-title>
+									<mat-card-content>
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+											<!-- <div class="mb-1" fxFlex="calc(100% - 200px)"> -->
+
+											<div fxFlex="50%">
+												<mat-form-field fxFlex="100%">
+													<input disabled="!isEditing" matInput placeholder="Email" formControlName="patient_email" autocomplete="off" />
+
+													
+				
+												</mat-form-field>
+											</div>
+
+											<div fxFlex="50%">
+												<mat-form-field fxFlex="100%">
+													<input matInput placeholder="Password" formControlName="password" autocomplete="off" />
+												</mat-form-field>
+											</div>
+										</div>
+
+										
+
+									
+
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="left">
+											
+
+											<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+												<div fxFlex="50%" class="breadcrumb-btn-content button_wrapper" *ngIf="editable">
+													<div fxFlex="100%">
+														<button mat-button matSuffix mat-stroked-button class="add-new-btn" type="button" (click)="handleOnSubmitGeneralEdit()">
+															<a class="add-new-label">SAVE CHANGES</a>
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</mat-card-content>
+								</mat-card>
+							</div>
+						</div>
+						<div fxFlex="28" fxFlex.sm="20" fxFlex.md="20" class=""></div>
+					</div>
+				</div>
+				
+				
+
 			</div>
 		</div>
 	</div>
