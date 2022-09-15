@@ -15,7 +15,7 @@ export class CustomerService {
     }
 
     editCustomer(patient_id, params) {
-        return this.webApi.put(`patients/${patient_id}`, params)
+        return this.webApi.post(`patients/${patient_id}`, params)
     }
     getRawDetail() {
         return this.webApi.get('users/create');
