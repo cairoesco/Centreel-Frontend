@@ -27,21 +27,25 @@
 				<p (click)="utility.scrollTo('section3')">ID CARD DETAILS</p>
 			</ng-template>
 		</mat-tab>
+		<mat-tab>
+			<ng-template mat-tab-label>
+				<p (click)="utility.scrollTo('section4')">EMAIL CONSENT</p>
+			</ng-template>
+		</mat-tab>
+		<mat-tab>
+			<ng-template mat-tab-label>
+				<p (click)="utility.scrollTo('section5')">LOGIN INFORMATION</p>
+			</ng-template>
+		</mat-tab>
 	</mat-tab-group>
 
 	<div class="main-div-container">
 		<div fxLayout="row">
-			<div
-				fxFlex="100"
-				class="scroll-container fancyscroll"
-				id="parentDiv"
-				scrollSpy
-				[spiedTags]="['DIV']"
-				(sectionChange)="utility.onScrollContent($event)"
-				[style.height.px]="innerHeight"
-			>
+			<div fxFlex="100" class="scroll-container fancyscroll" id="parentDiv" scrollSpy [spiedTags]="['DIV']"
+				(sectionChange)="utility.onScrollContent($event)" [style.height.px]="innerHeight">
 				<div id="section1" class="">
-					<div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+					<div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+						fxLayoutAlign="center">
 						<div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0"></div>
 
 						<div fxFlex="57" fxFlex.sm="55" fxFlex.md="55">
@@ -61,26 +65,24 @@
 										<h3>Personal Information</h3>
 									</mat-card-title>
 									<mat-card-content>
-										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+											fxLayoutAlign="center">
 											<!-- <div class="mb-1" fxFlex="calc(100% - 200px)"> -->
 
 											<div fxFlex="50%">
 												<mat-form-field fxFlex="100%">
-													<input disabled="!isEditing" matInput placeholder="First name*" formControlName="patient_fname" autocomplete="off" />
+													<input disabled="!isEditing" matInput placeholder="First name*"
+														formControlName="patient_fname" autocomplete="off" />
 
 													<mat-error *ngIf="form.controls['patient_fname'].hasError('required')" class="mat-text-warn">
 														Please enter your first name
 													</mat-error>
 													<mat-error
 														*ngIf="form.controls['patient_fname'].hasError('minlength') && form.controls['patient_fname'].touched"
-														class="mat-text-warn"
-														>Your first name must be at least 5 characters long</mat-error
-													>
+														class="mat-text-warn">Your first name must be at least 5 characters long</mat-error>
 													<mat-error
 														*ngIf="form.controls['patient_fname'].hasError('maxlength') && form.controls['patient_fname'].touched"
-														class="mat-text-warn"
-														>Your first name cannot exceed 16 characters</mat-error
-													>
+														class="mat-text-warn">Your first name cannot exceed 16 characters</mat-error>
 												</mat-form-field>
 											</div>
 
@@ -91,103 +93,84 @@
 											</div>
 										</div>
 
-										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+											fxLayoutAlign="center">
 											<div fxFlex="50%">
 												<mat-form-field fxFlex="100%">
 													<input matInput placeholder="Last name*" formControlName="patient_lname" autocomplete="off" />
 
-													<mat-error *ngIf="form.controls['patient_lname'].hasError('required')" class="mat-text-warn"> Please enter your last name</mat-error>
+													<mat-error *ngIf="form.controls['patient_lname'].hasError('required')" class="mat-text-warn">
+														Please enter your last name</mat-error>
 													<mat-error
 														*ngIf="form.controls['patient_lname'].hasError('minlength') && form.controls['patient_lname'].touched"
-														class="mat-text-warn"
-														>Your Last name must be at least 5 characters long</mat-error
-													>
+														class="mat-text-warn">Your Last name must be at least 5 characters long</mat-error>
 													<mat-error
 														*ngIf="form.controls['patient_lname'].hasError('maxlength') && form.controls['patient_lname'].touched"
-														class="mat-text-warn"
-														>Your Last name cannot exceed 16 characters</mat-error
-													>
+														class="mat-text-warn">Your Last name cannot exceed 16 characters</mat-error>
 												</mat-form-field>
 											</div>
 
 											<div fxFlex="50%">
 												<mat-form-field fxFlex="100%">
-													<input matInput placeholder="Nickname" formControlName="customer_nickname" autocomplete="off" />
+													<input matInput placeholder="Nickname" formControlName="customer_nickname"
+														autocomplete="off" />
 												</mat-form-field>
 											</div>
 										</div>
 
-										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+											fxLayoutAlign="center">
 											<div fxFlex="50%">
 												<mat-form-field fxFlex="100%">
-													<input
-														matInput
-														[matDatepicker]="picker"
-														[max]="maxDate"
-														(focus)="picker.open()"
-														[readonly]="true"
-														(click)="picker.open()"
-														placeholder="Date of Birth*"
-														formControlName="dob"
-														autocomplete="off"
-													/>
+													<input matInput [matDatepicker]="picker" [max]="maxDate" (focus)="picker.open()"
+														[readonly]="true" (click)="picker.open()" placeholder="Date of Birth*" formControlName="dob"
+														autocomplete="off" />
 													<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 													<mat-datepicker #picker></mat-datepicker>
-													<mat-error *ngIf="form.controls['dob'].hasError('required')" class="mat-text-warn">Please select your date of birth</mat-error>
+													<mat-error *ngIf="form.controls['dob'].hasError('required')" class="mat-text-warn">Please
+														select your date of birth</mat-error>
 												</mat-form-field>
 											</div>
-											
+
 											<div fxFlex="50%">
 												<mat-form-field fxFlex="100%">
-													<mat-select [(value)]="defaultGender" placeholder="Gender*" formControlName="gender" [disableOptionCentering]="true">
+													<mat-select [(value)]="defaultGender" placeholder="Gender*" formControlName="gender"
+														[disableOptionCentering]="true">
 														<mat-option *ngFor="let gender of genderArr" [value]="gender.gender_id">
 															{{ gender.gender }}
 														</mat-option>
 													</mat-select>
-													<mat-error *ngIf="form.controls['gender'].hasError('required')">Please select a gender </mat-error>
+													<mat-error *ngIf="form.controls['gender'].hasError('required')">Please select a gender
+													</mat-error>
 												</mat-form-field>
 											</div>
 										</div>
 
-										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="left">
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+											fxLayoutAlign="left">
 											<div fxFlex="50%">
 												<mat-form-field fxFlex="100%">
-													<mat-select
-														placeholder="Patient Type"
-														formControlName="patient_type"
-														[disableOptionCentering]="true"
-														(selectionChange)="handleShowExtraCardInfo($event.value)"
-													>
-														<mat-option *ngFor="let patientType of patientTypeArr" [value]="patientType.patient_type_id">
+													<mat-select placeholder="Patient Type" formControlName="patient_type"
+														[disableOptionCentering]="true" (selectionChange)="handleShowExtraCardInfo($event.value)">
+														<mat-option *ngFor="let patientType of patientTypeArr"
+															[value]="patientType.patient_type_id">
 															{{ patientType.patient_type }}
 														</mat-option>
 													</mat-select>
 												</mat-form-field>
 											</div>
 
-											<div
-                      class=""
-                      fxLayout="row"
-                      fxLayout.xs="column"
-                      fxLayoutWrap
-                      fxLayoutGap="5%"
-                      fxLayoutAlign="center"
-                    >
-                    <div fxFlex="50%" class="breadcrumb-btn-content button_wrapper" *ngIf="editable">
-											<div fxFlex="100%">
-                        <button
-                          mat-button
-                          matSuffix
-                          mat-stroked-button
-                          class="add-new-btn"
-                          type="button"
-                          (click)="handleOnSubmitGeneralEdit()"
-                        >
-                          <a class="add-new-label">SAVE CHANGES</a>
-                        </button>
+											<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+												fxLayoutAlign="center">
+												<div fxFlex="50%" class="breadcrumb-btn-content button_wrapper" *ngIf="editable">
+													<div fxFlex="100%">
+														<button mat-button matSuffix mat-stroked-button class="add-new-btn" type="button"
+															(click)="handleOnSubmitGeneralEdit()">
+															<a class="add-new-label">SAVE CHANGES</a>
+														</button>
+													</div>
 												</div>
-                    </div>
-                    </div>
+											</div>
 										</div>
 									</mat-card-content>
 								</mat-card>
@@ -198,7 +181,8 @@
 				</div>
 
 				<div id="section2">
-					<div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+					<div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+						fxLayoutAlign="center">
 						<div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0"></div>
 
 						<div fxFlex="57" fxFlex.sm="55" fxFlex.md="55">
@@ -218,22 +202,17 @@
 									</mat-card-title>
 
 									<mat-card-content>
-										<div class="space-top" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+										<div class="space-top" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+											fxLayoutAlign="center">
 											<div fxFlex="50%">
 												<mat-form-field fxFlex="100%">
-													<input
-														matInput
-														placeholder="Phone Number*"
-														formControlName="patient_mobile"
-														(keypress)="utility.numberOnly($event)"
-														maxlength="11"
-														autocomplete="off"
-														
-													/>
+													<input matInput placeholder="Phone Number*" formControlName="patient_mobile"
+														(keypress)="utility.numberOnly($event)" maxlength="11" autocomplete="off" />
 													<mat-error *ngIf="form.controls['patient_mobile'].hasError('required')" class="mat-text-warn">
 														Please enter your phone number
 													</mat-error>
-													<mat-error *ngIf="form.controls['patient_mobile'].hasError('minlength')" class="mat-text-warn">
+													<mat-error *ngIf="form.controls['patient_mobile'].hasError('minlength')"
+														class="mat-text-warn">
 														Please enter your valid phone number
 													</mat-error>
 												</mat-form-field>
@@ -241,29 +220,26 @@
 
 											<div fxFlex="50%">
 												<mat-form-field fxFlex="100%">
-													<input matInput placeholder="Email*" formControlName="patient_email" type="email" autocomplete="off" />
+													<input matInput placeholder="Email*" formControlName="patient_email" type="email"
+														autocomplete="off" />
 													<mat-error *ngIf="form.controls['patient_email'].hasError('required')" class="mat-text-warn">
 														Please enter your email address
 													</mat-error>
 													<mat-error
 														*ngIf="form.controls['patient_email'].errors?.patient_email && form.controls['patient_email'].touched"
-														class="mat-text-warn"
-													>
+														class="mat-text-warn">
 														Please enter your valid email address
 													</mat-error>
 												</mat-form-field>
 											</div>
 										</div>
-										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+											fxLayoutAlign="center">
 
 											<div fxFlex="30%">
 												<mat-form-field fxFlex="100%">
-													<mat-select
-														placeholder="Country*"
-														formControlName="country_id"
-														[disableOptionCentering]="true"
-														(selectionChange)="getStateList('state', $event.value)"
-													>
+													<mat-select placeholder="Country*" formControlName="country_id"
+														[disableOptionCentering]="true" (selectionChange)="getStateList('state', $event.value)">
 														<mat-option *ngFor="let country of countryArr" [value]="country.location_id">
 															{{ country.location_name }}
 														</mat-option>
@@ -273,28 +249,20 @@
 
 											<div fxFlex="30%">
 												<mat-form-field fxFlex="100%">
-													<mat-select
-														placeholder="Province*"
-														formControlName="state_id"
-														[disableOptionCentering]="true"
-														(selectionChange)="getStateList('state', $event.value)"
-													>
+													<mat-select placeholder="Province*" formControlName="state_id" [disableOptionCentering]="true"
+														(selectionChange)="getStateList('state', $event.value)">
 														<mat-option *ngFor="let state of stateList" [value]="state.location_id">
 															{{ state.location_name }}
 														</mat-option>
 													</mat-select>
 												</mat-form-field>
-												
+
 											</div>
 
 											<div fxFlex="30%">
 												<mat-form-field fxFlex="100%">
-													<mat-select
-														placeholder="City*"
-														formControlName="city_id"
-														[disableOptionCentering]="true"
-														(selectionChange)="getCityList('city', $event.value)"
-													>
+													<mat-select placeholder="City*" formControlName="city_id" [disableOptionCentering]="true"
+														(selectionChange)="getCityList('city', $event.value)">
 														<mat-option *ngFor="let city of cityList" [value]="city.location_id">
 															{{ city.location_name }}
 														</mat-option>
@@ -303,28 +271,16 @@
 											</div>
 										</div>
 
-										
-										<div
-										class=""
-										fxLayout="row"
-										fxLayout.xs="column"
-										fxLayoutWrap
-										fxLayoutGap="5%"
-										fxLayoutAlign="center"
-									>
-									<div fxFlex="80%" class="breadcrumb-btn-content button_wrapper" *ngIf="isContactInfoEditable">
-											<button
-												mat-button
-												matSuffix
-												mat-stroked-button
-												class="add-new-btn"
-												type="button"
-												(click)="handleOnSubmitGeneralEdit()"
-											>
-												<a class="add-new-label">SAVE CHANGES</a>
-											</button>
+
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+											fxLayoutAlign="center">
+											<div fxFlex="80%" class="breadcrumb-btn-content button_wrapper" *ngIf="isContactInfoEditable">
+												<button mat-button matSuffix mat-stroked-button class="add-new-btn" type="button"
+													(click)="handleOnSubmitGeneralEdit()">
+													<a class="add-new-label">SAVE CHANGES</a>
+												</button>
 											</div>
-									</div>
+										</div>
 
 									</mat-card-content>
 								</mat-card>
@@ -336,7 +292,8 @@
 
 				<div id="section3">
 					<!-- license information -->
-					<div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+					<div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+						fxLayoutAlign="center">
 						<div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0"></div>
 						<div fxFlex="57" fxFlex.sm="55" fxFlex.md="55">
 							<div class="">
@@ -355,24 +312,28 @@
 										<h3>Card Details</h3>
 									</mat-card-title>
 									<mat-card-content>
-										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+											fxLayoutAlign="center">
 											<!-- <div class="mb-1" fxFlex="calc(100% - 200px)"> -->
 											<div fxFlex="30%">
 												<mat-form-field fxFlex="100%">
 													<input matInput placeholder="ID#*" formControlName="id_number" autocomplete="off" />
 
-													<mat-error *ngIf="form.controls['id_number'].hasError('required')" class="mat-text-warn"> Please enter ID number </mat-error>
+													<mat-error *ngIf="form.controls['id_number'].hasError('required')" class="mat-text-warn">
+														Please enter ID number </mat-error>
 												</mat-form-field>
 											</div>
 
 											<div fxFlex="30%">
 												<mat-form-field fxFlex="100%">
-													<mat-select placeholder="ID Type*" formControlName="id_card_type" [disableOptionCentering]="true">
+													<mat-select placeholder="ID Type*" formControlName="id_card_type"
+														[disableOptionCentering]="true">
 														<mat-option *ngFor="let cardType of cardTypeArr" [value]="cardType.id_card_type_id">
 															{{ cardType.id_card_type }}
 														</mat-option>
 													</mat-select>
-													<mat-error *ngIf="form.controls['id_card_type'].hasError('required')" class="mat-text-warn"> Please enter ID card type </mat-error>
+													<mat-error *ngIf="form.controls['id_card_type'].hasError('required')" class="mat-text-warn">
+														Please enter ID card type </mat-error>
 												</mat-form-field>
 											</div>
 
@@ -380,57 +341,163 @@
 												<mat-form-field fxFlex="100%">
 													<input matInput placeholder="ID Status*" formControlName="source" autocomplete="off" />
 
-													<mat-error *ngIf="form.controls['source'].hasError('required')" class="mat-text-warn"> Please enter ID status </mat-error>
+													<mat-error *ngIf="form.controls['source'].hasError('required')" class="mat-text-warn"> Please
+														enter ID status </mat-error>
 												</mat-form-field>
 											</div>
 										</div>
 
-										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center" *ngIf="showExtraCardInfo">
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+											fxLayoutAlign="center" *ngIf="showExtraCardInfo">
 											<div fxFlex="45%">
 												<mat-form-field fxFlex="100%">
-													<input matInput placeholder="Caregiver license number" formControlName="caregiver_license_number" autocomplete="off" />
+													<input matInput placeholder="Caregiver license number"
+														formControlName="caregiver_license_number" autocomplete="off" />
 
-													
+
 												</mat-form-field>
 											</div>
 
 											<div fxFlex="45%">
 												<mat-form-field fxFlex="100%">
-													<input matInput placeholder="Patient license number" formControlName="patient_license_number" autocomplete="off" />
+													<input matInput placeholder="Patient license number" formControlName="patient_license_number"
+														autocomplete="off" />
 
-													
+
 												</mat-form-field>
 											</div>
 										</div>
 
-										<div
-										class=""
-										fxLayout="row"
-										fxLayout.xs="column"
-										fxLayoutWrap
-										fxLayoutGap="5%"
-										fxLayoutAlign="center"
-									>
-									<div fxFlex="100%" class="breadcrumb-btn-content button_wrapper" *ngIf="isCardDetailsEditable">
-										
-											<button
-												mat-button
-												matSuffix
-												mat-stroked-button
-												class="add-new-btn"
-												type="button"
-												(click)="handleOnSubmitGeneralEdit()"
-											>
-												<a class="add-new-label">SAVE CHANGES</a>
-											</button>
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+											fxLayoutAlign="center">
+											<div fxFlex="100%" class="breadcrumb-btn-content button_wrapper" *ngIf="isCardDetailsEditable">
+
+												<button mat-button matSuffix mat-stroked-button class="add-new-btn" type="button"
+													(click)="handleOnSubmitGeneralEdit()">
+													<a class="add-new-label">SAVE CHANGES</a>
+												</button>
 											</div>
 
-									</div>
+										</div>
 									</mat-card-content>
 								</mat-card>
 							</div>
 						</div>
 						<div fxFlex="28" fxFlex.sm="20" fxFlex.md="20"></div>
+					</div>
+				</div>
+
+				<div id="section4">
+					<!-- license information -->
+					<div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+						fxLayoutAlign="center">
+						<div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0"></div>
+						<div fxFlex="57" fxFlex.sm="55" fxFlex.md="55">
+							<div class="">
+								<h2 layout-margin>
+									Email Consent
+									<span fxFlex></span>
+									<button class="btn-edit" *ngIf="isEmailConsentEditable" (click)="emailConsentViewOnly()">
+										<mat-icon class="material-icons pointer">edit</mat-icon>
+									</button>
+									<button class="btn-edit" *ngIf="!isEmailConsentEditable" (click)="emailConsentEditable()">
+										<mat-icon class="material-icons pointer">visibility</mat-icon>
+									</button>
+								</h2>
+
+								<mat-card class="mat-content-padding body-card-block card_container">
+									<mat-card-title>
+										<h3>Email Consent</h3>
+									</mat-card-title>
+									<mat-card-content class="email-consent-wrapper">
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+											fxLayoutAlign="start">
+											<div class="email-consent">
+												<label class="email-consent-label">Opted In:</label>
+
+												<mat-slide-toggle checked="form.controls['email_consent'] == 0 ? 'false' : 'true' "
+													color="primary" [disabled]="!isEmailConsentEditable" (change)="onEmailConsentChange($event)">
+												</mat-slide-toggle>
+											</div>
+										</div>
+
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+											fxLayoutAlign="center">
+											<div fxFlex="100%" class="breadcrumb-btn-content button_wrapper" *ngIf="isEmailConsentEditable">
+												<button mat-button matSuffix mat-stroked-button class="add-new-btn" type="button"
+													(click)="handleOnSubmitGeneralEdit()">
+													<a class="add-new-label">SAVE CHANGES</a>
+												</button>
+											</div>
+										</div>
+									</mat-card-content>
+								</mat-card>
+							</div>
+						</div>
+						<div fxFlex="28" fxFlex.sm="20" fxFlex.md="20"></div>
+					</div>
+				</div>
+
+				<div id="section5" class="">
+					<div class="section-content" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%"
+						fxLayoutAlign="center">
+						<div fxFlex="15" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="0"></div>
+
+						<div fxFlex="57" fxFlex.sm="55" fxFlex.md="55">
+							<div class="">
+								<h2 layout-margin>
+									Login Information
+									<span fxFlex></span>
+									<button class="btn-edit" *ngIf="isLoginInfoEditable" (click)="loginInfoViewOnly()">
+										<mat-icon class="material-icons pointer">edit</mat-icon>
+									</button>
+									<button class="btn-edit" *ngIf="!isLoginInfoEditable" (click)="loginInfoEditable()">
+										<mat-icon class="material-icons pointer">visibility</mat-icon>
+									</button>
+								</h2>
+								<mat-card class="mat-content-padding body-card-block card_container">
+									<mat-card-title>
+										<h3>Login Information</h3>
+									</mat-card-title>
+									<mat-card-content>
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%"
+											fxLayoutAlign="center">
+											<!-- <div class="mb-1" fxFlex="calc(100% - 200px)"> -->
+
+											<div fxFlex="50%">
+												<mat-form-field fxFlex="100%">
+													<input disabled="!isEditing" matInput placeholder="Email" formControlName="patient_email"
+														autocomplete="off" />
+
+
+
+												</mat-form-field>
+											</div>
+
+											<div fxFlex="50%">
+												<mat-form-field fxFlex="100%">
+													<input matInput placeholder="Password" formControlName="password" autocomplete="off" />
+												</mat-form-field>
+											</div>
+										</div>
+										<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="left">
+
+
+											<div class="" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="5%" fxLayoutAlign="center">
+												<div fxFlex="50%" class="breadcrumb-btn-content button_wrapper" *ngIf="editable">
+													<div fxFlex="100%">
+														<button mat-button matSuffix mat-stroked-button class="add-new-btn" type="button" (click)="handleOnSubmitGeneralEdit()">
+															<a class="add-new-label">SAVE CHANGES</a>
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</mat-card-content>
+								</mat-card>
+							</div>
+						</div>
+						<div fxFlex="28" fxFlex.sm="20" fxFlex.md="20" class=""></div>
 					</div>
 				</div>
 			</div>
