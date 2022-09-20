@@ -155,6 +155,7 @@ export class AddProductComponent implements OnInit {
       product_image: [''],
       product_unit: [this.unitMeasurement[0].slug, Validators.required],
       product_highlights: [''],
+      product_description: [''],
       variants_different_images: [''],
       is_taxable: ['Y'],
       product_attributes: [''],
