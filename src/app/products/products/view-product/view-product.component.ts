@@ -227,6 +227,7 @@ export class ViewProductComponent implements OnInit {
     this.generalForm = this.fb.group({
       product_name: ["", Validators.required],
       product_highlights: [""],
+      product_description: [""],
       specie_id: [""],
       type_id: ["", Validators.required],
       product_category: ["", Validators.required],
@@ -372,8 +373,8 @@ export class ViewProductComponent implements OnInit {
     if (product.product_cbd) var cbd = product.product_cbd.split("-");
     this.generalForm.patchValue({
       product_name: product.product_name,
-      product_highlights:
-        product.product_highlights == null ? "" : product.product_highlights,
+      product_highlights: product.product_highlights == null ? "" : product.product_highlights,
+      product_description: product.product_description == null ? "" : product.product_description,
       type_id: product.type_id,
       specie_id: product.specie_id,
       product_category: product.product_category,
