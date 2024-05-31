@@ -29,10 +29,10 @@ jobs:
         
       - name: Deploy app build to S3 bucket to prodution
         if: endsWith(github.ref, '/master')
-        run: aws s3 sync ./dist/ s3://centreel-production-frontend --delete
+        run: aws s3 sync ./dist/ s3://cairo-production-frontend --delete
       - name: Deploy app build to S3 bucket to testing
         if: endsWith(github.ref, '/staging')
-        run: aws s3 sync ./dist/ s3://centreel-testing-frontend --delete
+        run: aws s3 sync ./dist/ s3://cairo-testing-frontend --delete
       - name: Deploy app build to S3 bucket to dev
         if: endsWith(github.ref, '/dev')
-        run: aws s3 sync ./dist/ s3://centreel-dev-frontend --delete
+        run: aws s3 sync ./dist/ s3://cairo-dev-frontend --delete
