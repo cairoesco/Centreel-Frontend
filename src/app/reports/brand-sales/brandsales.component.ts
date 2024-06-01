@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { HttpResponse } from "@angular/common/http";
 import * as moment from "moment";
-import { FormControl } from "@angular/forms";
+import { UntypedFormControl } from "@angular/forms";
 import { debounceTime } from "rxjs/operators";
 import { ReportService } from "../report.service";
 import { UtilsServiceService } from "../../shared/services/utils-service.service";
@@ -16,7 +16,7 @@ import { UtilsServiceService } from "../../shared/services/utils-service.service
 })
 export class BrandSalesComponent implements OnInit {
 	inProgress: boolean = false;
-	public brandForm: FormGroup;
+	public brandForm: UntypedFormGroup;
 	public storeList: any[] = [];
 	public rows: any = {};
 	public tempRows: any[] = [];
@@ -54,13 +54,13 @@ export class BrandSalesComponent implements OnInit {
 	isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
 	constructor(
 		public reportService: ReportService,
-		private formBuilder: FormBuilder,
+		private formBuilder: UntypedFormBuilder,
 		public utils: UtilsServiceService
 	) {
 		this.alwaysShowCalendars = true;
 	}
 
-	public search = new FormControl("");
+	public search = new UntypedFormControl("");
 
 	ngOnInit() {
 		this.getStores();

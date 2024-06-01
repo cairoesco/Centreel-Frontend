@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SalesFilterDialogComponent } from './sales-filter-dialog/sales-filter-dialog.component';
 import { SaleshareFilterDialogComponent } from './saleshare-filter-dialog/saleshare-filter-dialog.component';
 import { HttpResponse } from '@angular/common/http';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { UtilsServiceService } from '../../shared/services/utils-service.service';
 import { ReportService } from '../report.service';
 import * as moment from 'moment';
@@ -21,7 +21,7 @@ export class CustomsalesComponent implements OnInit {
   public columns: any = [];
   public dataHeader: any = [];
   selected_report: number;
-  customReport: FormGroup;
+  customReport: UntypedFormGroup;
   reportDetails: [];
   result_data: any = [];
   vendors: any = [];
@@ -32,7 +32,7 @@ export class CustomsalesComponent implements OnInit {
   constructor(public dialog: MatDialog,
     public reportService: ReportService,
     private utils: UtilsServiceService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
   ) { }
 
   ngOnInit() {

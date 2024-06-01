@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormArray, UntypedFormBuilder, Validators, UntypedFormControl } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { FileUploader } from 'ng2-file-upload';
@@ -34,8 +34,8 @@ export class AddProductComponent implements OnInit {
   public innerHeight: any;
   public type: string = 'component';
   public indexofTab = 0;
-  public form: FormGroup;
-  public addStore: FormGroup;
+  public form: UntypedFormGroup;
+  public addStore: UntypedFormGroup;
   public imageSrc: any;
   public heightOfY;
   public visible = true;
@@ -63,7 +63,7 @@ export class AddProductComponent implements OnInit {
   public is_add_product: boolean = false;
   public is_edit_product: boolean = false;
   public is_view_product: boolean = false;
-  public addProductForm: FormGroup;
+  public addProductForm: UntypedFormGroup;
   public image_option = [{ name: 'Auto-Generated', value: 0 }, { name: 'Gallery', value: 1 }];
   public radio_option = [{ name: 'Yes', value: 1 }, { name: 'No', value: 0 }];
   public isAuthorized = false;
@@ -109,7 +109,7 @@ export class AddProductComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private router: Router,
     private api: ProductService,
-    public formBuilder: FormBuilder,
+    public formBuilder: UntypedFormBuilder,
     public utility: UtilsServiceService,
     public dialog: MatDialog,
     public refVar: ChangeDetectorRef) {
@@ -254,7 +254,7 @@ export class AddProductComponent implements OnInit {
   }
   /* auto generate barcode */
   auto_generate_barcode(index) {
-    const control = (<FormArray>this.addProductForm.controls['barcode']) as FormArray;
+    const control = (<UntypedFormArray>this.addProductForm.controls['barcode']) as UntypedFormArray;
     let control_val = control.value
 
     //let userData = this.utility.getSessionData('currentUser');
@@ -272,7 +272,7 @@ export class AddProductComponent implements OnInit {
   }
 
   auto_generate_barcode_variant(index) {
-    const control = (<FormArray>this.addProductForm.controls['variants']).at(index).get('barcode') as FormArray;
+    const control = (<UntypedFormArray>this.addProductForm.controls['variants']).at(index).get('barcode') as UntypedFormArray;
     let control_val = control.value
 
     // let userData = this.utility.getSessionData('currentUser');
@@ -292,8 +292,8 @@ export class AddProductComponent implements OnInit {
   addBarcodeVariant(event: MatChipInputEvent, index) {
     let input = event.input;
     let value = event.value;
-    const control = (<FormArray>this.addProductForm.controls['variants']).at(index).get('barcode') as FormArray;
-    const control1 = (<FormArray>this.addProductForm.controls['variants']).at(index).get('barcodes') as FormArray;
+    const control = (<UntypedFormArray>this.addProductForm.controls['variants']).at(index).get('barcode') as UntypedFormArray;
+    const control1 = (<UntypedFormArray>this.addProductForm.controls['variants']).at(index).get('barcodes') as UntypedFormArray;
     let variantControl: any = this.addProductForm.controls['variants'];
 
     let controlValue: any = control.value
@@ -342,7 +342,7 @@ export class AddProductComponent implements OnInit {
   }
 
   removeBarcodeVariant(barcode_val, index): void {
-    const control = (<FormArray>this.addProductForm.controls['variants']).at(index).get('barcode') as FormArray;
+    const control = (<UntypedFormArray>this.addProductForm.controls['variants']).at(index).get('barcode') as UntypedFormArray;
     let controlValue: any = control.value;
 
     const index_value = controlValue.indexOf(barcode_val);
@@ -414,7 +414,7 @@ export class AddProductComponent implements OnInit {
       /* add validation and remove validation based on admin role */
 
       if (this.selectedData.length > 0) {
-        const InventoryControl = <FormArray>this.addProductForm.controls['inventory'];
+        const InventoryControl = <UntypedFormArray>this.addProductForm.controls['inventory'];
         while (InventoryControl.length !== 0) {
           InventoryControl.removeAt(0)
         }
@@ -568,29 +568,29 @@ export class AddProductComponent implements OnInit {
       this.addProductForm.removeControl('package_capacity')
     }
     else {
-      const controlVariants = <FormArray>this.addProductForm.controls['variants'];
+      const controlVariants = <UntypedFormArray>this.addProductForm.controls['variants'];
       controlVariants.controls = [];
-      const VariantOption = <FormArray>this.addProductForm.controls['variant_properties'];
+      const VariantOption = <UntypedFormArray>this.addProductForm.controls['variant_properties'];
       VariantOption.controls = [];
       VariantOption.push(this.addnewProductVariant());
 
       if (!this.isAuthorized) {
-        this.addProductForm.addControl('selling_price', new FormControl(null, Validators.required))
+        this.addProductForm.addControl('selling_price', new UntypedFormControl(null, Validators.required))
       } else {
-        this.addProductForm.addControl('selling_price', new FormControl(null))
+        this.addProductForm.addControl('selling_price', new UntypedFormControl(null))
       }
-      this.addProductForm.addControl('special_price', new FormControl(null))
-      this.addProductForm.addControl('package_capacity', new FormControl(1, Validators.required))
-      this.addProductForm.addControl('product_sku', new FormControl('', Validators.required))
+      this.addProductForm.addControl('special_price', new UntypedFormControl(null))
+      this.addProductForm.addControl('package_capacity', new UntypedFormControl(1, Validators.required))
+      this.addProductForm.addControl('product_sku', new UntypedFormControl('', Validators.required))
       if (this.isCanabis && !this.isAuthorized)
-        this.addProductForm.addControl('barcode', new FormControl('', Validators.required))
+        this.addProductForm.addControl('barcode', new UntypedFormControl('', Validators.required))
 
       else
-        this.addProductForm.addControl('barcode', new FormControl(''))
+        this.addProductForm.addControl('barcode', new UntypedFormControl(''))
 
       this.addProductForm.addControl('inventory', this.formBuilder.array([]))
       if (this.selectedData.length > 0) {
-        const InventoryControl = <FormArray>this.addProductForm.controls['inventory'];
+        const InventoryControl = <UntypedFormArray>this.addProductForm.controls['inventory'];
         this.selectedData.forEach(element => {
           let data = this.addProductStoreWiseInventory(element);
           InventoryControl.push(data);
@@ -616,14 +616,14 @@ export class AddProductComponent implements OnInit {
   }
   removeVariantChip(i, fruit): void {
     const index = i.value.option_values.indexOf(fruit);
-    const control = <FormArray>this.addProductForm.controls['variant_properties'];
+    const control = <UntypedFormArray>this.addProductForm.controls['variant_properties'];
     if (index >= 0) {
       i.value.option_values.splice(index, 1);
       var temparray = [];
       for (var j = 0; j < control.length; j++) {
         temparray.push(control.value[j].option_values)
       }
-      const controlVariants = <FormArray>this.addProductForm.controls['variants'];
+      const controlVariants = <UntypedFormArray>this.addProductForm.controls['variants'];
       var variantsArray = this.generateVariants(temparray);
       controlVariants.controls = [];
       variantsArray.forEach(element => {
@@ -690,7 +690,7 @@ export class AddProductComponent implements OnInit {
   }
 
   warehousesVariantPrice(warehousesData) {
-    let arr = new FormArray([])
+    let arr = new UntypedFormArray([])
     var testInd = 0;
     warehousesData.forEach(data => {
       arr.push(this.formBuilder.group({
@@ -712,7 +712,7 @@ export class AddProductComponent implements OnInit {
   addVariantChip(i, event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-    const control = <FormArray>this.addProductForm.controls['variant_properties'];
+    const control = <UntypedFormArray>this.addProductForm.controls['variant_properties'];
     if ((value || '').trim()) {
       if (_.find(i.value.option_values, function (o) { return o.toLowerCase() == value.toLowerCase(); }) == undefined) {
         i.value.option_values.push(value.trim());
@@ -722,7 +722,7 @@ export class AddProductComponent implements OnInit {
         }
 
 
-        const controlVariants = <FormArray>this.addProductForm.controls['variants'];
+        const controlVariants = <UntypedFormArray>this.addProductForm.controls['variants'];
         var variantsArray = this.generateVariants(temparray);
         if (variantsArray.length > 0) {
           controlVariants.controls = [];
@@ -744,12 +744,12 @@ export class AddProductComponent implements OnInit {
   }
 
   countProvinceInfoForVariant(event, data, index) {
-    const control = (<FormArray>this.addProductForm.controls['variants']).at(index).get('product_provinces') as FormArray;
+    const control = (<UntypedFormArray>this.addProductForm.controls['variants']).at(index).get('product_provinces') as UntypedFormArray;
     if (event.isUserInput) {
       if (event.source._selected) {
         control.push(this.addProvince(data));
       } else {
-        const tempData = (<FormArray>this.addProductForm.controls['variants']).at(index).get('product_provinces').value;
+        const tempData = (<UntypedFormArray>this.addProductForm.controls['variants']).at(index).get('product_provinces').value;
         let dataindex = tempData.indexOf(tempData);
         control.removeAt(dataindex);
       }
@@ -763,7 +763,7 @@ export class AddProductComponent implements OnInit {
       VariantControls[index].removeControl('selling_price');
       VariantControls[index].removeControl('special_price');
       VariantControls[index].addControl('variant_price', this.formBuilder.array([]));
-      let variant_price_control = <FormArray>VariantControls[index].controls['variant_price'];
+      let variant_price_control = <UntypedFormArray>VariantControls[index].controls['variant_price'];
       // this.selectedData.forEach(element => {
       this.chainwiseStores.forEach(element => {
         let data = this.addProductStoreWiseSellingPrice(element);
@@ -773,11 +773,11 @@ export class AddProductComponent implements OnInit {
     }
     else {
       if (!this.isAuthorized) {
-        VariantControls[index].addControl('selling_price', new FormControl(null, Validators.required))
+        VariantControls[index].addControl('selling_price', new UntypedFormControl(null, Validators.required))
       } else {
-        VariantControls[index].addControl('selling_price', new FormControl(null))
+        VariantControls[index].addControl('selling_price', new UntypedFormControl(null))
       }
-      VariantControls[index].addControl('special_price', new FormControl(null))
+      VariantControls[index].addControl('special_price', new UntypedFormControl(null))
       VariantControls[index].removeControl('variant_price');
 
     }
@@ -796,30 +796,30 @@ export class AddProductComponent implements OnInit {
   AddMultipalVariantInventoryinSameStorage(index, variant_index, data) {
 
 
-    const control = (<FormArray>this.addProductForm.controls['variants']).at(index).get('inventory') as FormArray;
-    const control1 = control.at(variant_index).get('inventory') as FormArray;
+    const control = (<UntypedFormArray>this.addProductForm.controls['variants']).at(index).get('inventory') as UntypedFormArray;
+    const control1 = control.at(variant_index).get('inventory') as UntypedFormArray;
     control1.push(this.AddMultipalInventoryin(data));
   }
 
   Deleteinventory(index, record, variant_index) {
-    const control = (<FormArray>this.addProductForm.controls['variants']).at(variant_index).get('inventory') as FormArray;
-    const control1 = control.at(index).get('inventory') as FormArray;
+    const control = (<UntypedFormArray>this.addProductForm.controls['variants']).at(variant_index).get('inventory') as UntypedFormArray;
+    const control1 = control.at(index).get('inventory') as UntypedFormArray;
     control1.removeAt(record);
   }
 
   private addvariant_propertiesOption() {
-    const controlVariant = <FormArray>this.addProductForm.controls['variant_properties'];
+    const controlVariant = <UntypedFormArray>this.addProductForm.controls['variant_properties'];
     controlVariant.push(this.addnewProductVariant());
   }
 
   removeUnit(i) {
-    const control = <FormArray>this.addProductForm.controls['variant_properties'];
+    const control = <UntypedFormArray>this.addProductForm.controls['variant_properties'];
     control.removeAt(i);
     var temparray = [];
     for (var j = 0; j < control.length; j++) {
       temparray.push(control.value[j].option_values);
     }
-    const controlVariants = <FormArray>this.addProductForm.controls['variants'];
+    const controlVariants = <UntypedFormArray>this.addProductForm.controls['variants'];
     var variantsArray = this.generateVariants(temparray);
     if (variantsArray.length > 0) {
       controlVariants.controls = [];
@@ -843,12 +843,12 @@ export class AddProductComponent implements OnInit {
   //#region ______________________ Properties section all functions ______________________/
 
   countProductProperties(event, data, index) {
-    const control = (<FormArray>this.addProductForm.controls['productProperties']).at(index).get('selected_product_attribute_properties') as FormArray;
+    const control = (<UntypedFormArray>this.addProductForm.controls['productProperties']).at(index).get('selected_product_attribute_properties') as UntypedFormArray;
     if (event.isUserInput) {
       if (event.source._selected) {
         control.push(this.addSelectedProductAttributeProperties(data));
       } else {
-        const tempData = (<FormArray>this.addProductForm.controls['productProperties']).at(index).get('selected_product_attribute_properties').value;
+        const tempData = (<UntypedFormArray>this.addProductForm.controls['productProperties']).at(index).get('selected_product_attribute_properties').value;
         let updateItem = _.find(tempData, { 'selected_attribute_id': data.property_id });
         let dataindex = tempData.indexOf(updateItem);
         control.removeAt(dataindex);
@@ -892,12 +892,12 @@ export class AddProductComponent implements OnInit {
         }
         result.get('storage_id').setValue(data.storage_id);
         if (variant == "variant") {
-          const control = (<FormArray>this.addProductForm.controls['variants']).at(variant_index).get('inventory') as FormArray;
-          const control1 = control.at(index).get('inventory') as FormArray;
+          const control = (<UntypedFormArray>this.addProductForm.controls['variants']).at(variant_index).get('inventory') as UntypedFormArray;
+          const control1 = control.at(index).get('inventory') as UntypedFormArray;
           control1.push(result);
         }
         else {
-          const control = (<FormArray>this.addProductForm.controls['inventory']).at(index).get('inventories') as FormArray;
+          const control = (<UntypedFormArray>this.addProductForm.controls['inventory']).at(index).get('inventories') as UntypedFormArray;
           control.push(result);
         }
 
@@ -912,7 +912,7 @@ export class AddProductComponent implements OnInit {
       this.addProductForm.removeControl('special_price');
       // this.addProductForm.removeControl('variant_price');
       this.addProductForm.addControl('variant_price', this.formBuilder.array([]))
-      const SellingPriceControl = <FormArray>this.addProductForm.controls['variant_price'];
+      const SellingPriceControl = <UntypedFormArray>this.addProductForm.controls['variant_price'];
       // this.selectedData.forEach(element => {
       this.chainwiseStores.forEach(element => {
         let data = this.addProductStoreWiseSellingPrice(element);
@@ -921,18 +921,18 @@ export class AddProductComponent implements OnInit {
     }
     else {
       if (!this.isAuthorized) {
-        this.addProductForm.addControl('selling_price', new FormControl(null, Validators.required))
+        this.addProductForm.addControl('selling_price', new UntypedFormControl(null, Validators.required))
       } else {
-        this.addProductForm.addControl('selling_price', new FormControl(null))
+        this.addProductForm.addControl('selling_price', new UntypedFormControl(null))
       }
-      this.addProductForm.addControl('special_price', new FormControl(null))
+      this.addProductForm.addControl('special_price', new UntypedFormControl(null))
       this.addProductForm.removeControl('variant_price');
 
     }
   }
 
   countProvinceInfo(event, data) {
-    const control = <FormArray>this.addProductForm.controls['product_provinces'];
+    const control = <UntypedFormArray>this.addProductForm.controls['product_provinces'];
     if (event.isUserInput) {
       if (event.source._selected) {
         control.push(this.addProvince(data));
@@ -969,11 +969,11 @@ export class AddProductComponent implements OnInit {
   }
 
   AddMultipalInventoryinSameStorage(index, data) {
-    const control = (<FormArray>this.addProductForm.controls['inventory']).at(index).get('inventories') as FormArray;
+    const control = (<UntypedFormArray>this.addProductForm.controls['inventory']).at(index).get('inventories') as UntypedFormArray;
     control.push(this.AddMultipalInventoryin(data));
   }
   DeleteInventories(index, record) {
-    const control = (<FormArray>this.addProductForm.controls['inventory']).at(index).get('inventories') as FormArray;
+    const control = (<UntypedFormArray>this.addProductForm.controls['inventory']).at(index).get('inventories') as UntypedFormArray;
     control.removeAt(record);
   }
   trackInventory(event) {
@@ -1037,14 +1037,14 @@ export class AddProductComponent implements OnInit {
             this.selectedChain(this.chains[0].chain_id, event)
 
           }
-          const control = <FormArray>this.addProductForm.controls['productProperties'];
+          const control = <UntypedFormArray>this.addProductForm.controls['productProperties'];
           this.rawDetail.product_attributes.forEach(element => {
             if (element.product_attribute_properties.length > 0) {
               let data = this.addproductPROPERTIES(element);
               control.push(data);
             }
           });
-          const controlVariant = <FormArray>this.addProductForm.controls['variant_properties'];
+          const controlVariant = <UntypedFormArray>this.addProductForm.controls['variant_properties'];
           controlVariant.push(this.addnewProductVariant());
         }
       });
@@ -1099,7 +1099,7 @@ export class AddProductComponent implements OnInit {
           selectedVariant.push(element);
         }
         else {
-          const control = <FormArray>this.addProductForm.controls.variants;
+          const control = <UntypedFormArray>this.addProductForm.controls.variants;
           control.removeAt(index);
           index = index - 1;
         }

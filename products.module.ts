@@ -35,7 +35,6 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
             separator: ' To '
         })
     ],
-
     declarations: [
         ProductsComponent,
         AddProductComponent,
@@ -50,8 +49,7 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
         FilterReconcileDialogComponent,
         // PrintBarcodeComponent
     ],
-    providers: [ProductService],
-    entryComponents: [FilterDialogComponent, InventoryModalComponent, DefaultProductSearchComponent, SupplierDialogComponent, ConfirmationDialogComponent,FilterReconcileDialogComponent]
+    providers: [ProductService]
 })
 export class ProductsModule {
 }

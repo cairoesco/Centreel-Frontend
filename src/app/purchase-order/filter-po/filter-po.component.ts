@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as _ from 'lodash';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { PurchaseOrderService } from '../purchase-order.service';
 import * as moment from 'moment';
 import { UtilsServiceService } from '../../shared/services/utils-service.service';
@@ -14,7 +14,7 @@ import { UtilsServiceService } from '../../shared/services/utils-service.service
 })
 export class FilterPoComponent implements OnInit {
 
-  public filterForm: FormGroup;
+  public filterForm: UntypedFormGroup;
   form_obj: any = new Object();
 
   user_ids: any;
@@ -38,7 +38,7 @@ export class FilterPoComponent implements OnInit {
   //datepicker range
   isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
   
-  constructor(private api: PurchaseOrderService, public dialogRef: MatDialogRef<FilterPoComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public fb: FormBuilder, private utils: UtilsServiceService) {
+  constructor(private api: PurchaseOrderService, public dialogRef: MatDialogRef<FilterPoComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public fb: UntypedFormBuilder, private utils: UtilsServiceService) {
     this.alwaysShowCalendars = true;
   }
 

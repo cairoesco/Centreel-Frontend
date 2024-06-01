@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
@@ -24,7 +24,7 @@ export class EmployeeSalesComponent implements OnInit {
   @ViewChild('myDatatable') table: any;
 
   inProgress: boolean = false;
-  employeeSalesList: FormGroup;
+  employeeSalesList: UntypedFormGroup;
   storeList = [];
   resultdata = [];
   submitted: boolean = false;
@@ -56,7 +56,7 @@ export class EmployeeSalesComponent implements OnInit {
   
   constructor(private router: Router,
     public reportService: ReportService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private snackBar: MatSnackBar,
     private utils: UtilsServiceService) {
     this.alwaysShowCalendars = true;

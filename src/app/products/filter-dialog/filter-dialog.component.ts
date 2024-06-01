@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as _ from 'lodash';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { ApiService } from '../../api.service';
 import * as moment from 'moment';
 
@@ -12,7 +12,7 @@ import * as moment from 'moment';
   styleUrls: ['./filter-dialog.component.scss']
 })
 export class FilterDialogComponent implements OnInit {
-  public filterForm: FormGroup;
+  public filterForm: UntypedFormGroup;
   product_categories = [];
   product_types = [];
   public producttypeFormArray: any = [];
@@ -38,7 +38,7 @@ export class FilterDialogComponent implements OnInit {
    }
    //datepicker range
    isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
-  constructor(private api: ApiService, public dialogRef: MatDialogRef<FilterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public fb: FormBuilder) {
+  constructor(private api: ApiService, public dialogRef: MatDialogRef<FilterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public fb: UntypedFormBuilder) {
 
   }
 

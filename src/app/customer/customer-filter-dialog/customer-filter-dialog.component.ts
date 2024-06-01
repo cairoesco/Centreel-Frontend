@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as _ from 'lodash';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, FormArray } from '@angular/forms';
 import * as moment from 'moment';
 import { UtilsServiceService } from '../../shared/services/utils-service.service';
 import { CustomerService } from '../customer.service';
@@ -16,7 +16,7 @@ export class CustomerFilterDialogComponent implements OnInit {
 
 
   public filterList: any;
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public rawDetail: any;
   public minDate = moment("2017-01-01");
   public maxDate = moment();
@@ -39,7 +39,7 @@ export class CustomerFilterDialogComponent implements OnInit {
     public router: Router,
     public utility: UtilsServiceService,
     public customerService: CustomerService,
-    public fb: FormBuilder) {
+    public fb: UntypedFormBuilder) {
     this.filterList = this.data.data
     this.alwaysShowCalendars = true;
   }

@@ -1,7 +1,7 @@
 
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-till',
@@ -10,9 +10,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
  
 export class TillComponent implements OnInit {
-  public form: FormGroup;
+  public form: UntypedFormGroup;
 
-  constructor(private fb: FormBuilder,public dialogRef: MatDialogRef<TillComponent>, @Inject(MAT_DIALOG_DATA) public data:any) { 
+  constructor(private fb: UntypedFormBuilder,public dialogRef: MatDialogRef<TillComponent>, @Inject(MAT_DIALOG_DATA) public data:any) { 
   }
  
   ngOnInit() {

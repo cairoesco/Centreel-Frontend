@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ComplianceReportService } from './compliance-report.service'
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
@@ -55,7 +55,7 @@ export class ComplianceReportComponent implements OnInit {
     this.params.from_date = _moment(this.dateObject.s_date).format("YYYY-MM-DD") + " 00:00:00"
     this.params.to_date = _moment(this.dateObject.e_date).format("YYYY-MM-DD") + " 23:59:59";
   }
-  date = new FormControl(moment());
+  date = new UntypedFormControl(moment());
   public dateObject: any = {
     s_date: 1,
     e_date: 30,

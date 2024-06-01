@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-warehouse',
@@ -9,13 +9,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class WarehouseComponent implements OnInit {
 
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   name:any;
   type:any;
   phone:any;
   email:any;
 
-  constructor(private fb: FormBuilder,public dialogRef: MatDialogRef<WarehouseComponent>, @Inject(MAT_DIALOG_DATA) public data: WarehouseDialogData) { }
+  constructor(private fb: UntypedFormBuilder,public dialogRef: MatDialogRef<WarehouseComponent>, @Inject(MAT_DIALOG_DATA) public data: WarehouseDialogData) { }
 
   onNoClick(): void {
     this.dialogRef.close(this.form.value);

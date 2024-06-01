@@ -13,10 +13,10 @@ import {
   PerfectScrollbarComponent,
 } from "ngx-perfect-scrollbar";
 import {
-  FormBuilder,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
-  FormArray,
+  UntypedFormArray,
   AbstractControl,
   AsyncValidatorFn,
   ValidationErrors,
@@ -69,8 +69,8 @@ export class CreatePoComponent implements OnInit {
   public type: string = "component";
   public selected: any = [];
   public indexofTab = 0;
-  public form: FormGroup;
-  public purchaseForm: FormGroup;
+  public form: UntypedFormGroup;
+  public purchaseForm: UntypedFormGroup;
   public arrayOfFiles = [];
   public filesOfarray = [];
   public rawData: any;
@@ -115,7 +115,7 @@ export class CreatePoComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     public dialog: MatDialog,
     public refVar: ChangeDetectorRef,
     private api: PurchaseOrderService,
@@ -668,14 +668,14 @@ export class CreatePoComponent implements OnInit {
     });
   }
   deleteVariant(index, control) {
-    var mainControl: any = <FormArray>this.purchaseForm.controls[control];
+    var mainControl: any = <UntypedFormArray>this.purchaseForm.controls[control];
     var pprice = mainControl.at(index).get("stock_price").value;
     let total = this.purchaseForm.get("total").value;
     if (pprice > 0) {
       let newTotal = total - pprice;
       this.purchaseForm.controls["total"].setValue(newTotal);
     }
-    (<FormArray>this.purchaseForm.controls[control]).removeAt(index);
+    (<UntypedFormArray>this.purchaseForm.controls[control]).removeAt(index);
     // .at(index).get('stock_price') as FormArray;
   }
   public productData: any = [];
@@ -721,13 +721,13 @@ export class CreatePoComponent implements OnInit {
   }
   //************************ add product *******************//
   add_product(value, flag) {
-    var cannabisControl: any = <FormArray>(
+    var cannabisControl: any = <UntypedFormArray>(
       this.purchaseForm.controls["cannabisProducts"]
     );
-    var nonCannabisControl: any = <FormArray>(
+    var nonCannabisControl: any = <UntypedFormArray>(
       this.purchaseForm.controls["noncannabisProducts"]
     );
-    var accessoriesControl: any = <FormArray>(
+    var accessoriesControl: any = <UntypedFormArray>(
       this.purchaseForm.controls["cannabisProductsAccessories"]
     );
 
@@ -1160,25 +1160,25 @@ export class CreatePoComponent implements OnInit {
   }
 
   totalQty(index, control_name) {
-    const control = (<FormArray>this.purchaseForm.controls[control_name])
+    const control = (<UntypedFormArray>this.purchaseForm.controls[control_name])
       .at(index)
-      .get("total_qty") as FormArray;
-    const control1 = (<FormArray>this.purchaseForm.controls[control_name])
+      .get("total_qty") as UntypedFormArray;
+    const control1 = (<UntypedFormArray>this.purchaseForm.controls[control_name])
       .at(index)
-      .get("value_added") as FormArray;
+      .get("value_added") as UntypedFormArray;
     control.setValue(control1.value);
   }
   /* change selling price according margin */
   margin(index, control_name) {
-    const control = (<FormArray>this.purchaseForm.controls[control_name])
+    const control = (<UntypedFormArray>this.purchaseForm.controls[control_name])
       .at(index)
-      .get("stock_price") as FormArray;
-    const control1 = (<FormArray>this.purchaseForm.controls[control_name])
+      .get("stock_price") as UntypedFormArray;
+    const control1 = (<UntypedFormArray>this.purchaseForm.controls[control_name])
       .at(index)
-      .get("margin") as FormArray;
-    const control2 = (<FormArray>this.purchaseForm.controls[control_name])
+      .get("margin") as UntypedFormArray;
+    const control2 = (<UntypedFormArray>this.purchaseForm.controls[control_name])
       .at(index)
-      .get("selling_price") as FormArray;
+      .get("selling_price") as UntypedFormArray;
 
     // let value: any = (control.value * control1.value) / 100 + control.value;
     // value = +value;
@@ -1202,22 +1202,22 @@ export class CreatePoComponent implements OnInit {
 
   /* change margin according purchase price */
   stockprice(index, control_name) {
-    const control = (<FormArray>this.purchaseForm.controls[control_name])
+    const control = (<UntypedFormArray>this.purchaseForm.controls[control_name])
       .at(index)
-      .get("stock_price") as FormArray;
-    const control1 = (<FormArray>this.purchaseForm.controls[control_name])
+      .get("stock_price") as UntypedFormArray;
+    const control1 = (<UntypedFormArray>this.purchaseForm.controls[control_name])
       .at(index)
-      .get("margin") as FormArray;
-    const control2 = (<FormArray>this.purchaseForm.controls[control_name])
+      .get("margin") as UntypedFormArray;
+    const control2 = (<UntypedFormArray>this.purchaseForm.controls[control_name])
       .at(index)
-      .get("selling_price") as FormArray;
-    const control3 = (<FormArray>this.purchaseForm.controls[control_name])
+      .get("selling_price") as UntypedFormArray;
+    const control3 = (<UntypedFormArray>this.purchaseForm.controls[control_name])
       .at(index)
-      .get("package_price") as FormArray;
-    const control4 = (<FormArray>this.purchaseForm.controls[control_name])
+      .get("package_price") as UntypedFormArray;
+    const control4 = (<UntypedFormArray>this.purchaseForm.controls[control_name])
       .at(index)
-      .get("package_capacity") as FormArray;
-    const rControl = (<FormArray>this.purchaseForm.controls[control_name])
+      .get("package_capacity") as UntypedFormArray;
+    const rControl = (<UntypedFormArray>this.purchaseForm.controls[control_name])
       .at(index)
       .get("is_received");
     // let packagePrice: any = (control.value) * (control4.value);
@@ -1522,7 +1522,7 @@ export class CreatePoComponent implements OnInit {
   public variantDetail: any;
   printBarcode(index, v_id, formname): void {
     let productVariantData: any;
-    var formControl: any = <FormArray>this.purchaseForm.controls[formname];
+    var formControl: any = <UntypedFormArray>this.purchaseForm.controls[formname];
     productVariantData = _.find(formControl.value, function (o) {
       return o.variant_id === v_id;
     });

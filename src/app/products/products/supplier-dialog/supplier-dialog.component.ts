@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { UtilsServiceService } from '../../../shared/services/utils-service.service';
 import { CustomValidators } from 'ng2-validation';
 import { ProductService } from '../../product.service';
@@ -12,7 +12,7 @@ import { MatProgressButtonOptions } from 'mat-progress-buttons';
   styleUrls: ['./supplier-dialog.component.scss']
 })
 export class SupplierDialogComponent implements OnInit {
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public countryList: any;
   public provinceList: any;
   public cityList: any;
@@ -39,7 +39,7 @@ export class SupplierDialogComponent implements OnInit {
     value: 0,
     disabled: false
   }
-  constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<SupplierDialogComponent>,
+  constructor(private fb: UntypedFormBuilder, public dialogRef: MatDialogRef<SupplierDialogComponent>,
     private api: ProductService,
     public utils: UtilsServiceService,
     @Inject(MAT_DIALOG_DATA) public data: SupplierDialogData) { }

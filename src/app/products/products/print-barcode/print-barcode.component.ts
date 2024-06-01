@@ -1,6 +1,6 @@
 // import { Component, OnInit } from '@angular/core';
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators, FormArray } from '@angular/forms';
 import { MatProgressButtonOptions } from 'mat-progress-buttons';
 import { UtilsServiceService } from '../../../shared/services/utils-service.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -15,13 +15,13 @@ import { HttpResponse } from '@angular/common/http';
   styleUrls: ['./print-barcode.component.scss']
 })
 export class PrintBarcodeComponent implements OnInit {
-  public printPoform: FormGroup;
-  public generalForm: FormGroup;
+  public printPoform: UntypedFormGroup;
+  public generalForm: UntypedFormGroup;
   public dynamicHeightVariant = "";
   public innerHeight: any;
   public selected = [];
   public checkedCount = this.data.vData.length;
-  constructor(public utility: UtilsServiceService, private fb: FormBuilder, private api: ProductService, public dialogRef: MatDialogRef<PrintBarcodeComponent>, @Inject(MAT_DIALOG_DATA) public data: any, ) {
+  constructor(public utility: UtilsServiceService, private fb: UntypedFormBuilder, private api: ProductService, public dialogRef: MatDialogRef<PrintBarcodeComponent>, @Inject(MAT_DIALOG_DATA) public data: any, ) {
   }
   // constructor() { }
 

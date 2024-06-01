@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormArray } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { TagComponent } from '../../dialog/tag/tag.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -25,14 +25,14 @@ export class StoreViewComponent implements OnInit {
   public type: string = 'component';
   public selected = false;
   public indexofTab = 0;
-  public form: FormGroup;
-  public storeForm: FormGroup;
-  public warehouseForm: FormGroup;
-  public tillForm: FormGroup;
-  public tagsForm: FormGroup;
-  public hoursForm: FormGroup;
-  public licenseForm: FormGroup;
-  public addStore: FormGroup;
+  public form: UntypedFormGroup;
+  public storeForm: UntypedFormGroup;
+  public warehouseForm: UntypedFormGroup;
+  public tillForm: UntypedFormGroup;
+  public tagsForm: UntypedFormGroup;
+  public hoursForm: UntypedFormGroup;
+  public licenseForm: UntypedFormGroup;
+  public addStore: UntypedFormGroup;
   public chains: any[];
   public countryList: any;
   public provinceList: any;
@@ -51,14 +51,14 @@ export class StoreViewComponent implements OnInit {
   public removeImagesArray: any = [];
   public dynamicHeight = "";
   public timedynamicHeight = "";
-  public uploadDocForm: FormGroup;
+  public uploadDocForm: UntypedFormGroup;
   public uploadedDocName: any = "";
   public API_URL = environment.baseUrl + "api/";
   public documentExpiryMinDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
 
   imageSrc: any;
   heightOfY;
-  constructor(private route: ActivatedRoute, private fb: FormBuilder, public dialog: MatDialog, public refVar: ChangeDetectorRef, public storeService: StoreService,
+  constructor(private route: ActivatedRoute, private fb: UntypedFormBuilder, public dialog: MatDialog, public refVar: ChangeDetectorRef, public storeService: StoreService,
     public utility: UtilsServiceService,
   ) {
     this.fileUploader();
@@ -164,15 +164,15 @@ export class StoreViewComponent implements OnInit {
     });
 
     this.warehouseForm = this.fb.group({
-      warehouses: new FormArray([])
+      warehouses: new UntypedFormArray([])
     });
 
     this.tagsForm = this.fb.group({
-      tags: new FormArray([])
+      tags: new UntypedFormArray([])
     });
 
     this.tillForm = this.fb.group({
-      tills: new FormArray([])
+      tills: new UntypedFormArray([])
     });
     this.uploadDocForm = this.fb.group({
       document: ['', [Validators.required]],
@@ -185,7 +185,7 @@ export class StoreViewComponent implements OnInit {
   }
 
   StoreTimings(data) {
-    let arr = new FormArray([])
+    let arr = new UntypedFormArray([])
     data.forEach(data => {
       arr.push(this.fb.group({
         id: [0],
@@ -378,7 +378,7 @@ export class StoreViewComponent implements OnInit {
   }
 
   tagForm(tagObjArr) {
-    let arr = new FormArray([])
+    let arr = new UntypedFormArray([])
     tagObjArr.forEach(data => {
       arr.push(this.fb.group({
         tag_name: [data.tag_name],
@@ -401,7 +401,7 @@ export class StoreViewComponent implements OnInit {
       disableClose: true,
       data: { name: "", type: 'store' }
     });
-    const control = <FormArray>this.tagsForm.controls['tags'];
+    const control = <UntypedFormArray>this.tagsForm.controls['tags'];
     dialogRef.afterClosed().subscribe(result => {
       if (Boolean(result) && result.length > 0) {
         result.forEach(tag_name => {
@@ -416,7 +416,7 @@ export class StoreViewComponent implements OnInit {
   }
 
   removeTag(index, tag) {
-    const control = <FormArray>this.tagsForm.controls['tags'];
+    const control = <UntypedFormArray>this.tagsForm.controls['tags'];
     control.removeAt(index)
     if (tag.value.id > 0) {
       this.removeTagArray.push(tag.value.id);
@@ -588,7 +588,7 @@ export class StoreViewComponent implements OnInit {
   }
 
   licenseInfoFormObj(licenseObjArr) {
-    let arr = new FormArray([])
+    let arr = new UntypedFormArray([])
     licenseObjArr.forEach(data => {
       arr.push(this.fb.group({
         id: [data.id],
@@ -600,12 +600,12 @@ export class StoreViewComponent implements OnInit {
   }
 
   AddNewLicense() {
-    const control = <FormArray>this.licenseForm.controls['licenses'];
+    const control = <UntypedFormArray>this.licenseForm.controls['licenses'];
     control.push(this.AddNewLicenseObj())
   }
 
   DeleteLicense(index, id) {
-    const licenseControl = <FormArray>this.licenseForm.controls['licenses'];
+    const licenseControl = <UntypedFormArray>this.licenseForm.controls['licenses'];
     licenseControl.removeAt(index)
     if (id > 0) {
       this.remove_license.push(id);
@@ -647,7 +647,7 @@ export class StoreViewComponent implements OnInit {
   }
 
   warehouseInfoFormObj(warehouseObjArr) {
-    let arr = new FormArray([])
+    let arr = new UntypedFormArray([])
     warehouseObjArr.forEach(data => {
       arr.push(this.fb.group({
         storage_id: [data.storage_id],
@@ -678,11 +678,11 @@ export class StoreViewComponent implements OnInit {
       if (result) {
         if (index != undefined) {
           // update warehouse
-          (<FormArray>this.warehouseForm.controls['warehouses']).at(index).patchValue(result.value);
+          (<UntypedFormArray>this.warehouseForm.controls['warehouses']).at(index).patchValue(result.value);
         }
         else {
           // add new warehouse
-          const warehouseControl = <FormArray>this.warehouseForm.controls['warehouses'];
+          const warehouseControl = <UntypedFormArray>this.warehouseForm.controls['warehouses'];
           warehouseControl.push(result);
         }
       }
@@ -729,7 +729,7 @@ export class StoreViewComponent implements OnInit {
   }
 
   tillInfoFormObj(tillObjArr) {
-    let arr = new FormArray([])
+    let arr = new UntypedFormArray([])
     tillObjArr.forEach(data => {
       arr.push(this.fb.group({
         storage_id: [data.storage_id],
@@ -751,11 +751,11 @@ export class StoreViewComponent implements OnInit {
       if (result) {
         if (index != undefined) {
           // update Till
-          (<FormArray>this.tillForm.controls['tills']).at(index).patchValue(result.value);
+          (<UntypedFormArray>this.tillForm.controls['tills']).at(index).patchValue(result.value);
         }
         else {
           // add new Till
-          const control = <FormArray>this.tillForm.controls['tills'];
+          const control = <UntypedFormArray>this.tillForm.controls['tills'];
           control.push(result);
         }
         this.dynamicHeight = this.tillForm.controls['tills'].value.length < 12 ? ((this.tillForm.controls['tills'].value.length + 1) * 48 + 10) + "px" : '';
@@ -764,7 +764,7 @@ export class StoreViewComponent implements OnInit {
   }
 
   DeleteTill(index, id) {
-    const tillControl = <FormArray>this.tillForm.controls['tills'];
+    const tillControl = <UntypedFormArray>this.tillForm.controls['tills'];
     tillControl.removeAt(index)
     if (id > 0) {
       this.remove_till.push(id);
@@ -774,7 +774,7 @@ export class StoreViewComponent implements OnInit {
   changeTillStatus(obj, status, index) {
     obj.status = status == 0 ? 1 : 0;
 
-    (<FormArray>this.tillForm.controls['tills']).at(index).patchValue(obj);
+    (<UntypedFormArray>this.tillForm.controls['tills']).at(index).patchValue(obj);
     // this.TillInfoPost();
   }
 

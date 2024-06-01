@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 import * as moment from 'moment';
@@ -15,7 +15,7 @@ import { ReportService } from '../report.service';
 export class TimeTrackingComponent implements OnInit {
 
   inProgress: boolean = false;
-  timesheet: FormGroup;
+  timesheet: UntypedFormGroup;
   storeList = [];
   type: any = new Object();
   rows = [];
@@ -35,7 +35,7 @@ export class TimeTrackingComponent implements OnInit {
   
   constructor(private router: Router,
     public reportService: ReportService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private snackBar: MatSnackBar,
     private utils: UtilsServiceService) {
     this.alwaysShowCalendars = true;
