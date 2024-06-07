@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UtilsServiceService } from '../../shared/services/utils-service.service'
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { MatProgressButtonOptions } from 'mat-progress-buttons';
 import { SettingsService } from '../settings.service';
 import { resource } from 'selenium-webdriver/http';
@@ -13,13 +13,13 @@ import { resource } from 'selenium-webdriver/http';
 export class StoreSettingComponent implements OnInit {
 
   public innerHeight: any;
-  public posForm: FormGroup;
-  public kioskForm: FormGroup;
-  public timetrackingForm: FormGroup;
+  public posForm: UntypedFormGroup;
+  public kioskForm: UntypedFormGroup;
+  public timetrackingForm: UntypedFormGroup;
   public storeId: any;
   LoginUser: any;
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private settingsService: SettingsService,
     public utility: UtilsServiceService,
   ) {

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { QuillEditorComponent } from 'ngx-quill';
 import { MatProgressButtonOptions } from 'mat-progress-buttons';
 import { UtilsServiceService } from '../../shared/services/utils-service.service';
@@ -10,7 +10,7 @@ import { SettingsService } from '../settings.service'
   styleUrls: ['./agreement.component.scss']
 })
 export class AgreementComponent implements OnInit {
-  addAgreement: FormGroup;
+  addAgreement: UntypedFormGroup;
   agreement: any = new Object();
   chain_id: any = '';
   public barButtonOptions: MatProgressButtonOptions = {
@@ -26,7 +26,7 @@ export class AgreementComponent implements OnInit {
   }
   chains = [];
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public utility: UtilsServiceService,
     public settingsService: SettingsService) {
     this.getAllChain();

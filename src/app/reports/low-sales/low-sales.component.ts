@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReportService } from '../report.service';
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { debounceTime } from "rxjs/operators";
 import * as _ from 'lodash';
 import { UtilsServiceService } from "../../shared/services/utils-service.service";
@@ -18,7 +18,7 @@ export class LowSalesComponent implements OnInit {
   public dynamicHeight = "";
   public temp: any = [];
   public export_date = moment().format('MMMDDYYYY');
-  public lowsalesForm: FormGroup;
+  public lowsalesForm: UntypedFormGroup;
 	public storeList: any[] = [];
 	public productTypeList: any[] = [];
 	public tempRows: any[] = [];
@@ -29,11 +29,11 @@ export class LowSalesComponent implements OnInit {
 
   constructor(
     public reportService: ReportService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public utils: UtilsServiceService
   ) { }
 
-  public search = new FormControl("");
+  public search = new UntypedFormControl("");
 
   ngOnInit() {   
     this.lowsalesForm = this.formBuilder.group({

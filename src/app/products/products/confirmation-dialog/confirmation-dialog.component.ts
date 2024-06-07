@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormBuilder } from '@angular/forms';
 import { ApiService } from 'src/app/api.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { UtilsServiceService } from 'src/app/shared/services/utils-service.service';
@@ -10,11 +10,11 @@ import { UtilsServiceService } from 'src/app/shared/services/utils-service.servi
   styleUrls: ['./confirmation-dialog.component.scss']
 })
 export class ConfirmationDialogComponent implements OnInit {
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public currentUser: any;
   constructor(
     public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private api: ApiService,
     public utility: UtilsServiceService
   ) { }

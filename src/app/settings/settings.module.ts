@@ -48,7 +48,6 @@ import { EmailSettingComponent } from './email-setting/email-setting.component';
         StoreSettingComponent,
         EmailSettingComponent
     ],
-    entryComponents: [EmailSettingComponent],
     providers: [SettingsService]
 })
 export class SettingsModule {

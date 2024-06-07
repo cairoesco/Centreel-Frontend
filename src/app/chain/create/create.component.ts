@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, HostListener } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarDirective, PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 
@@ -12,7 +12,7 @@ import { ApiService } from '../../api.service';
   styleUrls: ['./create.component.scss']
 })
 export class CreateComponent implements OnInit {
-  addChain: FormGroup;
+  addChain: UntypedFormGroup;
   submitted: boolean = false;
   States:any=[{ name: 'India', sound: 'Woof!' },
   { name: 'Canada', sound: 'Meow!' },
@@ -38,13 +38,13 @@ export class CreateComponent implements OnInit {
   public type: string = 'component';
   public selected = false;
   public indexofTab = 0;
-  public form: FormGroup;
-  public addStore: FormGroup;
+  public form: UntypedFormGroup;
+  public addStore: UntypedFormGroup;
   imageSrc: any;
   heightOfY;
 
   constructor(private router: Router,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
     public refVar: ChangeDetectorRef,

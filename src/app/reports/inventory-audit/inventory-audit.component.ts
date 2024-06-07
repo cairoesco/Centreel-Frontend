@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { HttpResponse } from '@angular/common/http';
 import * as moment from 'moment';
 import { UtilsServiceService } from '../../shared/services/utils-service.service';
@@ -14,7 +14,7 @@ import { ReportService } from '../report.service';
 })
 export class InventoryAuditComponent implements OnInit {
   inProgress: boolean = false;
-  reconcile: FormGroup;
+  reconcile: UntypedFormGroup;
   type: any = new Object();
   rows = [];
   formobj: any = new Object();
@@ -28,7 +28,7 @@ export class InventoryAuditComponent implements OnInit {
 
   constructor(
     public reportService: ReportService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private snackBar: MatSnackBar,
     private utils: UtilsServiceService
   ) {

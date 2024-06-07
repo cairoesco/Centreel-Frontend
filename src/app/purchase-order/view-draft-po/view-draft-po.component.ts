@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarDirective, PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
-import { FormBuilder, FormGroup, Validators, FormArray, AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormArray, AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FileUploader } from 'ng2-file-upload';
@@ -35,8 +35,8 @@ export class ViewDraftPoComponent implements OnInit {
   public type: string = 'component';
   public selected: any = [];
   public indexofTab = 0;
-  public form: FormGroup;
-  public purchaseForm: FormGroup;
+  public form: UntypedFormGroup;
+  public purchaseForm: UntypedFormGroup;
   public arrayOfFiles = [];
   public filesOfarray = [];
   public rawData: any;
@@ -60,7 +60,7 @@ export class ViewDraftPoComponent implements OnInit {
   public formobj: any = new Object();
   public isTrue: boolean = true;
   public isCompletedPO: boolean = false;
-  constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, public dialog: MatDialog, public refVar: ChangeDetectorRef, private api: PurchaseOrderService, public utility: UtilsServiceService) {
+  constructor(private route: ActivatedRoute, private router: Router, private fb: UntypedFormBuilder, public dialog: MatDialog, public refVar: ChangeDetectorRef, private api: PurchaseOrderService, public utility: UtilsServiceService) {
     this.fileUploader();
     this.utility.indexofTab = 0;
   }
@@ -593,9 +593,9 @@ export class ViewDraftPoComponent implements OnInit {
           // this.cannabisProducts = _.filter(response.data.variants, function (o) { return o.product_type_slug == 'cannabis' });
           this.cannabisProductsAccessories = _.filter(response.data.variants, function (o) { return o.product_type_slug == 'cannabis accessories' });
           this.noncannabisProducts = _.filter(response.data.variants, function (o) { return o.product_type_slug != 'cannabis' && o.product_type_slug != 'cannabis accessories' });
-          var cannabisControl: any = <FormArray>this.purchaseForm.controls['cannabisProducts'];
-          var nonCannabisControl: any = <FormArray>this.purchaseForm.controls['noncannabisProducts'];
-          var accessoriesControl: any = <FormArray>this.purchaseForm.controls['cannabisProductsAccessories'];
+          var cannabisControl: any = <UntypedFormArray>this.purchaseForm.controls['cannabisProducts'];
+          var nonCannabisControl: any = <UntypedFormArray>this.purchaseForm.controls['noncannabisProducts'];
+          var accessoriesControl: any = <UntypedFormArray>this.purchaseForm.controls['cannabisProductsAccessories'];
           this.cannabisProducts.forEach(element => {
             cannabisControl.push(this.fillProductProperties(element))
           });
@@ -649,7 +649,7 @@ export class ViewDraftPoComponent implements OnInit {
   delete_product_id = [];
   deleteVariant(index, control) {
 
-    var mainControl: any = <FormArray>this.purchaseForm.controls[control];
+    var mainControl: any = <UntypedFormArray>this.purchaseForm.controls[control];
     var pprice = mainControl.at(index).get('stock_price').value;
     let total = this.purchaseForm.get('total').value;
     if(pprice > 0){
@@ -657,12 +657,12 @@ export class ViewDraftPoComponent implements OnInit {
       this.purchaseForm.controls['total'].setValue(newTotal);
     }
 
-    const draft_product_id = (<FormArray>this.purchaseForm.controls[control]).at(index).get('draft_product_id') as FormArray;
+    const draft_product_id = (<UntypedFormArray>this.purchaseForm.controls[control]).at(index).get('draft_product_id') as UntypedFormArray;
     // const mainControl: any = this.purchaseForm.controls[control];
     // const batchControl = mainControl.at(index).get('batch_no');
     this.delete_product_id.push(draft_product_id.value);
     
-    (<FormArray>this.purchaseForm.controls[control]).removeAt(index);
+    (<UntypedFormArray>this.purchaseForm.controls[control]).removeAt(index);
     // .at(index).get('stock_price') as FormArray;
   }
   public productData: any = [];
@@ -708,9 +708,9 @@ export class ViewDraftPoComponent implements OnInit {
   }
   //************************ add product *******************//
   add_product(value,flag) {
-    var cannabisControl: any = <FormArray>this.purchaseForm.controls['cannabisProducts'];
-    var nonCannabisControl: any = <FormArray>this.purchaseForm.controls['noncannabisProducts'];
-    var accessoriesControl: any = <FormArray>this.purchaseForm.controls['cannabisProductsAccessories'];
+    var cannabisControl: any = <UntypedFormArray>this.purchaseForm.controls['cannabisProducts'];
+    var nonCannabisControl: any = <UntypedFormArray>this.purchaseForm.controls['noncannabisProducts'];
+    var accessoriesControl: any = <UntypedFormArray>this.purchaseForm.controls['cannabisProductsAccessories'];
 
     // let product = this.purchaseForm.get('search').value
     let product;
@@ -1039,15 +1039,15 @@ export class ViewDraftPoComponent implements OnInit {
   }
 
   totalQty(index, control_name) {
-    const control = (<FormArray>this.purchaseForm.controls[control_name]).at(index).get('total_qty') as FormArray;
-    const control1 = (<FormArray>this.purchaseForm.controls[control_name]).at(index).get('value_added') as FormArray;
+    const control = (<UntypedFormArray>this.purchaseForm.controls[control_name]).at(index).get('total_qty') as UntypedFormArray;
+    const control1 = (<UntypedFormArray>this.purchaseForm.controls[control_name]).at(index).get('value_added') as UntypedFormArray;
     control.setValue(control1.value);
   };
   /* change selling price according margin */
   margin(index, control_name) {
-    const control = (<FormArray>this.purchaseForm.controls[control_name]).at(index).get('stock_price') as FormArray;
-    const control1 = (<FormArray>this.purchaseForm.controls[control_name]).at(index).get('margin') as FormArray;
-    const control2 = (<FormArray>this.purchaseForm.controls[control_name]).at(index).get('selling_price') as FormArray;
+    const control = (<UntypedFormArray>this.purchaseForm.controls[control_name]).at(index).get('stock_price') as UntypedFormArray;
+    const control1 = (<UntypedFormArray>this.purchaseForm.controls[control_name]).at(index).get('margin') as UntypedFormArray;
+    const control2 = (<UntypedFormArray>this.purchaseForm.controls[control_name]).at(index).get('selling_price') as UntypedFormArray;
 
     // let value: any = (control.value * control1.value) / 100 + control.value;
     // value = +value;
@@ -1078,11 +1078,11 @@ export class ViewDraftPoComponent implements OnInit {
 
   /* set profit margin for view purpose */
   getMarginValue(index, control_name){
-    const control = (<FormArray>this.purchaseForm.controls[control_name]).at(index).get('stock_price') as FormArray;
-    const control1 = (<FormArray>this.purchaseForm.controls[control_name]).at(index).get('margin') as FormArray;
-    const control2 = (<FormArray>this.purchaseForm.controls[control_name]).at(index).get('selling_price') as FormArray;
-    const control3 = (<FormArray>this.purchaseForm.controls[control_name]).at(index).get('package_price') as FormArray;
-    const control4 = (<FormArray>this.purchaseForm.controls[control_name]).at(index).get('package_capacity') as FormArray;
+    const control = (<UntypedFormArray>this.purchaseForm.controls[control_name]).at(index).get('stock_price') as UntypedFormArray;
+    const control1 = (<UntypedFormArray>this.purchaseForm.controls[control_name]).at(index).get('margin') as UntypedFormArray;
+    const control2 = (<UntypedFormArray>this.purchaseForm.controls[control_name]).at(index).get('selling_price') as UntypedFormArray;
+    const control3 = (<UntypedFormArray>this.purchaseForm.controls[control_name]).at(index).get('package_price') as UntypedFormArray;
+    const control4 = (<UntypedFormArray>this.purchaseForm.controls[control_name]).at(index).get('package_capacity') as UntypedFormArray;
     
     let packagePrice: any = (control.value) * (control4.value);
     control3.setValue(packagePrice)
@@ -1102,12 +1102,12 @@ export class ViewDraftPoComponent implements OnInit {
 
   /* change margin according purchase price */
   stockprice(index, control_name) {
-    const control = (<FormArray>this.purchaseForm.controls[control_name]).at(index).get('stock_price') as FormArray;
-    const control1 = (<FormArray>this.purchaseForm.controls[control_name]).at(index).get('margin') as FormArray;
-    const control2 = (<FormArray>this.purchaseForm.controls[control_name]).at(index).get('selling_price') as FormArray;
-    const control3 = (<FormArray>this.purchaseForm.controls[control_name]).at(index).get('package_price') as FormArray;
-    const control4 = (<FormArray>this.purchaseForm.controls[control_name]).at(index).get('package_capacity') as FormArray;
-    const rControl = (<FormArray>this.purchaseForm.controls[control_name]).at(index).get('is_received');
+    const control = (<UntypedFormArray>this.purchaseForm.controls[control_name]).at(index).get('stock_price') as UntypedFormArray;
+    const control1 = (<UntypedFormArray>this.purchaseForm.controls[control_name]).at(index).get('margin') as UntypedFormArray;
+    const control2 = (<UntypedFormArray>this.purchaseForm.controls[control_name]).at(index).get('selling_price') as UntypedFormArray;
+    const control3 = (<UntypedFormArray>this.purchaseForm.controls[control_name]).at(index).get('package_price') as UntypedFormArray;
+    const control4 = (<UntypedFormArray>this.purchaseForm.controls[control_name]).at(index).get('package_capacity') as UntypedFormArray;
+    const rControl = (<UntypedFormArray>this.purchaseForm.controls[control_name]).at(index).get('is_received');
 
     // let packagePrice: any = (control.value) * (control4.value);
     // let margin_value: any = ((control2.value - control.value) * 100) / control.value;
@@ -1344,7 +1344,7 @@ export class ViewDraftPoComponent implements OnInit {
   public variantDetail: any;
   printBarcode(index,v_id,formname): void {
     let productVariantData: any
-    var formControl: any = <FormArray>this.purchaseForm.controls[formname];
+    var formControl: any = <UntypedFormArray>this.purchaseForm.controls[formname];
     productVariantData = _.find(formControl.value, function (o) { return o.variant_id === v_id });
     
     productVariantData.variant_price = productVariantData.selling_price;

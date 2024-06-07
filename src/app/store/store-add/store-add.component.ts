@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormArray } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { MatDialog } from '@angular/material/dialog';
 import { FileUploader } from 'ng2-file-upload';
@@ -23,8 +23,8 @@ export class StoreAddComponent implements OnInit {
   public type: string = 'component';
   public selected = false;
   public indexofTab = 0;
-  public create_store_form: FormGroup;
-  public addStore: FormGroup;
+  public create_store_form: UntypedFormGroup;
+  public addStore: UntypedFormGroup;
   public heightOfY;
   public chains = [];
   public countryList: any;
@@ -35,11 +35,11 @@ export class StoreAddComponent implements OnInit {
   public arrayOfImages = [];
   public imagesOfarray = [];
   public noImageSelect: boolean = false;
-  public uploadDocForm: FormGroup;
+  public uploadDocForm: UntypedFormGroup;
   public uploadedDocName: any = "";
   public dynamicHeight = "";
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder, public dialog: MatDialog, public refVar: ChangeDetectorRef,
+  constructor(private route: ActivatedRoute, private fb: UntypedFormBuilder, public dialog: MatDialog, public refVar: ChangeDetectorRef,
     public storeService: StoreService,
     public utility: UtilsServiceService,
     private router: Router) {
@@ -195,7 +195,7 @@ export class StoreAddComponent implements OnInit {
       disableClose: true,
       data: { name: "", type: 'store' }
     });
-    const control = <FormArray>this.create_store_form.controls['tags'];
+    const control = <UntypedFormArray>this.create_store_form.controls['tags'];
     dialogRef.afterClosed().subscribe(result => {
       if (Boolean(result) && result.length > 0) {
         result.forEach(tag_name => {
@@ -209,14 +209,14 @@ export class StoreAddComponent implements OnInit {
   }
 
   removeTag(index) {
-    const control = <FormArray>this.create_store_form.controls['tags'];
+    const control = <UntypedFormArray>this.create_store_form.controls['tags'];
     control.removeAt(index);
   }
   //#endregion ----------------------- End Tag section ------------------------------
 
   //#region ------------------- Store Timing -------------------------
   StoreTimings(storeDays) {
-    let arr = new FormArray([])
+    let arr = new UntypedFormArray([])
     storeDays.forEach(data => {
       arr.push(this.fb.group({
         day_of_week: [data.day_of_week],
@@ -232,7 +232,7 @@ export class StoreAddComponent implements OnInit {
 
   //#region ------------------ License Section --------------------
   LicensesFormArray() {
-    let arr = new FormArray([])
+    let arr = new UntypedFormArray([])
     arr.push(this.fb.group({
       license_name: ['', Validators.required],
       license_number: ['', Validators.required],
@@ -248,13 +248,13 @@ export class StoreAddComponent implements OnInit {
   }
 
   AddNewLicense() {
-    const licenseControl = <FormArray>this.create_store_form.controls['license_details'];
+    const licenseControl = <UntypedFormArray>this.create_store_form.controls['license_details'];
     licenseControl.push(this.AddNewLicenseObj())
   }
 
 
   DeleteLicense(index) {
-    const licenseControl = <FormArray>this.create_store_form.controls['license_details'];
+    const licenseControl = <UntypedFormArray>this.create_store_form.controls['license_details'];
     licenseControl.removeAt(index)
   }
   //#endregion ------------------ End License Section --------------------
@@ -270,14 +270,14 @@ export class StoreAddComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const warehouseControl = <FormArray>this.create_store_form.controls['warehouse_details'];
+        const warehouseControl = <UntypedFormArray>this.create_store_form.controls['warehouse_details'];
         warehouseControl.push(result);
       }
     });
   }
 
   DeleteWarehouse(index) {
-    const warehouseControl = <FormArray>this.create_store_form.controls['warehouse_details'];
+    const warehouseControl = <UntypedFormArray>this.create_store_form.controls['warehouse_details'];
     warehouseControl.removeAt(index)
   }
   //#endregion ------------------End Warehouse section ----------------
@@ -294,7 +294,7 @@ export class StoreAddComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const Control = <FormArray>this.create_store_form.controls['till_details'];
+        const Control = <UntypedFormArray>this.create_store_form.controls['till_details'];
         Control.push(result);
       }
     });
@@ -302,11 +302,11 @@ export class StoreAddComponent implements OnInit {
 
   changeTillStatus(obj, status, index) {
     obj.value.status = status == 0 ? 1 : 0;
-    (<FormArray>this.create_store_form.controls['till_details']).at(index).patchValue(obj.value);
+    (<UntypedFormArray>this.create_store_form.controls['till_details']).at(index).patchValue(obj.value);
   }
 
   DeleteTill(index) {
-    const control = <FormArray>this.create_store_form.controls['till_details'];
+    const control = <UntypedFormArray>this.create_store_form.controls['till_details'];
     control.removeAt(index)
   }
   //#endregion ------------------End Till section ----------------

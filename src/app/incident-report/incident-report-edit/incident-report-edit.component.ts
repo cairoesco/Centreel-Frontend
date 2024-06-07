@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormArray } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarDirective, PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,7 +15,7 @@ import * as _moment from 'moment';
 })
 export class IncidentReportEditComponent implements OnInit {
 
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   innerHeight: any;
 
   public type: string = 'component';
@@ -24,7 +24,7 @@ export class IncidentReportEditComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private api: ApiService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     public dialog: MatDialog,
     public refVar: ChangeDetectorRef
   ) { }

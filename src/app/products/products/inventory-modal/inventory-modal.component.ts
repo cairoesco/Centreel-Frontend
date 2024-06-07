@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators,AbstractControl,FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators,AbstractControl,FormControl } from '@angular/forms';
 import { UtilsServiceService } from '../../../shared/services/utils-service.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./inventory-modal.component.scss']
 })
 export class InventoryModalComponent implements OnInit {
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public countryList: any;
   public provinceList: any;
   public cityList: any;
@@ -23,7 +23,7 @@ export class InventoryModalComponent implements OnInit {
   public options = { prefix: '$ ', thousands: ',', decimal: '.', align: 'left', nullable: true, allowZero: false }
   public PurchaseOrderNofilteredOptions: Observable<any[]>;
   public isReadOnly: boolean = false;
-  constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<InventoryModalComponent>,
+  constructor(private fb: UntypedFormBuilder, public dialogRef: MatDialogRef<InventoryModalComponent>,
     public utils: UtilsServiceService,
     @Inject(MAT_DIALOG_DATA) public data: InventoryDialogData) { }
 

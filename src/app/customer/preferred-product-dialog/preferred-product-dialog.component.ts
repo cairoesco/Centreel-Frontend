@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, UntypedFormBuilder } from '@angular/forms';
 import * as _ from 'lodash';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UtilsServiceService } from 'src/app/shared/services/utils-service.service';
@@ -33,7 +33,7 @@ export class PreferredProductDialogComponent implements OnInit {
       },
   ]
 
-  constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<PreferredProductDialogComponent>,
+  constructor(private fb: UntypedFormBuilder, public dialogRef: MatDialogRef<PreferredProductDialogComponent>,
     public utils: UtilsServiceService,
     @Inject(MAT_DIALOG_DATA) public data: PreferredProductDialogComponent, public customerService:CustomerService) {
   }

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpResponse } from '@angular/common/http';
 import { ReportService } from '../report.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import * as _ from 'lodash';
 import { FilterDialogComponent } from './filter-dialog/filter-dialog.component';
 import * as moment from 'moment';
@@ -22,13 +22,13 @@ export class InventoryOnHandComponent implements OnInit {
   public temp: any = [];
   public storeList: any = [];
   public storeID: any;
-  public inventory_report: FormGroup;
+  public inventory_report: UntypedFormGroup;
   public timeout: any;
   public export_date = moment().format('MMMDDYYYY');
 
   constructor(public dialog: MatDialog,
     public reportService: ReportService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
   ) { }
 
   ngOnInit() {

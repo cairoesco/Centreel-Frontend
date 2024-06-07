@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormControl } from '@angular/forms';
 import { StoreService } from '../store.service';
 
 @Component({
@@ -10,12 +10,12 @@ import { StoreService } from '../store.service';
 })
 
 export class WarehouseModalComponent implements OnInit {
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public countryList: any;
   public provinceList: any;
   public cityList: any;
   public warehouse: any = {};
-  constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<WarehouseModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public storeService: StoreService) {
+  constructor(private fb: UntypedFormBuilder, public dialogRef: MatDialogRef<WarehouseModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public storeService: StoreService) {
     this.warehouse = data.data;
   }
 
