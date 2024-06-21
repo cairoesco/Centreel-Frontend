@@ -15,9 +15,10 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { WarehouseModalComponent } from './warehouse-modal/warehouse-modal.component';
 
 @NgModule({
-    imports: [SharedModule, StoreRoutingModule, FileUploadModule, NgxMaterialTimepickerModule],
-    declarations: [StoreComponent, StoreAddComponent, StoreViewComponent, LicenseComponent, WarehouseComponent, TillComponent, WarehouseModalComponent],
-    providers: [StoreService]
+imports:[SharedModule,StoreRoutingModule,FileUploadModule,NgxMaterialTimepickerModule],
+declarations:[StoreComponent, StoreAddComponent, StoreViewComponent,LicenseComponent,WarehouseComponent,TillComponent, WarehouseModalComponent],
+providers:[StoreService],
+entryComponents: [LicenseComponent,WarehouseComponent,TillComponent,WarehouseModalComponent]
 })
 
 export class StoreModule{}

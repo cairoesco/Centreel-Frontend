@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Validators, UntypedFormBuilder, UntypedFormGroup, UntypedFormArray, UntypedFormControl } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { ProductService } from '../product.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UtilsServiceService } from '../../shared/services/utils-service.service'
@@ -21,7 +21,7 @@ export class ProductsVariantsComponent implements OnInit {
   public product_id;
   public selected_variant;
   public variant_id;
-  productVariantsForm: UntypedFormGroup;
+  productVariantsForm: FormGroup;
   public uploader: FileUploader;
   public hasBaseDropZoneOver: boolean;
   public hasAnotherDropZoneOver: boolean;
@@ -46,7 +46,7 @@ export class ProductsVariantsComponent implements OnInit {
     { "optionId": 2, "optionName": "Size" },
     { "optionId": 3, "optionName": "Material" }
   ];
-  constructor(private _formBuilder: UntypedFormBuilder,
+  constructor(private _formBuilder: FormBuilder,
     public refVar: ChangeDetectorRef,
     private route: ActivatedRoute,
     public utils: UtilsServiceService,
@@ -54,7 +54,7 @@ export class ProductsVariantsComponent implements OnInit {
     private router: Router,
     private api: ProductService, ) {
     this.productVariantsForm = this.createproductVariantsForm();
-    const variantcontrol = <UntypedFormArray>this.productVariantsForm.controls['options'];
+    const variantcontrol = <FormArray>this.productVariantsForm.controls['options'];
     this.optionArray.forEach(element => {
       variantcontrol.push(this.addOptions(element));
     });
@@ -187,7 +187,7 @@ export class ProductsVariantsComponent implements OnInit {
 
   }
   countProvinceInfo(event, data) {
-    const control = <UntypedFormArray>this.productVariantsForm.controls['product_provinces'];
+    const control = <FormArray>this.productVariantsForm.controls['product_provinces'];
     if (event.isUserInput) {
       if (event.source._selected) {
         control.push(this.addProvince(data));
@@ -203,9 +203,9 @@ export class ProductsVariantsComponent implements OnInit {
   PricingDiffersPerStoreChange(event) {
     if (event.value == 1) {
       this.productVariantsForm.removeControl('selling_price')
-      if (<UntypedFormArray>this.productVariantsForm.controls['variant_price'] == undefined) {
+      if (<FormArray>this.productVariantsForm.controls['variant_price'] == undefined) {
         this.productVariantsForm.addControl('variant_price', this._formBuilder.array([]))
-        const SellingPriceControl = <UntypedFormArray>this.productVariantsForm.controls['variant_price'];
+        const SellingPriceControl = <FormArray>this.productVariantsForm.controls['variant_price'];
         this.rawDetail.stores.forEach(element => {
           let data = this.addProductStoreWiseSellingPrice(element);
           SellingPriceControl.push(data);
@@ -213,7 +213,7 @@ export class ProductsVariantsComponent implements OnInit {
       }
     }
     else {
-      this.productVariantsForm.addControl('selling_price', new UntypedFormControl('', Validators.required))
+      this.productVariantsForm.addControl('selling_price', new FormControl('', Validators.required))
     }
   }
 
@@ -244,7 +244,7 @@ export class ProductsVariantsComponent implements OnInit {
         let formatedDate = _moment(date).format("YYYY-MM-DD");
         result.get('purchase_date').setValue(formatedDate);
         result.get('storage_id').setValue(data.storage_id);
-        const control = (<UntypedFormArray>this.productVariantsForm.controls['inventory']).at(index).get('inventories') as UntypedFormArray;
+        const control = (<FormArray>this.productVariantsForm.controls['inventory']).at(index).get('inventories') as FormArray;
         control.push(this.AddMultipalInventoryin(result));
       }
     });
@@ -311,14 +311,14 @@ export class ProductsVariantsComponent implements OnInit {
 
           //**************************************** */
           if (this.rawDetail.stores.length > 0) {
-            const SellingPriceControl = <UntypedFormArray>this.productVariantsForm.controls['variant_price'];
+            const SellingPriceControl = <FormArray>this.productVariantsForm.controls['variant_price'];
             this.rawDetail.stores.forEach(element => {
               let data = this.addProductStoreWiseSellingPrice(element);
               SellingPriceControl.push(data);
             });
           }
           if (this.rawDetail.warehouses.length > 0) {
-            const InventoryControl = <UntypedFormArray>this.productVariantsForm.controls['inventory'];
+            const InventoryControl = <FormArray>this.productVariantsForm.controls['inventory'];
             this.rawDetail.warehouses.forEach(element => {
               let data = this.addProductStoreWiseInventory(element);
               InventoryControl.push(data);
@@ -336,7 +336,7 @@ export class ProductsVariantsComponent implements OnInit {
     });
   }
   AddMultipalInventoryinSameStorage(index, data) {
-    const control = (<UntypedFormArray>this.productVariantsForm.controls['inventory']).at(index).get('inventories') as UntypedFormArray;
+    const control = (<FormArray>this.productVariantsForm.controls['inventory']).at(index).get('inventories') as FormArray;
     control.push(this.AddMultipalInventoryin(data));
   }
   private AddMultipalInventoryin(data) {

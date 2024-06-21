@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../api.service';
 import { SignaturePad } from 'angular2-signaturepad';
 
@@ -11,8 +11,8 @@ import { SignaturePad } from 'angular2-signaturepad';
 })
 export class AgreementComponent implements OnInit {
 
-  public form: UntypedFormGroup;
-  constructor(private fb: UntypedFormBuilder, private activatedRoute: ActivatedRoute, private api: ApiService) { }
+  public form: FormGroup;
+  constructor(private fb: FormBuilder, private activatedRoute: ActivatedRoute, private api: ApiService) { }
   public email;
   public key;
   public type;

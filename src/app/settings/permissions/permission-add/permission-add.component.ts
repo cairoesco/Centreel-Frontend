@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar'; //
-import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../api.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -14,7 +14,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 })
 export class PermissionAddComponent implements OnInit {
 
-  addType: UntypedFormGroup;
+  addType: FormGroup;
   submitted: boolean = false;
   permissiondata: any = new Object();
   permissionMethods = [];
@@ -27,7 +27,7 @@ export class PermissionAddComponent implements OnInit {
   removable = true;
   addOnBlur = false;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  moduleCtrl = new UntypedFormControl();
+  moduleCtrl = new FormControl();
   filteredModules: any[] = [];
   modules: string[] = [];
   module: any = [];
@@ -35,7 +35,7 @@ export class PermissionAddComponent implements OnInit {
   // End module chip
 
   // for method chip
-  methodsCtrl = new UntypedFormControl();
+  methodsCtrl = new FormControl();
   filteredMethods: any[] = [];
   methods: string[] = [];
   method: any = [];
@@ -48,7 +48,7 @@ export class PermissionAddComponent implements OnInit {
 
   /* for chip */
   constructor(private router: Router,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute, private snackBar: MatSnackBar, private api: ApiService) {
 
     this.addType = this.formBuilder.group({

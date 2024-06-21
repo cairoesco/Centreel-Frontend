@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { ApiService } from '../../api.service';
 import { UtilsServiceService } from 'src/app/shared/services/utils-service.service';
@@ -12,15 +12,15 @@ import { UtilsServiceService } from 'src/app/shared/services/utils-service.servi
 })
 export class ResetPasswordComponent implements OnInit {
 
-  public form: UntypedFormGroup;
+  public form: FormGroup;
   public encryptedKey;
   public isValidToken: boolean = false;
   public requestType: any;
   public message: any;
-  constructor(private fb: UntypedFormBuilder, private router: Router, private activatedRoute: ActivatedRoute, private api: ApiService, private utility: UtilsServiceService) { }
+  constructor(private fb: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute, private api: ApiService, private utility: UtilsServiceService) { }
 
   ngOnInit() {
-    let password = new UntypedFormControl('', Validators.required);
+    let password = new FormControl('', Validators.required);
     this.form = this.fb.group({
       password: password,
       confirmPassword: ['', CustomValidators.equalTo(password)],

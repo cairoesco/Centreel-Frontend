@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import * as _moment from 'moment';
 import { UtilsServiceService } from '../../shared/services/utils-service.service';
@@ -13,9 +13,9 @@ import { SettingsService } from '../settings.service';
   styleUrls: ['./chain-settings.component.scss']
 })
 export class ChainSettingsComponent implements OnInit {
-  public form: UntypedFormGroup;
+  public form: FormGroup;
   public innerHeight: any;
-  public taxForm: UntypedFormGroup;
+  public taxForm: FormGroup;
   public barButtonOptions: MatProgressButtonOptions = {
     active: false,
     text: 'SAVE ALL',
@@ -28,7 +28,7 @@ export class ChainSettingsComponent implements OnInit {
   }
   public encryptionList: any = [{ name: 'ssl', slug: 'ssl' }, { name: 'tls', slug: 'tls' }];
   public driverList: any = [{ name: 'smtp', slug: 'smtp' }, { name: 'mailgun', slug: 'mailgun' }];
-  constructor(private fb: UntypedFormBuilder,
+  constructor(private fb: FormBuilder,
     private settingsService: SettingsService,
     public utility: UtilsServiceService,
     private router: Router) { }

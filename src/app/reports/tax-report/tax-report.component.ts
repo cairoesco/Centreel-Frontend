@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReportService } from '../report.service';
 import { HttpResponse } from '@angular/common/http';
 import * as moment from 'moment';
@@ -15,7 +15,7 @@ import { Logs } from 'selenium-webdriver';
 export class TaxReportComponent implements OnInit {
 
   public inProgress: boolean = false;
-  public taxForm: UntypedFormGroup;
+  public taxForm: FormGroup;
   public storeList: any = [];
   public resultdata = [];
   public submitted: boolean = false;
@@ -44,7 +44,7 @@ export class TaxReportComponent implements OnInit {
   //datepicker
   isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
   
-  constructor(private formBuilder: UntypedFormBuilder,
+  constructor(private formBuilder: FormBuilder,
     public reportService: ReportService,
     public utility: UtilsServiceService) {
     this.alwaysShowCalendars = true;

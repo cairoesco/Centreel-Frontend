@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-license',
@@ -8,11 +8,11 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators, FormControl } from '@
   styleUrls: ['./license.component.scss']
 })
 export class LicenseComponent implements OnInit {
-  public form: UntypedFormGroup;
+  public form: FormGroup;
   license_name:any;
   license_number:any;
 
-  constructor(private fb: UntypedFormBuilder,public dialogRef: MatDialogRef<LicenseComponent>, @Inject(MAT_DIALOG_DATA) public data: LicenseDialogData) { }
+  constructor(private fb: FormBuilder,public dialogRef: MatDialogRef<LicenseComponent>, @Inject(MAT_DIALOG_DATA) public data: LicenseDialogData) { }
 
   onAddClick(): void {
     if(this.form.valid)

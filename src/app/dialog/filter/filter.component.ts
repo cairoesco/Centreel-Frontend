@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-filter',
@@ -9,7 +9,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 })
 export class FilterComponent implements OnInit {
 
-  public form: UntypedFormGroup;
+  public form: FormGroup;
   filter_name:any;
   
   city = [
@@ -69,7 +69,7 @@ export class FilterComponent implements OnInit {
 
   
 
-  constructor(private fb: UntypedFormBuilder,public dialogRef: MatDialogRef<FilterComponent>, @Inject(MAT_DIALOG_DATA) public data: FilterDialogData) {
+  constructor(private fb: FormBuilder,public dialogRef: MatDialogRef<FilterComponent>, @Inject(MAT_DIALOG_DATA) public data: FilterDialogData) {
     this.form = this.fb.group({
       myCategory: this.fb.array(this.categoriesSelected)
     });

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, UntypedFormBuilder, UntypedFormGroup, UntypedFormArray } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { MatProgressButtonOptions } from 'mat-progress-buttons';
 
 @Component({
@@ -9,7 +9,7 @@ import { MatProgressButtonOptions } from 'mat-progress-buttons';
 })
 export class ProvincetaxComponent implements OnInit {
 
-  provinceTaxForm: UntypedFormGroup;
+  provinceTaxForm: FormGroup;
   taxesArray: any = [];
   public barButtonOptions: MatProgressButtonOptions = {
     active: false,
@@ -22,7 +22,7 @@ export class ProvincetaxComponent implements OnInit {
     disabled: false
   }
 
-  constructor(private _formBuilder: UntypedFormBuilder) {
+  constructor(private _formBuilder: FormBuilder) {
 
     this.provinceTaxForm = this.createContactForm();
 
@@ -64,7 +64,7 @@ export class ProvincetaxComponent implements OnInit {
 
     //const control = <FormArray>this.provinceTaxForm.get('regionsTaxes')['controls'];
 
-    const control = <UntypedFormArray>this.provinceTaxForm.controls['regionsTaxes'];
+    const control = <FormArray>this.provinceTaxForm.controls['regionsTaxes'];
 
     this.taxesArray.forEach(element => {
       control.push(this.addRegionTaxes(element));
@@ -92,7 +92,7 @@ export class ProvincetaxComponent implements OnInit {
     *
     * @returns {FormGroup}
     */
-  createContactForm(): UntypedFormGroup {
+  createContactForm(): FormGroup {
     return this._formBuilder.group({
       countryTaxID: [''],
       countryTax: [''],

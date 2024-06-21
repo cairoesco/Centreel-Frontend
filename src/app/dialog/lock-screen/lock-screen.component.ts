@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PlatformLocation } from '@angular/common';
-import { UntypedFormGroup, Validators, UntypedFormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { UserIdleService } from 'angular-user-idle';
 import { ApiService } from 'src/app/api.service';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -13,12 +13,12 @@ import { UtilsServiceService } from 'src/app/shared/services/utils-service.servi
   styleUrls: ['./lock-screen.component.scss']
 })
 export class LockScreenComponent implements OnInit {
-  public form: UntypedFormGroup;
+  public form: FormGroup;
   public currentUser: any;
   constructor(
     public dialogRef: MatDialogRef<LockScreenComponent>,
     private userIdle: UserIdleService,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private router: Router,
     private location: PlatformLocation,
     private api: ApiService,

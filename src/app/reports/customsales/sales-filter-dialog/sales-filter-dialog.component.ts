@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as _ from 'lodash';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../../api.service';
 import { UtilsServiceService } from '../../../shared/services/utils-service.service';
 
@@ -11,7 +11,7 @@ import { UtilsServiceService } from '../../../shared/services/utils-service.serv
   styleUrls: ['./sales-filter-dialog.component.scss']
 })
 export class SalesFilterDialogComponent implements OnInit {
-  public form: UntypedFormGroup;
+  public form: FormGroup;
   tag_name: any;
   public columnsFormArray: any = [];
   warehouse = [];
@@ -32,7 +32,7 @@ export class SalesFilterDialogComponent implements OnInit {
   public productcatFormArray: any = [];
 
   constructor(private api: ApiService,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private utils: UtilsServiceService,
     public dialogRef: MatDialogRef<SalesFilterDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {

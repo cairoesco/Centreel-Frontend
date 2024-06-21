@@ -42,6 +42,7 @@ import { LowSalesComponent  } from "./low-sales/low-sales.component";
             separator: ' To '
         })
     ],
+
     declarations: [
         SalesComponent,
         RvcComponent,
@@ -68,7 +69,8 @@ import { LowSalesComponent  } from "./low-sales/low-sales.component";
         LowSalesComponent
     ],
     providers: [ReportService
-    ]
+    ],
+    entryComponents: [SalesFilterDialogComponent, SaleshareFilterDialogComponent, FilterDialogComponent]
 })
 export class ReportsModule {
 }

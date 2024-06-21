@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { UtilsServiceService } from 'src/app/shared/services/utils-service.service';
 import { ApiService } from '../../api.service';
@@ -12,8 +12,8 @@ import { ApiService } from '../../api.service';
 })
 export class ForgotComponent implements OnInit {
 
-  public form: UntypedFormGroup;
-  constructor(private fb: UntypedFormBuilder, private router: Router, private apiApi: ApiService, private utils: UtilsServiceService) { }
+  public form: FormGroup;
+  constructor(private fb: FormBuilder, private router: Router, private apiApi: ApiService, private utils: UtilsServiceService) { }
 
   ngOnInit() {
     this.form = this.fb.group({

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 import * as moment from 'moment';
@@ -16,7 +16,7 @@ import { ReportService } from '../report.service';
 export class WasteComponent implements OnInit {
 
   inProgress: boolean = false;
-  waste: UntypedFormGroup;
+  waste: FormGroup;
   warehouse = [];
   type: any = new Object();
   rows = [];
@@ -42,7 +42,7 @@ export class WasteComponent implements OnInit {
   isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
   
   constructor(private router: Router,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     public reportService: ReportService,
     private snackBar: MatSnackBar,
     private utils: UtilsServiceService) {

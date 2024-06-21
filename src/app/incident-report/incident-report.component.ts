@@ -4,7 +4,7 @@ import { ApiService } from '../api.service';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpResponse } from '@angular/common/http';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { UtilsServiceService } from '../shared/services/utils-service.service';
 
@@ -20,7 +20,7 @@ export class IncidentReportComponent implements OnInit {
   incident: any[] = [];
   dataSource: any;
   formobj: any = new Object();
-  incidentList: UntypedFormGroup;
+  incidentList: FormGroup;
   minDate = moment("2018-01-01");
   maxDate = moment();
   localconfi: any = { applyLabel: 'ok', separator: ' To ', format: 'DD/MM/YYYY', direction: 'ltr', weekLabel: 'W', cancelLabel: 'Cancel', customRangeLabel: 'Custom range', daysOfWeek: moment.weekdaysMin(), monthNames: moment.monthsShort(), firstDay: moment.localeData().firstDayOfWeek() };
@@ -46,7 +46,7 @@ export class IncidentReportComponent implements OnInit {
   //datepicker range
   isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private api: ApiService,
     private utils: UtilsServiceService) { }

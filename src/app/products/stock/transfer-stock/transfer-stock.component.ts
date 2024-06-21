@@ -1,6 +1,6 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, ViewEncapsulation, Inject, OnInit } from '@angular/core';
-import { Validators, UntypedFormBuilder, UntypedFormGroup, UntypedFormArray } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StockService } from '../stock.service'
 import { UtilsServiceService } from '../../../shared/services/utils-service.service';
@@ -14,7 +14,7 @@ import { DecimalPipe } from '@angular/common';
 
 })
 export class TransferStockComponent implements OnInit {
-  public productVariantStockTransferForm: UntypedFormGroup;
+  public productVariantStockTransferForm: FormGroup;
   public dataArray: any = [];
   public indexofSourceStock: number;
   public sourceStock: any;
@@ -27,7 +27,7 @@ export class TransferStockComponent implements OnInit {
   public countStock: number = 0;
 
   constructor(
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<TransferStockComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router: Router,
@@ -43,7 +43,7 @@ export class TransferStockComponent implements OnInit {
     this.storage_name = data.storage_name;
     this.product_unit = data.product_unit;
     this.productVariantStockTransferForm = this.createProductVariantStockTransferForm();
-    const control = <UntypedFormArray>this.productVariantStockTransferForm.controls['products'];
+    const control = <FormArray>this.productVariantStockTransferForm.controls['products'];
     this.dataArray.forEach((element:any) => {
       control.push(this.addproducts(element.data));
     });
@@ -95,7 +95,7 @@ export class TransferStockComponent implements OnInit {
 
   private addproductVariants(variants, variantsID) {
     let regx=(this.product_unit!='pcs')?'^[0-9]+(\.[0-9][0-9]?)?':'^[0-9]*$';
-    let arr = new UntypedFormArray([])
+    let arr = new FormArray([])
     for (var j = 0; j < variants.length; j++) {
       arr.push(this._formBuilder.group({
         variant_id: [variantsID],

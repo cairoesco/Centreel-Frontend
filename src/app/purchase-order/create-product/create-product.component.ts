@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UntypedFormBuilder, UntypedFormArray, UntypedFormGroup, Validators, FormControl, AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormArray, FormGroup, Validators, FormControl, AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { UtilsServiceService } from '../../shared/services/utils-service.service';
 import { Observable, timer, of } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
@@ -17,8 +17,8 @@ import { MatChipInputEvent } from '@angular/material/chips';
 })
 export class CreateProductComponent implements OnInit {
 
-  public form: UntypedFormGroup;
-  public addProductForm: UntypedFormGroup;
+  public form: FormGroup;
+  public addProductForm: FormGroup;
   public countryList: any;
   public provinceList: any;
   public cityList: any;
@@ -41,7 +41,7 @@ export class CreateProductComponent implements OnInit {
   public removable = true;
   public addOnBlur = true;
 
-  constructor(private fb: UntypedFormBuilder, private api: PurchaseOrderService, public dialogRef: MatDialogRef<CreateProductComponent>,
+  constructor(private fb: FormBuilder, private api: PurchaseOrderService, public dialogRef: MatDialogRef<CreateProductComponent>,
     public utils: UtilsServiceService,
     @Inject(MAT_DIALOG_DATA) public data: CreateProductComponent) { }
 
@@ -121,8 +121,8 @@ export class CreateProductComponent implements OnInit {
     let input = event.input;
     let value = event.value;
 
-    const control = (<UntypedFormArray>this.addProductForm.controls['variants']).at(index).get('barcode') as UntypedFormArray;
-    const control1 = (<UntypedFormArray>this.addProductForm.controls['variants']).at(index).get('barcodes') as UntypedFormArray;
+    const control = (<FormArray>this.addProductForm.controls['variants']).at(index).get('barcode') as FormArray;
+    const control1 = (<FormArray>this.addProductForm.controls['variants']).at(index).get('barcodes') as FormArray;
 
     // let controlValue: any = this.addProductForm.controls.barcode.value
     let controlValue: any = control.value
@@ -173,7 +173,7 @@ export class CreateProductComponent implements OnInit {
   // }
 
   removeBarcode(barcode_val, index): void {
-    const control = (<UntypedFormArray>this.addProductForm.controls['variants']).at(index).get('barcode') as UntypedFormArray;
+    const control = (<FormArray>this.addProductForm.controls['variants']).at(index).get('barcode') as FormArray;
     let controlValue: any = control.value;
 
     const index_value = controlValue.indexOf(barcode_val);
@@ -193,7 +193,7 @@ export class CreateProductComponent implements OnInit {
   PricingDiffersPerStoreChange(val) {
     if (val == 1) {
       this.addProductForm.addControl('variant_price', this.fb.array([]))
-      const SellingPriceControl = <UntypedFormArray>this.addProductForm.controls['variant_price'];
+      const SellingPriceControl = <FormArray>this.addProductForm.controls['variant_price'];
 
       this.rawDetail.stores.forEach(element => {
         let data = this.addProductStoreWiseSellingPrice(element);
@@ -214,7 +214,7 @@ export class CreateProductComponent implements OnInit {
 
   /* auto generate barcode */
   auto_generate_barcode(index) {
-    const control = (<UntypedFormArray>this.addProductForm.controls['variants']).at(index).get('barcode') as UntypedFormArray;
+    const control = (<FormArray>this.addProductForm.controls['variants']).at(index).get('barcode') as FormArray;
     let control_val = control.value
     // let userData = this.utils.getSessionData('currentUser');
     // let uname = (userData.name).charAt(0).toUpperCase();
@@ -234,7 +234,7 @@ export class CreateProductComponent implements OnInit {
     if (event.value == 0) {
 
     } else {
-      const controlVariants = <UntypedFormArray>this.addProductForm.controls['variants'];
+      const controlVariants = <FormArray>this.addProductForm.controls['variants'];
       controlVariants.controls = [];
       // const VariantOption = <FormArray>this.addProductForm.controls['variant_properties'];
       // VariantOption.controls = [];
@@ -256,7 +256,7 @@ export class CreateProductComponent implements OnInit {
   public first = 0;
   private addvariant_propertiesOption() {
     this.first = this.first + 1;
-    const controlVariant = <UntypedFormArray>this.addProductForm.controls['variants'];
+    const controlVariant = <FormArray>this.addProductForm.controls['variants'];
     controlVariant.push(this.addnewProductVariant());
     // this.scroll(this.first-1)
   }
@@ -268,7 +268,7 @@ export class CreateProductComponent implements OnInit {
 
   removeUnit(i) {
     this.first = this.first - 1;
-    const control = <UntypedFormArray>this.addProductForm.controls['variants'];
+    const control = <FormArray>this.addProductForm.controls['variants'];
     control.removeAt(i);
     var temparray = [];
     for (var j = 0; j < control.length; j++) {

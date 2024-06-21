@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 
-const password = new UntypedFormControl('', Validators.required);
-const confirmPassword = new UntypedFormControl('', CustomValidators.equalTo(password));
+const password = new FormControl('', Validators.required);
+const confirmPassword = new FormControl('', CustomValidators.equalTo(password));
 
 @Component({
   selector: 'app-signup',
@@ -13,8 +13,8 @@ const confirmPassword = new UntypedFormControl('', CustomValidators.equalTo(pass
 })
 export class SignupComponent implements OnInit {
 
-  public form: UntypedFormGroup;
-  constructor(private fb: UntypedFormBuilder, private router: Router) {}
+  public form: FormGroup;
+  constructor(private fb: FormBuilder, private router: Router) {}
 
   ngOnInit() {
     this.form = this.fb.group( {

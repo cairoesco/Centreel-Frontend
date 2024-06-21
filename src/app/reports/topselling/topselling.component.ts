@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 import * as moment from 'moment';
@@ -16,7 +16,7 @@ import { UtilsServiceService } from '../../shared/services/utils-service.service
 export class TopsellingComponent implements OnInit {
 
   inProgress: boolean = false;
-  topSelling: UntypedFormGroup;
+  topSelling: FormGroup;
   productTypes = [];
   productCategory = [];
   warehouse = [];
@@ -46,7 +46,7 @@ export class TopsellingComponent implements OnInit {
   
   constructor(private router: Router,
     public reportService: ReportService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     public utils: UtilsServiceService) { 
       this.alwaysShowCalendars = true;

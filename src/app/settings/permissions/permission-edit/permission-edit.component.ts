@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core'; //
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ApiService } from '../../../api.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -14,7 +14,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 })
 export class PermissionEditComponent implements OnInit {
 
-  editPermission: UntypedFormGroup;
+  editPermission: FormGroup;
   submitted: boolean = false;
   currentId: number;
   typeData = new Object();
@@ -29,13 +29,13 @@ export class PermissionEditComponent implements OnInit {
   removable = true;
   addOnBlur = false;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  moduleCtrl = new UntypedFormControl();
+  moduleCtrl = new FormControl();
   filteredModules: any[] = [];
   modules: string[] = [];
   module: any = [];
   moduleList: any = [];
 
-  methodsCtrl = new UntypedFormControl();
+  methodsCtrl = new FormControl();
   filteredMethods: any[] = [];
   methods: string[] = [];
   methodsList: any = [];
@@ -45,7 +45,7 @@ export class PermissionEditComponent implements OnInit {
   @ViewChild('methodInput') methodInput: ElementRef<HTMLInputElement>;
 
   constructor(private router: Router,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute, private snackBar: MatSnackBar, private api: ApiService) {
 
     this.editPermission = this.formBuilder.group({

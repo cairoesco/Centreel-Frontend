@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatPaginator } from '@angular/material/paginator';
@@ -11,7 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./marketing-mail.component.scss']
 })
 export class MarketingMailComponent implements OnInit {
-  sendMarketingMail: UntypedFormGroup;
+  sendMarketingMail: FormGroup;
   displayedColumns = ['id', 'name', 'progress', 'color'];
   dataSource: MatTableDataSource<UserData>;
   filteredStoreOptions: Observable<any>;
@@ -70,7 +70,7 @@ export class MarketingMailComponent implements OnInit {
 
   }
   
-  constructor(private formBuilder: UntypedFormBuilder) {
+  constructor(private formBuilder: FormBuilder) {
     const users: UserData[] = [];
     for (let i = 1; i <= 100; i++) { users.push(createNewUser(i)); }
     // Assign the data to the data source for the table to render

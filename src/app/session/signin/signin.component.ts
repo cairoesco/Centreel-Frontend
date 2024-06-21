@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../api.service';
 import { AuthService } from '../auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -15,11 +15,11 @@ import { MatProgressButtonOptions } from 'mat-progress-buttons';
 })
 export class SigninComponent implements OnInit {
 
-  public form: UntypedFormGroup;
+  public form: FormGroup;
   public isBusy = false;
   return: string = '';
 
-  constructor(private fb: UntypedFormBuilder, private router: Router,
+  constructor(private fb: FormBuilder, private router: Router,
     private auth: AuthService,
     private api: ApiService, public snackBar: MatSnackBar,
     private route: ActivatedRoute,

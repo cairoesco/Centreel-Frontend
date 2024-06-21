@@ -1,6 +1,6 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject, OnInit } from '@angular/core';
-import { Validators, UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, FormArray } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { StockService } from '../stock.service'
 import { UtilsServiceService } from '../../../shared/services/utils-service.service';
@@ -14,8 +14,8 @@ import { DecimalPipe } from '@angular/common';
   styleUrls: ['./reconcile-stock.component.scss']
 })
 export class ReconcileStockComponent implements OnInit {
-  public myControl = new UntypedFormControl();
-  public productVariantsForm: UntypedFormGroup;
+  public myControl = new FormControl();
+  public productVariantsForm: FormGroup;
   //public dataArray: any = [];
   public vendors: any[] = [];
   public purchaseOrders: any[] = [];
@@ -28,7 +28,7 @@ export class ReconcileStockComponent implements OnInit {
   public available_stock: any = 0;
   public step: number = 0.01;
   constructor(
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<ReconcileStockComponent>,
     public router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,

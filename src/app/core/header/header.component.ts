@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import { ApiService } from '../../api.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,11 +12,11 @@ import { UtilsServiceService } from 'src/app/shared/services/utils-service.servi
 })
 export class HeaderComponent {
   @Output() toggleSidenav = new EventEmitter<void>();
-  searchCtrl: UntypedFormControl;
+  searchCtrl: FormControl;
   searchResult = [];
   LoginUser: any;
   constructor(private router: Router, private api: ApiService, public snackBar: MatSnackBar,public utility:UtilsServiceService) {
-    this.searchCtrl = new UntypedFormControl();
+    this.searchCtrl = new FormControl();
     this.searchCtrl.valueChanges
       .debounceTime(400)
       .subscribe(data => {

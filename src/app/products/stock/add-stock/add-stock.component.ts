@@ -1,6 +1,6 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { Validators, UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, UntypedFormArray, AbstractControl } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup, FormControl, FormArray, AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { StockService } from '../stock.service'
@@ -16,8 +16,8 @@ import { debounceTime } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None
 })
 export class AddStockComponent implements OnInit {
-  public myControl = new UntypedFormControl();
-  public productVariantsForm: UntypedFormGroup;
+  public myControl = new FormControl();
+  public productVariantsForm: FormGroup;
   public dataArray: any = [];
   public vendors: any[] = [];
   public purchaseOrders: any[] = [];
@@ -31,7 +31,7 @@ export class AddStockComponent implements OnInit {
   productobj: any = new Object();
 
   constructor(
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<AddStockComponent>,
     public router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -41,7 +41,7 @@ export class AddStockComponent implements OnInit {
     this.dataArray = [];
     this.dataArray.push(data);
     this.productVariantsForm = this.createproductVariantsForm();
-    const control = <UntypedFormArray>this.productVariantsForm.controls['products'];
+    const control = <FormArray>this.productVariantsForm.controls['products'];
     this.dataArray.forEach(element => {
       control.push(this.addproducts(element.data));
     });
@@ -49,8 +49,8 @@ export class AddStockComponent implements OnInit {
 
   ngOnInit() {
     this.GetVendorList();
-    this.productsControl = this.productVariantsForm.get('products') as UntypedFormArray;
-    this.variantsControl = this.productsControl.at(0).get('productVariants') as UntypedFormArray;
+    this.productsControl = this.productVariantsForm.get('products') as FormArray;
+    this.variantsControl = this.productsControl.at(0).get('productVariants') as FormArray;
     this.VendorfilteredOptions = this.variantsControl.at(0).get('vendor').valueChanges
       .pipe(
         startWith(''),
@@ -210,7 +210,7 @@ export class AddStockComponent implements OnInit {
 
   private addproductVariants(parentVariantData) {
     let regx = (this.data.product_unit != 'pcs') ? '^[0-9]+(\.[0-9][0-9]?)?' : '^[0-9]*$';
-    let arr = new UntypedFormArray([])
+    let arr = new FormArray([])
     let variantArr = this._formBuilder.group({
       purchase_order_no: ['', [Validators.required]],
       value_added: ['', Validators.compose([Validators.required, Validators.min(1), Validators.pattern(regx)])],
@@ -234,8 +234,8 @@ export class AddStockComponent implements OnInit {
       variantArr.controls["stock_price"].updateValueAndValidity();
       variantArr.controls['batch_no'].setValidators([Validators.required,spaceValidator]);
       variantArr.controls['purchase_order_no'].setValidators([Validators.required]);
-      variantArr.addControl('thc', new UntypedFormControl(null));
-      variantArr.addControl('cbd', new UntypedFormControl(null));
+      variantArr.addControl('thc', new FormControl(null));
+      variantArr.addControl('cbd', new FormControl(null));
     }else{
       variantArr.controls['batch_no'].clearValidators();
       variantArr.controls['purchase_order_no'].clearValidators();

@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 
@@ -10,8 +10,8 @@ import * as _ from 'lodash';
   styleUrls: ['./filter-dialog.component.scss']
 })
 export class FilterDialogComponent implements OnInit {
-  public filterForm: UntypedFormGroup;
-  constructor(public dialogRef: MatDialogRef<FilterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public fb: UntypedFormBuilder) {
+  public filterForm: FormGroup;
+  constructor(public dialogRef: MatDialogRef<FilterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public fb: FormBuilder) {
     data.filterList = JSON.parse(data.filterList);
     data.filterList.stores = _.filter(data.filterList.stores, (chain: any) => chain.chain_id == this.data.selectedFilter.chain_id);
   }

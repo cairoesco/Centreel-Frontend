@@ -13,7 +13,7 @@ import { MatProgressButtonOptions } from 'mat-progress-buttons';
 import { PrintPoComponent } from '../print-po/print-po.component';
 import * as _ from 'lodash';
 import { HttpResponse } from '@angular/common/http';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { PrintBarcodeComponent } from '../../products/products/print-barcode/print-barcode.component';
 
 @Component({
@@ -41,8 +41,8 @@ export class viewPoComponent implements OnInit {
   public type: string = 'component';
   public selected = false;
   public indexofTab = 0;
-  public form: UntypedFormGroup;
-  public purchaseForm: UntypedFormGroup;
+  public form: FormGroup;
+  public purchaseForm: FormGroup;
   public isCompletedPO: boolean = false;
   public isActive;
   public purchaseInfo: boolean = false;
@@ -61,7 +61,7 @@ export class viewPoComponent implements OnInit {
   public filesOfarray = [];
   public warehouse = []; //new
   public options = { prefix: '$ ', thousands: ',', decimal: '.', align: 'center', nullable: true, allowZero: false }
-  constructor(private route: ActivatedRoute, private fb: UntypedFormBuilder, public dialog: MatDialog, public refVar: ChangeDetectorRef, private api: PurchaseOrderService, public utility: UtilsServiceService) {
+  constructor(private route: ActivatedRoute, private fb: FormBuilder, public dialog: MatDialog, public refVar: ChangeDetectorRef, private api: PurchaseOrderService, public utility: UtilsServiceService) {
     this.fileUploader();
     this.utility.indexofTab = 0;
   }
@@ -243,9 +243,9 @@ export class viewPoComponent implements OnInit {
               this.barButtonOptions.active = false;
               this.barButtonOptions.text = 'SAVE CHANGES';
 
-              var cannabisControl: any = <UntypedFormArray>this.purchaseForm.controls['cannabisProducts'];
-              var nonCannabisControl: any = <UntypedFormArray>this.purchaseForm.controls['noncannabisProducts'];
-              var accessoriesControl: any = <UntypedFormArray>this.purchaseForm.controls['cannabisProductsAccessories'];
+              var cannabisControl: any = <FormArray>this.purchaseForm.controls['cannabisProducts'];
+              var nonCannabisControl: any = <FormArray>this.purchaseForm.controls['noncannabisProducts'];
+              var accessoriesControl: any = <FormArray>this.purchaseForm.controls['cannabisProductsAccessories'];
 
               var i;
               /* set actual quantity field value 0 after submit form */
@@ -302,9 +302,9 @@ export class viewPoComponent implements OnInit {
           this.cannabisProducts = _.filter(response.data.variants, function (o) { return o.product_type_slug == 'cannabis' });
           this.cannabisProductsAccessories = _.filter(response.data.variants, function (o) { return o.product_type_slug == 'cannabis accessories' });
           this.noncannabisProducts = _.filter(response.data.variants, function (o) { return o.product_type_slug != 'cannabis' && o.product_type_slug != 'cannabis accessories' });
-          var cannabisControl: any = <UntypedFormArray>this.purchaseForm.controls['cannabisProducts'];
-          var nonCannabisControl: any = <UntypedFormArray>this.purchaseForm.controls['noncannabisProducts'];
-          var accessoriesControl: any = <UntypedFormArray>this.purchaseForm.controls['cannabisProductsAccessories'];
+          var cannabisControl: any = <FormArray>this.purchaseForm.controls['cannabisProducts'];
+          var nonCannabisControl: any = <FormArray>this.purchaseForm.controls['noncannabisProducts'];
+          var accessoriesControl: any = <FormArray>this.purchaseForm.controls['cannabisProductsAccessories'];
           this.cannabisProducts.forEach(element => {
             cannabisControl.push(this.fillProductProperties(element))
           });
@@ -448,8 +448,8 @@ export class viewPoComponent implements OnInit {
 
   /* checked checkbox */
   checked_checkbox(index, control_name) {
-    const rControl = (<UntypedFormArray>this.purchaseForm.controls[control_name]).at(index).get('is_received');
-    const control1 = (<UntypedFormArray>this.purchaseForm.controls[control_name]).at(index).get('value_added') as UntypedFormArray;
+    const rControl = (<FormArray>this.purchaseForm.controls[control_name]).at(index).get('is_received');
+    const control1 = (<FormArray>this.purchaseForm.controls[control_name]).at(index).get('value_added') as FormArray;
     if(control1.value){
       rControl.setValue(true);
     }else{

@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-warehouse',
@@ -8,7 +8,7 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 })
 export class WarehouseComponent implements OnInit {
 
-  warehouseForm: UntypedFormGroup;
+  warehouseForm: FormGroup;
   public title = 'Places';
   public addrKeys: string[];
   public addr: object;
@@ -17,7 +17,7 @@ export class WarehouseComponent implements OnInit {
   lng: number = 7.809007;
   zoom: number = 16;
 
-  constructor(private _formBuilder: UntypedFormBuilder, private zone: NgZone) {
+  constructor(private _formBuilder: FormBuilder, private zone: NgZone) {
     this.warehouseForm = this.addwarehouse();
   }
 

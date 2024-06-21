@@ -27,6 +27,7 @@ import { CreateProductComponent } from './create-product/create-product.componen
             separator: ' To '
         })
     ],
+
     declarations: [
         PurchaseOrderComponent,
         viewPoComponent,
@@ -39,9 +40,15 @@ import { CreateProductComponent } from './create-product/create-product.componen
         CreateProductComponent,
         // PrintBarcodeComponent
     ],
-    providers: [
+    providers: [  
         PurchaseOrderService,
         ProductService
+    ],
+    entryComponents: [
+        FilterPoComponent,
+        FilterComponent,
+        CreateProductComponent,
+        // PrintBarcodeComponent
     ]
 })
 export class PurchaseOrderModule {

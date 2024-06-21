@@ -1,6 +1,6 @@
 import { Component, OnInit , Inject} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UntypedFormBuilder, UntypedFormGroup, Validators,AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators,AbstractControl } from '@angular/forms';
 import { MustMatch } from '../password-validator/password-validator.component';
 
 @Component({
@@ -9,9 +9,9 @@ import { MustMatch } from '../password-validator/password-validator.component';
   styleUrls: ['./change-password.component.scss']
 })
 export class ChangePasswordComponent implements OnInit {
-  public form: UntypedFormGroup;
+  public form: FormGroup;
 
-  constructor(private fb: UntypedFormBuilder,public dialogRef: MatDialogRef<ChangePasswordComponent>,
+  constructor(private fb: FormBuilder,public dialogRef: MatDialogRef<ChangePasswordComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 

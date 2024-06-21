@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import * as _ from 'lodash';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UtilsServiceService } from 'src/app/shared/services/utils-service.service';
@@ -10,7 +10,7 @@ import { UtilsServiceService } from 'src/app/shared/services/utils-service.servi
   styleUrls: ['./default-product-search.component.scss']
 })
 export class DefaultProductSearchComponent implements OnInit {
-  public form: UntypedFormGroup;
+  public form: FormGroup;
   public categoryList:any=[];
   public subCategoryList:any=[];
   products:any=[
@@ -18,7 +18,7 @@ export class DefaultProductSearchComponent implements OnInit {
     {id:1,name:'Durgamata',description:'Description',price:123},
     {id:1,name:'Durgamata',description:'Description',price:123},
   ]
-  constructor(private fb: UntypedFormBuilder, public dialogRef: MatDialogRef<DefaultProductSearchComponent>,
+  constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<DefaultProductSearchComponent>,
     public utils: UtilsServiceService,
     @Inject(MAT_DIALOG_DATA) public data: DefaultProductSearchComponent) {
     this.categoryList=data.categoryList; 

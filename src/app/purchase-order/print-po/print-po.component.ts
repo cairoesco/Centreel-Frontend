@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { UntypedFormGroup, UntypedFormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { MatProgressButtonOptions } from 'mat-progress-buttons';
 import { UtilsServiceService } from '../../shared/services/utils-service.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -13,13 +13,13 @@ import { HttpResponse } from '@angular/common/http';
   styleUrls: ['./print-po.component.scss']
 })
 export class PrintPoComponent implements OnInit {
-  public printPoform: UntypedFormGroup;
-  public generalForm: UntypedFormGroup;
+  public printPoform: FormGroup;
+  public generalForm: FormGroup;
   public dynamicHeightVariant = "";
   public innerHeight: any;
   public selected = [];
   public checkedCount = this.data.POdata.length;
-  constructor(public utility: UtilsServiceService, private fb: UntypedFormBuilder, private api: PurchaseOrderService, public dialogRef: MatDialogRef<PrintPoComponent>, @Inject(MAT_DIALOG_DATA) public data: any, ) {
+  constructor(public utility: UtilsServiceService, private fb: FormBuilder, private api: PurchaseOrderService, public dialogRef: MatDialogRef<PrintPoComponent>, @Inject(MAT_DIALOG_DATA) public data: any, ) {
   }
 
   purchaseInfoForm() {

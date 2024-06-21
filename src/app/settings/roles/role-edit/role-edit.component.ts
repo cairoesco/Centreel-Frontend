@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core'; //
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar'; //
-import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ApiService } from '../../../api.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes'; //
@@ -14,7 +14,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes'; //
 })
 export class RoleEditComponent implements OnInit {
 
-  addType: UntypedFormGroup;
+  addType: FormGroup;
   submitted: boolean = false;
   currentId: number;
   typeData = new Object();
@@ -29,7 +29,7 @@ export class RoleEditComponent implements OnInit {
   removable = true;
   addOnBlur = false;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  permissionCtrl = new UntypedFormControl();
+  permissionCtrl = new FormControl();
   filteredPermission: any[] = [];
   //filteredPermission: Observable<string[]>;
   permission: string[] = [];
@@ -41,7 +41,7 @@ export class RoleEditComponent implements OnInit {
   /* for chip */
 
   constructor(private router: Router,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute, private snackBar: MatSnackBar, private api: ApiService) {
     // this.filteredPermission = this.permissionCtrl.valueChanges.pipe(
     // startWith(null),

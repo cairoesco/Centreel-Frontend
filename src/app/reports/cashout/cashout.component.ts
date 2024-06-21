@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 import * as moment from 'moment';
@@ -15,7 +15,7 @@ import * as _ from 'lodash';
 })
 export class CashoutComponent implements OnInit {
   inProgress: boolean = false;
-  cashout: UntypedFormGroup;
+  cashout: FormGroup;
   tillList = [];
   type: any = new Object();
   rows = [];
@@ -35,7 +35,7 @@ export class CashoutComponent implements OnInit {
   
   constructor(private router: Router,
     public reportService: ReportService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     public utils: UtilsServiceService) {
       this.alwaysShowCalendars = true;

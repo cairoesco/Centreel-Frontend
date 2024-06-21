@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as _ from 'lodash';
 import { Router } from '@angular/router';
-import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { UserService } from '../user.service';
 import { ApiService } from '../../api.service';
 @Component({
@@ -12,7 +12,7 @@ import { ApiService } from '../../api.service';
 })
 export class UserFilterDialogComponent implements OnInit {
 
-  public filterForm: UntypedFormGroup;
+  public filterForm: FormGroup;
   alltags: string[] = [];
   form_obj: any = new Object();
 
@@ -20,7 +20,7 @@ export class UserFilterDialogComponent implements OnInit {
   public stores: any;
   public user_designations: any;
 
-  constructor(private api: UserService, private tagapi: ApiService,public dialogRef: MatDialogRef<UserFilterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public fb: UntypedFormBuilder) {
+  constructor(private api: UserService, private tagapi: ApiService,public dialogRef: MatDialogRef<UserFilterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public fb: FormBuilder) {
     
   }
 

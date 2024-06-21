@@ -5,11 +5,11 @@ import { FilterComponent } from '../dialog/filter/filter.component'
 import { Router } from '@angular/router';
 import { PurchaseOrderService } from './purchase-order.service';
 import { UtilsServiceService } from '../shared/services/utils-service.service';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { FilterPoComponent } from './filter-po/filter-po.component';
 import { SharedService } from '../shared/shared.service';
-import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
 
 @Component({
@@ -31,7 +31,7 @@ export class PurchaseOrderComponent implements OnInit {
   public total_count;
   public dynamicHeight = "";
   public inProgress: boolean = false;
-  constructor(public dialog: MatDialog, private router: Router, private api: PurchaseOrderService, public utils: UtilsServiceService,private el: ElementRef,public fb: UntypedFormBuilder) { }
+  constructor(public dialog: MatDialog, private router: Router, private api: PurchaseOrderService, public utils: UtilsServiceService,private el: ElementRef,public fb: FormBuilder) { }
 
   readonly headerHeight = 50;
   readonly rowHeight = 50;
@@ -44,7 +44,7 @@ export class PurchaseOrderComponent implements OnInit {
   public pageIndex: any = 0;
 
   //new
-  public filterForm: UntypedFormGroup;
+  public filterForm: FormGroup;
   form_obj: any = new Object();
 
   minDate = moment("2018-01-01");
@@ -245,7 +245,7 @@ export class PurchaseOrderComponent implements OnInit {
   }
   //new
 
-  public search =new UntypedFormControl('');
+  public search =new FormControl('');
   userChecked : boolean = false;
   statusChecked : boolean = false;
   dateChecked : boolean = false;

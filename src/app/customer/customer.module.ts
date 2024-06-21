@@ -10,15 +10,17 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import {AddCustomerComponent} from './add-customer/add-customer.component';
 
 @NgModule({
-    declarations: [CustomerComponent, AddCustomerComponent, CustomerFilterDialogComponent, PreferredProductDialogComponent],
-    imports: [SharedModule,
-        CommonModule,
-        CustomerRoutingModule,
-        NgxDaterangepickerMd.forRoot({
-            applyLabel: 'ok',
-            separator: ' To '
-        })
-    ],
-    providers: [CustomerService]
+  declarations: [CustomerComponent,AddCustomerComponent, CustomerFilterDialogComponent, PreferredProductDialogComponent],
+  imports: [SharedModule,
+    CommonModule,
+    CustomerRoutingModule,
+    NgxDaterangepickerMd.forRoot({
+      applyLabel: 'ok',
+      separator: ' To '
+  })
+  ],
+  providers:[CustomerService],
+  entryComponents:[CustomerFilterDialogComponent,PreferredProductDialogComponent]
+
 })
 export class CustomerModule { }

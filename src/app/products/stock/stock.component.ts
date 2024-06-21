@@ -12,7 +12,7 @@ import { StockService } from './stock.service';
 import { ReconcileStockComponent } from './reconcile-stock/reconcile-stock.component';
 import { StockHistoryComponent } from './stock-history/stock-history.component';
 import { FilterDialogComponent } from './filter-dialog/filter-dialog.component';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 // import { AnyMxRecord } from 'dns';
 
@@ -453,7 +453,7 @@ export class StockComponent {
       });
   }
 
-  public search =new UntypedFormControl('');
+  public search =new FormControl('');
 
   onChanges(): void {
     this.search.valueChanges.pipe(

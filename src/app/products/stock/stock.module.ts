@@ -13,7 +13,8 @@ import { FilterDialogComponent } from './filter-dialog/filter-dialog.component';
 
 @NgModule({
     imports: [SharedModule, StockRoutingModule],
-    declarations: [StockComponent, TransferStockComponent, AddStockComponent, ReconcileStockComponent, StockHistoryComponent, FilterDialogComponent],
-    providers: [StockService, userPermission, DecimalPipe]
+    declarations: [StockComponent, TransferStockComponent, AddStockComponent, ReconcileStockComponent,StockHistoryComponent, FilterDialogComponent],
+    providers: [StockService, userPermission, DecimalPipe],
+    entryComponents: [AddStockComponent, TransferStockComponent, ReconcileStockComponent,StockHistoryComponent,FilterDialogComponent]
 })
 export class StockModule { }

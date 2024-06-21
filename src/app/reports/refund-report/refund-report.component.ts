@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpResponse } from '@angular/common/http';
 import * as moment from 'moment';
 import { UtilsServiceService } from '../../shared/services/utils-service.service';
@@ -16,7 +16,7 @@ import { ReportService } from '../report.service';
 export class RefundReportComponent implements OnInit {
 
   public inProgress: boolean = false;
-  refundFilterForm: UntypedFormGroup;
+  refundFilterForm: FormGroup;
   type: any = new Object();
   rows = [];
   temp: any = [];
@@ -44,7 +44,7 @@ export class RefundReportComponent implements OnInit {
    
   constructor(
     public reportService: ReportService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private utils: UtilsServiceService,
    

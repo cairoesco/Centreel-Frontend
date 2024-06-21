@@ -10,8 +10,9 @@ import { UserFilterDialogComponent } from './user-filter-dialog/user-filter-dial
 import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
-    imports: [SharedModule, UserRoutingModule, FileUploadModule],
+    imports: [SharedModule, UserRoutingModule,FileUploadModule],
     declarations: [UserComponent, AddUserComponent, EditUserComponent, UserFilterDialogComponent, ChangePasswordComponent],
-    providers: [UserService]
+    providers: [UserService],
+    entryComponents:[UserFilterDialogComponent,ChangePasswordComponent]
 })
 export class UserModule { }

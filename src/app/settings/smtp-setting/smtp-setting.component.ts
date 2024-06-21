@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EmailSettingComponent } from '../email-setting/email-setting.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -10,9 +10,9 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class SmtpSettingComponent implements OnInit {
   portList: any = ['25', '465', '587'];
-  settingForm: UntypedFormGroup;
+  settingForm: FormGroup;
 
-  constructor(public fb: UntypedFormBuilder, public dialog: MatDialog) {
+  constructor(public fb: FormBuilder, public dialog: MatDialog) {
   }
 
   ngOnInit() {

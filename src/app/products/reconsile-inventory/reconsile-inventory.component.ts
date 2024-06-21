@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { HttpResponse } from '@angular/common/http';
 import { ProductService } from '../product.service';
 import { UtilsServiceService } from '../../shared/services/utils-service.service';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as _ from 'lodash';
 import { FilterReconcileDialogComponent } from './filter-dialog/filter-dialog.component';
 
@@ -29,7 +29,7 @@ export class ReconsileInventoryComponent implements OnInit {
   public temp: any = [];
   public storeList: any = [];
   public storeID: any;
-  inventory_reconcile: UntypedFormGroup;
+  inventory_reconcile: FormGroup;
   isCannabis: boolean = true;
 
   dataObject: any;
@@ -62,7 +62,7 @@ export class ReconsileInventoryComponent implements OnInit {
   constructor(public dialog: MatDialog,
     public productService: ProductService,
     public utility: UtilsServiceService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
   ) {
     this.alwaysShowCalendars = true;
   }

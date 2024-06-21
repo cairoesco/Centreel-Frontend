@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { ApiService } from 'src/app/api.service';
 import * as _ from 'lodash';
@@ -13,14 +13,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./tag.component.scss']
 })
 export class TagComponent implements OnInit {
-  public form: UntypedFormGroup;
+  public form: FormGroup;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   tags: string[] = [];
   alltags: string[] = [];
   newtags: string[] = [];
   isTag:boolean = false;
 
-  constructor(private fb: UntypedFormBuilder,
+  constructor(private fb: FormBuilder,
     public dialogRef: MatDialogRef<TagComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router: Router,

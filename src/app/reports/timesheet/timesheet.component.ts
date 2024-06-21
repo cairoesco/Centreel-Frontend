@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 import * as moment from 'moment';
@@ -16,7 +16,7 @@ import * as _ from 'lodash';
 export class TimesheetComponent implements OnInit {
 
   inProgress: boolean = false;
-  timesheet: UntypedFormGroup;
+  timesheet: FormGroup;
   storeList = [];
   dateArray = [];
   type: any = new Object();
@@ -37,7 +37,7 @@ export class TimesheetComponent implements OnInit {
   
   constructor(private router: Router,
     public reportService: ReportService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private utils: UtilsServiceService) {
     this.alwaysShowCalendars = true;

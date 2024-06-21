@@ -3,7 +3,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as _ from 'lodash';
 import { Router } from '@angular/router';
-import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 //import { ReportService } from '../../report.service';
 import { ProductService } from '../../product.service';
 
@@ -14,23 +14,23 @@ import { ProductService } from '../../product.service';
 })
 export class FilterReconcileDialogComponent implements OnInit {
 
-  public filterForm: UntypedFormGroup;
+  public filterForm: FormGroup;
   public product_categories = [];
   public product_types = [];
   public producttypeFormArray: any = [];
   public productSubCategory = [];
   public alltags: string[] = [];
   public form_obj: any = new Object();
-  public inventory_reconcile: UntypedFormGroup;
+  public inventory_reconcile: FormGroup;
   public storeList: any = [];
   public product_type_id: any;
   public product_category_id: any;
   public product_type = [{product_type_slug:'all', product_name: 'All'},{product_type_slug:'cannabis', product_name: 'Cannabis'},{product_type_slug:'non cannabis', product_name: 'Non-Cannabis'},]
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     public productService: ProductService,
-    public dialogRef: MatDialogRef<FilterReconcileDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public fb: UntypedFormBuilder) {
+    public dialogRef: MatDialogRef<FilterReconcileDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public router: Router, public fb: FormBuilder) {
     this.inventory_reconcile = this.formBuilder.group({
       product_type: ['cannabis'],
       store_id: [this.data.fdata.store_id],

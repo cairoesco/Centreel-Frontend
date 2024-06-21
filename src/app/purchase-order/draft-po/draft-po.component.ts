@@ -3,10 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PurchaseOrderService } from '../purchase-order.service';
 import { UtilsServiceService } from '../../shared/services/utils-service.service';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { FilterPoComponent } from '../filter-po/filter-po.component';
-import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
 
 @Component({
@@ -22,7 +22,7 @@ export class DraftPoComponent implements OnInit {
   public inProgress: boolean = false;
 
   
-  constructor(public dialog: MatDialog, private router: Router, private api: PurchaseOrderService, public utils: UtilsServiceService,private el: ElementRef,public fb: UntypedFormBuilder) { }
+  constructor(public dialog: MatDialog, private router: Router, private api: PurchaseOrderService, public utils: UtilsServiceService,private el: ElementRef,public fb: FormBuilder) { }
 
   readonly headerHeight = 50;
   readonly rowHeight = 50;
@@ -35,7 +35,7 @@ export class DraftPoComponent implements OnInit {
   public pageIndex: any = 0;
 
   //new
-  public filterForm: UntypedFormGroup;
+  public filterForm: FormGroup;
   form_obj: any = new Object();
 
   minDate = moment("2018-01-01");
@@ -147,7 +147,7 @@ export class DraftPoComponent implements OnInit {
     this.filterForm.controls['user_ids'].reset();
   }
 
-  public search =new UntypedFormControl('');
+  public search =new FormControl('');
   public filter_count= 0;
   userChecked : boolean = false;
   statusChecked : boolean = false;

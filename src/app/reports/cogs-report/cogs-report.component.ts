@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReportService } from '../report.service';
 import { HttpResponse } from '@angular/common/http';
 import * as moment from 'moment';
@@ -15,7 +15,7 @@ import { Logs } from 'selenium-webdriver';
 export class CogsReportComponent implements OnInit {
 
   public inProgress: boolean = false;
-  public cogsForm: UntypedFormGroup;
+  public cogsForm: FormGroup;
   public storeList = [];
   public resultdata = [];
   public submitted: boolean = false;
@@ -46,7 +46,7 @@ export class CogsReportComponent implements OnInit {
   isInvalidDate = (m: moment.Moment) =>  m.isAfter(moment())
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     public reportService: ReportService,
     public utility: UtilsServiceService) {
     this.alwaysShowCalendars = true;

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UntypedFormGroup, UntypedFormBuilder, Validators, UntypedFormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FileUploader } from 'ng2-file-upload';
 import { ProductService } from '../../product.service';
@@ -17,14 +17,14 @@ import { MatChipInputEvent } from '@angular/material/chips';
   styleUrls: ['./view-product.component.scss']
 })
 export class ViewProductComponent implements OnInit {
-  public generalForm: UntypedFormGroup;
-  public imagesForm: UntypedFormGroup;
-  public propertiesForm: UntypedFormGroup;
-  public taxForm: UntypedFormGroup;
-  public variantsForm: UntypedFormGroup;
-  public identificationForm: UntypedFormGroup;
-  public decisionForm: UntypedFormGroup;
-  public supplierForm: UntypedFormGroup;
+  public generalForm: FormGroup;
+  public imagesForm: FormGroup;
+  public propertiesForm: FormGroup;
+  public taxForm: FormGroup;
+  public variantsForm: FormGroup;
+  public identificationForm: FormGroup;
+  public decisionForm: FormGroup;
+  public supplierForm: FormGroup;
   public isAuthorized = false;
   public userRole = 1;
   public uploader: FileUploader;
@@ -44,7 +44,7 @@ export class ViewProductComponent implements OnInit {
   public type: string = 'component';
   public selected = false;
   public indexofTab = 0;
-  public addStore: UntypedFormGroup;
+  public addStore: FormGroup;
   public imageSrc: any;
   public heightOfY;
   public visible = true;
@@ -102,11 +102,11 @@ export class ViewProductComponent implements OnInit {
   public batchList: any = []; //thc cbd
 
   constructor(private route: ActivatedRoute,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private router: Router,
     public dialog: MatDialog,
     private api: ProductService,
-    public formBuilder: UntypedFormBuilder,
+    public formBuilder: FormBuilder,
     public utility: UtilsServiceService,
     public refVar: ChangeDetectorRef) {
     this.fileUploader();
@@ -115,7 +115,7 @@ export class ViewProductComponent implements OnInit {
   /* auto generate barcode */
 
   auto_generate_barcode_variant(index) {
-    const control = (<UntypedFormArray>this.variantsForm.controls['variant_detail']).at(index).get('barcode') as UntypedFormArray;
+    const control = (<FormArray>this.variantsForm.controls['variant_detail']).at(index).get('barcode') as FormArray;
     let control_val = control.value
 
     // let userData = this.utility.getSessionData('currentUser');
@@ -714,7 +714,7 @@ export class ViewProductComponent implements OnInit {
   add(event: MatChipInputEvent, index): void {
     let input = event.input;
     let value = event.value;
-    const control = (<UntypedFormArray>this.variantsForm.controls['variant_detail']).at(index).get('barcode') as UntypedFormArray;
+    const control = (<FormArray>this.variantsForm.controls['variant_detail']).at(index).get('barcode') as FormArray;
     if ((value || '').trim() && value.length > 7) {
 
       /* find GTIN value if standard barcode */
@@ -761,7 +761,7 @@ export class ViewProductComponent implements OnInit {
     }
   }
   remove(value: any, index1): void {
-    const control = (<UntypedFormArray>this.variantsForm.controls['variant_detail']).at(index1).get('barcode') as UntypedFormArray;
+    const control = (<FormArray>this.variantsForm.controls['variant_detail']).at(index1).get('barcode') as FormArray;
     let index = control.value.indexOf(value);
     if (index >= 0) {
       let ctrlValue = control.value
@@ -961,7 +961,7 @@ export class ViewProductComponent implements OnInit {
   onVariantSubmit(id, index) {
     this.isUpdate = true;
     this.variantsForm.get('variant_detail').updateValueAndValidity()
-    const control1 = (<UntypedFormArray>this.variantsForm.controls['variant_detail']).at(index) as UntypedFormArray;
+    const control1 = (<FormArray>this.variantsForm.controls['variant_detail']).at(index) as FormArray;
     const control = this.variantsForm.controls['variant_detail'].value;
     let data = control[index];
     var selling_error = false;

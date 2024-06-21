@@ -7,7 +7,7 @@ import { ProductService } from '../product.service';
 import { DeleteConfirmComponent } from '../../dialog/delete-confirm/delete-confirm.component';
 import { FilterDialogComponent } from '../filter-dialog/filter-dialog.component';
 import { UtilsServiceService } from '../../shared/services/utils-service.service';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { PrintBarcodeComponent } from '../products/print-barcode/print-barcode.component';
 
@@ -282,7 +282,7 @@ export class ProductsComponent implements OnInit {
     this.onChanges();
   }
   
-  public search =new UntypedFormControl('');
+  public search =new FormControl('');
 
   onChanges(): void {
     this.search.valueChanges.pipe(
