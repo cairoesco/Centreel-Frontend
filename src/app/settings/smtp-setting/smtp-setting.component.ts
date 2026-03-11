@@ -55,7 +55,7 @@ export class SmtpSettingComponent implements OnInit {
   //Save settings data
   SaveSettings(data) {
     if (Boolean(this.settingForm.valid)) {
-      console.log(data);
+      // SMTP settings data ready for save
     }
 
   }

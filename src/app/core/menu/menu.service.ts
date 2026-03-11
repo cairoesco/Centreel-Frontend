@@ -279,8 +279,7 @@ export class MenuService {
       },
         err => {
           this.snackBar.open(err.message, '', { duration: 5000 });
-          console.log('Unable to create menu. Error while getting permissions: ');
-          console.log(err);
+          // Error handled by snackBar notification above
         });
   }
 

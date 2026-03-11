@@ -3,29 +3,28 @@
   "compilerOptions": {
     "baseUrl": "./",
     "downlevelIteration": true,
-    "module": "esnext",
+    "module": "ES2022",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": true,
     "experimentalDecorators": true,
-    "target": "es2020",
+    "target": "ES2022",
     "skipLibCheck": true,
     "typeRoots": [
       "node_modules/@types"
     ],
     "lib": [
-      "es2018",
+      "ES2022",
       "dom"
-    ],
+    ]
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
   },
   "include": [
-    "./src",
-    "node_modules/ng-feedback"
-, "products.module.ts"  ]
+    "./src"
+  ]
 }

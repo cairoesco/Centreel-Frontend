@@ -4,5 +4,7 @@
 /yarn.lock
 public/meta.json
 .env
+.env.*
+!.env.example
 package-lock.json
 .angular/*

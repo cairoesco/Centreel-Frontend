@@ -86,7 +86,7 @@ export class MarketingMailComponent implements OnInit {
   setFocus($event) {
   }
   sunmittedFilterValues(val) {
-    console.log(val.value, "exect here");
+    // Filter values submitted
 
   }
 

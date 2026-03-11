@@ -12,7 +12,6 @@
     "src/**/*.d.ts"
   ],
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": false,
-    "enableIvy": false,
+    "fullTemplateTypeCheck": false
   }
 }

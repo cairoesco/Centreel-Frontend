@@ -30,15 +30,12 @@ export class AgreementComponent implements OnInit {
 
   drawComplete(event) {
     // will be notified of szimek/signature_pad's onEnd event
-    console.log(event, "event");
-    console.log(this.signaturePad, "signaturePad");
-
-    console.log(this.signaturePad.toDataURL());
+    // Signature drawing completed
   }
 
   drawStart() {
     // will be notified of szimek/signature_pad's onBegin event
-    console.log('begin drawing');
+    // Drawing started
   }
   ngOnInit() {
     this.form = this.fb.group({
@@ -55,7 +52,7 @@ export class AgreementComponent implements OnInit {
     this.activatedRoute.params.subscribe((params) => {
       let id: any = params['id'];
       let parmeters = Boolean(id)?atob(id):id;
-      console.log(parmeters);
+      // Parameters loaded from route
 
     });
   }
@@ -64,7 +61,7 @@ export class AgreementComponent implements OnInit {
     this.form.get("email").setValue(this.email);
     this.form.get("key").setValue(this.key);
     this.form.get("type").setValue(this.type);
-    console.log(this.form.value);
+    // Form submitted
     // code for API call to reset password
     // this.api.post("reset", this.form)
     //   .subscribe((response: any) => {

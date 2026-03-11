@@ -407,7 +407,7 @@ export class viewPoComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (Boolean(result)) {
-        console.log("data send");
+        // Dialog data processed
       }
     });
   }
