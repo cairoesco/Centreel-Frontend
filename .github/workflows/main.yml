@@ -3,36 +3,48 @@ name: centreel
 on:
   push:
     branches: [master, dev, staging]
-     
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Only run if AWS credentials are configured
+    if: ${{ vars.CI_ENABLED == 'true' }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION}}
-      - name: Build Application for production environment
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Build for production
         if: endsWith(github.ref, '/master')
         run: npm install --legacy-peer-deps && npm run build-prod
-      - name: Build Application for staging environment
+
+      - name: Build for staging
         if: endsWith(github.ref, '/staging')
         run: npm install && npm run build-staging
-      - name: Build Application for development environment
+
+      - name: Build for development
         if: endsWith(github.ref, '/dev')
         run: npm install && npm run build-dev
 
-        
-      - name: Deploy app build to S3 bucket to prodution
+      - name: Deploy to S3 (production)
         if: endsWith(github.ref, '/master')
         run: aws s3 sync ./dist/ s3://cairo-production-frontend --delete
-      - name: Deploy app build to S3 bucket to testing
+
+      - name: Deploy to S3 (staging)
         if: endsWith(github.ref, '/staging')
         run: aws s3 sync ./dist/ s3://cairo-testing-frontend --delete
-      - name: Deploy app build to S3 bucket to dev
+
+      - name: Deploy to S3 (dev)
         if: endsWith(github.ref, '/dev')
         run: aws s3 sync ./dist/ s3://cairo-dev-frontend --delete
