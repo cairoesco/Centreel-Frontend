@@ -218,7 +218,6 @@ export class StoreSettingComponent implements OnInit {
       total = hh[1];
     }
     return total;
-    console.log(total);
   }
   /* converts hours to minutes */
 

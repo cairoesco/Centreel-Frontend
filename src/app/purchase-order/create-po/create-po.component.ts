@@ -1501,7 +1501,7 @@ export class CreatePoComponent implements OnInit {
 
   /* check po number exists */
   check_po_number(val) {
-    console.log(val);
+    // PO number check value received
   }
   /* check po number exists */
 

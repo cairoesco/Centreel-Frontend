@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -39,7 +38,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { QuillModule } from 'ngx-quill';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { FlexLayoutModule } from '@ngbracket/ngx-layout';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
@@ -64,8 +63,7 @@ import { RemoveSpaceDirective } from './directive/remove-space.directive';
 @NgModule({
   imports: [
     CommonModule,
-    HttpModule,
-    // **** design related *******  
+    // **** design related *******
     QuillModule,
     FlexLayoutModule,
     MatSidenavModule,

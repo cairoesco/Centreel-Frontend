@@ -26,7 +26,7 @@ export class LockScreenComponent implements OnInit {
   ) {
     //Disable back button
     location.onPopState(() => {
-      console.log('pressed back in add!!!!!');
+      // Back button pressed - prevent navigation
       history.forward();
     });
   }

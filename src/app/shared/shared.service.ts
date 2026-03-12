@@ -37,7 +37,7 @@ export class SharedService {
                 });
             }
             else {
-                console.log('Permission not found in checkRolePermission');
+                // Permission not found in checkRolePermission
                 this.permission = []
             }
         });
@@ -62,7 +62,7 @@ export class SharedService {
                 }
             }
             else {
-                console.log('Permission not found in checkRolePermission');
+                // Permission not found in checkRolePermission
                 this.routePermission.permission_slug = []
             }
         });

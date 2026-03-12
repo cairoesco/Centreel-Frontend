@@ -2,7 +2,7 @@ import { SettingsComponent } from './settings.component';
 import { SettingsRoutes } from './settings.routing';
 import { SharedModule } from '../shared/shared.module'
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { FlexLayoutModule } from '@ngbracket/ngx-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';

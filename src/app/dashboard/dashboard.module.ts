@@ -10,7 +10,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
-import {FlexLayoutModule} from '@angular/flex-layout';
+import {FlexLayoutModule} from '@ngbracket/ngx-layout';
 import {ChartsModule} from 'ng2-charts';
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {DashboardComponent} from './dashboard.component';

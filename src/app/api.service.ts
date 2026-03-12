@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 const API_URL = environment.baseUrl + "api/";
@@ -11,12 +11,9 @@ export class ApiService {
 
     getAccessToken({ username, password }) {
         let postData = {
-            grant_type: "password",
             client_id: environment.client_id,
-            client_secret: environment.client_secret,
             username: username,
             password: password,
-            scope: "",
             provider: "users",
             platform: "WEB",
         }
@@ -58,11 +55,9 @@ export class ApiService {
                 .post(API_URL + actionUrl,params,  {responseType: "blob", observe: 'response'} )
                 .subscribe(
                     res => {
-                        console.log(res);                        
                         resolve(res);
                     },
                     err => {
-                        console.log(err,'error');
                         reject(err);
                     }
                 );

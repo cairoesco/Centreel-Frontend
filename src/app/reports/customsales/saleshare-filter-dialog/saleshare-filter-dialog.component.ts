@@ -33,7 +33,7 @@ export class SaleshareFilterDialogComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      console.log(this.form.getRawValue())
+      // Form values ready for submission
       // this.form = this.form.getRawValue();
       // console.log(this.form);
       this.close();
